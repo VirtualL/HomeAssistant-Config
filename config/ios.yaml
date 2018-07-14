@@ -1,0 +1,108 @@
+##this is my Actionable notifications options 
+##more info at: https://www.home-assistant.io/docs/ecosystem/ios/notifications/actions/
+## more code in the end of automations.ymal
+  push:
+    categories:
+      - name: homelights
+        identifier: 'modifymylights' #(MUST BE LOWER CASE)
+        actions:
+          - identifier: 'ALLMYLIGHTS_OFF' #(MUST BE UPPER CASE)
+            title: 'כבה את כל האורות בבית'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'
+          - identifier: 'ONLY_KITCHEN_LIGHT_ON' #(MUST BE UPPER CASE)
+            title: 'השאר במטבח בלבד'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+          - identifier: 'ONLY_GATEWAY_LIGHT_ON' #(MUST BE UPPER CASE)
+            title: 'השאר תאורה חלשה בלבד'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+            
+      - name: presenceaction
+        identifier: 'modifymypresence' #(MUST BE LOWER CASE)
+        actions:
+          - identifier: 'ALLMYLIGHTS_OFF' #(MUST BE UPPER CASE)
+            title: 'כבה את כל האורות בבית'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'
+          - identifier: 'ONLY_KITCHEN_LIGHT_ON' #(MUST BE UPPER CASE)
+            title: 'השאר במטבח בלבד'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+          - identifier: 'PAUSEPRESENCEMODE' #(MUST BE UPPER CASE)
+            title: 'השהה מצב רדנומלי לשעתיים'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'
+            
+      - name: cctv
+        identifier: 'modifymycctvswitch' #(MUST BE LOWER CASE)
+        actions:
+          - identifier: 'ALLMYCCTV_INHOME_OFF' #(MUST BE UPPER CASE)
+            title: 'כבה את כל המצלמות בתוך הבית'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'
+          - identifier: 'CCTV_KITCHEN_ON' #(MUST BE UPPER CASE)
+            title: ' הדלק את מצלמת מטבח'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+          - identifier: 'CCTV_XIAOMI_ON' #(MUST BE UPPER CASE)
+            title: 'הדלק את מצלמת סלון'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+          - identifier: 'ALLMYCCTV_INHOME_ON' #(MUST BE UPPER CASE)
+            title: 'הדלק את כל המצלמות בתוך הבית'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes
+            behavior: 'default'
+
+      - name: modifyboiler
+        identifier: 'modifymyboilerswitch' #(MUST BE LOWER CASE)
+        actions:
+          - identifier: 'BOILER_OFF' #(MUST BE UPPER CASE)
+            title: 'כבה את הדוד'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'
+          - identifier: 'BOILER_ON' #(MUST BE UPPER CASE)
+            title: ' הדלק את הדוד'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+          - identifier: 'BOILER_ON_BY_TIMER' #(MUST BE UPPER CASE)
+            title: 'הדלק לזמן שנקבע באפליקציה'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+
+      - name: feeddogopt
+        identifier: 'feedthedog' #(MUST BE LOWER CASE)
+        actions:
+          - identifier: 'DOG_FEEDED' #(MUST BE UPPER CASE)
+            title: 'זורו אכל כבר'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'

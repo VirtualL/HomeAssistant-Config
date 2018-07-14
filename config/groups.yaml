@@ -1,0 +1,769 @@
+# ####groups####
+default_view: #the main page view.if not init,the first Page will be with all the Components and entitys
+    name: ראשי 
+    view: yes
+    entities:
+      - group.security_notification
+      - group.AllMylights
+      - group.Sensors
+      - group.People
+      - camera.outdoor_cctv
+      - camera.home_cctv1
+      - camera.home_cctv2
+      # - group.all_remotes
+      # - group.Devices_online
+      - group.App_info
+      - group.weatherUI
+      # - input_boolean.weather
+      - group.AllMySwitchs
+      - group.zones
+      # - group.boiler_setup
+      # - group.boiler_setup_timer
+      # - group.POW2_setup
+      # - group.xiaomi_powerstrip_info
+      # - vacuum.xiaomi_vacuum
+      # - group.IOT_Status
+      - group.All_My_MediaPlayers
+      - group.historyStat
+      - gruop.AllmyControllers
+      - group.IsraeliRadio
+      - weblink.mysuperled_rgb
+      - group.rates
+      # - group.Security_info
+
+Salon_light:
+  name: Salon_light
+  view: no
+  entities:
+    - light.white_bulb
+    - light.living_room_color_bulb
+    
+AllMylights:
+  name: All Lights
+  view: no
+  entities:
+    - light.white_bulb
+    - light.living_room_color_bulb
+    - sensor.hline_1 #-----------------#
+    - light.sonoff_light
+    - light.philips_bulb
+    - sensor.hline_2 #-----------------#
+    - light.sonoff_hallway_light
+    - light.gateway_light_34ce0088d2f7
+    - sensor.hline_3 #-----------------#
+    - light.desk_lamp
+    - switch.bedroom_fan_light
+    
+AllMySwitchs:
+  name: All Switchs
+  view: no
+  entities:
+     # - group.boiler_setup
+     # - group.boiler_setup_timer
+    # - sensor.hline_1 #-----------------#
+    - switch.mqtt_pow2
+    # - group.POW2_setup #???
+    - switch.sonoff_xiaomicctv_switch
+    - sensor.hline_2 #-----------------#
+    - switch.tv_lg
+    - switch.tv_lg_vol
+    - switch.tv_lg_hdmi1
+    - switch.tv_lg_hdmi2
+    - switch.tv_lg_hdmi3
+    - sensor.hline_3 #-----------------#
+    - switch._mqtt_pow1
+    - switch.xiaomi_powerstrip
+    # - group.xiaomi_powerstrip_info
+    - vacuum.xiaomi_vacuum
+    # - switch.bedroom_fan_light
+
+Devices_online:
+  name: Devices Online
+  entities:
+  #Online Devices -By TRACKER
+    - device_tracker.appletv #apple TV
+    - device_tracker.partnertv
+    - device_tracker.eliranmacbookpro
+    - device_tracker.amazon04d23d06d #echo dot
+    - device_tracker.eliransplewatch
+    - device_tracker.desktop9cb3035 #shiran PC
+    - device_tracker.chromecast
+    - device_tracker.eliransimac
+
+App_info:
+  name: App Information
+  view: no
+  icon: mdi:apple-ios
+  entities:
+    - sensor.date__time
+    - sensor.hline_1 #-----------------#
+    - sensor.eliran_iphone_battery_level
+    - sensor.eliran_iphone_battery_state
+    - sensor.shiran_iphone_battery_level
+    - sensor.shiran_iphone_battery_state
+    - sensor.hline_2 #-----------------#
+    - sensor.since_last_boot
+    - sensor.time_online
+    - sensor.hline_3 #-----------------#
+    - sensor.processor_use 
+    - sensor.memory_use_percent
+    - sensor.disk_use_percent_home
+    # - sensor.homeassistant_v2db
+    # - sensor.ssl_server #to know how much time for SSL CA
+    # - sensor.ssl_hass #to know how much time for SSL CA
+    # - sensor.ssl_router #to know how much time for SSL CA
+    # - sensor.ssl_ide #to know how much time for SSL CA
+    # - sensor.ssl_sonoff #to know how much time for SSL CA
+    - sensor.hline_4 #-----------------#
+    - script.restart_home_assistant
+    - script.reboot_os
+    - script.update_hass
+    - sensor.hline_5 #-----------------#
+    - sensor.current_ha_version
+    - sensor.installed_version
+    - script.backup_ha_config
+    - sensor.latest_ha_backup
+    - sensor.hass
+    - sensor.hline_6 #-----------------#
+    - script.backup_all_os
+
+battery_Status: #all my sensors with battery (using the battery alert packge)
+  name: מצב סוללות
+  view: no
+  control: hidden
+  entities:   
+    - sensor.___battery
+    - sensor.___battery_2
+    - sensor.__battery
+    - sensor.__battery_2
+    - sensor.__battery_3
+    - sensor.__battery_4
+    - sensor.__battery_5
+    - sensor.____battery_3
+    - sensor.____battery_2
+    - sensor.____battery
+
+Sensors:
+  name: Sensors
+  view: no
+  control: hidden
+  entities:
+    #Xiaomi aqvara
+    - binary_sensor.door_window_sensor_158d0001b714e9 #home door
+    - binary_sensor.motion_sensor_158d0000e62376
+    - sensor.temperature_158d0001150e4e
+    - sensor.humidity_158d0001150e4e
+    - light.gateway_light_34ce0088d2f7
+    - sensor.illumination_34ce0088d2f7
+    - sensor.hline_1 #-----------------#
+    - binary_sensor.door_window_sensor_158d0000d834ac
+    - switch.xiaomi_powerstrip
+    # - group.xiaomi_powerstrip_info
+    - vacuum.xiaomi_vacuum
+    - switch._mqtt_pow1
+    # - group.boiler_setup
+    # - group.boiler_setup_timer
+    - sensor.hline_2 #-----------------#
+    - switch.mqtt_pow2
+    # - group.POW2_setup
+    - switch.sonoff_xiaomicctv_switch
+    # - sensor.hline_3 #-----------------#
+    - binary_sensor.switch_158d000149b9ab
+    - binary_sensor.wall_switch_both_158d0001712d0e
+    - binary_sensor.wall_switch_left_158d0001712d0e
+    - binary_sensor.wall_switch_right_158d0001712d0e
+    - binary_sensor.switch_158d0000d8c836
+    # - switch.xiaomi_powerstrip
+    # - switch._mqtt_pow1
+
+boiler_setup_timer:
+  name: טיימר לדוד 
+  view: no 
+  # control: hidden
+  entities:
+    - switch._mqtt_pow1
+    - script.timer_off_boiler
+    - input_number.slider_boiler
+    - sensor.pow1_current
+boiler_setup:
+  name: Boiler
+  view: no
+  # control: hidden
+  entities:
+    - switch._mqtt_pow1
+    - sensor.hline_1 #-----------------#
+    - input_boolean.boiler_on_clock_status
+    - sensor.boiler_on_clock_time
+    - input_number.boiler_on_clock_hour
+    - input_number.boiler_on_clock_minute
+    - sensor.hline_3 #-----------------#
+    - input_boolean.boiler_off_clock_status
+    - sensor.boiler_off_clock_time
+    - input_number.boiler_off_clock_hour
+    - input_number.boiler_off_clock_minute
+    # - script.timer_off_boiler
+    # - input_number.slider_boiler
+    # - sensor.pow1_current
+
+boiler_info:
+  name: מידע נוסף על הדוד
+  view: no
+  entities:
+    - switch._mqtt_pow1
+    - sensor.hline_1 #-----------------#
+    - sensor.pow1_current
+    - sensor.pow1_energy_today
+    - sensor.pow1_energy_total
+    - sensor.pow1_energy_yesterday
+    - sensor.pow1_voltage
+    - sensor.pow1_watt
+    - sensor.pow1_total_cost
+
+POW2_setup:
+  name: POW2
+  view: no
+  # control: hidden
+  entities:
+    - switch.mqtt_pow2
+    - sensor.hline_1 #-----------------#
+    - sensor.pow2_current
+    - sensor.pow2_energy_today
+    - sensor.pow2_energy_total
+    - sensor.pow2_energy_yesterday
+    - sensor.pow2_voltage
+    - sensor.pow2_watt
+    - sensor.pow2_total_cost
+    
+# xiaomi_powerstrip_info:
+#   name: מפצל שקעים בסלון
+#   view: no
+#   # control: hidden
+#   entities:
+#   - switch.xiaomi_powerstrip
+#   - sensor.power_strip_temp
+#   - sensor.power_strip_watt
+#   - sensor.power_strip_total_cost
+
+alarm_clock:
+  name: 'שעון מעורר'
+  entities:
+    - input_boolean.alarm_clock_status
+    - sensor.hline_1 #-----------------#
+    - sensor.alarm_clock_time
+    - input_number.alarm_clock_hour
+    - input_number.alarm_clock_minute
+
+People:
+  name: People
+  view: no
+  entities:
+    - device_tracker.eliraniphone #byIP at DDWT 
+    - device_tracker.shiraniphone #shiran
+    # - device_tracker.eliran_iphone #by APP (GPS)
+    # - sensor.hline_1 #-----------------#
+    - device_tracker.android983a5bef7ebe50ce #svet Phone
+    - device_tracker.redminote4israelkes #israel Phone
+    - device_tracker.talamishaimbp
+    - device_tracker.desktop4ba97q9 #matan laptop
+    - device_tracker.galaxys9 #amir abu
+
+All_My_MediaPlayers:
+  name: Media Players
+  view: no
+  entities:
+    - media_player.apple_tv
+    - media_player.salon
+    - group.IsraeliRadio
+
+Living_Room_lights:
+  name: Living Room Lights
+  view: no
+  control: hidden
+  entities:
+    - light.white_bulb
+    - light.living_room_color_bulb
+    - sensor.hline_1 #-----------------#
+    - light.sonoff_light #kithen
+    - light.philips_bulb
+    - sensor.hline_2 #-----------------#
+    - light.sonoff_hallway_light
+    - light.gateway_light_34ce0088d2f7
+    
+
+Living_Room_Info:
+  name: Living Room info
+  view: no
+  entities:
+    - binary_sensor.motion_sensor_158d0000e62376
+    - sensor.temperature_158d0001150e4e
+    - sensor.humidity_158d0001150e4e 
+    - sensor.hline_1 #-----------------#
+    - binary_sensor.door_window_sensor_158d0001b714e9 #home door
+    - switch.xiaomi_powerstrip
+    - vacuum.xiaomi_vacuum
+    # - binary_sensor.switch_158d000149b9ab
+    # - binary_sensor.wall_switch_both_158d0001712d0e
+    # - binary_sensor.wall_switch_left_158d0001712d0e
+    # - binary_sensor.wall_switch_right_158d0001712d0e
+    # - group.xiaomi_powerstrip_info
+    # - switch._mqtt_pow1
+    - weblink.mysuperled_rgb
+
+
+BedRoom_Sensors:
+  name: Bed Room Sensors
+  view: no
+  entities:
+    - binary_sensor.door_window_sensor_158d0000d834ac
+    - binary_sensor.switch_158d0000d8c836 #on off 
+
+BedRoom_lights:
+  name: Bed Room Lights
+  view: no
+  entities:
+    - switch.bedroom_fan_light
+    - light.desk_lamp
+
+kitchen_Sensors:
+  name: מידע
+  view: no
+  entities:
+    - sensor.date__time
+    - binary_sensor.motion_sensor_158d0000e62376
+    - sensor.temperature_158d0001150e4e
+    - sensor.humidity_158d0001150e4e
+    
+kitchen_Light:
+  name: תאורה
+  view: no
+  entities:
+    - light.sonoff_light
+    - light.philips_bulb
+    - light.gateway_light_34ce0088d2f7
+
+# Weather:
+#   name: Weather
+#   view: no
+#   entities:
+#     - sensor.dark_sky_hourly_summary
+#     # - sensor.dark_sky_summary
+#     # - sensor.dark_sky_icon
+#     - sensor.dark_sky_temperature
+#     - sensor.dark_sky_humidity
+#     - sensor.dark_sky_precip_type
+#     - sensor.dark_sky_precip_probability
+#     - sensor.dark_sky_cloud_coverage
+#     - sensor.dark_sky_daily_high_temperature
+#     - sensor.dark_sky_daily_low_temperature
+#     - sensor.dark_sky_daily_summary
+#     - sensor.dark_sky_apparent_temperature
+
+IOT_Status:  #Online Devices -By TRACKER
+  name: IOT Status
+  entities:
+    - device_tracker.xiaomigateway
+    - device_tracker.yeelightdesklamp #desk lamp
+    - device_tracker.yeelightcolorbulb
+    - device_tracker.yeelightwhitebulb
+    - device_tracker.philipsbulb
+    - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
+    - device_tracker.esp_717fd4 #sonoff4 
+    - sensor.hline_1 #-----------------#
+    - device_tracker.48022c80b661 #outdoor cctv
+    - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
+    - device_tracker.homecctv #HomeCCTV VStarcam 360 
+    - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
+    - device_tracker.54e4bdbe134c #hikvision CCTV
+    # - device_tracker.286c07773d15 #Xiaomi cctv
+    - device_tracker.nbsp #Xiaomi cctv new MAC
+    - sensor.hline_2 #-----------------#
+    - device_tracker.sonoffpow1 #sonoff pow1 boiler
+    - device_tracker.xiaomipowerstrip
+    - device_tracker.xiaomiircontroller
+    - device_tracker.raspberrypi
+    - device_tracker.elirantdesktop
+    - device_tracker.rockrobo #Xiaomi Vaccum Cleaner Gen1
+    - sensor.hline_3 #-----------------#
+    - device_tracker.4098ada0c3dd #apple???
+    - device_tracker.amazon04d23d06d #echo dot
+    - device_tracker.esp_48122c # ???
+    - device_tracker.000000020202 #wan cable
+    - device_tracker.talamisaiiphone
+    - device_tracker.samsunggalaxys7edge
+    
+Server_Status:  #Online Devices -By TRACKER
+  name: Server Status
+  entities:
+    - device_tracker.902b343ecbfa #main server 
+    - device_tracker.000000020202 #wan cable
+    - device_tracker.ubuntuserver #unubtu VM
+    - device_tracker.060891e3ce51 #Windows VM
+historyStat:
+  name: Statistics
+  view: no
+  entities:
+    - timer.dogwalk
+    - sensor.hline_1 #-----------------#
+    - sensor.home_to_adoraim
+    - sensor.home_to_otniel
+    - sensor.hline_2 #-----------------#
+    # - sensor.home_door_time_since_open
+    - sensor.shiran_at_home_yesterday
+    - sensor.eliran_at_home_yesterday
+    # - sensor.living_room_color_on_today
+    # - sensor.living_room_white_on_today
+    # - sensor.hallway_white_on_today
+    # - sensor.bedroom_desk_on_today
+    # - sensor.kitchen_light_on_today
+
+AllmyControllers:
+  name: Controllers
+  view: no
+  entities:
+    - switch.tv_lg
+    - switch.tv_lg_vol
+    - cover.lg_volume
+
+IsraeliRadio:
+  name: רדיו ישראלי
+  entities:
+    - input_select.radio_station
+    - input_select.chromecast_radio
+    - script.ilradio
+    
+weatherUI:
+  name: מזג אוויר
+  entities:
+   - input_boolean.weather
+   
+security_notification:
+  name: התראת כניסה
+  entities:
+    - camera.cctv1_snapshot
+
+Rates:
+  name: 'Currency Exchange Rates'
+  view: no
+  entities:
+   - sensor.exchange_date
+   - sensor.dollarusd
+   - sensor.euroeur
+   - sensor.poundgbp
+#for controll devices from Telegram bot
+#more info : https://community.home-assistant.io/t/conversation-with-telegram-bot-turn-friendly-name-on-off/39955/32
+controllable_devices:
+  name: Controllable Devices
+  entities:
+    - light.white_bulb
+    - light.living_room_color_bulb
+    - light.sonoff_light
+    - light.philips_bulb
+    - light.sonoff_hallway_light
+    - light.gateway_light_34ce0088d2f7
+    - light.desk_lamp
+    - switch.mqtt_pow2
+    - switch.sonoff_xiaomicctv_switch
+    - switch.tv_lg
+    - switch.tv_lg_vol
+    - switch._mqtt_pow1
+    - switch.xiaomi_powerstrip
+    - vacuum.xiaomi_vacuum
+    
+SpeedTestNet:
+  name: SpeedTest
+  entities:
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+    - sensor.speedtest_ping
+    - script.update_speedtestnet
+    
+Server_info:
+  name: Server Information
+  view: no
+  entities:
+    - sensor.date__time
+    - sensor.hline_2 #-----------------#
+    - sensor.since_last_boot
+    - sensor.time_online
+    - sensor.hline_3 #-----------------#
+    - sensor.processor_use 
+    - sensor.memory_use_percent
+    - sensor.disk_use_percent_home
+    - sensor.homeassistant_v2db
+    - sensor.hline_4 #-----------------#
+    - script.restart_home_assistant
+    - script.reboot_os
+    - script.update_hass
+    - sensor.hline_5 #-----------------#
+    - sensor.current_ha_version
+    - sensor.installed_version
+    - script.backup_ha_config
+    - sensor.latest_ha_backup
+    - sensor.hass
+    - sensor.hline_6 #-----------------#
+    - script.backup_all_os
+    
+SSL:
+  name: מצב הצפנה
+  view: no
+  entities:
+    - sensor.ssl_server #to know how much time for SSL CA
+    - sensor.ssl_hass #to know how much time for SSL CA
+    - sensor.ssl_router #to know how much time for SSL CA
+    - sensor.ssl_ide #to know how much time for SSL CA
+    - sensor.ssl_sonoff #to know how much time for SSL CA
+  ###PAGES###
+# Alert_Page:
+#   name: Alert Page
+#   icon: mdi:access-point 
+#   view: yes
+#   entities:
+#     - group.alerts
+
+floorplan:
+  view: yes
+  name: Floorplan
+  icon: mdi:floor-plan
+  entities:
+  - group.zones
+  
+Server_Info_Page:
+  name: Server
+  icon: mdi:mdi:desktop-classic
+  view: yes
+  entities:
+    - weblink.server
+    - weblink.ide
+    - weblink.cloudflare
+    - weblink.sonoff
+    - weblink.router
+    - group.server_status
+    - group.Server_info
+    - group.speedtestnet
+    # - group.security_tracker
+    - group.SSL
+    - group.sonoffs_info
+    - group.iot_status
+LinivgRoom_Page:
+  name: Linivg Room
+  #icon: mdi:lightbulb-outline
+  view: yes
+  entities:
+    - group.Living_Room_lights
+    - group.Living_Room_Info
+    - group.People
+    - group.All_My_MediaPlayers
+    - group.all_remotes
+    - remote.ir_controller
+    - gruop.weatherUI
+    - group.zones
+    # - input_boolean.weather
+    - gruop.AllmyControllers
+    - group.AllMySwitchs
+
+BedRoom_page:
+  name: Bed Room
+  view: yes
+  entities:
+    - group.BedRoom_lights
+    - group.BedRoom_Sensors
+    - group.weatherUI
+    # - input_boolean.weather
+    - group.alarm_clock
+    - group.all_remotes
+    - remote.ir_controller
+    - group.all_my_mediaplayers
+    - vacuum.xiaomi_vacuum
+
+      #sonoff
+
+kitchen_page:
+  name: מטבח
+  view: yes
+  entities:
+    - group.kitchen_Light
+    - group.kitchen_Sensors
+    - group.boiler_setup
+    - group.POW2_setup
+    - vacuum.xiaomi_vacuum
+
+Sensor_Page:
+  name: Sensor Page
+  icon: mdi:access-point 
+  view: yes
+  entities:
+    - group.Sensors
+    - group.Server_Status
+    - group.IOT_Status
+    - sensor.home_door_time_since_open
+    # - group.Sonoffs_Info
+    - group.speedtestnet
+    - gruop.battery_Status
+
+Lights_Page:
+  name: Lights Page
+  icon: mdi:lightbulb-outline
+  view: yes
+  entities:
+    - group.allmylights
+
+Boiler_Page:
+  name: שליטה לדוד 
+  # icon: mdi:lightbulb-outline
+  view: yes
+  entities:
+    - group.boiler_setup
+    - group.boiler_setup_timer
+    - group.boiler_info
+    
+Sonoffs_Info:
+  name: Sonoffs
+  view: no
+  entities:
+    - sensor.sonoff_latest_release
+    - script.check_sonoffs_version
+    # - script.update_sonoffs
+    - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
+    - sensor.sonoff_touch_kitchen_version
+    - device_tracker.esp_717fd4 #sonoff4 
+    - sensor.sonoff_hallway_light_version
+    - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
+    - sensor.sonoff_pow_homecctv_version
+    - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
+    - sensor.sonoff_xiaomicctv_version
+    - device_tracker.sonoffpow1 #sonoff pow1 boiler
+    - sensor.sonoff_pow_boiler_version
+    
+    
+Cameras_Tracker:
+  name: חיבור לרשת
+  icon: mdi:cctv
+  view: no
+  entities:
+    - device_tracker.homecctv #via ip
+    - device_tracker.54e4bdbe134c #hikvision CCTV
+    - device_tracker.nbsp #Xiaomi cctv new ip
+    - device_tracker.48022c80b661 #outdoor cctv
+    - device_tracker.c42f9026a7cf #hikvision CCTV
+Cameras:
+  name: מצלמות
+  icon: mdi:cctv
+  view: yes
+  entities:
+    - group.security_notification
+    - camera.outdoor_cctv
+    - camera.home_cctv1
+    - camera.home_cctv2
+    - camera.home_cctv2_test
+    - switch.mqtt_pow2
+    - switch.sonoff_xiaomicctv_switch
+    - group.Cameras_Tracker
+
+weather_Page:
+  view: yes
+  icon: mdi:weather-pouring
+  entities:
+   - group.weatherui
+
+Shiran_Page:
+  name: שירן
+  view: yes
+  entities:
+    - group.allmylights
+    - group.boiler_setup
+    - group.boiler_setup_timer
+    - switch.mqtt_pow2
+    - switch.sonoff_xiaomicctv_switch
+    # - group.POW2_setup
+    - group.People
+
+People_Page:
+  name: People at Home
+  icon: mdi:home-account
+  view: yes
+  entities:
+    - group.People
+    - gruop.Devices_online
+    - group.devices_online
+    - group.IOT_Status
+    - timer.dogwalk
+    - group.all_remotes
+    - groups.Security_tracker
+
+Security_tracker:
+  name: מכשירי אבטחה
+  view: no
+  entities:
+    - binary_sensor.door_window_sensor_158d0001b714e9 #home door
+    - binary_sensor.motion_sensor_158d0000e62376
+    - sensor.hline_1 #-----------------#
+    - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
+    - device_tracker.homecctv #via ip
+    - sensor.hline_2 #-----------------#
+    - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
+    - device_tracker.54e4bdbe134c #hikvision CCTV
+    - sensor.hline_3 #-----------------#
+    - device_tracker.48022c80b661 #outdoor cctv
+    - device_tracker.nbsp #Xiaomi cctv new ip
+    - device_tracker.xiaomigateway
+    - device_tracker.000000020202 #wan cable
+
+Security_info:
+  name: אבטחה
+  icon: mdi:security-home
+  view: yes
+  entities:
+    - group.security_notification
+    - group.Security_tracker
+    - switch.mqtt_pow2
+    - switch.sonoff_xiaomicctv_switch
+    - group.People
+    - camera.outdoor_cctv
+    - camera.home_cctv1
+    - camera.home_cctv2
+    - group.Server_Status
+    - automation.home_cctv_offline
+    - automation.xiaomi_cctv_offline
+    - automation.xiaomi_gateway_offline
+    - automation.turn_off_cctv_cameras_if_eliran_at_home
+    - automation.turn_off_cctv_cameras_if_shiran_at_home
+    - automation.turn_on_cctv_cameras_if_eliran_and_shiran_not_at_home
+    - automation.security_warning_door_open
+    - group.battery_alert
+    - group.battery_status
+  
+
+summary:
+  view: yes
+  icon: mdi:dots-vertical
+  entities:
+    - group.AllMylights
+    - gruop.Devices_online
+    - gruop.App_info
+    - group.Sensors
+    - group.People
+    - gruop.IOT_Status
+    - gruop.All_My_MediaPlayers
+    - group.Living_Room_lights
+    - group.Living_Room_Info
+    - gruop.BedRoom_Sensors
+    - gruop.BedRoom_lights
+    - gruop.Kitchen
+    - group.boiler_setup
+    - group.boiler_setup_timer
+    - group.POW2_setup
+    - group.Security_info
+    - gruop.AllmyControllers
+    - group.historyStat
+    - gruop.weatherUI
+    # - input_boolean.weather
+    - group.all_switches
+    - group.AllMySwitchs
+    - group.battery_alert
+    - group.all_scripts
+    - group.all_automations
+
+zones:
+  name: FloorPlan zones
+  entities:
+    - binary_sensor.floorplan

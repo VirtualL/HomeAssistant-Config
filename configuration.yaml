@@ -1,0 +1,183 @@
+homeassistant:
+  customize_glob: !include config/customize_glob.yaml
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret HomeLatitude
+  longitude: !secret HomeLongitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Asia/Jerusalem
+  # Customization file
+  customize: !include config/customize.yaml
+  packages: !include_dir_named config/packages
+  whitelist_external_dirs:
+    - /home/homeassistant/.homeassistant/
+    - /home/homeassistant/.homeassistant/tmp
+
+# custom_ui
+customizer:
+  custom_ui: hosted
+
+# Enables the frontend
+frontend:
+  javascript_version: latest
+  themes: !include config/themes.yaml
+  # themes: !include_dir_merge_named config/themes/
+  extra_html_url:
+   - /local/custom_ui/custom-weather-card.html
+   - /local/custom_ui/state-card-floorplan.html
+   - /local/custom_ui/state-card-hline.html
+  extra_html_url_es5:
+   - /local/custom_ui/state-card-hline_es5.html
+
+
+sensor: !include config/sensors.yaml
+group: !include config/groups.yaml #groups at External FILE
+automation: !include_dir_merge_list config/automation/
+script: !include config/scripts.yaml
+input_select: !include config/input_select.yaml
+input_boolean: !include config/input_boolean.yaml
+input_text: !include config/input_text.yaml
+cover: !include config/covers.yaml
+input_number: !include config/input_number.yaml
+camera: !include config/cameras.yaml
+switch: !include config/switchs.yaml  
+remote: !include config/remotes.yaml  
+light: !include config/lights.yaml  
+ios: !include config/ios.yaml    
+notify: !include config/notify.yaml
+weblink: !include config/weblink.yaml
+panel_iframe: !include config/panel_iframe.yaml
+zone: !include config/zones.yaml
+history: !include config/history.yaml
+shell_command: !include config/shell_commands.yaml
+
+recorder:
+  purge_keep_days: 3
+http:
+  # Secrets are defined in the file secrets.yaml
+  api_password: !secret http_password
+  # ssl_certificate: !secret ssl_certificatePATH #currenty using SSL Via certbot and NGINX 
+  # ssl_key: !secret ssl_keyPATH #currenty using SSL Via certbot and NGINX 
+  base_url: !secret base_url
+  ip_ban_enabled: True
+  login_attempts_threshold: 5
+
+#DD-WRT
+device_tracker:
+  - platform: asuswrt
+    host: 192.168.1.1
+    username: !secret AsusWrtUsername
+    password: !secret AsusWrtPassword
+    interval_seconds: 10
+    track_new_devices: yes
+    consider_home: 90 
+
+#Xiaomi Gateway (Aqara)
+xiaomi_aqara:
+  discovery_retry: 10
+  gateways:
+    - key: !secret XiaomiGatewayKey
+ 
+vacuum:
+  - platform: xiaomi_miio
+    name: Xiaomi Vacuum
+    host: 192.168.1.82
+    token: !secret XiaomiVacuumV1Token
+# Enables support for tracking state changes over time
+
+media_player:
+  - platform: cast
+    # host: 192.168.1.104
+    # #if want to scan for casting divices , remove 'hosts'
+apple_tv:
+  - host: 192.168.1.121
+    name: Apple TV
+    login_id: !secret AppleTVLogin_id
+    credentials: !secret AppleTVcredentials
+
+timer:
+  #a Timer That Start Every time that the Home Door Open
+  dogwalk:
+    duration: '00:30:00'
+    icon: mdi:paw
+
+#for iftt api via webhook (using with webhook for sonoff etc... )
+# ifttt:
+#   key: !secret Iftt_key
+
+mqtt:
+  
+# Enables configuration UI
+config:
+
+#for HA Update Available Notification
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# For apple HomeKit support
+# homekit:
+
+# discovery: #test changes
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+weather:
+  #For the Custom-UI-Weather-state-card
+  - platform: yweather
+
+# Text to speech
+tts:
+  - platform: google
+    # language: 'he-IL'
+
+# Cloud
+cloud:
+
+binary_sensor:
+  - platform: mqtt #floorPlan
+    state_topic: dummy/floorplan/sensor
+    name: Floorplan
+    
+panel_custom:
+  - name: floorplan
+    sidebar_title: Floorplan
+    sidebar_icon: mdi:home
+    url_path: floorplan
+    config: !include config/floorplan.yaml
+# https://www.home-assistant.io/components/notify.telegram/
+telegram_bot:
+  - platform: polling
+    api_key: !secret TelegramBotApiKey
+    allowed_chat_ids:
+      - !secret TelegramChatIDNum1 
+      
+logger:
+  default: warning
+  logs:
+    homeassistant.components.homekit: debug
+    pyhap: debug
+############################################################################
+##
+## sonoff1 = sonoff pow boiler ( switch._mqtt_pow1 )
+## sonoff2 = sonoff pow 2 general - now for homeCCTV Kitchen( switch.mqtt_pow2 )
+## sonoff3 = sonoff touch - now for Kitchen Light ( light.sonoff_light )
+## sonoff4 = sonoff basic -now for Hallway Light (light.sonoff_hallway_light )
+## sonoff5 = sonoff basic - now for Xiaomi CCTV ( switch.sonoff_xiaomicctv_switch )
+##
+############################################################################

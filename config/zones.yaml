@@ -1,0 +1,16 @@
+  - name: SCE
+    latitude: !secret CollegeLatitude
+    longitude: !secret CollegeLongitude
+    radius: 300
+    icon: mdi:school
+
+  - name: Work
+    latitude: !secret WorkLatitude
+    longitude: !secret WorkLongitude
+    radius: 7000
+  # # This will override the default home zone
+  # - name: Home
+  #   latitude: !secret HomeLatitude
+  #   longitude: !secret HomeLongitude
+  #   radius: 100
+  #   icon: mdi:account-multiple

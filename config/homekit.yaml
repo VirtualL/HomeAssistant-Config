@@ -1,0 +1,172 @@
+
+  filter:
+    include_entities:
+      - vacuum.xiaomi_vacuum
+      - script.reboot_os
+      - script.restart_home_assistant
+      - script.ac_turn_off
+      - script.ac_turn_on
+      - script.ac_fan_speed
+      - input_boolean.ac_status_alexa
+      - sensor.humidity_158d0001150e4e
+      - sensor.illumination_34ce0088d2f7
+      - sensor.temperature_158d0001150e4e
+      - vacuum.xiaomi_vacuum
+        #Online Devices -By TRACKER
+      - device_tracker.appletv #apple TV
+      - device_tracker.amazon04d23d06d #echo dot
+      - device_tracker.desktop9cb3035 #shiran PC
+      - device_tracker.eliraniphone #byIP at DDWT 
+      - device_tracker.shiraniphone #shiran
+      - device_tracker.xiaomigateway
+      - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
+      - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
+      - device_tracker.48022c80b661 #outdoor cctv
+      - device_tracker.homecctv #HomeCCTV VStarcam 360 
+      - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
+      - device_tracker.54e4bdbe134c #hikvision CCTV
+      - device_tracker.sonoffpow1 #sonoff pow1 boiler
+      - device_tracker.esp_717fd4 #sonoff4 
+      - device_tracker.rockrobo #Xiaomi Vaccum Cleaner Gen1
+      - device_tracker.000000020202 #wan cable
+      - device_tracker.902b343ecbfa #main server 
+      - device_tracker.ubuntuserver #unubtu VM
+      - device_tracker.060891e3ce51 #Windows VM
+      - media_player.apple_tv
+      - media_player.salon
+    include_domains:
+      - light
+      - switch
+      - binary_sensor
+      
+      
+    exclude_entities:
+      - light.yeelight_white_f0b4290e4e68 #Duplicate
+      - light.yeelight_rgb_286c07106e1b #Duplicate
+      - switch.bedroom_fan_light #RF light
+      - switch.tv_lg_hdmi1
+      - switch.tv_lg_hdmi2
+      - switch.tv_lg_hdmi3
+      - binary_sensor.floorplan
+      - binary_sensor.switch_158d0000d8c836
+      - binary_sensor.switch_158d000149b9ab
+      - binary_sensor.wall_switch_both_158d0001712d0e
+      - binary_sensor.wall_switch_left_158d0001712d0e
+      - binary_sensor.wall_switch_right_158d0001712d0e
+
+  entity_config:
+    ############## GENERAL
+    vacuum.xiaomi_vacuum:
+      name: רוביק
+    ############## LIGHTS
+    #all light. get "display_categories: LIGHT"  by default
+    light.sonoff_light:
+      name: מטבח
+      
+    light.desk_lamp:
+      name: מנורת שולחן
+      
+    light.gateway_light_34ce0088d2f7:
+      name: רכזת
+      
+    light.living_room_color_bulb:
+      name: סלון שמאלית
+    
+    light.white_bulb:
+      name: סלון ימנית
+      
+    light.philips_bulb:
+      name: חדר שירות
+      
+    light.sonoff_hallway_light:
+      name: מסדרון
+    ##############SWITCH
+    #all switch. get "display_categories: SWITCH"  by default
+    switch.mqtt_pow2:
+      name: מצלמת מטבח
+  
+    switch.sonoff_xiaomicctv_switch:
+      name: מצלמת סלון
+      
+    switch._mqtt_pow1:
+      name: דוד
+      
+    switch.xiaomi_powerstrip:
+      name: מפצל שקעים
+      
+    switch.tv_lg:
+      name: טלויזיה
+      
+    switch.tv_lg_vol:
+      name: ווליום
+      
+    input_boolean.ac_status_alexa:
+      name: מזגן
+
+      
+    # sensor.temperature_158d0001150e4e:
+    #     name: Temperature 
+    #   description: The Temperature in the living room
+    #   display_categories: TEMPERATURE_SENSOR
+      
+    # sensor.humidity_158d0001150e4e:
+    #     name: Humidity 
+    #   description: The Humidity in the living room
+    #   display_categories: OTHER
+      
+    ##############SCRIPTS - all script. get "Applies to Scenes"  by default
+    script.reboot_os:
+      name: איתחול המערכת
+    script.restart_home_assistant:
+      name: איתחול הום אסיסטנט
+    script.ac_fan_speed:
+      name: מהירות מזגן
+    group.allmylights:
+      name: כל התאורה
+    sensor.humidity_158d0001150e4e:
+      name: לחות בבית
+    sensor.illumination_34ce0088d2f7:
+      name: עוצמת אור ברכזת
+    sensor.temperature_158d0001150e4e:
+      name: טמפרטורה בבית
+    #Online Devices -By TRACKER
+    device_tracker.appletv:
+      name: אפל טיוי
+    device_tracker.amazon04d23d06d:
+      name: אלכסה
+    device_tracker.desktop9cb3035:
+      name: המחשב של שירן
+    device_tracker.eliraniphone:
+      name: אלירן
+    device_tracker.shiraniphone:
+      name: שירן
+    device_tracker.xiaomigateway:
+      name: רכזת
+    device_tracker.sonoff_kitchen:
+      name: מנורת מטבח
+    device_tracker.sonoffpow2:
+      name: מפסק מצלמת מטבח
+    device_tracker.48022c80b661:
+      name: מצלמת חוץ
+    device_tracker.homecctv:
+      name: מצלמת מטבח
+    device_tracker.5ccf7f729dd8:
+      name: מפסק מצלמת סלון
+    device_tracker.54e4bdbe134c:
+      name: מצלמת סלון
+    device_tracker.sonoffpow1:
+      name: מצב דוד
+    device_tracker.esp_717fd4:
+      name: מסדרון
+    device_tracker.000000020202:
+      name: אינטרנט
+    device_tracker.902b343ecbfa:
+      name: שרת ראשי
+    device_tracker.ubuntuserver:
+      name: שרת אובונטו
+    device_tracker.060891e3ce51:
+      name: וינדוס וירטואל
+    media_player.apple_tv:
+      name: אפל טיוי
+    media_player.salon:
+      name: פרטנר טיוי

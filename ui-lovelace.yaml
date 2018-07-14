@@ -1,0 +1,176 @@
+name: My Awesome Home
+views:
+    # The name of a view will be used as tab title.
+    # Might be used for other things in the future.
+  - name: Home
+    # Each view can have a different theme applied. Theme should be defined in the frontend.
+    theme: badge
+    # The cards to show on this view.
+    cards:
+      - type: entity-filter
+        filter:
+          - domain: light
+            state: 'on'
+          - domain: switch
+            state: 'on'
+        card_config:
+          title: מוצרים דלוקים
+          
+        # The entities card will take a list of entities and show their state.
+      - type: entities
+        # Title of the entities card
+        title: All My Lights
+        # The entities here will be shown in the same order as specified.
+        entities:
+          - light.white_bulb
+          - light.living_room_color_bulb
+          - sensor.hline_1 #-----------------#
+          - light.sonoff_light
+          - light.philips_bulb
+          - sensor.hline_2 #-----------------#
+          - light.sonoff_hallway_light
+          - light.gateway_light_34ce0088d2f7
+          - sensor.hline_3 #-----------------#
+          - light.desk_lamp
+          - switch.bedroom_fan_light
+          
+      - type: entities
+        # Title of the entities card
+        title: כל החיישנים #All My Lights
+        # The entities here will be shown in the same order as specified.
+        entities:
+          - binary_sensor.door_window_sensor_158d0001b714e9 #home door
+          - binary_sensor.motion_sensor_158d0000e62376
+          - sensor.temperature_158d0001150e4e
+          - sensor.humidity_158d0001150e4e
+          - light.gateway_light_34ce0088d2f7
+          - sensor.illumination_34ce0088d2f7
+          - sensor.hline_1 #-----------------#
+          - binary_sensor.door_window_sensor_158d0000d834ac
+          - switch.xiaomi_powerstrip
+          # - group.xiaomi_powerstrip_info
+          - vacuum.xiaomi_vacuum
+          - switch._mqtt_pow1
+          # - group.boiler_setup
+          # - group.boiler_setup_timer
+          - sensor.hline_2 #-----------------#
+          - switch.mqtt_pow2
+          # - group.POW2_setup
+          - switch.sonoff_xiaomicctv_switch
+          # - sensor.hline_3 #-----------------#
+          - binary_sensor.switch_158d000149b9ab
+          - binary_sensor.wall_switch_both_158d0001712d0e
+          - binary_sensor.wall_switch_left_158d0001712d0e
+          - binary_sensor.wall_switch_right_158d0001712d0e
+          - binary_sensor.switch_158d0000d8c836
+
+      - type: glance
+        # Title of the entities card
+        title: people2
+        # The entities here will be shown in the same order as specified.
+        entities:
+          - device_tracker.eliraniphone #byIP at DDWT 
+          - device_tracker.shiraniphone #shiran
+          - device_tracker.amazon04d23d06d
+          # # - device_tracker.eliran_iphone #by APP (GPS)
+          # # - sensor.hline_1 #-----------------#
+          - device_tracker.android983a5bef7ebe50ce #svet Phone
+          - device_tracker.redminote4israelkes #israel Phone
+          - device_tracker.talamishaimbp
+          - device_tracker.desktop4ba97q9 #matan laptop
+          - device_tracker.galaxys9 #amir abu
+      
+      
+      
+
+      - type: glance
+        # Title of the entities card
+        title:  שער יציג
+        # The entities here will be shown in the same order as specified.
+        entities:
+          - sensor.exchange_date
+          - sensor.dollarusd
+          - sensor.euroeur
+          - sensor.poundgbp
+          
+      - type: camera-preview
+        title: cameras
+        # The entities here will be shown in the same order as specified.
+        entities:
+          - camera.home_cctv1
+          - camera.home_cctv2
+          - camera.outdoor_cctv
+          
+
+        # The filter card will filter available entities for certain criteria
+        # and render it as type 'entities'.
+      - type: entity-filter
+        # Filter criteria. They are all optional.
+        filter:
+          - domain: input_boolean
+            state: 'on'
+        # This config will be passed to the card rendering the filter results
+        card_config:
+          title: Input booleans that are on
+
+    # Specify a tab_icon if you want the view tab to be an icon.
+  - tab_icon: mdi:home-assistant
+    # Name of the view. Will be used as the tooltip for tab icon
+    name: Second view
+    theme: midnight
+    cards:
+      - type: entities
+        # Title of the entities card
+        title:  אבטחה #People
+        entities:
+          - group.security_notification
+          - group.Security_tracker
+          - switch.mqtt_pow2
+          - switch.sonoff_xiaomicctv_switch
+          - group.People
+          - camera.outdoor_cctv
+          - camera.home_cctv1
+          - camera.home_cctv2
+          - automation.home_cctv_offline
+          - automation.xiaomi_cctv_offline
+          - automation.xiaomi_gateway_offline
+          - automation.turn_off_cctv_cameras_if_eliran_at_home
+          - automation.turn_off_cctv_cameras_if_shiran_at_home
+          - automation.turn_on_cctv_cameras_if_eliran_and_shiran_not_at_home
+          - automation.security_warning_door_open
+          - group.battery_alert
+          - group.battery_status
+          
+      - type: entity-filter
+        filter:
+          - domain: gruop.people2
+            state: 'home'
+        card: glance
+        card_config:
+          title: People at home
+      - type: entity-picture
+        image: https://images.pexels.com/photos/775219/pexels-photo-775219.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=295&w=490
+        entity: light.sonoff_hallway_light
+        
+      - type: picture-glance
+        image: https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=240&w=495
+        title: מצב הסלון
+        entities:
+          - binary_sensor.door_window_sensor_158d0001b714e9 #home door
+          - binary_sensor.motion_sensor_158d0000e62376
+          - sensor.temperature_158d0001150e4e
+          - sensor.humidity_158d0001150e4e
+          # - light.gateway_light_34ce0088d2f7
+          # - sensor.illumination_34ce0088d2f7
+          # - sensor.hline_1 #-----------------#
+          - binary_sensor.door_window_sensor_158d0000d834ac
+          # - switch.xiaomi_powerstrip
+          # - group.xiaomi_powerstrip_info
+          # - vacuum.xiaomi_vacuum
+          # - switch._mqtt_pow1
+          # - group.boiler_setup
+          # - group.boiler_setup_timer
+          # - sensor.hline_2 #-----------------#
+          - switch.mqtt_pow2
+          # - group.POW2_setup
+          - switch.sonoff_xiaomicctv_switch

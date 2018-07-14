@@ -1,0 +1,47 @@
+  slider_boiler:                                                                                                         
+    name: Boiler timer (minutes)                                                                             
+    initial: 15                                                                                                    
+    min: 0                                                                                                         
+    max: 60                                                                                                      
+    step: 1
+
+  alarm_clock_hour:
+    name: שעות
+    initial: 12
+    min: 0
+    max: 23
+    step: 1
+    
+  alarm_clock_minute:
+    name: דקות
+    initial: 0
+    min: 0
+    max: 55
+    step: 5
+
+  boiler_off_clock_hour:
+    name: שעות
+    initial: 8
+    min: 0
+    max: 23
+    step: 1
+    
+  boiler_off_clock_minute:
+    name: דקות
+    initial: 0
+    min: 0
+    max: 55
+    step: 5
+  boiler_on_clock_hour:
+    name: שעות
+    initial: 7
+    min: 0
+    max: 23
+    step: 1
+    
+  boiler_on_clock_minute:
+    name: דקות
+    initial: 40
+    min: 0
+    max: 55
+    step: 5

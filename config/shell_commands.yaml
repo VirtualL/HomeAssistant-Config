@@ -1,0 +1,5 @@
+  hassbian_ha_update: "bash /home/homeassistant/.homeassistant/bin/hassbianHA_update.sh"
+  os_reboot: "sudo reboot"
+  backup_all_rpi_to_usb: "bash /home/homeassistant/.homeassistant/bin/backup_allRPItousb.sh"
+  backup_hass_config: "bash /home/homeassistant/.homeassistant/bin/backup_HASS_config.sh"
+  start_homebridge: "sudo touch /home/homeassistant/.homeassistant/bin/start_homebridge.sh"

@@ -1,0 +1,34 @@
+#to make the reading from logbook easy
+exclude:
+  domains:
+    # - automation
+    - weblink
+    - updater
+  entities:
+    - script.tv_vol_down
+    - script.tv_input
+    - script.tv_vol_down
+    - script.tv_vol_up
+    - sensor.alarm_clock_hour
+    - sensor.alarm_clock_minute
+    - sensor.alarm_clock_time_long
+    - switch.tv_lg
+    - switch.tv_lg_hdmi1
+    - switch.tv_lg_hdmi2
+    - switch.tv_lg_hdmi3
+    - switch.tv_lg_vol
+    - binary_sensor.home_door_battery_low
+    - binary_sensor.motion_battery_low
+    - binary_sensor.bedroom_door_battery_low
+    - binary_sensor.switch_v1_battery_low
+    - binary_sensor.switch_v2_battery_low
+    - binary_sensor.wall_switch_battery_low
+    - group.alarm_clock
+    - group.alerts
+    - input_number.alarm_clock_hour
+    - input_number.alarm_clock_minute
+    - input_number.slider_boiler
+    - input_select.chromecast_radio
+    - input_select.radio_station
+    - input_text.lr_ac_temp_text
+    - script.test_push

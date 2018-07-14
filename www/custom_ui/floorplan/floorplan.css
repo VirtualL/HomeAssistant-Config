@@ -1,0 +1,272 @@
+/* SVG shapes */
+
+svg, svg * {
+  vector-effect: non-scaling-stroke !important;
+  pointer-events: all !important;
+}
+
+/* Hover over */
+
+.entity:hover {
+  stroke: #03A9F4 !important;
+  stroke-width: 1px !important;
+  stroke-opacity: 1 !important;
+}
+
+/* Bootstrap succsss */
+
+.success-text {
+  fill: #3c763d !important;
+}
+
+.success-background, .success-text-background {
+  fill: #dff0d8 !important;
+  fill-opacity: 1 !important;
+  stroke: #d6e9c6 !important;
+  stroke-width: 1px !important;
+}
+
+/* Bootstrap info */
+
+.info-text {
+  fill: #31708f !important;
+}
+
+.info-background, .info-text-background {
+  fill: #d9edf7 !important;
+  fill-opacity: 1 !important;
+  stroke: #bce8f1 !important;
+  stroke-width: 1px !important;
+}
+
+/* Bootstrap warning */
+
+.warning-text {
+  fill: #8a6d3b !important;
+}
+
+.warning-background, .warning-text-background  {
+  fill: #fcf8e3 !important;
+  fill-opacity: 1 !important;
+  stroke: #faebcc !important;
+  stroke-width: 1px !important;
+}
+
+/* Bootstrap danger */
+
+.danger-text {
+  fill: #a94442 !important;
+}
+
+.danger-background, .danger-text-background {
+  fill: #f2dede !important;
+  fill-opacity: 1 !important;
+  stroke: #ebccd1 !important;
+  stroke-width: 1px !important;
+}
+
+/* Last motion entity */
+
+.last-motion {
+  stroke: #808080 !important;
+  stroke-width: 1px !important;
+  stroke-opacity: 1 !important;
+}
+
+/* Alarm Panel */
+
+.alarm-disarmed {
+  fill: #3c763d !important;
+}
+
+.alarm-armed {
+  fill: #8a6d3b !important;
+}
+
+/* Camera */
+
+.camera-idle {
+/*  fill: #B9CEF7 !important; */
+  fill: #6FAECE !important;
+}
+
+/* Light */
+
+.light-off {
+  opacity: 0.5 !important;
+  transition: opacity 1s;
+}
+
+.light-on {
+  opacity: 0.0 !important;
+  transition: opacity 1s;
+}
+
+/* Doorbell */
+
+.doorbell-off {
+  fill: #C3B7F4 !important;
+}
+
+.doorbell-on {
+  fill: #F8D2B9 !important;
+}
+
+/* Temperature sensor */
+
+.temp-very-low-background {
+  fill: #d9edf7 !important;
+  fill-opacity: 1 !important;
+}
+
+.temp-below-average-background {
+  fill: #dcefe8 !important;
+  fill-opacity: 1 !important;
+}
+
+.temp-average-background {
+  fill: #dff0d8 !important;
+  fill-opacity: 1 !important;
+}
+
+.temp-very-high-background {
+  fill: #f2dede !important;
+  fill-opacity: 1 !important;
+}
+
+/* Media player */
+
+.squeezebox-off {
+  fill: #8AA8A7 !important;
+}
+
+.squeezebox-on {
+  fill: #2baaa6 !important;
+}
+
+
+
+/* 
+doors START
+########################################################################
+
+*/
+
+#sensor\.binary_sensor.door_window_sensor_158d0001b714e9 {
+  transform-origin: bottom right;
+}
+#sensor\.binary_sensor.door_window_sensor_158d0000d834ac {
+  transform-origin: bottom right;
+}
+
+.door_closed90 {
+  /*fill: #a5a19d !important;*/
+  animation-duration: 2s;
+  animation-name: door_close;
+  transform-box: fill-box;
+}
+
+.door_open90 {
+  /*fill: #000000 !important;*/
+  animation-duration: 2s;
+  animation-name: door_open;
+  animation-fill-mode: both;
+  transform-box: fill-box;
+}
+
+@keyframes door_open {
+    from {
+        transform: perspective(3000px) rotateY(0deg);
+        transform-origin: 0% 0%;
+    }
+    to {
+        transform: perspective(3000px) rotateY(-120deg);
+        transform-origin: 0% 0%;
+    }
+}
+
+/* Animate to closed */
+@keyframes door_close {
+    from {
+        transform: perspective(3000px) rotateY(-120deg);
+        transform-origin: 0% 0%;
+    }
+    to {
+        transform:rotateY(0deg);
+        transform-origin: 0% 0%;
+    }
+}
+/*
+########################################################################
+doors END
+########################################################################
+*/
+/* 
+Device_Tracker Start
+########################################################################
+
+*/
+.tracker_home {
+  fill: #006400 !important;
+  /*content: 'בבית';*/
+
+}
+
+.tracker_not_home {
+  fill: #8B0000 !important;
+  transform-box: fill-box;
+}
+
+/* 
+########################################################################
+Device_Tracker END
+########################################################################
+*/
+
+/* 
+General START
+########################################################################
+*/
+.color_green {
+  fill: #006400 !important;
+}
+
+.color_red {
+  fill: #8B0000 !important;
+}
+
+.unavailable-status
+{
+  fill: #C8C8C8 !important;
+  opacity: 0.6 !important;
+}
+
+.unknown-status
+{
+  fill: #696969 !important;
+}
+/* 
+########################################################################
+General END
+########################################################################
+*/
+/* 
+Switch START
+########################################################################
+*/
+
+
+.switch-on {
+  fill: #006400 !important;
+}
+
+.switch-off {
+  fill: #8B0000 !important;
+  opacity: 0.8 !important;
+  transition: opacity 1s;
+}
+/* 
+########################################################################
+Switch END
+########################################################################
+*/

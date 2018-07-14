@@ -1,0 +1,313 @@
+#sensor:
+  # - platform: yr
+
+  #system monitor on rassberrypi to know disk use , memory use,process use  etc...
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /home
+      - type: memory_use_percent
+      - type: processor_use
+      - type: since_last_boot
+  #To monitor DataBase File size    
+  - platform: filesize
+    file_paths:
+      - /home/homeassistant/.homeassistant/home-assistant_v2.db
+  #To monitor BackUp Folder size 
+  - platform: folder
+    folder: /home/homeassistant/backup/hass
+  #Time that Home asisstant is Up and runing
+  - platform: uptime
+    name: Time Online
+  # get Home asistant Current Version In Production
+  -  platform: command_line
+     command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
+     name: Current HA Version
+  #My Home assistant Installed version
+  -  platform: command_line
+     name: Installed version
+     command: "head -5 /home/homeassistant/.homeassistant/.HA_VERSION"
+  #Current time and date formats 
+  - platform: time_date
+    display_options:
+      - 'date_time'
+      - 'time'
+      - 'date'
+  #Time in Days for SSL to Expired -made the cert with http://certbot.eff.org/ (Have SSL with NGINX)
+  - platform: cert_expiry
+    name: SSL HASS
+    host: !secret base_url #For example google.com 
+  - platform: cert_expiry
+    name: SSL Router
+    host: !secret AsusWrtSSL
+  - platform: cert_expiry
+    name: SSL IDE
+    host: !secret c9IdeSSL #For example google.com 
+  - platform: cert_expiry
+    name: SSL Server
+    host: !secret serverSSL
+  - platform: cert_expiry
+    name: SSL Sonoff
+    host: !secret sonoffSSL
+  #Travel time From Home to Work
+  - platform: waze_travel_time
+    name: Home To Adoraim
+    origin: !secret HomeCoordinates
+    destination: !secret Work1Coordinates
+    region: 'IL'
+  #Travel time From Home to Work2
+  - platform: waze_travel_time
+    name: Home To Otniel
+    origin: !secret HomeCoordinates
+    destination: !secret Work2Coordinates
+    region: 'IL'
+  #To track Time on entity in home (by logbook)
+  - platform: history_stats
+    name: Shiran at home yesterday
+    entity_id: device_tracker.shiraniphone
+    state: 'home'
+    type: time
+    end: '{{ now().replace(hour=2).replace(minute=0).replace(second=0) }}' #From 2 AM to 2AM
+    duration:
+      hours: 24
+  - platform: history_stats
+    name: Eliran at home yesterday
+    entity_id: device_tracker.eliraniphone
+    state: 'home'
+    type: time
+    end: '{{ now().replace(hour=2).replace(minute=0).replace(second=0) }}' #From 2 AM to 2AM
+    duration:
+      hours: 24
+
+  
+#############
+##
+## Boiler pow1 sensors (an Sonoff POW device)
+##
+#############
+  - platform: mqtt
+    name: "POW1 energy today"
+    state_topic: "tele/sonoff1/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Today"] }}'
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "POW1 energy yesterday"
+    state_topic: "tele/sonoff1/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Yesterday"] }}'
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "POW1 energy total"
+    state_topic: "tele/sonoff1/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Total"] }}'
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "POW1 Watt"
+    state_topic: "tele/sonoff1/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Power"] }}'
+    unit_of_measurement: "וואט" #W
+  - platform: mqtt
+    name: "POW1 Voltage"
+    state_topic: "tele/sonoff1/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Voltage"] }}'
+    unit_of_measurement: "וולט" #V
+  - platform: mqtt
+    name: "POW1 Current"
+    state_topic: "tele/sonoff1/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Current"] }}'
+    unit_of_measurement: "אמפר" #Amperes
+  - platform: mqtt
+    name: "POW1 total cost"
+    state_topic: "tele/sonoff1/SENSOR"
+    value_template: '{{ (value_json["ENERGY"]["Total"] * 0.5404) | round(3) }}'
+    #ILS OR USD (Depends on local currency) Just change the value of "0.5404" to your local elctricity price
+    unit_of_measurement: "₪" # USD / Other local currency
+
+####Part of automation -boiler on/ off with input numbers#####   
+####################################### boiler(POW1) on CLOCK #######################################
+  - platform: template
+    sensors:
+      boiler_on_clock_hour:
+        value_template: '{{ states.input_number.boiler_on_clock_hour.state | int }}'
+      boiler_on_clock_minute:
+        value_template: '{{ states.input_number.boiler_on_clock_minute.state | int }}'
+      boiler_on_clock_time:
+        value_template: >-
+          {{ states.sensor.boiler_on_clock_hour.state }}:
+          {%- if states.sensor.boiler_on_clock_minute.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.boiler_on_clock_minute.state }}
+      boiler_on_clock_time_long:
+        value_template: >-
+          {% if states.sensor.boiler_on_clock_hour.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.boiler_on_clock_hour.state }}:
+          {%- if states.sensor.boiler_on_clock_minute.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.boiler_on_clock_minute.state }}
+####################################### boiler (POW1) OFF CLOCK #######################################
+  - platform: template
+    sensors:
+      boiler_off_clock_hour:
+        value_template: '{{ states.input_number.boiler_off_clock_hour.state | int }}'
+      boiler_off_clock_minute:
+        value_template: '{{ states.input_number.boiler_off_clock_minute.state | int }}'
+      boiler_off_clock_time:
+        value_template: >-
+          {{ states.sensor.boiler_off_clock_hour.state }}:
+          {%- if states.sensor.boiler_off_clock_minute.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.boiler_off_clock_minute.state }}
+      boiler_off_clock_time_long:
+        value_template: >-
+          {% if states.sensor.boiler_off_clock_hour.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.boiler_off_clock_hour.state }}:
+          {%- if states.sensor.boiler_off_clock_minute.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.boiler_off_clock_minute.state }}
+###############END#########################
+
+#############
+##
+##  POW2 sensors (an Sonoff POW device) - Currently an Switch for CCTV
+##
+#############
+  - platform: mqtt
+    name: "POW2 energy today"
+    state_topic: "tele/sonoff2/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Today"] }}'
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "POW2 energy yesterday"
+    state_topic: "tele/sonoff2/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Yesterday"] }}'
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "POW2 energy total"
+    state_topic: "tele/sonoff2/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Total"] }}'
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "POW2 Watt"
+    state_topic: "tele/sonoff2/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Power"] }}'
+    unit_of_measurement: "וואט" #W
+  - platform: mqtt
+    name: "POW2 Voltage"
+    state_topic: "tele/sonoff2/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Voltage"] }}'
+    unit_of_measurement: "וולט" #V
+  - platform: mqtt
+    name: "POW2 Current"
+    state_topic: "tele/sonoff2/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Current"] }}'
+    unit_of_measurement: "אמפר" #Amperes
+  - platform: mqtt
+    name: "POW2 total cost"
+    state_topic: "tele/sonoff2/SENSOR"
+    value_template: '{{ ( value_json["ENERGY"]["Total"] * 0.5404) | round(3) }}'
+    #ILS OR USD (Depends on local currency) Just change the value of "0.5404" to your local elctricity price
+    unit_of_measurement: "₪" # USD / Other local currency
+    ########################################
+
+    ##Add More info for device xiaomi PowerStrip
+  - platform: template
+    sensors:
+      power_strip_temp:
+        friendly_name: 'טמפרטורת מפצל' #power Strip Temperature
+        value_template: '{{ states.switch.xiaomi_powerstrip_2.attributes.temperature }}'
+        unit_of_measurement: "°מעלות" #temperature in C
+      power_strip_watt:
+        friendly_name: 'צריכה נוכחית ' #Current W
+        value_template: '{{ states.switch.xiaomi_powerstrip_2.attributes.load_power }}'
+        unit_of_measurement: W
+      power_strip_total_cost:
+        friendly_name: 'עלות לשעת פעילות' #price per hour 
+        value_template: '{{ (states.switch.xiaomi_powerstrip_2.attributes.load_power *0.5404 *0.001)| round(3)}}'
+        #ILS OR USD (Depends on local currency) Just change the value of "0.5404" to your local elctricity price
+        unit_of_measurement: "₪" # USD / Other local currency
+
+
+    ####################################### ALARM CLOCK #######################################
+    #alarm clock that send a notifaction to phone (via iOS app-see Automations)
+  - platform: template
+    sensors:
+      alarm_clock_hour:
+        value_template: '{{ states.input_number.alarm_clock_hour.state | int }}'
+      alarm_clock_minute:
+        value_template: '{{ states.input_number.alarm_clock_minute.state | int }}'
+      alarm_clock_time:
+        value_template: >-
+          {{ states.sensor.alarm_clock_hour.state }}:
+          {%- if states.sensor.alarm_clock_minute.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.alarm_clock_minute.state }}
+      alarm_clock_time_long:
+        value_template: >-
+          {% if states.sensor.alarm_clock_hour.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.alarm_clock_hour.state }}:
+          {%- if states.sensor.alarm_clock_minute.state|length == 1 -%}
+            0
+          {%- endif -%}
+            {{ states.sensor.alarm_clock_minute.state }}
+    ####################################### End of ALARM CLOCK#######################################
+    ####################################### Speedtest.Net ####################################### 
+  - platform: speedtest
+    server_id: 9034
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+    #######################################CURRENCIES Rates Via XML rate in Offical BANK OF ISRAEL#######################################
+  - platform: command_line
+    name: Exchange Date
+    command: "curl get https://www.boi.org.il/currency.xml?curr=27 2>&1 | grep LAST_UPDATE | grep -o '[0-9]*-[0-9]*-[0-9]*' "
+    scan_interval: 43200 #12 Hours
+
+  - platform: command_line
+    name: Dollar(USD)
+    command: "curl get https://www.boi.org.il/currency.xml?curr=01 2>&1 | grep RATE | grep -o '[0-9].*[0-9]' "
+    scan_interval: 43200 #12 Hours
+
+  - platform: command_line
+    name: Euro(EUR)
+    command: "curl get https://www.boi.org.il/currency.xml?curr=27 2>&1 | grep RATE | grep -o '[0-9].*[0-9]' "
+    scan_interval: 43200 #12 Hours
+
+  - platform: command_line
+    name: Pound(GBP)
+    command: "curl get https://www.boi.org.il/currency.xml?curr=02 2>&1 | grep RATE | grep -o '[0-9].*[0-9]' "
+    scan_interval: 43200 #12 Hours
+    ###########################################################################
+    
+    ###### Latest config backup time
+  - platform: command_line
+    command: "python /home/homeassistant/.homeassistant/bin/latest_Hass_backup.py"
+    name: 'Latest HA Backup'
+    scan_interval: 43200 #12 Hours
+    
+    
+    ###HLINE CUI
+  - platform: template
+    sensors:
+      hline_1:
+        value_template: hline
+      hline_2:
+        value_template: hline
+      hline_3:
+        value_template: hline
+      hline_4:
+        value_template: hline
+      hline_5:
+        value_template: hline
+      hline_6:
+        value_template: hline

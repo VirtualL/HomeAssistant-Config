@@ -1,0 +1,28 @@
+  c9:
+    title: IDE
+    icon: mdi:cloud-braces
+    url: !secret c9IdeURL 
+    
+  # router:
+  #   title: Router
+  #   icon: mdi:router-wireless
+  #   url: !secret RouterURL
+  server:
+    title: Server
+    icon: mdi:desktop-classic
+    url: !secret serverURL
+  sonoff:
+    title: Sonoff
+    icon: mdi:chip
+    url: !secret sonoffURL
+
+  # myrgbremote:
+  #   title: My Super Rgb Remote
+  #   icon: mdi:led-strip
+  #   url: https://gamadril.github.io/hyperion-remote
+  # speedtestmy:
+  #   title: TestMy.net
+  #   icon: mdi:speedometer
+  #   url: https://testmy.net/auto
+    
+    

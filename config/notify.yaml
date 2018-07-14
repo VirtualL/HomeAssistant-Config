@@ -1,0 +1,19 @@
+  - platform: nfandroidtv
+    name: PartnerTV
+    host: 192.168.1.104
+
+  - name: EliranTelegram
+    platform: telegram
+    chat_id: !secret TelegramChatIDNum1
+
+  - name: NotifyShiranAndEliranIOS #to send the same notify together 
+    platform: group
+    services:
+      - service: ios_elirantur2
+    #   - service: ios_shiran_iphone
+      
+  - name: NotifyEliranIOSAndTelegram #to send the same notify together 
+    platform: group
+    services:
+      - service: elirantelegram
+      - service: ios_elirantur2

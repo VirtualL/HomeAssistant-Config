@@ -1,0 +1,201 @@
+#########################################################
+#                                                       #
+#                  FEED THE DOG - MORNING               #
+#                                                       #
+#########################################################
+
+  - alias: "Feed The Dog Morning"
+    trigger:
+      platform: time
+      at: '09:00'
+    action:
+    - service: light.turn_on
+      data:
+        entity_id: light.gateway_light_34ce0088d2f7
+        brightness: 254
+        color_name: blue
+    - service: notify.NotifyShiranAndEliranIOS
+      data:
+        title: "זורו"
+        message: האם זורו וגדליה אכלו ארוחת בוקר?   
+        data:
+          push:
+            sound: "US-EN-Morgan-Freeman-Good-Morning.wav"
+            badge: 0
+            category: 'feedthedog' #the indentefier
+          attachment: 
+            url: https://1.bp.blogspot.com/-XKiTW7HSllI/WQRkJFhY2XI/AAAAAAAHRio/yIjWWH8-VZsPBrWkQxCQjGYPz_6RTsiagCLcB/s1600/AW419408_06.gif        
+
+    - delay: 0:00:03
+    - service: light.turn_off
+      entity_id: light.gateway_light_34ce0088d2f7
+    - delay: 0:00:01
+    - service: light.turn_on
+      data:
+        entity_id: light.gateway_light_34ce0088d2f7
+        brightness: 254
+        color_name: blue
+    - delay: 0:00:15
+    - service: light.turn_off
+      entity_id: light.gateway_light_34ce0088d2f7
+
+          
+    
+
+#########################################################
+#                                                       #
+#                  FEED THE DOG - EVENING               #
+#                                                       #
+#########################################################
+
+  - alias: "Feed The Dog Evening"
+    trigger:
+      platform: time
+      at: '19:00'
+    action:
+    - service: light.turn_on
+      data:
+        entity_id: light.gateway_light_34ce0088d2f7
+        brightness: 254
+        color_name: blue
+    - delay: 0:00:03
+    - service: light.turn_off
+      entity_id: light.gateway_light_34ce0088d2f7
+    - delay: 0:00:01
+    - service: light.turn_on
+      data:
+        entity_id: light.gateway_light_34ce0088d2f7
+        brightness: 254
+        color_name: blue
+    - delay: 0:00:15
+    - service: light.turn_off
+      entity_id: light.gateway_light_34ce0088d2f7
+    - service: notify.NotifyShiranAndEliranIOS
+      data:
+        title: "זורו"
+        message: האם זורו אכל ארוחת ערב?   
+        data:
+          push:
+            sound: "US-EN-Morgan-Freeman-Good-Night.wav"
+            badge: 0
+            category: 'feedthedog' #the indentefier
+          attachment: 
+            url: https://1.bp.blogspot.com/-XKiTW7HSllI/WQRkJFhY2XI/AAAAAAAHRio/yIjWWH8-VZsPBrWkQxCQjGYPz_6RTsiagCLcB/s1600/AW419408_06.gif
+
+#########################################################
+#                                                       #
+#              DOG HAS BEEN FED - MORNING               #
+#                                                       #
+#########################################################
+
+  # - alias: "Dog Has Been Fed - Morning"
+  #   trigger:
+  #     platform: event
+  #     event_type: click
+  #     event_data:
+  #       entity_id: binary_sensor.switch_158d000149b9ab
+  #       click_type: double
+  #   condition:
+  #       condition: time
+  #       before: '13:00:00'
+  #   action:
+  #     - service: automation.turn_off
+  #       entity_id: automation.feed_the_dog_morning
+  #     - service: light.turn_off
+  #       entity_id: light.gateway_light_34ce0088d2f7
+  #     - service: notify.NotifyShiranAndEliranIOS
+  #       data:
+  #         title: "זורו"
+  #         message: זורו אכל ארוחת בוקר :)
+  #         data:
+  #           attachment: 
+  #             url: https://3.bp.blogspot.com/-cdGHheJRoyg/WQRkIdOf2DI/AAAAAAAHRig/8P5r8FwfRcgjdd-Xr3YI4X8BibIzS2g-wCLcB/s1600/AW419408_05.gif
+
+#########################################################
+#                                                       #
+#              DOG HAS BEEN FED - EVENING               #
+#                                                       #
+#########################################################
+
+  # - alias: "Dog Has Been Fed - Evening"
+  #   trigger:
+  #     platform: event
+  #     event_type: click
+  #     event_data:
+  #       entity_id: binary_sensor.switch_158d000149b9ab
+  #       click_type: double
+  #   condition:
+  #       condition: time
+  #       after: '13:00:00'
+  #   action:
+  #     - service: automation.turn_off
+  #       entity_id: automation.feed_the_dog_evening
+  #     - service: light.turn_off
+  #       entity_id: light.gateway_light_34ce0088d2f7
+  #     - service: notify.NotifyShiranAndEliranIOS
+  #       data:
+  #         title: "זורו"
+  #         message: זורו אכל ארוחת ערב :)
+  #         data:
+  #           attachment: 
+  #             url: https://3.bp.blogspot.com/-cdGHheJRoyg/WQRkIdOf2DI/AAAAAAAHRig/8P5r8FwfRcgjdd-Xr3YI4X8BibIzS2g-wCLcB/s1600/AW419408_05.gif
+
+#########################################################
+#                                                       #
+#                  FEED THE DOG - EVENING               #
+#                                                       #
+#########################################################
+
+  - alias: "Reset Feed The Dog Notifications"
+    trigger:
+      platform: time
+      at: '01:00'
+    action:
+      - service: automation.turn_on
+        entity_id: automation.dog_has_been_fed__evening
+      - service: automation.turn_on
+        entity_id: automation.dog_has_been_fed__morning
+      - service: automation.turn_on
+        entity_id: automation.feed_the_dog_evening
+      - service: automation.turn_on
+        entity_id: automation.feed_the_dog_morning
+
+####################################################
+#                                                  #
+# iOS notification action DOG_FEEDED
+#                                                  #
+####################################################
+  - alias: iOS notification action DOG_FEEDED morning
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: DOG_FEEDED #the action that was tap
+    condition:
+      condition: time
+      before: '13:00:00'
+    action:
+      - service: automation.trigger
+        entity_id: automation.dog_has_been_fed__morning
+
+  - alias: iOS notification action DOG_FEEDED evening
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: DOG_FEEDED #the action that was tap
+    condition:
+      condition: time
+      after: '13:00:00'
+    action:
+      - service: automation.trigger
+        entity_id: automation.dog_has_been_fed__evening
+#########################################################
+#                                                       #
+#            END OF CONFIGURATION FILE                  #
+#                                                       #
+#########################################################

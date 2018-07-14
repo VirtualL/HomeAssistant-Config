@@ -1,0 +1,57 @@
+
+  # - platform: rpi_gpio_pwm #????
+  #   leds:
+  #     - name: LightStrip
+  #       driver: pca9685
+  #       pins: [3, 4, 5, 6] # [R, G, B, W]
+  #       type: rgbw
+  - platform: hyperion
+    host: 192.168.1.101
+
+  - platform: xiaomi_miio
+    name: Philips Bulb 
+    host: 192.168.1.113
+    token: !secret PhilipsBulbToken
+    model: philips.light.bulb
+
+  - platform: yeelight
+    devices:
+      192.168.1.115: #At home
+        name: Living Room Color Bulb
+
+      192.168.1.102:
+        name: White Bulb
+
+      192.168.1.111:
+        name: Desk Lamp
+
+      #light.gateway_light- is Working by default
+
+  ###############
+  ## sonoff3 = sonoff touch - now for Kitchen Light ( light.sonoff_light )
+  ###############
+  - platform: mqtt
+    name: "Sonoff Light"
+    state_topic: "stat/sonoff3/POWER"
+    command_topic: "cmnd/sonoff3/POWER"
+    availability_topic: "tele/sonoff3/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: true
+  ###############
+  ## sonoff4 = sonoff basic -now for Hallway Light (light.sonoff_hallway_light )
+  ###############
+  - platform: mqtt
+    name: "Sonoff HallWay Light"
+    state_topic: "stat/sonoff4/POWER"
+    command_topic: "cmnd/sonoff4/POWER"
+    availability_topic: "tele/sonoff4/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: true

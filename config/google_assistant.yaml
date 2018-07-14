@@ -1,0 +1,108 @@
+  project_id: HomeAssistant-VirtualL
+  client_id: !secret GoogleAsistantClientID #[long URL safe random string]
+  access_token: !secret GoogleAsistantAccessToken #[a different long URL safe random string]
+  agent_user_id: !secret GoogleAsistantAgentUID
+  # api_key: [a Homegraph API Key generated for the Google Actions project]
+  exposed_domains:
+    - switch
+    - light
+    - script
+  entity_config:
+    ####################LIGHTS ######
+    light.white_bulb:
+      name: Left Bulb
+      room: Salon
+
+    light.living_room_color_bulb:
+      name: Right Bulb
+      room: Salon
+
+    light.sonoff_light:
+      name: Kitchen
+      room: Kitchen
+      aliases:
+        - Kitchen light
+
+    light.philips_bulb:
+      name: Service
+      room: Kitchen
+      aliases:
+        - Philips light
+        - Service light
+    light.sonoff_hallway_light:
+      name: Misdaron
+      room: HallWay
+      aliases:
+        - HallWay
+        - Misdaron
+    light.gateway_light_34ce0088d2f7:
+      name: GateWay
+      room: HallWay
+      aliases:
+        - GateWay light
+        
+    light.desk_lamp:
+      name: Desk Lamp
+      room: BedRoom
+      aliases:
+        - Desk Lamp
+        - BedRoom Light
+    ####################SWITCHS ########
+    switch.mqtt_pow2:
+      name: Kitchen Camera
+      room: Kitchen
+      
+    switch.sonoff_xiaomicctv_switch:
+      name: Salon Camera
+      room: Salon
+      
+    switch.tv_lg:
+      name: TV
+      room: Salon
+      
+    switch.tv_lg_vol:
+      name: Volume
+      room: Salon
+      
+    switch._mqtt_pow1:
+      name: Boiler
+      room: Salon
+      
+    switch.xiaomi_powerstrip:
+      name: Boiler
+      room: Salon
+      
+    vacuum.xiaomi_vacuum:
+      name: Vaccum Cleaner
+      room: HallWay
+      ####################SCRIPTS ########
+    script.restart_home_assistant:
+      name: Restart Home Assitant
+      room: Garage
+    script.reboot_os:
+      name: Reboot Server
+      room: Garage
+    script.backup_ha_config:
+      name: Backup Home Assitant
+      room: Garage
+    script.update_hass:
+      expose: false
+    script.timer_off_boiler:
+      expose: false
+    script.ilradio:
+      expose: false
+    script.check_sonoffs_version:
+      expose: false
+    script.backup_all_os:
+      expose: false
+    script.test_push:
+      expose: false
+    script.white_night_light:
+      expose: false
+    script.purple_night_light:
+      expose: false
+    script.flash_gateway1:
+      expose: false
+    script.flash_gateway2:
+      expose: false
+    

@@ -1,0 +1,106 @@
+# homeassistant:
+#   customize:
+#     sensor.disk_used_:
+#       friendly_name: Rpi Disk Used
+#     sensor.process_homebridge:
+#       friendly_name: 'Apple HomeKit'
+#       hidden: False
+#       icon: mdi:apple
+#     sensor.uptime:
+#       friendly_name: 'Hass Uptime'
+
+# group:
+#   system_monitor_card:
+#     name: System Monitor Hass Rpi
+#     entities:
+#       - sensor.uptime
+#       - sensor.last_boot
+#       - sensor.since_last_boot
+
+# sensor:
+#   - platform: systemmonitor
+#     resources:
+#       - type: last_boot
+#       - type: since_last_boot
+
+#   - platform: uptime
+#     unit_of_measurement: hours
+
+# automation:
+#   - alias: 'Hass Started'
+#     initial_state: 'on'
+#     trigger:
+#       platform: homeassistant
+#       # Event can also be 'shutdown'
+#       event: start
+#     action:
+#       - service: notify.pushbullet_isa
+#         data:
+#           title: 'Hass.io Online'
+#           message: 'Online'
+#       - service: notify.ios_stefan_iphone_7
+#         data:
+#           message: "request_location_update"
+#       - service: notify.ios_isabellas_iphone_6s
+#         data:
+#           message: "request_location_update"
+#       # - service: python_script.device_tracker_placeholders
+#       - service: python_script.summary
+#       - service: python_script.mailbox
+#         data_template:
+#           state: 'reset'
+#       - service: hassio.addon_restart
+#         data:
+#           addon: a0d7b954_homebridge
+
+#   - alias: 'Hass Ready'
+#     initial_state: 'on'
+#     trigger:
+#       platform: event
+#       event_type: zwave.network_ready
+#     action:
+#       - service: notify.pushbullet_isa
+#         data:
+#           title: 'Z-wave network now ready'
+#           message: 'Home Assistant'
+#       - service: python_script.device_tracker
+#         data_template:
+#           entity_id: 'input_select.stefan_status_dropdown'
+#           meta_entity: 'Stefan'
+#       - service: python_script.device_tracker
+#         data_template:
+#           entity_id: 'input_select.isa_status_dropdown'
+#           meta_entity: 'Isabella'
+
+#   - alias: 'Hass Stopped'
+#     initial_state: 'on'
+#     trigger:
+#       platform: homeassistant
+#       # Event can also be 'shutdown'
+#       event: shutdown
+#     action:
+#       - service: notify.pushbullet_isa
+#         data:
+#           title: 'Hass.io Offline'
+#           message: 'Offline'
+
+#   - alias: Hass New Device Tracked
+#     trigger:
+#       platform: event
+#       event_type: device_tracker_new_device
+#     action:
+#       - service: notify.pushbullet_isa
+#         data_template:
+#           title: 'New device tracked'
+#           message: >
+#             {{trigger.event.data.host_name}} 
+#             ({{trigger.event.data.entity_id}})
+#   - alias: Hass Updater
+#     trigger:
+#       - platform: state
+#         entity_id: updater.updater
+#     action:
+#       - service: notify.pushbullet_isa
+#         data_template: 
+#           title: 'New Home Assistant Release Available'
+#           message: "Home Assistant  {{ states.updater.updater.state }}  is now available."

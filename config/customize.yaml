@@ -1,0 +1,1007 @@
+##
+## In customize i made most of the GUI changes, Localization To Hebrew (if the HomeAsistant Dev team not made it already)
+## in the past i was using homebridge to connect Homekit and Siri , now  i am using the built-in hokekit support , so i need to clean the code :)
+## Every Place you see "CUI" the meaning is that i am using home-assistant-custom-ui to improve visual info , https://github.com/andrey-git/home-assistant-custom-ui
+
+
+
+light.white_bulb:
+  friendly_name: סלון שמאלית
+  icon: mdi:page-layout-sidebar-left
+  homebridge_hidden: false
+light.yeelight_white_f0b4290e4e68:
+  friendly_name:  2 סלון שמאלית
+  icon: mdi:page-layout-sidebar-left
+light.yeelight_rgb_286c07106e1b:
+  friendly_name: 2 סלון ימנית
+  hidden: true #????
+  icon: mdi:page-layout-sidebar-right
+  homebridge_hidden: ture
+light.living_room_color_bulb:
+  icon: mdi:page-layout-sidebar-right
+  friendly_name: סלון ימנית
+light.philips_bulb:
+  friendly_name: חדר שירות
+  hidden: false
+  homebridge_name: חדר שירות
+  icon: mdi:lightbulb-on-outline
+light.sonoff_hallway_light:
+  friendly_name: מסדרון
+  hidden: false
+  icon: mdi:track-light
+  #CUI -this light is On or Off only
+  state_card_mode: no-slider 
+light.desk_lamp:
+  friendly_name: מנורת שולחן
+  icon: mdi:lamp
+light.sonoff_light:
+  assumed_state: false
+  hidden: false
+  icon: mdi:ceiling-light
+  friendly_name: מנורת מטבח
+  homebridge_hidden: false
+  homebridge_name: מנורת מטבח
+  #CUI this light is On or Off only so slider is unnecessary
+  state_card_mode: no-slider
+binary_sensor.switch_158d0000d8c836:
+  friendly_name: לחצן חדר שינה
+  hidden: true
+binary_sensor.motion_sensor_158d0000e62376:
+  friendly_name: חיישן תנועה
+  device_class: motion
+  homebridge_hidden: false
+
+
+binary_sensor.door_window_sensor_158d0000d834ac:
+  friendly_name: דלת חדר שינה
+  device_class: door
+  homebridge_hidden: false
+  homebridge_sensor_type: door
+binary_sensor.door_window_sensor_158d0001b714e9:
+  friendly_name: דלת כניסה
+  device_class: door
+  homebridge_hidden: false
+  homebridge_sensor_type: door
+binary_sensor.switch_158d000149b9ab:
+  friendly_name: לחצן סלון
+  hidden: true
+binary_sensor.wall_switch_both_158d0001712d0e:
+  friendly_name: לחצן קיר - שניהם
+  icon: mdi:arrow-down-bold-box
+  hidden: true
+binary_sensor.wall_switch_left_158d0001712d0e:
+  friendly_name: לחצן קיר - שמאלי
+  icon: mdi:arrow-left-bold-box
+  hidden: true
+binary_sensor.wall_switch_right_158d0001712d0e:
+  friendly_name: לחצן קיר - ימני
+  icon: mdi:arrow-right-bold-box
+  hidden: true
+sensor.humidity_158d0001150e4e:
+  friendly_name: לחות בבית
+  icon: mdi:water-percent
+  homebridge_hidden: false
+  homebridge_sensor_type: humidity
+sensor.temperature_158d0001150e4e:
+  friendly_name: טמפרטורה בבית
+  unit_of_measurement: "°C"
+  # unit_of_measurement: "°מעלות"
+  homebridge_sensor_type: temperature
+  homebridge_hidden: false
+light.gateway_light_34ce0088d2f7:
+  friendly_name: תאורת רכזת
+  icon: mdi:album
+  homebridge_hidden: false
+sensor.illumination_34ce0088d2f7:
+  friendly_name: עוצמת אור ברכזת
+  unit_of_measurement: 'לומן'
+switch.xiaomi_powerstrip:
+  friendly_name: מפצל שקעים בסלון
+  icon: mdi:power-plug
+  #CUI - add more info about the powerstrip on the entitiy
+  extra_data_template:
+  - ${attributes.load_power}W  ${attributes.temperature}C°  #W C
+  homebridge_name: מפצל שקעים בסלון
+  homebridge_switch_type: outlet
+  homebridge_hidden: false
+  device_class: power
+group.xiaomi_powerstrip_info:
+    friendly_name: מפצל שקעים בסלון
+    icon: mdi:power-socket-us
+    device_class: power
+    homebridge_hidden: true
+sensor.power_strip_temp:
+  friendly_name: טמפרטורת מפצל
+  icon: mdi:oil-temperature
+  unit_of_measurement: "°C"
+  homebridge_hidden: false
+sensor.power_strip_watt:
+  friendly_name: צריכה נוכחית 
+  icon: mdi:flash-circle
+  homebridge_hidden: false
+sensor.power_strip_total_cost:
+  friendly_name: עלות לשעת שימוש
+  icon: mdi:finance
+  homebridge_hidden: false
+media_player.salon:
+  friendly_name: פרטנר טיוי
+  homebridge_hidden: true
+media_player.apple_tv:
+  friendly_name: אפל טיוי
+  homebridge_hidden: true
+group.alerts:
+  friendly_name: התראות
+  hidden: true
+  homebridge_hidden: true
+group.historyStat:
+  friendly_name: סטטיסטיקה
+  homebridge_hidden: true
+  hidden: false
+
+sensor.date__time:
+  friendly_name: תאריך ושעה
+  homebridge_hidden: true
+sun.sun:
+  friendly_name: שמש
+  homebridge_hidden: true
+sensor.eliran_iphone_battery_level:
+  friendly_name: מצב סוללה -אלירן
+  homebridge_hidden: true
+sensor.eliran_iphone_battery_state:
+  friendly_name: סטטוס סוללה -אלירן
+  homebridge_hidden: true
+sensor.shiran_iphone_battery_level:
+  friendly_name: מצב סוללה -שירן
+  homebridge_hidden: true
+sensor.shiran_iphone_battery_state:
+  friendly_name: סטטוס סוללה -שירן
+  homebridge_hidden: true
+sensor.processor_use:
+  friendly_name: ניצול מעבד
+  homebridge_hidden: true
+  icon: mdi:memory
+sensor.memory_use_percent:
+  friendly_name: ניצול זכרון
+  icon: mdi:chip
+  homebridge_hidden: true
+sensor.disk_use_percent_home:
+  friendly_name: ניצול אחסון
+  icon: mdi:harddisk
+  homebridge_hidden: true
+sensor.since_last_boot:
+  friendly_name: זמן מאז אתחול המערכת
+  icon: mdi:update
+  homebridge_hidden: true
+sensor.homeassistant_v2db:
+  friendly_name: גודל הדאטה בייס
+  icon: mdi:database
+  homebridge_hidden: true
+  unit_of_measurement: 'מגה-ביט'
+  
+sensor.time_online:
+  friendly_name: זמן פעילות הום-אסיסטנט
+  icon: mdi:home-assistant
+  homebridge_hidden: true
+  unit_of_measurement: 'ימים'
+sensor.ssl_hass:
+  friendly_name: זמן לסיום SSL HASS
+  icon: mdi:certificate
+  homebridge_hidden: true
+  unit_of_measurement: 'ימים'
+sensor.ssl_router:
+  friendly_name:  זמן לסיום SSL Router
+  icon: mdi:certificate
+  homebridge_hidden: true
+  unit_of_measurement: 'ימים'
+sensor.ssl_ide:
+  friendly_name:  זמן לסיום SSL IDE
+  icon: mdi:certificate
+  homebridge_hidden: true
+  unit_of_measurement: 'ימים'
+  
+sensor.ssl_server:
+  friendly_name:  זמן לסיום SSL Server
+  icon: mdi:certificate
+  homebridge_hidden: true
+  unit_of_measurement: 'ימים'
+sensor.ssl_sonoff:
+  friendly_name:  זמן לסיום SSL Sonoff
+  icon: mdi:certificate
+  homebridge_hidden: true
+  unit_of_measurement: 'ימים'
+
+sensor.restart_homebridge:
+  friendly_name: איתחול הום-ברידג
+  icon: mdi:apple
+  homebridge_hidden: true
+device_tracker.eliraniphone:
+  friendly_name: אלירן
+  hidden: false
+  homebridge_hidden: true
+  device_class: presence
+device_tracker.eliran_iphone:
+  friendly_name: אלירן לפי מיקום
+  hidden: true
+  homebridge_hidden: true
+device_tracker.redminote4israelkes:
+  friendly_name: ישראל
+  homebridge_hidden: true
+device_tracker.android983a5bef7ebe50ce:
+  friendly_name: סבט
+  homebridge_hidden: true
+device_tracker.shiraniphone:
+  friendly_name: שירן
+  device_class: presence
+  homebridge_hidden: true
+device_tracker.talamishaimbp:
+  friendly_name: טל -מקבוק
+  homebridge_hidden: true
+  hidden: true
+device_tracker.desktop4ba97q9:
+  friendly_name: המחשב של מתן
+  device_class: presence
+  homebridge_hidden: true
+  hidden: true
+device_tracker.d0034b143687:
+  friendly_name: אפל טיוי
+  homebridge_hidden: true
+device_tracker.partnertv:
+  friendly_name: פרטנר טיוי
+  homebridge_hidden: true
+device_tracker.eliranmacbookpro:
+  friendly_name: מקבוק פרו -אלירן
+  homebridge_hidden: true
+device_tracker.eliransplewatch:
+  friendly_name: שעון -אלירן
+  homebridge_hidden: true
+device_tracker.desktop9cb3035:
+  friendly_name: המחשב של שירן
+  homebridge_hidden: true
+device_tracker.chromecast:
+  friendly_name: כרוםקאסט
+  homebridge_hidden: true
+group.AllMylights:
+  friendly_name: כל התאורה בבית
+  device_class: light
+group.Sensors:
+  friendly_name: כל החיישנים
+  homebridge_hidden: true
+group.People:
+  friendly_name: אנשים
+  homebridge_hidden: true
+group.All_My_MediaPlayers:
+  friendly_name: מדיה
+  homebridge_hidden: true
+group.Devices_online:
+  friendly_name: מוצרים מחוברים
+  homebridge_hidden: true
+group.App_info:
+  friendly_name: מידע מערכת
+  homebridge_hidden: true
+group.Weather:
+  friendly_name: מזג אוויר
+  homebridge_hidden: true
+group.IOT_Status:
+  friendly_name: מצב מכשירים
+  homebridge_hidden: true
+group.all_automations:
+  friendly_name: אוטומציות
+  homebridge_hidden: true
+  hidden: false
+group.Security_info:
+  homebridge_hidden: true
+group.all_scripts:
+  friendly_name: סקריפטים
+  homebridge_hidden: true
+  hidden: false
+group.all_remotes:
+  friendly_name: כל השליטה מרחוק
+  homebridge_hidden: true
+  hidden: false
+remote.apple_tv:
+  friendly_name: אפל טיוי
+  homebridge_hidden: true
+remote.ir_controller:
+  friendly_name: שליטה אינפרא
+  homebridge_hidden: true
+zone.work:
+  friendly_name: עבודה אלירן
+  homebridge_hidden: true
+zone.home:
+  friendly_name: בית
+  homebridge_hidden: true
+group.Living_Room_lights:
+  friendly_name: תאורת סלון
+  homebridge_hidden: false
+  homebridge_name: כל התאורה בסלון
+group.Living_Room_Info:
+  friendly_name: מידע
+  homebridge_hidden: true
+group.BedRoom_Sensors:
+  friendly_name: מידע
+  homebridge_hidden: true
+group.kitchen_sensors:
+  friendly_name: מידע
+  homebridge_hidden: true
+group.BedRoom_lights:
+  friendly_name: תאורה
+  homebridge_hidden: true
+group.kitchen_light:
+  homebridge_hidden: true
+group.Kitchen:
+  friendly_name: מטבח
+  homebridge_hidden: true
+group.LinivgRoom_Page:
+  friendly_name: סלון
+  icon: mdi:theater
+  homebridge_hidden: true
+group.BedRoom_page:
+  friendly_name: חדר שינה
+  icon: mdi:hotel
+  homebridge_hidden: true
+group.Kitchen_Page:
+  friendly_name: מטבח
+  icon: mdi:stove
+  homebridge_hidden: true
+group.israeliradio:
+  homebridge_hidden: true
+group.alarm_clock:
+  homebridge_hidden: true
+group.people_page:
+  homebridge_hidden: true
+group.lights_page:
+  homebridge_hidden: true
+group.sensor_page:
+  homebridge_hidden: true
+group.summary:
+  homebridge_hidden: true
+group.all_devices:
+  homebridge_hidden: true
+group.default_view:
+  friendly_name: ראשי
+  homebridge_hidden: true
+device_tracker.lumigatewayv3_miio56799318:
+  homebridge_hidden: true
+device_tracker.esp_019c01:
+  homebridge_hidden: true
+device_tracker.yeelinklightcolor1_miio48212528:
+  homebridge_hidden: true
+device_tracker.yeelinklightmono1_miio13189118:
+  homebridge_hidden: true
+device_tracker.philipslightbulb_miio60611075:
+  homebridge_hidden: true
+device_tracker.chuangmiirv2_miio65961163:
+  homebridge_hidden: true
+device_tracker.raspberrypi:
+  homebridge_hidden: true
+device_tracker.esp_48122c:
+  homebridge_hidden: true
+device_tracker.5cffff206b5c:
+  homebridge_hidden: true
+device_tracker.rockrobo:
+  homebridge_hidden: true
+device_tracker.000000020201:
+  homebridge_hidden: true
+device_tracker.nbsp:
+  homebridge_hidden: true
+device_tracker.4098ada0c3dd:
+  homebridge_hidden: true
+device_tracker.eliransimac:
+  homebridge_hidden: true
+device_tracker.android2ca0278d5db93afd:
+  homebridge_hidden: true
+device_tracker.homecctv:
+  homebridge_hidden: true
+automation.home_cctv_offline:
+  homebridge_hidden: true
+device_tracker.48022c80b661:
+  homebridge_hidden: true
+device_tracker.esp_481214:
+  homebridge_hidden: true
+device_tracker.loadingpleasewait:
+  homebridge_hidden: true
+device_tracker.48022c80b66:
+  homebridge_hidden: true
+device_tracker.elirantdesktop: #PI WIFI
+  homebridge_hidden: true
+device_tracker.hassbian:
+  homebridge_hidden: true
+device_tracker.sonofftal10705:
+  homebridge_hidden: true
+device_tracker.286c07773d15: #xiaomi cctv
+  homebridge_hidden: true
+switch.sonoff_xiaomicctv_switch:
+  friendly_name: מפסק מצלמת סלון
+  icon: mdi:camera-gopro  
+device_tracker.xiaomigateway:
+  homebridge_hidden: true
+device_tracker.xiaomiircontroller:
+  homebridge_hidden: true
+device_tracker.xiaomipowerstrip:
+  homebridge_hidden: true
+device_tracker.galaxys9: #amir phone
+  homebridge_hidden: true
+
+
+sensor.dark_sky_temperature:
+  friendly_name: טמפרטורה מקומית
+  homebridge_name: טמפרטורה בבאר שבע
+  unit_of_measurement: "°C"
+  # unit_of_measurement: "°מעלות"
+  homebridge_hidden: false
+  homebridge_sensor_type: temperature
+sensor.dark_sky_humidity:
+  friendly_name: לחות מקומית
+  homebridge_name: לחות בבאר שבע
+  homebridge_hidden: false
+  homebridge_sensor_type: humidity
+
+sensor.dark_sky_daily_high_temperature:
+  friendly_name: טמפרטורה מקסימלית
+  homebridge_name: טמפ מקסימלית בבאר שבע
+  unit_of_measurement: "°C"
+  # unit_of_measurement: "°מעלות"
+  homebridge_hidden: false
+  homebridge_sensor_type: temperature
+sensor.dark_sky_daily_low_temperature:
+  friendly_name: טמפרטורה מינימלית
+  homebridge_name: טמפ מינימלית בבאר שבע
+  unit_of_measurement: "°C"
+  # unit_of_measurement: "°מעלות"
+  homebridge_hidden: false
+  homebridge_sensor_type: temperature
+sensor.dark_sky_summary:
+  friendly_name: תחזית
+  hidden: true
+  homebridge_hidden: true
+sensor.dark_sky_icon:
+  friendly_name: סמל
+  homebridge_hidden: true
+  hidden: true
+sensor.dark_sky_apparent_temperature:
+  friendly_name: מרגיש כמו
+  homebridge_hidden: true
+  unit_of_measurement: "°מעלות"
+  
+sensor.dark_sky_precip_probability:
+  friendly_name: סיכוי למשקעים
+  homebridge_hidden: true
+  icon: mdi:weather-rainy
+sensor.dark_sky_cloud_coverage:
+  friendly_name: כיסוי עננים
+  homebridge_hidden: true
+sensor.dark_sky_hourly_summary:
+  friendly_name: סיכום שעתי
+  homebridge_hidden: true
+sensor.dark_sky_daily_summary:
+  friendly_name: סיכום יומי
+  homebridge_hidden: true
+sensor.dark_sky_pressure:
+  hidden: true
+  homebridge_hidden: true
+  
+sensor.dark_sky_wind_bearing:
+  hidden: true
+  homebridge_hidden: true
+sensor.dark_sky_wind_speed:
+  hidden: true
+  homebridge_hidden: true
+sensor.time:
+  hidden: true
+  homebridge_hidden: true
+sensor.dark_sky_precip_intensity: 
+  hidden: true
+  homebridge_hidden: true
+
+automation.set_day_mode_theme_after_sunrise:
+  friendly_name: הגדר ערכת נושא ״יום״ לאחר הזריחה
+  homebridge_hidden: true
+automation.set_day_theme_at_startup:
+  friendly_name: הגדר ערכת נושא ״יום״ באיתחול
+  homebridge_hidden: true
+automation.set_night_mode_theme_after_sunset:
+  friendly_name: הגדר ערכת נושא ״לילה״ לאחר השקיעה
+  homebridge_hidden: true
+automation.set_night_theme_at_startup:
+  friendly_name: הגדרת ערכת נושא ״לילה״ באיתחול
+  homebridge_hidden: true
+script.flash_gateway1:
+  friendly_name: פלאש 1-רכזת
+  homebridge_hidden: true
+script.flash_gateway2:
+  friendly_name: פלאש-רכזת
+  homebridge_hidden: true
+script.purple_night_light:
+  friendly_name: תאורת לילה סגולה -רכזת
+  homebridge_hidden: true
+script.white_night_light:
+  friendly_name: תאורת לילה -רכזת
+  homebridge_hidden: true
+script.test_push:
+  friendly_name: בדיקת נוטיפיקציה
+  homebridge_hidden: true
+script.restart_home_assistant:
+  friendly_name: איתחול הום-אסיסטנט
+  homebridge_hidden: true
+  icon: mdi:restart
+script.reboot_os:
+  friendly_name: איתחול השרת
+  homebridge_hidden: true
+  icon: mdi:raspberrypi
+script.update_hass:
+  friendly_name: עדכן גירסא להום-אסיסטנט
+  homebridge_hidden: true
+  icon: mdi:progress-upload
+script.backup_all_os:
+  friendly_name: גבה את השרת לאמצעי אחסון
+  homebridge_hidden: true
+  icon: mdi:backup-restore
+script.backup_ha_config:
+  friendly_name: גבה תיקיית הום-אסיסטנט
+  homebridge_hidden: true
+  icon: mdi:file-restore
+script.ac_fan_speed:
+  friendly_name: מהירות מאוורר מזגן
+  homebridge_hidden: false
+  # homebridge_name: My awesome switch
+script.ac_turn_off:
+  friendly_name: כבה מזגן
+  homebridge_hidden: false
+  # homebridge_name: My awesome switch
+script.ac_turn_on:
+  friendly_name: הדלק מזגן
+  homebridge_hidden: false
+  # homebridge_name: My awesome switch
+script.turn_off_tv:
+  friendly_name: כבה טלויזיה
+  homebridge_hidden: false
+  # homebridge_name: My awesome switch
+script.turn_on_tv:
+  friendly_name: הדלק טלויזיה
+  homebridge_hidden: false
+  # homebridge_name: My awesome switch
+script.tv_input:
+  friendly_name: קלט טלויזיה
+  homebridge_hidden: false
+  # homebridge_name: My awesome switch
+script.tv_vol_down:
+  friendly_name: הנמך ווליום טלויזיה
+  homebridge_hidden: false
+  # homebridge_name: My awesome switch
+script.tv_vol_up:
+  friendly_name: הגבר ווליום טלויזיה
+  homebridge_hidden: false
+  # homebridge_name: My awesome switch
+                  
+
+device_tracker.galaxys6edge:
+  homebridge_hidden: true
+
+
+group.shiran_page:
+  icon: mdi:human-female
+  homebridge_hidden: true
+
+sensor.shiran_at_home_yesterday:
+  friendly_name: שירן - זמן בבית אתמול
+  homebridge_hidden: true
+  unit_of_measurement: "שעות"
+sensor.eliran_at_home_yesterday:
+  friendly_name: אלירן - זמן בבית אתמול
+  homebridge_hidden: true
+  unit_of_measurement: "שעות"
+sensor.living_room_color_on_today:
+  friendly_name: זמן כולל תאורה ימין דולקת היום
+  homebridge_hidden: true
+  unit_of_measurement: "שעות"
+sensor.living_room_white_on_today:
+  friendly_name: זמן כולל תאורה שמאל דולקת היום
+  homebridge_hidden: true
+  unit_of_measurement: "שעות"
+sensor.hallway_white_on_today:
+  friendly_name: זמן כולל תאורת מסדרון דולקת היום
+  homebridge_hidden: true
+  unit_of_measurement: "שעות"
+sensor.bedroom_desk_on_today:
+  friendly_name: זמן כולל תאורת שולחן דולקת היום
+  homebridge_hidden: true
+  unit_of_measurement: "שעות"
+sensor.home_door_time_since_open:
+  friendly_name: זמן מאז שדלת הבית נפתחה
+  homebridge_hidden: true
+  unit_of_measurement: "שעות"
+sensor.kitchen_light_on_today:
+  friendly_name: זמן כולל תאורת מטבח דולקת היום
+  homebridge_hidden: true
+  unit_of_measurement: "שעות"
+
+script.test_actionable_notify:
+  homebridge_hidden: ture
+
+script.ilradio:
+    friendly_name: Start Playing
+    icon: mdi:play
+    homebridge_hidden: ture
+
+switch.tv_lg:
+  assumed_state: true
+  friendly_name: טלויזיה בסלון
+  homebridge_hidden: ture
+switch.tv_lg_vol:
+  assumed_state: true
+  friendly_name: ווליום טלויזיה
+  homebridge_hidden: true
+switch.tv_lg_hdmi1:
+  assumed_state: false
+  friendly_name: קלט פרטנר טיוי
+  homebridge_hidden: true
+switch.tv_lg_hdmi2:
+  assumed_state: false
+  friendly_name: קלט אפל טיוי
+  homebridge_hidden: true
+switch.tv_lg_hdmi3:
+  assumed_state: false
+  friendly_name: קלט חיצוני
+  homebridge_hidden: true
+
+group.allmycontrollers:
+  friendly_name: כל השלטים
+  homebridge_hidden: true
+gruop.AllmyControllers:
+  friendly_name: כל השלטים
+  homebridge_hidden: true
+group.all_switches:
+  friendly_name: קבוצה מובנת-כל הלחצנים
+  # hidden: ture
+  homebridge_hidden: true
+group.AllMySwitchs:
+  friendly_name: כל הלחצנים
+  hidden: false
+  homebridge_hidden: true
+switch.bedroom_fan_light: #livolio
+  icon: mdi:wall-sconce-flat
+  assumed_state: true
+  friendly_name: תאורה בחדר שינה
+  homebridge_hidden: false
+  device_class: light
+
+group.all_lights:
+  homebridge_hidden: true
+  device_class: light
+# icon: mdi:power-socket-eu
+switch._mqtt_pow1:
+  friendly_name: מפסק לדוד
+  icon: mdi:shower-head
+  #CUI
+  extra_badge:
+    - entity_id: sensor.pow1_current
+      attribute: pow1_current
+      blacklist_states: 0
+    - entity_id: sensor.pow1_watt
+      blacklist_states: 0
+    - entity_id: device_tracker.sonoffpow1 #sonoff pow1 boiler
+      blacklist_states: 'home' #dont show the badge if the device is connected
+  homebridge_hidden: false
+  homebridge_switch_type: outlet
+
+input_number.slider_boiler:
+  friendly_name: זמן להדלקה
+  icon: mdi:timer
+  unit_of_measurement: 'דקות'
+  homebridge_hidden: true
+  
+
+script.timer_off_boiler:
+  icon: mdi:timer-sand
+  homebridge_hidden: true
+group.boiler_setup:
+  friendly_name: דוד חכם
+  icon: mdi:hot-tub
+  #CUI
+  extra_badge:
+    - entity_id: sensor.pow1_current
+      attribute: pow1_current
+      blacklist_states: 0
+    - entity_id: sensor.pow1_watt
+      blacklist_states: 0
+    - entity_id: device_tracker.sonoffpow1 #sonoff pow1 boiler
+      blacklist_states: 'home' #dont show the badge if the device is connected
+  device_class: power
+  homebridge_hidden: true
+group.boiler_page:
+  homebridge_hidden: true
+  icon: mdi:shower-head
+sensor.pow1_current:
+  friendly_name: צריכה נוכחית 
+  homebridge_hidden: true
+  icon: mdi:flash-circle
+sensor.pow1_energy_today:
+  friendly_name: צריכה היום
+  homebridge_hidden: true
+  icon: mdi:calendar-today
+sensor.pow1_energy_total:
+  friendly_name: צריכת חשמל סה״כ
+  homebridge_hidden: true
+  icon: mdi:chart-line
+sensor.pow1_energy_yesterday:
+  friendly_name: צריכה אתמול
+  homebridge_hidden: true
+  icon: mdi:calendar-clock
+sensor.pow1_voltage:
+  friendly_name: וולט נוכחי
+  homebridge_hidden: true
+  icon: mdi:flash-circle
+sensor.pow1_watt:
+  friendly_name: וואט נוכחי
+  homebridge_hidden: true
+  icon: mdi:flash-circle
+sensor.pow1_total_cost:
+  friendly_name: סך הכל עלות כוללת
+  homebridge_hidden: true
+  icon: mdi:finance
+
+
+group.POW2_setup:
+  friendly_name: מפסק מצלמת מטבח
+  icon: mdi:webcam
+    #CUI
+  extra_badge:
+    - entity_id: sensor.pow2_current
+      blacklist_states: 0.01
+    - entity_id: sensor.pow2_watt
+      blacklist_states: 0 
+    - entity_id: device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
+      blacklist_states: 'home' #dont show the badge if the device is connected
+  device_class: power
+  homebridge_hidden: true
+  
+switch.mqtt_pow2:
+  assumed_state: false
+  icon: mdi:webcam
+  friendly_name: מפסק מצלמת מטבח
+  #CUI
+  extra_badge:
+    - entity_id: sensor.pow2_current
+      blacklist_states: 0.01
+    - entity_id: sensor.pow2_watt
+      blacklist_states: 0 
+    - entity_id: device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
+      blacklist_states: 'home' #dont show the badge if the device is connected
+  homebridge_hidden: false
+  homebridge_name: מפסק מצלמת מטבח 
+sensor.pow2_current:
+  friendly_name: צריכה נוכחית 
+  homebridge_hidden: true
+  icon: mdi:flash-circle
+sensor.pow2_energy_today:
+  friendly_name: צריכה היום
+  homebridge_hidden: true
+  icon: mdi:calendar-today
+sensor.pow2_energy_total:
+  friendly_name: צריכת חשמל סה״כ
+  homebridge_hidden: true
+  icon: mdi:chart-line
+sensor.pow2_energy_yesterday:
+  friendly_name: צריכה אתמול
+  homebridge_hidden: true
+  icon: mdi:calendar-clock
+sensor.pow2_voltage:
+  friendly_name: וולט נוכחי
+  homebridge_hidden: true
+  icon: mdi:flash-circle
+sensor.pow2_watt:
+  friendly_name: וואט נוכחי
+  homebridge_hidden: true
+  icon: mdi:flash-circle
+sensor.pow2_total_cost:
+  friendly_name: סך הכל עלות כוללת
+  homebridge_hidden: true
+  icon: mdi:finance
+
+sensor.current_ha_version:
+  hidden: false
+  icon: mdi:new-box
+  friendly_name: גרסא עדכנית ביותר
+  homebridge_hidden: false
+
+sensor.installed_version:
+  hidden: false
+  icon: mdi:home-automation
+  friendly_name: גירסא מותקנת
+  homebridge_hidden: false
+
+   # Alarm clock sensors
+sensor.alarm_clock_hour:
+  friendly_name: 'שעה'
+  hidden: true
+sensor.alarm_clock_minute:
+  friendly_name: 'דקה'
+  hidden: true
+sensor.alarm_clock_time_long:
+  hidden: true
+sensor.alarm_clock_time:
+  friendly_name: ' שעת שעון המעורר'
+  icon: mdi:alarm
+# Alarm clock inputs
+input_slider.alarm_clock_hour:
+  icon: mdi:timer
+  homebridge_hidden: true
+input_slider.alarm_clock_minute:
+  icon: mdi:timer
+  homebridge_hidden: true
+input_boolean.alarm_clock_status:
+  friendly_name: 'הפעל שעון מעורר'
+  icon: mdi:alarm-check
+  homebridge_hidden: true
+input_number.alarm_clock_hour:
+  homebridge_hidden: true
+input_number.alarm_clock_minute:
+  homebridge_hidden: true
+
+
+sensor.home_to_adoraim:
+  friendly_name: זמן הגעה מהבית לאדוריים
+  unit_of_measurement: "דקות"
+  #CUI
+  extra_data_template:
+  - ${attributes.route}-דרך
+  homebridge_hidden: ture
+
+
+sensor.home_to_otniel:
+  friendly_name: זמן הגעה מהבית לעתניאל
+  unit_of_measurement: "דקות"
+  #CUI
+  extra_data_template:
+  - ${attributes.route}-דרך
+  homebridge_hidden: ture
+
+# Alarm clock inputs
+input_number.boiler_on_clock_hour:
+  icon: mdi:clock-in
+  homebridge_hidden: true
+input_number.boiler_on_clock_minute:
+  icon: mdi:timer
+  homebridge_hidden: true
+input_boolean.boiler_on_clock_status:
+  friendly_name: 'הפעל זמן הדלקה'
+  icon: mdi:alarm-check
+  homebridge_hidden: true
+sensor.boiler_on_clock_time:
+  friendly_name: 'זמן הדלקה'
+  icon: mdi:clock-start
+  homebridge_hidden: true
+
+input_number.boiler_off_clock_hour:
+  icon: mdi:clock-in
+  homebridge_hidden: true
+input_number.boiler_off_clock_minute:
+  icon: mdi:timer
+  homebridge_hidden: true
+input_boolean.boiler_off_clock_status:
+  friendly_name: 'הפעל זמן כיבוי'
+  icon: mdi:alarm-off
+  homebridge_hidden: true
+sensor.boiler_off_clock_time:
+  friendly_name: 'זמן כיבוי'
+  icon: mdi:clock-end
+  homebridge_hidden: true
+
+input_boolean.weather:
+  name: מזג האוויר
+  custom_ui_state_card: custom-weather-card
+  config:
+    weather: weather.yweather
+
+vacuum.xiaomi_vacuum:
+  friendly_name: 'שואב אבק רובוטי'
+  google_assistant: true
+  google_assistant_type: switch
+  #CUI - add in the entity the corent fan speed
+  extra_data_template:
+  - אחוז סוללה ${attributes.battery_level} , ${attributes.fan_speed}-מצב 
+  # - %${attributes.battery_level}-סוללה ${attributes.fan_speed}-מצב  
+
+camera.cctv1_snapshot:
+  friendly_name: התראת כניסה
+    
+binary_sensor.floorplan:
+  custom_ui_state_card: state-card-floorplan
+  config: !include floorplan.yaml #at config/floorplan.yaml
+
+
+sensor.latest_ha_backup:
+  friendly_name: זמן גיבוי הום-אסיסטנט 
+  icon: mdi:timetable
+  
+group.rates:
+  friendly_name: שערי המרה
+sensor.dollarusd:
+  friendly_name: דולר #Dollar
+  icon: mdi:currency-usd
+  unit_of_measurement: "₪"
+sensor.euroeur:
+  friendly_name: יורו  #Euro
+  icon: mdi:currency-eur
+  unit_of_measurement: "₪"
+sensor.poundgbp:
+  friendly_name: פאונד בריטי   #GBP
+  icon: mdi:currency-gbp
+  unit_of_measurement: "₪"
+sensor.exchange_date:
+  friendly_name:  תאריך עדכון #Exchange Datex
+
+sensor.sonoff_latest_release:
+  friendly_name: גירסא אחרונה
+  icon: mdi:new-box
+script.check_sonoffs_version:
+  friendly_name: דרוש מצב גירסאות
+  icon: mdi:history
+group.Sonoffs_Info:
+  friendly_name: מצב גירסאות סונוף
+  
+group.speedtestnet:
+  friendly_name: מהירות גלישה 
+sensor.speedtest_download:
+  friendly_name: מהירות הורדה
+  icon: mdi:download-network
+  unit_of_measurement: מגה-ביט לשנייה #Mbit/s
+sensor.speedtest_upload:
+  friendly_name: מהירות העלאה
+  icon: mdi:upload-network
+  unit_of_measurement: מגה-ביט לשנייה #Mbit/s
+sensor.speedtest_ping:
+  friendly_name: פינג
+  icon: mdi:clock-fast
+  unit_of_measurement: מִילִישְׁנִיָּה #Ms
+script.update_speedtestnet:
+  friendly_name: בצע בדיקה
+  icon: mdi:gauge
+  
+  
+sensor.hass: 
+  friendly_name: גודל תיקיית גיבויים
+  
+# sensor.hline_1:
+# custom_ui_state_card: state-card-hline
+# config:
+#   width: 90 #--> in percents
+#   height: 0 #--> in pixels, adds to bordertop
+#   backgroundcolor: white
+#   bordertop: '1px solid black'
+# sensor.hline_2:
+# custom_ui_state_card: state-card-hline
+# config:
+#   width: 90 #--> in percents
+#   height: 0 #--> in pixels, adds to bordertop
+#   backgroundcolor: white
+#   bordertop: '2mm ridge rgb(135, 206, 250, 1)'
+# sensor.hline_3:
+# custom_ui_state_card: state-card-hline
+# config:
+#   width: 65 #--> in percents
+#   height: 0 #--> in pixels, adds to bordertop
+#   backgroundcolor: white
+#   bordertop: '2px double lightskyblue'
+# sensor.hline_4:
+# custom_ui_state_card: state-card-hline
+# config:
+#   width: 85 #--> in percents
+#   height: 2 #--> in pixels, adds to bordertop
+#   backgroundcolor: white
+#   bordertop: none
+#   backgroundimage: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(135, 206, 250, 0.75), rgba(0, 0, 0, 0))
+# sensor.hline_5:
+# custom_ui_state_card: state-card-hline
+# config:
+#   width: 90 #--> in percents
+#   height: 0 #--> in pixels, adds to bordertop
+#   backgroundcolor: white
+#   bordertop: '1px solid black'
+# sensor.hline_6:
+# custom_ui_state_card: state-card-hline
+# config:
+#   width: 90 #--> in percents
+#   height: 0 #--> in pixels, adds to bordertop
+#   backgroundcolor: white
+#   bordertop: '1px solid black'

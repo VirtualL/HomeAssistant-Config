@@ -1,0 +1,95 @@
+#########################################################
+#                                                       #
+#            Watering plants REMINDER                   #
+#                                                       #
+#########################################################
+#dont good for me , i need every 5 days
+  # - alias: Watering plants REMINDER
+  #   trigger:
+  #     platform: time
+  #     at: '18:00:00'
+  #   condition:
+  #     condition: time
+  #     weekday:
+  #       - mon
+  #   action:
+  #     service: notify.home_assistant
+  #     data:
+  #       title: "Today Is Trash Day"
+  #       message: "Take the trash and recycling to the curb"
+
+#########################################################
+#                                                       #
+#             DrinkingWater FILETER REMINDER            #
+#                                                       #
+#########################################################
+
+  - alias: "DrinkingWater Filter Reminder"
+    trigger:
+      platform: time
+      at: '18:00:00'
+    condition:
+      condition: template
+      value_template: '{{ now().day == 30}}'
+    action:
+      service: notify.NotifyEliranIOSAndTelegram
+      data:
+        title: "מיכל מים"
+        message: "החלף פילטר למי השתייה"
+        data:
+          attachment: 
+            url: https://i.pinimg.com/originals/4f/79/72/4f7972763bc4a7b1ddce478ae226c620.png
+
+#########################################################
+#                                                       #
+#             Clean aquarium Reminder           #
+#                                                       #
+#########################################################
+
+  - alias: "Clean aquarium Reminder"
+    trigger:
+      platform: time
+      at: '14:00:00'
+    condition:
+      condition: or
+      conditions:
+        - condition: template
+          value_template: '{{ now().day == 1}}'
+        - condition: template
+          value_template: '{{ now().day == 15}}'
+    
+    action:
+      service: notify.NotifyEliranIOSAndTelegram
+      data:
+        title: האקווריום
+        message: נקה את האקווריום של גדליה
+        data:
+          attachment: 
+            url: https://gobetta.com/wp-content/uploads/2017/02/Mustard-Gas-Male-Betta.png
+
+#########################################################
+#                                                       #
+#            Plants Cleaning Reminder                   #
+#                                                       #
+#########################################################
+
+  - alias: "Plants Cleaning Reminder"
+    trigger:
+      platform: time
+      at: '20:00:00'
+    condition:
+      condition: template
+      value_template: '{{ now().day == 20}}'
+    action:
+      service: notify.NotifyEliranIOSAndTelegram
+      data:
+        title: "צמחים"
+        message: "נקה את מיכלי הצמחים"
+        data:
+          attachment: 
+            url: https://i.pinimg.com/originals/4f/79/72/4f7972763bc4a7b1ddce478ae226c620.png
+#########################################################
+#                                                       #
+#            END OF CONFIGURATION FILE                  #
+#                                                       #
+#########################################################
