@@ -1,8 +1,13 @@
+################################################################################
+#
+#WEBLINK
+#
+#################################################################################
   entities:
-
     - name: SpeedTest 018
       url: http://018.speedtestcustom.com
       icon: mdi:speedometer
+      
     - name: My Super Led RGB
       url: https://gamadril.github.io/hyperion-remote
       icon: mdi:led-strip
@@ -19,9 +24,9 @@
       icon: mdi:desktop-classic
       url: !secret serverURL
       
-    - name: Sonoff
-      icon: mdi:chip
-      url: !secret sonoffURL
+    - name: NextCloud
+      icon: mdi:cloud-download
+      url: !secret NextCloudURL
       
     - name: CloudFlare
       icon: mdi:cloud-sync

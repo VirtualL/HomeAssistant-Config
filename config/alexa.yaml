@@ -1,17 +1,22 @@
+################################################################################
+#
+#ALEXA
+#
+################################################################################
   smart_home:
     filter:
       include_entities:
         - vacuum.xiaomi_vacuum
-        - script.reboot_os
         - script.restart_home_assistant
-        - script.ac_turn_off
-        - script.ac_turn_on
-        - script.ac_fan_speed
-        - input_boolean.ac_status_alexa
+        # - script.reboot_os
+        # - script.ac_turn_off
+        # - script.ac_turn_on
+        # - script.ac_fan_speed
+        # - input_boolean.ac_status_alexa
       include_domains:
         - light
         - switch
-        
+        # - climate #Not in Use (using sensibo skill) 
       exclude_entities:
         - light.yeelight_white_f0b4290e4e68 #Duplicate
         - light.yeelight_rgb_286c07106e1b #Duplicate
@@ -41,19 +46,19 @@
         description: The light in the Xiaomi Gateway Hub
         
       light.living_room_color_bulb:
-        name: Left Bulb
-        description: The Left light in the Living room
-      
-      light.white_bulb:
         name: Right Bulb
         description: The Right light in the Living room
+      
+      light.white_bulb:
+        name: Left Bulb
+        description: The Left light in the Living room
         
       light.philips_bulb:
-        name: Philips Bulb
+        name: Service #Philips Bulb
         description: The light in the Service Corner
         
       light.sonoff_hallway_light:
-        name: Misdaron
+        name: MISSDARON 
         description: The light in the Hallway
       ##############SWITCH
       #all switch. get "display_categories: SWITCH"  by default
@@ -76,9 +81,11 @@
       switch.tv_lg_vol:
         name: Volume TV #"Alexa, turn on Volume TV" "Alexa, turn off Volume TV"
         
-      input_boolean.ac_status_alexa:
-        name: AC
-        display_categories: SWITCH
+      switch.tv_lg_mute:
+        name: Mute TV #"Alexa, turn on "Mute TV" "Alexa, turn off "Mute TV"
+      # input_boolean.ac_status_alexa:
+      #   name: AC
+      #   display_categories: SWITCH
 
         
       # sensor.temperature_158d0001150e4e:
@@ -92,16 +99,31 @@
       #   display_categories: OTHER
         
       ##############SCRIPTS - all script. get "Applies to Scenes"  by default
-      script.reboot_os:
-        name: Reboot OS
+      # script.reboot_os:
+      #   name: Reboot OS
       script.restart_home_assistant:
         name: Restart Home Assistant
-      script.ac_turn_off:
-        name: AC off
-      script.ac_turn_on:
-        name: AC on
-      script.ac_fan_speed:
-        name: AC Speed
-      group.allmylights:
-        name: All My Lights
+      # script.ac_turn_off:
+      #   name: AC off
+      # script.ac_turn_on:
+      #   name: AC on
+      # script.ac_fan_speed:
+      #   name: AC Speed
+      # group.allmylights:
+      #   name: All My Lights
     # https://developer.amazon.com/docs/device-apis/alexa-discovery.html#display-categories
+    
+##
+## https://www.home-assistant.io/components/alexa/#configuring-a-flash-briefing-skill-in-home-assistant
+##
+  flash_briefings:
+    whoishome:
+      - title: Home present
+        text: >
+          {%- if is_state('device_tracker.eliraniphone', 'home') and
+                 is_state('device_tracker.shiraniphone', 'home') -%}
+            You are both home, you silly
+          {%- else -%}
+            Shiran is at {{ states("device_tracker.shiraniphone") }}
+            and Eliran is at {{ states("device_tracker.eliraniphone") }}
+          {% endif %}

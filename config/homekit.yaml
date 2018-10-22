@@ -1,13 +1,16 @@
-
+################################################################################
+#
+#HOMEKIT (Apple Smart Home)
+#
+################################################################################
   filter:
     include_entities:
+      - climate.living_room
       - vacuum.xiaomi_vacuum
       - script.reboot_os
       - script.restart_home_assistant
-      - script.ac_turn_off
-      - script.ac_turn_on
-      - script.ac_fan_speed
-      - input_boolean.ac_status_alexa
+
+      - binary_sensor.motion_sensor_158d0000e62376
       - sensor.humidity_158d0001150e4e
       - sensor.illumination_34ce0088d2f7
       - sensor.temperature_158d0001150e4e
@@ -34,6 +37,15 @@
       - device_tracker.060891e3ce51 #Windows VM
       - media_player.apple_tv
       - media_player.salon
+      - script.start_windowsvm
+      - script.shoutdown_windowsvm
+      - sensor.sensibo1_temp
+      - sensor.sensibo1_humidity
+      # not in use - using sensibo
+      # - script.ac_turn_off
+      # - script.ac_turn_on
+      # - script.ac_fan_speed
+      # - input_boolean.ac_status_alexa
     include_domains:
       - light
       - switch
@@ -53,7 +65,10 @@
       - binary_sensor.wall_switch_both_158d0001712d0e
       - binary_sensor.wall_switch_left_158d0001712d0e
       - binary_sensor.wall_switch_right_158d0001712d0e
-
+      - switch.tv_lg_vol
+      - binary_sensor.wall_switch_both_158d0001e119a7
+      - binary_sensor.wall_switch_left_158d0001e119a7
+      - binary_sensor.wall_switch_right_158d0001e119a7
   entity_config:
     ############## GENERAL
     vacuum.xiaomi_vacuum:
@@ -70,10 +85,10 @@
       name: רכזת
       
     light.living_room_color_bulb:
-      name: סלון שמאלית
+      name: סלון ימנית
     
     light.white_bulb:
-      name: סלון ימנית
+      name: סלון שמאלית
       
     light.philips_bulb:
       name: חדר שירות
@@ -90,15 +105,13 @@
       
     switch._mqtt_pow1:
       name: דוד
+      type: shower
       
     switch.xiaomi_powerstrip:
       name: מפצל שקעים
       
     switch.tv_lg:
       name: טלויזיה
-      
-    switch.tv_lg_vol:
-      name: ווליום
       
     input_boolean.ac_status_alexa:
       name: מזגן
@@ -124,11 +137,11 @@
     group.allmylights:
       name: כל התאורה
     sensor.humidity_158d0001150e4e:
-      name: לחות בבית
+      name: לחות בחדר שינה
     sensor.illumination_34ce0088d2f7:
       name: עוצמת אור ברכזת
     sensor.temperature_158d0001150e4e:
-      name: טמפרטורה בבית
+      name: טמפרטורה בחדר שינה
     #Online Devices -By TRACKER
     device_tracker.appletv:
       name: אפל טיוי

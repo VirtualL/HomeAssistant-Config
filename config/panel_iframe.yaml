@@ -1,12 +1,12 @@
+################################################################################
+#
+#PANEL IFRAME
+#
+#################################################################################
   c9:
     title: IDE
     icon: mdi:cloud-braces
     url: !secret c9IdeURL 
-    
-  # router:
-  #   title: Router
-  #   icon: mdi:router-wireless
-  #   url: !secret RouterURL
   server:
     title: Server
     icon: mdi:desktop-classic
@@ -15,7 +15,13 @@
     title: Sonoff
     icon: mdi:chip
     url: !secret sonoffURL
-
+    
+    
+    
+  # router:
+  #   title: Router
+  #   icon: mdi:router-wireless
+  #   url: !secret RouterURL
   # myrgbremote:
   #   title: My Super Rgb Remote
   #   icon: mdi:led-strip

@@ -1,4 +1,8 @@
-# ####groups####
+################################################################################
+#
+#GROUPS
+#
+################################################################################
 default_view: #the main page view.if not init,the first Page will be with all the Components and entitys
     name: ראשי 
     view: yes
@@ -105,43 +109,11 @@ App_info:
     - sensor.since_last_boot
     - sensor.time_online
     - sensor.hline_3 #-----------------#
-    - sensor.processor_use 
-    - sensor.memory_use_percent
-    - sensor.disk_use_percent_home
-    # - sensor.homeassistant_v2db
-    # - sensor.ssl_server #to know how much time for SSL CA
-    # - sensor.ssl_hass #to know how much time for SSL CA
-    # - sensor.ssl_router #to know how much time for SSL CA
-    # - sensor.ssl_ide #to know how much time for SSL CA
-    # - sensor.ssl_sonoff #to know how much time for SSL CA
-    - sensor.hline_4 #-----------------#
     - script.restart_home_assistant
     - script.reboot_os
-    - script.update_hass
-    - sensor.hline_5 #-----------------#
-    - sensor.current_ha_version
-    - sensor.installed_version
-    - script.backup_ha_config
+    - sensor.hline_4 #-----------------#
     - sensor.latest_ha_backup
     - sensor.hass
-    - sensor.hline_6 #-----------------#
-    - script.backup_all_os
-
-battery_Status: #all my sensors with battery (using the battery alert packge)
-  name: מצב סוללות
-  view: no
-  control: hidden
-  entities:   
-    - sensor.___battery
-    - sensor.___battery_2
-    - sensor.__battery
-    - sensor.__battery_2
-    - sensor.__battery_3
-    - sensor.__battery_4
-    - sensor.__battery_5
-    - sensor.____battery_3
-    - sensor.____battery_2
-    - sensor.____battery
 
 Sensors:
   name: Sensors
@@ -149,6 +121,7 @@ Sensors:
   control: hidden
   entities:
     #Xiaomi aqvara
+    - climate.living_room   
     - binary_sensor.door_window_sensor_158d0001b714e9 #home door
     - binary_sensor.motion_sensor_158d0000e62376
     - sensor.temperature_158d0001150e4e
@@ -294,6 +267,7 @@ Living_Room_Info:
   name: Living Room info
   view: no
   entities:
+    - climate.living_room   
     - binary_sensor.motion_sensor_158d0000e62376
     - sensor.temperature_158d0001150e4e
     - sensor.humidity_158d0001150e4e 
@@ -394,6 +368,7 @@ IOT_Status:  #Online Devices -By TRACKER
 Server_Status:  #Online Devices -By TRACKER
   name: Server Status
   entities:
+    - sensor.myipopendnscom
     - device_tracker.902b343ecbfa #main server 
     - device_tracker.000000020202 #wan cable
     - device_tracker.ubuntuserver #unubtu VM
@@ -435,11 +410,6 @@ weatherUI:
   name: מזג אוויר
   entities:
    - input_boolean.weather
-   
-security_notification:
-  name: התראת כניסה
-  entities:
-    - camera.cctv1_snapshot
 
 Rates:
   name: 'Currency Exchange Rates'
@@ -495,13 +465,17 @@ Server_info:
     - script.reboot_os
     - script.update_hass
     - sensor.hline_5 #-----------------#
-    - sensor.current_ha_version
-    - sensor.installed_version
+    - sensor.last_HA_released_version
+    - sensor.current_version
     - script.backup_ha_config
     - sensor.latest_ha_backup
     - sensor.hass
     - sensor.hline_6 #-----------------#
-    - script.backup_all_os
+    # - script.backup_all_os
+    - script.backup_ha_and_movebackup_ubuntuvm
+    - script.start_windowsvm
+    - script.shoutdown_windowsvm
+
     
 SSL:
   name: מצב הצפנה
@@ -544,6 +518,7 @@ Server_Info_Page:
     - group.SSL
     - group.sonoffs_info
     - group.iot_status
+    - group.Devices_online
 LinivgRoom_Page:
   name: Linivg Room
   #icon: mdi:lightbulb-outline
@@ -658,7 +633,7 @@ Cameras:
     - switch.mqtt_pow2
     - switch.sonoff_xiaomicctv_switch
     - group.Cameras_Tracker
-
+##################################################################################
 weather_Page:
   view: yes
   icon: mdi:weather-pouring
@@ -729,7 +704,6 @@ Security_info:
     - automation.turn_off_cctv_cameras_if_shiran_at_home
     - automation.turn_on_cctv_cameras_if_eliran_and_shiran_not_at_home
     - automation.security_warning_door_open
-    - group.battery_alert
     - group.battery_status
   
 
@@ -759,7 +733,7 @@ summary:
     # - input_boolean.weather
     - group.all_switches
     - group.AllMySwitchs
-    - group.battery_alert
+
     - group.all_scripts
     - group.all_automations
 

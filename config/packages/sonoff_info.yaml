@@ -1,11 +1,4 @@
 # Just an example how to check and upgrade the sonoff-tasmota from the Home Assistant
-# Twitter link: https://goo.gl/e3y7pa
-# 
-# 1. Open your sonoff webinterface and add in the "Firmware Upgrade" menu following OTA Url, save! Example: https://goo.gl/6ZMjzA
-# OTA Url: http://sonoff.maddox.co.uk/tasmota/sonoff.bin
-#
-# 2. Below the Home Assistant configuration:
-# homeassistant:
 script:   
   check_sonoffs_version:
       sequence:
@@ -22,14 +15,10 @@ script:
   #           payload: 1
             
 sensor:  
-  - platform: rest
+  - platform: command_line
     name: Sonoff latest release
-    resource: https://api.github.com/repos/arendst/Sonoff-Tasmota/releases/latest
-    value_template: '{{ value_json.tag_name }}'
-    headers:
-      Accept: application/vnd.github.v3+json
-      Content-Type: application/json
-      User-Agent: Home Assistant REST sensor 
+    command: "curl -s https://github.com/arendst/Sonoff-Tasmota/releases/latest | grep -o '[v][0-9]*.[0-9]*.[0-9]*'"
+    scan_interval: 43200 #12H
   - platform: mqtt
     name: Sonoff POW Boiler Version
     state_topic: "stat/sonoff1/STATUS2"

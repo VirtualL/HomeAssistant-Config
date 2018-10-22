@@ -1,3 +1,9 @@
+################################################################################
+#
+#SCRIPT
+#More scripts at Folder /scripts
+#################################################################################
+
   #a button to restart HA 
   restart_home_assistant:
     alias: Restart Home Assistant
@@ -8,7 +14,7 @@
   test_push:
     alias: 'test_push'
     sequence:
-      - service: notify.ios_eliran_iphone
+      - service: notify.ios_elirantur2
         data:
           message: 'This is a test!'
           data:
@@ -24,34 +30,84 @@
         data:
           entity_id: switch._mqtt_pow1
 
-###########################################
-  update_hass:
-     alias: 'Update HASS and restart' #Update Hass and Restart HA
-     sequence:
-       - service: shell_command.hassbian_ha_update
-       - service: homeassistant.restart
-###############################################
-  reboot_os:
-     alias: 'Restart the Raspberry PI'
-     sequence:
-       - service: shell_command.os_reboot
-###############################################
-  backup_all_os:
-     alias: 'Backup RPI To USB'
-     sequence:
-       - service: shell_command.backup_all_rpi_to_usb
-###############################################
-  backup_ha_config:
-     alias: 'Backup Home Assitant config'
-     sequence:
-       - service: shell_command.backup_hass_config
-###############################################
-  #a button to make speed test 
+  #a button to use speed test manualy 
   update_speedtestnet:
     alias: Update SpeedtestNet info
     sequence:
       - service: sensor.update_speedtest
 ############################################### 
+#### need to be tested if working 100% ####
+  morning_sequence:
+    sequence:
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.apple_tv
+          volume_level: 0.3
+      - service: tts.google_say
+        data_template:
+          # entity_id: media_player.kitchen_audio
+          entity_id: media_player.apple_tv
+          message: "Good morning!. בוקר טוב"
+          # The time is {{ states.sensor.time.state }} and it's {{ states.sensor.date.state}}. Today the weather is {{ states.sensor.dark_sky_hourly_summary.state }}. There is a {{states.sensor.dark_sky_precip_probability.state | round(0) }} percent chance of {{states.sensor.dark_sky_precip.state}} today with an intensity of {{ states.sensor.dark_sky_precip_intensity.state | round(0) }} millimeters. The Temperature is {{ states.sensor.dark_sky_temperature.state | round(0) }} degrees but it will feel like {{ states.sensor.dark_sky_apparent_temperature.state | round(0) }}. The wind speed is {{ states.sensor.dark_sky_wind_speed.state | round(0) }} meters per second."
+  ilradio:
+    alias: Play Radio on Chromecast Audio
+    sequence:
+      - service: media_player.volume_set
+        data:
+           entity_id: media_player.apple_tv
+           volume_level: '0.50'
+      -  service: media_player.play_media
+         data_template:
+           entity_id: >
+            {% if is_state("input_select.chromecast_radio", "Livingroom") %} media_player.apple_tv
+            {% endif %}
+           media_content_id: >
+            {% if is_state("input_select.radio_station", "GalGalatz") %} http://player.gl.bynetcdn.com/Redirector/glz/glglz/ICE-live
+            {% elif is_state("input_select.radio_station", "Galatz") %} http://player.gl.bynetcdn.com/Redirector/glz/glz/ICE-live
+            {% elif is_state("input_select.radio_station", "Radius 100FM") %} http://100fm.streamgates.net/Radios100Fm
+            {% elif is_state("input_select.radio_station", "Echo 99FM") %} http://99.livecdn.biz/99fm_aac
+            {% elif is_state("input_select.radio_station", "Kan 88FM") %} http://radiocast-rr-d.vidnt.com/ipbc_IPBC88LAM
+            {% elif is_state("input_select.radio_station", "103FM") %} http://103fm.live.streamgates.net/103fm_live/1multix/icecast.audio
+            {% elif is_state("input_select.radio_station", "Lev Hamedina 91FM") %} http://gb92.multix-technologies.com/Lev91Fm
+            {% elif is_state("input_select.radio_station", "Reshet Gimel") %} http://radiocast-rr-d.vidnt.com/ipbc_IPBCgimmelLAM
+            {% elif is_state("input_select.radio_station", "Radio Darom") %} http://audio-darom.ecast.co.il:9000/darom97fm
+            {% elif is_state("input_select.radio_station", "Kol Hayam Haadom 102FM") %} http://eilat.cdnwz.net/102fm
+            {% endif %}
+           media_content_type: 'audio/mp4'
+  reboot_router:
+     alias: 'Reboot Router'
+     sequence:
+       - service: shell_command.reboot_router           
+###########################################
+  start_windowsvm:
+     alias: 'start_windowsvm' #start windowsVM via qm with Proxmox
+     sequence:
+       - service: shell_command.start_windowsvm
+###############################################
+  shutdown_windowsvm:
+     alias: 'shutdown_windowsvm' #start windowsVM via qm with Proxmox
+     sequence:
+       - service: shell_command.shutdown_windowsvm
+###############################################
+  backup_ha_and_move_backup_to_unraid:
+     alias: 'Backup All Ha and Move To Unraid'
+     sequence:
+       - service: shell_command.backup_ha_and_move_backup_to_unraid
+###############################################
+  backup_ha_config:
+     alias: 'Backup Home Assitant config'
+     sequence:
+       - service: shell_command.backup_hass_config       
+###############################################
+# "power1" is good for me,in others sonoff setups maybe "power2"/"power3" etc...
+  check_sonoffs_tasmota_status:
+      sequence:
+        - service: mqtt.publish
+          data_template:
+            topic: "cmnd/sonoffs/power1" #Update the power state of all the sonoffs
+            payload: ""
+###############################################            
+
   white_night_light:
     alias: White
     sequence:
@@ -94,116 +150,80 @@
 
       - service: script.turn_on
         data:
-          entity_id: script.flash_gateway1
+          entity_id: script.flash_gateway1       
+################################################################################
+## NOT
+## IN 
+## USE
+## All the entitys/Code below is working , just not in use in my case 
+## (Switch Protocol, Component Etc... ) you can use it :)
+################################################################################
+
+
+###############################################
+  # backup_all_os:
+  #   alias: 'Backup RPI To USB'
+  #   sequence:
+  #     - service: shell_command.backup_all_rpi_to_usb
+###############################################       
+
+
 #for Xiaomi IR
-  turn_on_tv:
-    sequence:
-      - service: remote.send_command
-        entity_id: 'remote.ir_controller'
-        data:
-          command:
-            - 'turn_on_tv'
-  turn_off_tv:
-    sequence:
-      - service: remote.send_command
-        entity_id: 'remote.ir_controller'
-        data:
-          command:
-            - 'turn_off_tv'
-  tv_input:
-      sequence:
-        - service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-            command:
-              - 'tv_input'
-  tv_vol_up:
-      sequence:
-        - service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-            command:
-              - 'tv_vol_up'
-  tv_vol_down:
-      sequence:
-        - service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-            command:
-              - 'tv_vol_down'
+#   turn_on_tv:
+#     sequence:
+#       - service: remote.send_command
+#         entity_id: 'remote.ir_controller'
+#         data:
+#           command:
+#             - 'turn_on_tv'
+#   turn_off_tv:
+#     sequence:
+#       - service: remote.send_command
+#         entity_id: 'remote.ir_controller'
+#         data:
+#           command:
+#             - 'turn_off_tv'
+#   tv_input:
+#       sequence:
+#         - service: remote.send_command
+#           entity_id: 'remote.ir_controller'
+#           data:
+#             command:
+#               - 'tv_input'
+#   tv_vol_up:
+#       sequence:
+#         - service: remote.send_command
+#           entity_id: 'remote.ir_controller'
+#           data:
+#             command:
+#               - 'tv_vol_up'
+#   tv_vol_down:
+#       sequence:
+#         - service: remote.send_command
+#           entity_id: 'remote.ir_controller'
+#           data:
+#             command:
+#               - 'tv_vol_down'
               
               
-  ac_turn_on:
-      sequence:
-        - service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-            command:
-              - 'ac_turn_on'
-  ac_turn_off:
-      sequence:
-        - service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-            command: 
-              - 'ac_turn_off'       
-  ac_fan_speed:
-      sequence:
-        - service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-            command: 
-              - 'ac_fan_speed'               
-############
-
-  test_actionable_notify:
-    alias: 'Test light off Notification'
-    sequence:
-      - service: notify.ios_eliran_iphone
-        data:
-          message:  'Kitchen lights are still on!'
-          data:
-            push:
-              badge: 0
-              category: "homelights"
-            action_data:
-              entity_id: group.AllMylightsxf
-
-#### need to be tested if working 100% ####
-  morning_sequence:
-    sequence:
-      - service: media_player.volume_set
-        data:
-          entity_id: media_player.apple_tv
-          volume_level: 0.3
-      - service: tts.google_say
-        data_template:
-          # entity_id: media_player.kitchen_audio
-          entity_id: media_player.apple_tv
-          message: "Good morning!. בוקר טוב"
-          # The time is {{ states.sensor.time.state }} and it's {{ states.sensor.date.state}}. Today the weather is {{ states.sensor.dark_sky_hourly_summary.state }}. There is a {{states.sensor.dark_sky_precip_probability.state | round(0) }} percent chance of {{states.sensor.dark_sky_precip.state}} today with an intensity of {{ states.sensor.dark_sky_precip_intensity.state | round(0) }} millimeters. The Temperature is {{ states.sensor.dark_sky_temperature.state | round(0) }} degrees but it will feel like {{ states.sensor.dark_sky_apparent_temperature.state | round(0) }}. The wind speed is {{ states.sensor.dark_sky_wind_speed.state | round(0) }} meters per second."
-  ilradio:
-    alias: Play Radio on Chromecast Audio
-    sequence:
-      - service: media_player.volume_set
-        data:
-           entity_id: media_player.apple_tv
-           volume_level: '0.50'
-      -  service: media_player.play_media
-         data_template:
-           entity_id: >
-            {% if is_state("input_select.chromecast_radio", "Livingroom") %} media_player.apple_tv
-            {% endif %}
-           media_content_id: >
-            {% if is_state("input_select.radio_station", "GalGalatz") %} http://player.gl.bynetcdn.com/Redirector/glz/glglz/ICE-live
-            {% elif is_state("input_select.radio_station", "Galatz") %} http://player.gl.bynetcdn.com/Redirector/glz/glz/ICE-live
-            {% elif is_state("input_select.radio_station", "Radius 100FM") %} http://100fm.streamgates.net/Radios100Fm
-            {% elif is_state("input_select.radio_station", "Echo 99FM") %} http://99.livecdn.biz/99fm_aac
-            {% elif is_state("input_select.radio_station", "Kan 88FM") %} http://radiocast-rr-d.vidnt.com/ipbc_IPBC88LAM
-            {% elif is_state("input_select.radio_station", "103FM") %} http://103fm.live.streamgates.net/103fm_live/1multix/icecast.audio
-            {% elif is_state("input_select.radio_station", "Lev Hamedina 91FM") %} http://gb92.multix-technologies.com/Lev91Fm
-            {% elif is_state("input_select.radio_station", "Reshet Gimel") %} http://radiocast-rr-d.vidnt.com/ipbc_IPBCgimmelLAM
-            {% elif is_state("input_select.radio_station", "Radio Darom") %} http://audio-darom.ecast.co.il:9000/darom97fm
-            {% elif is_state("input_select.radio_station", "Kol Hayam Haadom 102FM") %} http://eilat.cdnwz.net/102fm
-            {% endif %}
-           media_content_type: 'audio/mp4'
+#   ac_turn_on:
+#       sequence:
+#         - service: remote.send_command
+#           entity_id: 'remote.ir_controller'
+#           data:
+#             command:
+#               - 'ac_turn_on'
+#   ac_turn_off:
+#       sequence:
+#         - service: remote.send_command
+#           entity_id: 'remote.ir_controller'
+#           data:
+#             command: 
+#               - 'ac_turn_off'       
+#   ac_fan_speed:
+#       sequence:
+#         - service: remote.send_command
+#           entity_id: 'remote.ir_controller'
+#           data:
+#             command: 
+#               - 'ac_fan_speed'               

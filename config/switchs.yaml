@@ -1,4 +1,8 @@
-# switch:
+################################################################################
+#
+#SWITCH
+#
+################################################################################
   - platform: xiaomi_miio
     name:  Xiaomi PowerStrip
     host: 192.168.1.132
@@ -47,104 +51,157 @@
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: true
-    
-  ###############
-  #switch tamplets for xiaomi  IR controller 
-  ###############
-  - platform: template
+
+
+  - platform: broadlink
+    host: 192.168.1.80
+    mac: '78:0F:77:18:19:DF'
+    type: rm2_pro_plus2
+    timeout: 15
+    friendly_name: RMProPlus
     switches:
+      # Will work on most LG TVs
       tv_lg:
         friendly_name: "TV Power"
-        value_template: "{{ is_state('switch.tv_lg', 'on') }}"
-        turn_on:
-          service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-             command:
-             - 'turn_on_tv'
-        turn_off:
-          service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-             command:
-             - 'turn_off_tv'
-        icon_template: mdi:television
-        
+        command_on: 'JgBQAAABJ5QWDxYPFTUVDxYPFRAVEBUPFjQVNBYPFjQVNBY0EzcVNBUQFRAVDxY0FRAVDxYPFg8VNRU0FTUVDxY0FTQWNBU1FQAFIgABJ0oWAA0FAAAAAAAAAAA='
+        command_off: 'JgBQAAABJ5QTEhMSEjcSExITExITERMSEzcTNhMSEzYTNxM3EzYTNxMSExETEhM3ExETEhMSExITNhM3EzYTEhM3EzYTNxM2EwAFJQABJ0oSAA0FAAAAAAAAAAA='
       tv_lg_vol:
         friendly_name: "TV Volume"
-        value_template: "{{ is_state('switch.tv_lg_vol', 'on') }}"
-        turn_on:
-          service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-             command:
-             - 'tv_vol_up'
-        turn_off:
-          service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-             command:
-             - 'tv_vol_down'
-        icon_template: mdi:volume-high
-
+        command_on: 'JgBQAAABJ5QUERMSEzcTERQRExITEhMRFDYTNxMREzcTNhQ2EzcTNhMSEzYUERMSExITEhMRFBETNxMSEzYTNxM2EzcTNhM3EwAFJAABJ0sTAA0FAAAAAAAAAAA='
+        command_off: 'JgBQAAABJ5QUEBYPFTUVEBUPFg8VEBUQFDUVNRUQFTQVNRU0FTUVNBU1FTQWDxURFBAVDxYPFRAVEBUPFjQVNRU0FTUVNBY0FQAFIgABJ0oWAA0FAAAAAAAAAAA='      
       tv_lg_hdmi1:
         friendly_name: "TV hdmi1"
-        value_template: "{{ is_state('switch.tv_lg_hdmi1', 'on') }}"
-        turn_on:
-          service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-              command:
-              - 'tv_hdmi1'
-        turn_off:
-          service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-              command:
-              - 'tv_hdmi1'
-        icon_template: mdi:television-guide #partnerTV hdmi1
-
+        command_on: 'JgBYAAABJ5QTEhMSEzYVEBQRFBEUEBUQFDYUNRQRFDYUNRQ2FTQVNRU0FjQVEBQzFxAVEBUQFQ8WDxUQFDUWEBI3FTQWNBU0FQAFIwABJ0sUAAxSAAEnSxMADQU='
+        command_off: 'JgBYAAABJ5QTEhMSEzYVEBQRFBEUEBUQFDYUNRQRFDYUNRQ2FTQVNRU0FjQVEBQzFxAVEBUQFQ8WDxUQFDUWEBI3FTQWNBU0FQAFIwABJ0sUAAxSAAEnSxMADQU='
       tv_lg_hdmi2:
         friendly_name: "TV hdmi2"
-        value_template: "{{ is_state('switch.tv_lg_hdmi2', 'on') }}"
-        turn_on:
-          service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          # icon: mdi:volume-plus
-          data:
-              command:
-              - 'tv_hdmi2'
-        turn_off:
-          service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-              command:
-              - 'tv_hdmi2'
-        icon_template: mdi:television-box #appletv hdmi2
-
+        command_on: 'JgBYAAABJ5QTEhMSEzYVEBQRFBEUEBUQFDYUNRQRFDYUNRQ2FTQVNRU0FjQVEBQzFxAVEBUQFQ8WDxUQFDUWEBI3FTQWNBU0FQAFIwABJ0sUAAxSAAEnSxMADQU='
+        command_off: 'JgBYAAABJ5QTEhMSEzYVEBQRFBEUEBUQFDYUNRQRFDYUNRQ2FTQVNRU0FjQVEBQzFxAVEBUQFQ8WDxUQFDUWEBI3FTQWNBU0FQAFIwABJ0sUAAxSAAEnSxMADQU='
       tv_lg_hdmi3:
         friendly_name: "TV hdmi3"
-        value_template: "{{ is_state('switch.tv_lg_hdmi3', 'on') }}"
-        turn_on:
-          service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          # icon: mdi:volume-plus
-          data:
-              command:
-              - 'tv_hdmi3'
-        turn_off:
-          service: remote.send_command
-          entity_id: 'remote.ir_controller'
-          data:
-              command:
-              - 'tv_hdmi3'
-        icon_template: mdi:video-input-hdmi #hdmi3 computer
+        command_on: 'JgBYAAABJ5QTEhMSEzYVEBQRFBEUEBUQFDYUNRQRFDYUNRQ2FTQVNRU0FjQVEBQzFxAVEBUQFQ8WDxUQFDUWEBI3FTQWNBU0FQAFIwABJ0sUAAxSAAEnSxMADQU='
+        command_off: 'JgBYAAABJ5QTEhMSEzYVEBQRFBEUEBUQFDYUNRQRFDYUNRQ2FTQVNRU0FjQVEBQzFxAVEBUQFQ8WDxUQFDUWEBI3FTQWNBU0FQAFIwABJ0sUAAxSAAEnSxMADQU='
+      tv_lg_mute:
+        friendly_name: "TV Mute"        
+        command_on: 'JgBQAAABJ5QTEhQSEjYUERUQFBEUERQRFDUUNRUQFDYUNRU1FDUTNxU1FBAWDxU1FQ8WDxYPFRAVEBU0FTUVEBU0FTUVNBY0FQAFIgABJ0oWAA0FAAAAAAAAAAA='
         
+################################################################################
+## NOT
+## IN 
+## USE
+## All the entitys/Code below is working , just not in use in my case 
+## (Switch Protocol, Component Etc... ) you can use it :)
+################################################################################
+  # ###############
+  # # NOT IN USE - Switch all RF to WiFi 
+  # #An RF command from the GPIO PIN( with a RF 433Mhz ) for turn on/off livolo switchs (working ok +- not all times -an Livolo Problem)
+  # ###############
+  # - platform: command_line
+  #   switches:
+  #     bedroom_fan_light:
+  #       command_on: python /home/homeassistant/.homeassistant/livolo.py on
+  #       command_off: python /home/homeassistant/.homeassistant/livolo.py off
+  
   ###############
-  #An RF command from the GPIO PIN( with a RF 433 ) for turn on/off livolo switchs (working OK not 100% -an Livolo Problem)
+  #switch tamplets for xiaomi  IR controller - NOT IN USE ANYMORE - Switch to BORADLINK RM PRO
   ###############
-  - platform: command_line
-    switches:
-      bedroom_fan_light:
-        command_on: python /home/homeassistant/.homeassistant/livolo.py on
-        command_off: python /home/homeassistant/.homeassistant/livolo.py off
+  # - platform: template
+  #   switches:
+      # tv_lg:
+      #   friendly_name: "TV Power"
+      #   value_template: "{{ is_state('switch.tv_lg', 'on') }}"
+      #   turn_on:
+      #     service: remote.send_command
+      #     entity_id: 'remote.ir_controller'
+      #     data:
+      #       command:
+      #       - 'turn_on_tv'
+      #   turn_off:
+      #     service: remote.send_command
+      #     entity_id: 'remote.ir_controller'
+      #     data:
+      #       command:
+      #       - 'turn_off_tv'
+      #   icon_template: mdi:television
+        
+      # tv_lg_vol:
+      #   friendly_name: "TV Volume"
+      #   value_template: "{{ is_state('switch.tv_lg_vol', 'on') }}"
+      #   turn_on:
+      #     service: remote.send_command
+      #     entity_id: 'remote.ir_controller'
+      #     data:
+      #       command:
+      #       - 'tv_vol_up'
+      #   turn_off:
+      #     service: remote.send_command
+      #     entity_id: 'remote.ir_controller'
+      #     data:
+      #       command:
+      #       - 'tv_vol_down'
+      #   icon_template: mdi:volume-high
+
+      # tv_lg_hdmi1:
+      #   friendly_name: "TV hdmi1"
+      #   value_template: "{{ is_state('switch.tv_lg_hdmi1', 'on') }}"
+      #   turn_on:
+      #     service: remote.send_command
+      #     entity_id: 'remote.ir_controller'
+      #     data:
+      #         command:
+      #         - 'tv_hdmi1'
+      #   turn_off:
+      #     service: remote.send_command
+      #     entity_id: 'remote.ir_controller'
+      #     data:
+      #         command:
+      #         - 'tv_hdmi1'
+      #   icon_template: mdi:television-guide #partnerTV hdmi1
+
+      # tv_lg_hdmi2:
+      #   friendly_name: "TV hdmi2"
+      #   value_template: "{{ is_state('switch.tv_lg_hdmi2', 'on') }}"
+      #   turn_on:
+      #     service: remote.send_command
+      #     entity_id: 'remote.ir_controller'
+      #     # icon: mdi:volume-plus
+      #     data:
+      #         command:
+      #         - 'tv_hdmi2'
+      #   turn_off:
+      #     service: remote.send_command
+      #     entity_id: 'remote.ir_controller'
+      #     data:
+      #         command:
+      #         - 'tv_hdmi2'
+      #   icon_template: mdi:television-box #appletv hdmi2
+
+      # tv_lg_hdmi3:
+      #   friendly_name: "TV hdmi3"
+      #   value_template: "{{ is_state('switch.tv_lg_hdmi3', 'on') }}"
+      #   turn_on:
+      #     service: remote.send_command
+      #     entity_id: 'remote.ir_controller'
+      #     # icon: mdi:volume-plus
+      #     data:
+      #         command:
+      #         - 'tv_hdmi3'
+      #   turn_off:
+      #     service: remote.send_command
+      #     entity_id: 'remote.ir_controller'
+      #     data:
+      #         command:
+      #         - 'tv_hdmi3'
+      #   icon_template: mdi:video-input-hdmi #hdmi3 computer
+# PC status With MqttFX to know online status
+  # - platform: mqtt
+  #   name: " MQTT PC"
+  #   state_topic: "stat/PC/POWER"
+  #   command_topic: "cmnd/PC/POWER"
+  #   availability_topic: "tele/PC/LWT"
+  #   qos: 1
+  #   payload_on: "ON"
+  #   payload_off: "OFF"
+  #   payload_available: "Online"
+  #   payload_not_available: "Offline"
+  #   retain: true

@@ -1,13 +1,8 @@
-
-  # - platform: rpi_gpio_pwm #????
-  #   leds:
-  #     - name: LightStrip
-  #       driver: pca9685
-  #       pins: [3, 4, 5, 6] # [R, G, B, W]
-  #       type: rgbw
-  - platform: hyperion
-    host: 192.168.1.101
-
+################################################################################
+#
+#LIGHT
+#
+################################################################################
   - platform: xiaomi_miio
     name: Philips Bulb 
     host: 192.168.1.113
@@ -18,13 +13,10 @@
     devices:
       192.168.1.115: #At home
         name: Living Room Color Bulb
-
       192.168.1.102:
         name: White Bulb
-
       192.168.1.111:
         name: Desk Lamp
-
       #light.gateway_light- is Working by default
 
   ###############
@@ -55,3 +47,14 @@
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: true
+    
+    
+    
+  # - platform: hyperion
+  #   host: 192.168.1.101
+  # - platform: rpi_gpio_pwm #????
+  #   leds:
+  #     - name: LightStrip
+  #       driver: pca9685
+  #       pins: [3, 4, 5, 6] # [R, G, B, W]
+  #       type: rgbw

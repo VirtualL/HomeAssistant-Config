@@ -15,8 +15,9 @@ homeassistant:
   customize: !include config/customize.yaml
   packages: !include_dir_named config/packages
   whitelist_external_dirs:
-    - /home/homeassistant/.homeassistant/
-    - /home/homeassistant/.homeassistant/tmp
+    - /config # - /home/homeassistant/.homeassistant/
+    - /config/tmp # - /home/homeassistant/.homeassistant/tmp
+    - /config/backup/hass #- /home/homeassistant/backup/hass
 
 # custom_ui
 customizer:
@@ -26,46 +27,32 @@ customizer:
 frontend:
   javascript_version: latest
   themes: !include config/themes.yaml
-  # themes: !include_dir_merge_named config/themes/
   extra_html_url:
    - /local/custom_ui/custom-weather-card.html
    - /local/custom_ui/state-card-floorplan.html
-   - /local/custom_ui/state-card-hline.html
+   - /local/custom_ui/state-card-hline.html 
   extra_html_url_es5:
    - /local/custom_ui/state-card-hline_es5.html
 
-
-sensor: !include config/sensors.yaml
-group: !include config/groups.yaml #groups at External FILE
-automation: !include_dir_merge_list config/automation/
-script: !include config/scripts.yaml
-input_select: !include config/input_select.yaml
-input_boolean: !include config/input_boolean.yaml
-input_text: !include config/input_text.yaml
-cover: !include config/covers.yaml
-input_number: !include config/input_number.yaml
-camera: !include config/cameras.yaml
-switch: !include config/switchs.yaml  
-remote: !include config/remotes.yaml  
-light: !include config/lights.yaml  
-ios: !include config/ios.yaml    
-notify: !include config/notify.yaml
-weblink: !include config/weblink.yaml
-panel_iframe: !include config/panel_iframe.yaml
-zone: !include config/zones.yaml
-history: !include config/history.yaml
-shell_command: !include config/shell_commands.yaml
-
 recorder:
-  purge_keep_days: 3
+  purge_keep_days: 7
+  # db_url: mysql://hassuser:<Eliran007>@localhost/hass_db?charset=utf8
+  # db_url: mysql://hassuser:Eliran007@localhost/hass_db
+  
 http:
   # Secrets are defined in the file secrets.yaml
-  api_password: !secret http_password
-  # ssl_certificate: !secret ssl_certificatePATH #currenty using SSL Via certbot and NGINX 
-  # ssl_key: !secret ssl_keyPATH #currenty using SSL Via certbot and NGINX 
+  api_password: !secret api_password
+  # ssl_certificate: !secret ssl_certificatePATH
+  # ssl_key: !secret ssl_keyPATH 
   base_url: !secret base_url
   ip_ban_enabled: True
   login_attempts_threshold: 5
+  use_x_forwarded_for: True
+  trusted_proxies:
+    - 127.0.0.1 #localhost
+    - 192.168.1.1 #router
+    - 172.18.0.2 #nginx
+    - 172.18.0.3 #nginx
 
 #DD-WRT
 device_tracker:
@@ -88,12 +75,11 @@ vacuum:
     name: Xiaomi Vacuum
     host: 192.168.1.82
     token: !secret XiaomiVacuumV1Token
-# Enables support for tracking state changes over time
-
-media_player:
-  - platform: cast
-    # host: 192.168.1.104
-    # #if want to scan for casting divices , remove 'hosts'
+    
+cast:
+  media_player:
+  - host: 192.168.1.104 #partnerTV
+  
 apple_tv:
   - host: 192.168.1.121
     name: Apple TV
@@ -101,7 +87,7 @@ apple_tv:
     credentials: !secret AppleTVcredentials
 
 timer:
-  #a Timer That Start Every time that the Home Door Open
+  #a Timer that Start Every time that the Home Door Open 
   dogwalk:
     duration: '00:30:00'
     icon: mdi:paw
@@ -111,25 +97,18 @@ timer:
 #   key: !secret Iftt_key
 
 mqtt:
+  password: !secret mqtt_password
   
 # Enables configuration UI
 config:
 
 #for HA Update Available Notification
 updater:
-  # Optional, allows Home Assistant developers to focus on popular components.
-  # include_used_components: true
 
-# For apple HomeKit support
-# homekit:
-
-# discovery: #test changes
+discovery:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
-conversation:
-
-# View all events in a logbook
-logbook:
+# conversation:
 
 # Enables a map showing the location of tracked devices
 map:
@@ -143,8 +122,14 @@ weather:
 
 # Text to speech
 tts:
-  - platform: google
-    # language: 'he-IL'
+  - platform: google #english 
+
+cloudflare:
+  email: !secret MyEmail 
+  api_key: !secret CloudflareAPIKey
+  zone: !secret CloudflareZone
+  records:
+    - !secret CloudflareSubDomain1
 
 # Cloud
 cloud:
@@ -160,6 +145,7 @@ panel_custom:
     sidebar_icon: mdi:home
     url_path: floorplan
     config: !include config/floorplan.yaml
+    
 # https://www.home-assistant.io/components/notify.telegram/
 telegram_bot:
   - platform: polling
@@ -167,11 +153,60 @@ telegram_bot:
     allowed_chat_ids:
       - !secret TelegramChatIDNum1 
       
+custom_updater:
+  track:
+    - components
+    - cards
+    - python_scripts
+  card_urls:
+      - https://raw.githubusercontent.com/rdehuyss/homeassistant-lovelace-google-calendar-card/master/custom_updater.json
+      - https://raw.githubusercontent.com/rdehuyss/homeassistant-lovelace-alarm-clock-card/master/custom_updater.json
+      - https://raw.githubusercontent.com/kalkih/mini-graph-card/master/tracker.json
+      - https://raw.githubusercontent.com/kuuji/button-card/master/tracker.json
+      - https://raw.githubusercontent.com/bramkragten/custom-ui/master/updater.json
+      
+climate:
+  - platform: sensibo
+    api_key: !secret SensiboApiKey
+#https://www.home-assistant.io/components/logger/
 logger:
-  default: warning
-  logs:
-    homeassistant.components.homekit: debug
-    pyhap: debug
+  default: warning #error #warning #info #warning #degbug
+
+google:
+  client_id: !secret Google_CLIENT_ID
+  client_secret: !secret Google_CLIENT_SECRET
+
+##############
+## includes
+############
+sensor: !include config/sensors.yaml
+group: !include config/groups.yaml #groups at External FILE
+automation: !include_dir_merge_list config/automation/
+script: !include config/scripts.yaml
+input_select: !include config/input_select.yaml
+input_boolean: !include config/input_boolean.yaml
+input_number: !include config/input_number.yaml
+camera: !include config/cameras.yaml
+switch: !include config/switchs.yaml  
+remote: !include config/remotes.yaml  
+light: !include config/lights.yaml  
+ios: !include config/ios.yaml
+notify: !include config/notify.yaml
+weblink: !include config/weblink.yaml
+panel_iframe: !include config/panel_iframe.yaml
+zone: !include config/zones.yaml
+history: !include config/history.yaml
+shell_command: !include config/shell_commands.yaml
+intent_script: !include config/intent_scripts.yaml
+logbook: !include config/logbook.yaml # View all events in a logbook
+homekit: !include config/homekit.yaml # For apple HomeKit support
+#alexa support Via Haaska (v3)
+#to avoid from monthly payments (in Home Assitant Cloud) 
+#and to give more options for customization
+alexa: !include config/alexa.yaml
+#Currently, not in use !
+#google_assistant: !include config/google_assistant.yaml 
+
 ############################################################################
 ##
 ## sonoff1 = sonoff pow boiler ( switch._mqtt_pow1 )

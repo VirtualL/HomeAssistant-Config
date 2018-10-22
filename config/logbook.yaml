@@ -1,0 +1,65 @@
+################################################################################
+#
+#LOGBOOK
+#to make the reading from logbook easy
+#################################################################################
+exclude:
+  domains:
+    - weblink
+    - group
+  entities:
+    - sun.sun
+    - script.tv_vol_down
+    - script.tv_input
+    - script.tv_vol_down
+    - script.tv_vol_up
+    - sensor.alarm_clock_hour
+    - sensor.alarm_clock_minute
+    - sensor.alarm_clock_time_long
+    - switch.tv_lg
+    - switch.tv_lg_hdmi1
+    - switch.tv_lg_hdmi2
+    - switch.tv_lg_hdmi3
+    - switch.tv_lg_vol
+    - binary_sensor.home_door_battery_low
+    - binary_sensor.motion_battery_low
+    - binary_sensor.bedroom_door_battery_low
+    - binary_sensor.switch_v1_battery_low
+    - binary_sensor.switch_v2_battery_low
+    - binary_sensor.wall_switch_battery_low
+    - group.alarm_clock
+    - group.alerts
+    - input_number.alarm_clock_hour
+    - input_number.alarm_clock_minute
+    - input_number.slider_boiler
+    - input_select.chromecast_radio
+    - input_select.radio_station
+    # - script.test_push
+    - automation.ac_off_for_alexa
+    - automation.ac_on_for_alexa
+    - automation.battery_notification
+    - automation.battery_notification_clear
+    - automation.battery_sensor_from_battery_attribute
+    - automation.battery_sensor_from_battery_level_attribute
+    - automation.battery_sensor_from_battery_numeric_attribute
+    - automation.clean_aquarium_reminder
+    - automation.drinkingwater_filter_reminder
+    - sensor.custom_card_tracker
+    - sensor.custom_component_tracker
+    - sensor.date
+    - sensor.date__time
+    - sensor.hline_1
+    - sensor.hline_2
+    - sensor.hline_3
+    - sensor.hline_4
+    - sensor.hline_5
+    - sensor.hline_6
+    - sensor.sonoff_hallway_light_version
+    - sensor.sonoff_latest_release
+    - sensor.sonoff_pow_boiler_version
+    - sensor.sonoff_pow_homecctv_version
+    - sensor.sonoff_touch_kitchen_version
+    - sensor.sonoff_xiaomicctv_version
+    - sensor.time #?
+    - weather.yweather
+    

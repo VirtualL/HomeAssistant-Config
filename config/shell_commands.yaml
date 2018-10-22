@@ -1,5 +1,23 @@
-  hassbian_ha_update: "bash /home/homeassistant/.homeassistant/bin/hassbianHA_update.sh"
-  os_reboot: "sudo reboot"
-  backup_all_rpi_to_usb: "bash /home/homeassistant/.homeassistant/bin/backup_allRPItousb.sh"
-  backup_hass_config: "bash /home/homeassistant/.homeassistant/bin/backup_HASS_config.sh"
-  start_homebridge: "sudo touch /home/homeassistant/.homeassistant/bin/start_homebridge.sh"
+################################################################################
+#
+#SHELL COMMANDS
+#
+##################################################################################
+  backup_hass_config: "bash /config/scripts/backup_HASS_config.sh"
+  backup_ha_and_move_backup_to_unraid: "bash /config/scripts/backup_HA_and_Move_Backup_To_Unraid.sh"
+  start_windowsvm: "bash /config/scripts/start_WindowsVM.sh"
+  shutdown_windowsvm: "bash /config/scripts/shutdown_WindowsVM.sh"
+  reboot_router: "bash /config/scripts/RebootRouter.sh"
+  update_snapshot: "bash /config/scripts/Update_Snapshot.sh"
+
+################################################################################
+## NOT
+## IN 
+## USE
+## All the entitys/Code below is working , just not in use in my case 
+## (Switch Protocol, Component Etc... ) you can use it :)
+################################################################################
+  # hassbian_ha_update: "bash /config/scripts/hassbianHA_update.sh"
+  # os_reboot: "bash /config/scripts/os_reboot.sh"
+  # backup_all_rpi_to_usb: "bash /config/scripts/backup_allRPItousb.sh"
+    # start_homebridge: "sudo touch /config/scripts/start_homebridge.sh"

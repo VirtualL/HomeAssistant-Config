@@ -1,7 +1,13 @@
+##################################################
+#
+# GOOGLE ASSISTANT -Currently, not in use !
+#
+##################################################
+  
   project_id: HomeAssistant-VirtualL
   client_id: !secret GoogleAsistantClientID #[long URL safe random string]
   access_token: !secret GoogleAsistantAccessToken #[a different long URL safe random string]
-  agent_user_id: !secret GoogleAsistantAgentUID
+  agent_user_id: !secret MyEmail
   # api_key: [a Homegraph API Key generated for the Google Actions project]
   exposed_domains:
     - switch

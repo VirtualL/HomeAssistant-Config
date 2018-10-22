@@ -35,7 +35,7 @@
   action:
   - service: frontend.set_theme
     data:
-      name: dark_theme
+      name: dark-mode
 ##############################################################################   
 #
 # Set Day Mode Theme
@@ -67,40 +67,23 @@
   action:
   - service: frontend.set_theme
     data:
-      name: dark_theme
-##############################################################################   
-#
-# SpeedTest
-#
-##############################################################################   
-# - alias: 'Internet Speed Glow Connect Great' 
-#   trigger: 
-#     platform: template
-#     value_template: '{{ states.sensor.speedtest_download.state|float > 10}}'
-#   action:      
-#       service: shell_command.green
-# - alias: 'Internet Speed Glow Connect Poor' 
-#   trigger: 
-#     platform: template
-#     value_template: '{{ states.sensor.speedtest_download.state| float < 10 }}' 
-#   action:      
-#     service: shell_command.red
+      name: dark-mode
 
 ##############################################################################   
 #
 # Update Available Notifications
 #
 ##############################################################################   
-- alias: 'Update Available Notifications'
-  hide_entity: true
-  trigger:
-    platform: state
-    entity_id: updater.updater
-  action:
-    service: notify.ios_elirantur2
-    data:
-      title: "Updater"
-      message: ' עדכון תוכנה זמין !!!'   #Update for Home Assistant is available
+# - alias: 'Update Available Notifications'
+#   hide_entity: true
+#   trigger:
+#     platform: state
+#     entity_id: updater.updater
+#   action:
+#     service: notify.ios_elirantur2
+#     data:
+#       title: 'Updater'
+#       message: ' עדכון תוכנה זמין !!!'   #Update for Home Assistant is available
 ##############################################################################   
 #
 # HA Startup up and running Notification
@@ -119,16 +102,27 @@
     ####
     - service: notify.NotifyEliranIOSAndTelegram 
       data:
-        title: "System info"
+        title: 'System info'
         message: 'Home Assistant is Up and Running.'
         data:
           #iOS Only
           attachment: 
             url: https://community-home-assistant-assets.s3-us-west-2.amazonaws.com/original/2X/6/6a99ebb8d0b585a00b407123ff76964cb3e18780.png
-    - delay: 0:05:00 # to wait all componets will work good
+            
+    - service: camera.local_file_update_file_path
+      data:
+        entity_id: camera.cctv1_snapshot #use the latest snapshot 
+        file_path: '/config/tmp/clean.png'
+    - delay: 0:03:00 # to wait all componets will work good
     # - service: shell_command.start_homebridge #not in use - using homekit
     - service: script.turn_on
       entity_id: script.check_sonoffs_version #to update the status
+    # Sonoff power Retein on startup ,
+    # "power1" is good for me,in others sonoff setups maybe "power2"/"power3" etc...
+    - service: mqtt.publish 
+      data:
+        topic: "cmnd/sonoffs/power1" #Update the power state of all the sonoffs
+        payload: ""
 
 
 ############################################################
@@ -144,25 +138,12 @@
   action:
     service: notify.NotifyEliranIOSAndTelegram
     data:
-      title: "Home Assistant"
-      message: "Config error. See dev-info panel for details."
+      title: 'Home Assistant'
+      message: 'Config error. See dev-info panel for details.'
       data:
         attachment: 
           url: https://png.icons8.com/nolan/1600/source-code.png
-##############################################################################   
-#
-# Sonoff power Retein on startup
-# "power1" is good for me,in others sonoff setups maybe "power2"/"power3" etc...
-##############################################################################   
-- alias: "Update Tasmota Power state on HA start-up"
-  trigger:
-    platform: homeassistant
-    event: start
-  action:
-    - service: mqtt.publish
-      data:
-        topic: "cmnd/sonoffs/power1"
-        payload: ""
+
 ##############################################################################   
 #
 # Simulate presence (4a)
@@ -192,7 +173,7 @@
   action:
   - service: notify.NotifyEliranIOSAndTelegram
     data:
-      title: "אבטחה"  #Security
+      title: 'אבטחה'  #Security
       message: 'מצב אורות רנדומלי בפעולה' #Random Lights mode is on   
       data:
         push:
@@ -269,7 +250,7 @@
   action:
     - service: notify.NotifyEliranIOSAndTelegram
       data:
-        title: "מצלמת הסלון"   #Living room CCTV
+        title: 'מצלמת הסלון'   #Living room CCTV
         message: 'במצב דלוק,בדוק את סיבת ההדלקה'# Turn Off
         data:
           push:
@@ -325,7 +306,7 @@
   action:
     - service: notify.NotifyEliranIOSAndTelegram
       data:
-        title: "מצלמת המטבח"   #Living room CCTV
+        title: 'מצלמת המטבח' #Living room CCTV
         message: 'במצב דלוק,בדוק את סיבת ההדלקה'# Turn Off
         data:
           push:
@@ -351,7 +332,7 @@
   action:
     service: notify.NotifyEliranIOSAndTelegram
     data:
-      title: "רכזת שואמי"   #Xiaomi Gateway
+      title: 'רכזת שואמי'   #Xiaomi Gateway
       message: 'הרכזת לא מחוברת לרשת' #is Offline
       data:
         attachment: 
@@ -381,7 +362,7 @@
         entity_id: automation.turn_off_cctv_cameras_if_shiran_at_home
     - service: notify.NotifyEliranIOSAndTelegram
       data:
-        title: "אבטחה"  #Security 
+        title: 'אבטחה'  #Security 
         message:  'השעה 2 בלילה,מצלמות הבית דלוקות'  #the time is 2AM CCTV's are on
         data:
           attachment: 
@@ -414,7 +395,7 @@
       entity_id: switch.sonoff_xiaomicctv_switch
     - service: notify.NotifyEliranIOSAndTelegram
       data:
-        title: "אבטחה"  #security
+        title: 'אבטחה'  #security
         message: 'השעה 6:30 בבוקר, אם אתם בבית ,המצלמות יכבו'  #The time is 6:30AM if someone at home -CCTV OFF
         data:
           push:
@@ -461,7 +442,7 @@
 
     - service: notify.ios_shiran_iphone
       data:
-        title: "אבטחה"   #securty
+        title: 'אבטחה'   #securty
         message: 'ברוך הבא שירן :) מצלמות הבית כבויות'   #Welcome Home Shiran , CCTV off
         data:
           push:
@@ -493,7 +474,7 @@
 
     - service: notify.ios_elirantur2
       data:
-        title: "אבטחה" #security
+        title: 'אבטחה' #security
         message: 'ברוך הבא אלירן :) מצלמות הבית כבויות'  #Welcome Home Eliranc, CCTV off
         data:
           push:
@@ -567,7 +548,7 @@
   action:
     service: notify.NotifyEliranIOSAndTelegram
     data:
-      title: "אבטחה"
+      title: 'אבטחה'
       message: 'כל המצלמות והחיישנים פועלים!'
       data:
         push:
@@ -601,23 +582,21 @@
   action:
   - service: camera.snapshot
     data:
-      entity_id: camera.home_cctv1 #save snapshot with Exact time and save it 
-      filename: '/home/homeassistant/.homeassistant/tmp/home_cctv1_{{ now().strftime("%d%m%Y-%H%M%S") }}.png' 
+      entity_id: camera.home_cctv1 #take snapshot with Exact time and save it 
+      filename: '/config/tmp/home_cctv1_{{ now().strftime("%d%m%Y-%H%M%S") }}.png' 
   - service: camera.snapshot
     data:
-      entity_id: camera.home_cctv1 #save snapshot to update the last snapshot to show in HA
-      filename: '/home/homeassistant/.homeassistant/tmp/home_cctv1.png'
+      entity_id: camera.home_cctv1 #take snapshot to update the last snapshot to show in HA
+      filename: '/config/tmp/home_cctv1.png'
+      
   - service: camera.local_file_update_file_path
     data:
-      entity_id: camera.home_cctv1 #use the latest snapshot 
-      file_path: '/home/homeassistant/.homeassistant/tmp/home_cctv1.png'   
-  - service: group.set_visibility
-    entity_id: group.security_notification
-    data:
-      visible: true
+      entity_id: camera.cctv1_snapshot #use the latest snapshot 
+      file_path: '/config/tmp/home_cctv1.png'
+  - service: shell_command.update_snapshot #update the status of the camera to recording.
   - service: notify.ios_elirantur2
     data:
-      title: "אבטחה" #securty
+      title: 'אבטחה' #securty
       message: 'דלת הבית נפתחה לפני 15 שניות, אנא וודא שהכניסה מאושרת!!!'  #Front Door was open 15 sec ago , Check if Unauthorised
       data:
         #iOS Only
@@ -631,17 +610,17 @@
 
   - service: notify.EliranTelegram
     data:
-      title: "אבטחה" #securty
+      title: 'אבטחה' #securty
       message: 'דלת הבית נפתחה לפני 15 שניות, אנא וודא שהכניסה מאושרת!!!'  #Front Door was open 15 sec ago , Check if Unau
       data:
         photo:
-          - file: /home/homeassistant/.homeassistant/tmp/home_cctv1.png
+          - file: /config/tmp/home_cctv1.png
             caption: '{{now().strftime("%Y.%m.%d-%H:%M:%S")}}'
   - delay: 0:15:00 # to hide the camera
   - service: group.set_visibility
     entity_id: group.security_notification
     data:
-      visible: False         
+      visible: False
       
 
 ############################################################
@@ -659,12 +638,32 @@
   action:
     - service: notify.NotifyEliranIOSAndTelegram
       data_template:
-        title: "בוצע נסיון כניסה שנכשל!"   #Failed login attempt!
+        title: 'בוצע נסיון כניסה שנכשל!'   #Failed login attempt!
         message: "{{ states.persistent_notification.httplogin.attributes.message}}"
         #iOS only
         data:
-          url: https://whatismyipaddress.com/ip/{{ states.persistent_notification.httplogin.attributes.message.split("from ") [1]}}
-      
+          url: http://extreme-ip-lookup.com/{{ states.persistent_notification.httplogin.attributes.message.split("from ") [1]}}
+############################################################
+#
+# send notification upon IP BAN
+# if there was a IP BAN , send Notification with URL and IP of the hacker ;)
+############################################################
+- alias: "Send notification upon IP BAN"
+  trigger:
+    - platform: state
+      entity_id: persistent_notification.ipban
+  condition:
+    - condition: template
+      value_template: "{{ trigger.to_state.state != off }}"
+  action:
+    - service: notify.NotifyEliranIOSAndTelegram
+      data_template:
+        title: 'אייפיי נחסם!'   #Failed login attempt!
+        message: "{{ states.persistent_notification.ipban.attributes.message}}"
+        #iOS only
+        data:
+        
+          url: http://extreme-ip-lookup.com/{{ states.persistent_notification.ipban.attributes.message.split("from ") [1]}}      
 ##############################################################################  
 #
 # notify if the boiler turn ON
@@ -680,7 +679,7 @@
   action:
     service: notify.NotifyShiranAndEliranIOS
     data:
-      title: "דוד"
+      title: 'דוד'
       message: 'הדוד דלוק!'
       data:
         push:
@@ -703,7 +702,7 @@
   action:
     service: notify.ios_elirantur2
     data:
-      title: "דוד" #boiler
+      title: 'דוד' #boiler
       message: 'הדוד דלוק יותר מ5 דקות!'  #the boiler is ON more then 5 min
       data:
         push:
@@ -727,7 +726,7 @@
   action:
     service: notify.NotifyShiranAndEliranIOS
     data:
-      title: "דוד"  #boiler
+      title: 'דוד'  #boiler
       message: 'הדוד מכובה!' #the boiler is off
       data:
         push:
@@ -822,7 +821,7 @@
   action:
     service: notify.NotifyEliranIOSAndTelegram
     data:
-      title: "חישן הדלת"  #Front Door sensor
+      title: 'חישן הדלת'  #Front Door sensor
       message: 'דלת הבית פתוחה יותר מדקה' #front door is open more then 1 min
       data:
         push:
@@ -831,7 +830,7 @@
           url: https://static.dezeen.com/uploads/2014/02/Evolution-Door-by-Klemens-Torggler-Dezeen-1.gif
 ##############################################################################  
 #
-# Clicks type setup - Wall switch
+# Clicks type setup - Wall switch 1 (sofa)
 #
 ############################################################################## 
 # Toggle living room left light on single press
@@ -867,6 +866,46 @@
   action:
     service: light.toggle
     entity_id: light.sonoff_light #kitchen light
+##############################################################################  
+#
+# Clicks type setup - Wall switch 2 (MAIN enternce)
+#
+############################################################################## 
+#Toggle livingRoom enternce left light on single press
+- alias: Toggle livingRoom enternce left light on single press
+  trigger:
+    platform: event
+    event_type: click
+    event_data:
+      entity_id: binary_sensor.wall_switch_left_158d0001e119a7
+      click_type: single
+  action:
+  - service: light.toggle
+    entity_id: light.white_bulb
+  - service: light.toggle
+    entity_id: light.living_room_color_bulb
+#Toggle livingRoom enternce right light on single press
+- alias: Toggle livingRoom enternce right light on single press
+  trigger:
+    platform: event
+    event_type: click
+    event_data:
+      entity_id: binary_sensor.wall_switch_right_158d0001e119a7
+      click_type: single
+  action:
+    service: light.toggle
+    entity_id: light.sonoff_light
+#Toggle livingRoom enternce BOTH  on single press
+- alias: Toggle livingRoom enternce BOTH  on single press
+  trigger:
+    platform: event
+    event_type: click
+    event_data:
+      entity_id: binary_sensor.wall_switch_both_158d0001e119a7
+      click_type: both
+  action:
+    service: homeassistant.turn_off
+    entity_id: group.allmylights
 ##############################################################################  
 #
 # Clicks setup - Bed roomSwitch
@@ -954,14 +993,14 @@
   action:
     service: notify.PartnerTV #androidTV
     data:
-      title: "תורג׳מן הום"
+      title: 'תורג׳מן הום'
       message: "דלת הבית פתוחה"
 ##############################################################################  
 #
 #  Hot temperature alert
 #
 ##############################################################################  
-- alias: Hot temperature alert
+- alias: Hot temperature alert bedroom
   trigger:
     platform: numeric_state
     entity_id: sensor.temperature_158d0001150e4e #TEMP SENSOR
@@ -971,7 +1010,46 @@
   action:
   - service: notify.NotifyEliranIOSAndTelegram
     data:
-      title: "מד טמפרטורה"
+      title: 'מד טמפרטורה'
+      message: 'הטמפרטורה בחדר שינה מעל 30 מעלות'
+      data:
+        attachment: 
+          url: https://cdn2.iconfinder.com/data/icons/coloured-weather-icon-set-svg/100/Coloured_Weather_Icon_Set_by_ViconsDesign-12-512.png
+##############################################################################  
+#
+#  cold temperature alert
+#
+##############################################################################  
+- alias: cold temperature alert bedroom
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.temperature_158d0001150e4e #tempsensor
+    # At least one of the following required
+    below: 20
+  action:
+  - service: notify.NotifyEliranIOSAndTelegram
+    data:
+      title: 'מד טמפרטורה'
+      message: 'הטמפרטורה בחדר השינה ירדה מתחת ל20 מעלות'
+      data:
+        attachment: 
+          url: https://cdn4.iconfinder.com/data/icons/weather-conditions/512/low_temperature-512.png
+##############################################################################  
+#
+#  Hot temperature alert
+#
+##############################################################################  
+- alias: Hot temperature alert LivingRoom
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.sensibo1_temp #TEMP SENSOR
+    # At least one of the following required
+    above: 30
+    # below: 25
+  action:
+  - service: notify.NotifyEliranIOSAndTelegram
+    data:
+      title: 'מד טמפרטורה'
       message: 'הטמפרטורה בבית מעל 30 מעלות'
       data:
         attachment: 
@@ -981,21 +1059,22 @@
 #  cold temperature alert
 #
 ##############################################################################  
-- alias: cold temperature alert
+- alias: cold temperature alert LivingRoom
   trigger:
     platform: numeric_state
-    entity_id: sensor.temperature_158d0001150e4e #tempsensor
+    entity_id: sensor.sensibo1_temp #tempsensor
     # At least one of the following required
-    below: 23
+    below: 20
   action:
   - service: notify.NotifyEliranIOSAndTelegram
     data:
-      title: "מד טמפרטורה"
-      message: 'הטמפרטורה בבית ירדה מתחת ל23 מעלות'
+      title: 'מד טמפרטורה'
+      message: 'הטמפרטורה בבית ירדה מתחת ל20 מעלות'
       data:
         attachment: 
           url: https://cdn4.iconfinder.com/data/icons/weather-conditions/512/low_temperature-512.png
 ##############################################################################  
+############################################################################## 
 #
 #  If there is motion and its dark turn on the gateway light -need some testing!
 #
@@ -1073,7 +1152,7 @@
   action:
     - service: notify.ios_elirantur2
       data:
-        title: "לילה טוב"
+        title: 'לילה טוב'
         message: "התאורה בבית דולקת האם ברצונך לכבות?"
         data:
           push:
@@ -1134,27 +1213,28 @@
             url: https://d33wubrfki0l68.cloudfront.net/b1c67285b113e40ab92d0136aed5c79f3d3ceb17/69117/images/screenshots/ui2015.png
 # ###################################################
 # #                                                  #
-# # Run the script Weekly to backup all OS (make img of RPI)
+# # Run the script Weekly to backup all OS (move the img proxmox made and save ha config in server)
 # #                                                  #
 # ####################################################
-# - alias: 'Weekly OS Backup'
-#   trigger:
-#     platform: time
-#     at: '02:30:00'
-#   condition:
-#   - condition: time
-#     weekday:
-#       - tue
-#   action:
-#     - service: script.turn_on
-#       entity_id: script.backup_all_os
-#     - service: notify.NotifyEliranIOSAndTelegram
-#       data:
-#         title: 'גיבוי'#backup
-#         message: 'הגיבוי השבועי לכלל המערכת בפעולה! בדוק סיום תקין בבוקר '   #Backup For all the os is in prograss
-#         data:
-#           attachment: 
-#             url: https://www.bullten.com/img/icon/weekly-backup.png
+- alias: 'Weekly OS Backup'
+  trigger:
+    platform: time
+    at: '02:30:00'
+  condition:
+  - condition: time
+    weekday:
+      - wed #3 Tuesday at night
+      - sun #7 Saturday at night
+  action:
+    - service: script.turn_on
+      entity_id: script.backup_ha_and_move_backup_to_unraid
+    - service: notify.NotifyEliranIOSAndTelegram
+      data:
+        title: 'גיבוי'#backup
+        message: 'הגיבוי השבועי לכלל המערכת בפעולה! בדוק סיום תקין בבוקר,בקבצי השרת'   #Backup For all the os is in prograss
+        data:
+          attachment: 
+            url: https://www.bullten.com/img/icon/weekly-backup.png
             
             
             
@@ -1183,6 +1263,69 @@
     - service: script.turn_on
       entity_id: script.ac_turn_off
       
+###################################################
+#                                                  #
+# UpdateMyDNS
+#                                                  #
+####################################################  
+#when my public ip been changed , update the ip in cloudflare and send me Notification
+- alias: IP Address Update
+  hide_entity: true
+  initial_state: true
+  trigger: #if the ip changed - trigger
+    - platform: state
+      entity_id: sensor.myipopendnscom
+  action:
+    - service: cloudflare.update_records #update my DNS
+    - service: notify.NotifyEliranIOSAndTelegram
+      data:
+        title: מצב רשת #Your Public IP has changed to
+        message: "האייפי החיצוני שונה ל: {{ states.sensor.myipopendnscom.state }}"
+        data:
+          attachment: 
+            url: https://images-na.ssl-images-amazon.com/images/I/519-zNN1sCL.png
+            
+    - service: persistent_notification.create
+      data_template:
+        title: '{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S", true) }}:עדכון'
+        message: '{{ states.sensor.myipopendnscom.state }} האייפי החיצוני השתנה, כרגע הוא'  #"Your public IP has changed, and is currently {{ states.sensor.myipopendnscom.state }}"
+        notification_id: IP Address Update
+#####################################################
+##                                                  #
+## The air conditioner is ON and nobody at home -alert to turn it off
+##                                                  #
+#####################################################
+- alias: 'The air conditioner is ON and nobody at home'
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: climate.living_room 
+      to: 'cool'
+      for:
+        minutes: 20
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.eliraniphone
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.shiraniphone #shiran
+        state: 'not_home'
+  action:
+    service: notify.NotifyEliranIOSAndTelegram
+    data:
+      title: 'התראה'
+      message: 'שכחת את המזגן דלוק! האם לכבות?'
+      data:
+        push:
+          sound: "US-EN-Morgan-Freeman-Turning-Off-The-Air-Conditioner.wav"
+          badge: 0
+          category: 'modifyaircon' #the ID
+        attachment: 
+          url: http://www.giersnet.pl/wp-content/uploads/2018/01/klima.png        
+
+
 ###################################################
 #                                                  #
 # Use Telegram bot to Control HA with text
@@ -1411,11 +1554,39 @@
     - service: automation.turn_off #disable autiomation
       data:
         entity_id: automation.simulate_presence_4a
-    - delay: 0:02:00
+    - delay: 02:00:00
     - service: automation.turn_on #disable autiomation
       data:
         entity_id: automation.simulate_presence_4a
 
+######################################################
+- alias: iOS notification action RESETHA 
+  initial_state: true
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: RESETHA #the action that was tap
+  action:
+   - service: homeassistant.restart
+
+####################################################
+#                                                  #
+# iOS notification action AirCon !
+#                                                  #
+####################################################
+- alias: iOS notification action AIRCON_OFF 
+  initial_state: true
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: AIRCON_OFF #the action that was tap
+  action:
+    - service: homeassistant.turn_off
+      entity_id: climate.living_room
 
 #### working good but not an elink app anymore - now i am using MQTT :)
 ############################################################
@@ -1517,3 +1688,37 @@
 # #     event_type: timer.finished
 # #     event_data: 
 # #       entity_id: timer.dogwalk 
+
+
+    # - service: mqtt.publish 
+    #   data:
+    #     topic: "cmnd/sonoffs/power1" #Update the power state of all the sonoffs
+    #     payload: ""
+    
+    
+    
+##############################################################################   
+#
+# turn off CCTV cameras if shiran at home
+#
+##############################################################################   
+- alias:  PC offlline
+  trigger:
+    platform: state
+    entity_id: device_tracker.pc
+    to: 'not_home'
+    # If given, will trigger when state has been the to state for X time.
+    for:
+      minutes: 5
+      seconds: 00
+  action:
+    - service: notify.ios_elirantur2
+      data:
+        title: 'אבטחה'   #securty
+        message: 'המחשב בעבודה לא מחובר לאינטרנט,בדוק מצב החשמל'
+        data:
+          push:
+            sound: "US-EN-Morgan-Freeman-Boss-Is-Arriving.wav"
+            badge: 0
+          attachment: 
+            url: https://media.graytvinc.com/images/810*456/power+outages20.jpg

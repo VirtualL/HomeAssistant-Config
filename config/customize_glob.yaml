@@ -1,3 +1,8 @@
+################################################################################
+#
+#CUSTOMIZE GLOBAL
+#
+################################################################################
 #CUI - for more info please read https://github.com/andrey-git/home-assistant-custom-ui/blob/master/docs/features.md
 "*.*": #make change on everyting
   custom_ui_state_card: state-card-custom-ui
@@ -15,8 +20,7 @@ group.*:
 light.*:
   state_card_mode: single-line #or "break-slider"
   
-  
-  
+
 sensor.hline_*:
   custom_ui_state_card: state-card-hline
   config:
@@ -25,6 +29,7 @@ sensor.hline_*:
     backgroundcolor: white
     bordertop: none
     backgroundimage: linear-gradient(to right, rgba(240,248,255, 0), rgba(0,191,255, 0.80), rgba(240,248,255, 0))
+    
 # ###OP1
 # custom_ui_state_card: state-card-hline
 # config:

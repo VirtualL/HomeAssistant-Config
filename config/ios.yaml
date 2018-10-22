@@ -1,6 +1,10 @@
+################################################################################
+#IOS
 ##this is my Actionable notifications options 
 ##more info at: https://www.home-assistant.io/docs/ecosystem/ios/notifications/actions/
 ## more code in the end of automations.ymal
+################################################################################
+
   push:
     categories:
       - name: homelights
@@ -42,6 +46,12 @@
             behavior: 'default'
           - identifier: 'PAUSEPRESENCEMODE' #(MUST BE UPPER CASE)
             title: 'השהה מצב רדנומלי לשעתיים'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no #yes for red color
+            behavior: 'default'
+          - identifier: 'RESETHA' #(MUST BE UPPER CASE)
+            title: 'HA הפעל מחדש את'
             activationMode: 'background'
             authenticationRequired: no
             destructive: yes #yes for red color
@@ -102,6 +112,16 @@
         actions:
           - identifier: 'DOG_FEEDED' #(MUST BE UPPER CASE)
             title: 'זורו אכל כבר'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'
+            
+      - name: aircon
+        identifier: 'modifyaircon' #(MUST BE LOWER CASE)
+        actions:
+          - identifier: 'AIRCON_OFF' #(MUST BE UPPER CASE)
+            title: 'כבה את המזגן בסלון'
             activationMode: 'background'
             authenticationRequired: no
             destructive: yes #yes for red color

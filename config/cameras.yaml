@@ -1,4 +1,8 @@
-# camera:
+################################################################################
+#
+#CAMERA
+#
+################################################################################
 - platform: onvif
   name: Home CCTV1
   host: 192.168.1.103
@@ -13,18 +17,19 @@
   username: !secret OutdoorCCTVusername
   password: !secret OutdoorCCTVpassword
   
+- platform: local_file #for security warnings 
+  file_path: '/config/tmp/home_cctv1.png'
+  name: "CCTV1_Snapshot"
 # - platform: onvif
 #   name: Home CCTV2
 #   host: 192.168.1.67
 #   username: !secret CCTV2Username
 #   password: !secret CCTV2Pass
 
-- platform: generic
-  name: Home CCTV2
-  still_image_url: HomeCCTV2URL #http://USER:PASS@CAMERA_IP/ISAPI/Streaming/channels/102/picture
-  framerate: 30
+# - platform: generic
+#   name: Home CCTV2
+#   still_image_url: HomeCCTV2URL #http://USER:PASS@CAMERA_IP/ISAPI/Streaming/channels/102/picture
+#   framerate: 30
 
-- platform: local_file #for security warnings 
-  file_path: 'tmp/home_cctv1.png'
-  name: "CCTV1_Snapshot"
+
 

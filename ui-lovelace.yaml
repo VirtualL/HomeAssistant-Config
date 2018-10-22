@@ -1,176 +1,3109 @@
-name: My Awesome Home
+
+resources:
+  - url: /local/custom_ui/weather-card.js?v=1.0.0
+    type: js
+  - url: /local/custom_components/monster-card.js?v=0.2.3
+    type: js
+  - url: /local/custom_components/gauge-card.js?v=0.2.0
+    type: js
+  - url: /local/custom_components/vertical-stack-in-card.js?v=0.0.8
+    type: js
+  - url: /local/custom_components/circle-sensor-card.js?v=1.2.0
+    type: module
+  - url: /local/custom_components/tracker-card.js?v=0.1.5
+    type: js
+  - url: /local/custom_components/thermostat-card/thermostat-card.js
+    type: module
+  - url: /local/custom_components/dual-gauge-card.js?v=0.3.0
+    type: js
+  - url: /local/custom_components/state-attribute-element.js?v=0.2.0
+    type: js
+  - url: /local/custom_components/israeli-broadcast-schedule-card.js?v=0.0.3
+    type: js 
+  - url: /local/custom_components/content-card-remote-control.js
+    type: js  
+  - url: https://unpkg.com/moment@2.22.2/moment.js
+    type: js
+  - url: /local/custom_components/calendar-card.js?v=1.0.1
+    type: module
+  - url: /local/custom_components/hebrew-calendar-card.js?v=1.0.1
+    type: module
+  - url: /local/custom-lovelace/swipe-card/swipe-card.js?v=1.0.3
+    type: js
+  - url: /local/custom_components/button-card.js
+    type: module
+
+#/custom_components/sensor/authenticated.py=0.3.1
+    
+title: משפחת תורג׳מן
+# background: center / cover no-repeat url("/local/MyEntities/60113.jpg") fixed
 views:
-    # The name of a view will be used as tab title.
-    # Might be used for other things in the future.
-  - name: Home
+#### FIRST view ####
+  - title: Home
+    # the final path is /lovelace/Home
+    id: Home
     # Each view can have a different theme applied. Theme should be defined in the frontend.
-    theme: badge
+    # theme: badge
     # The cards to show on this view.
     cards:
+      #Show the Camera Snapshot from the security warning door open Unauthorised.
       - type: entity-filter
+        show_empty: false
+        card: 
+          type: picture
+          image: /api/camera_proxy/camera.cctv1_snapshot?token=d7e6259fd0281c9d84412bb73951540c3e850c9edcde54daf8cd33d3c017c702
+          navigation_path: /lovelace/CCTV
+        entities:
+          - camera.cctv1_snapshot
+        state_filter:
+          - "recording" 
+          
+      - type: custom:monster-card
+        show_empty: false
+        card:
+          type: glance
+          column_width: calc(100% / 3)
+          title: התקנים עם סוללות חלשות
         filter:
-          - domain: light
-            state: 'on'
-          - domain: switch
-            state: 'on'
-        card_config:
-          title: מוצרים דלוקים
-          
-        # The entities card will take a list of entities and show their state.
-      - type: entities
-        # Title of the entities card
-        title: All My Lights
-        # The entities here will be shown in the same order as specified.
+          include:
+            - entity_id: "*battery_level*"
+              state: '< 25'
+            - attributes:
+                battery: '< 25'
+            - attributes:
+                battery_level: '< 25'
+      # - type: picture-entity
+      #   title: "התראת כניסה"
+      #   entity: camera.cctv1_snapshot
+      #   camera_image: camera.cctv1_snapshot
+      # - type: custom:monster-card
+      #   show_empty: false
+      #   card:
+      #     type: glance
+      #   filter:
+      #     include:
+      #       - entity_id: persistent_notification*
+      #       - state: notifying
+      - type: entity-filter
+        show_empty: false
+        card: 
+          type: glance
+          title: התראות
+          show_state: false
         entities:
-          - light.white_bulb
-          - light.living_room_color_bulb
-          - sensor.hline_1 #-----------------#
-          - light.sonoff_light
-          - light.philips_bulb
-          - sensor.hline_2 #-----------------#
-          - light.sonoff_hallway_light
-          - light.gateway_light_34ce0088d2f7
-          - sensor.hline_3 #-----------------#
-          - light.desk_lamp
-          - switch.bedroom_fan_light
+          - persistent_notification.config_entry_discovery 
+          - persistent_notification.notification
+          - persistent_notification.notification_2
+          - persistent_notification.notification_3
+          - persistent_notification.notification_4
+          - persistent_notification.notification_5
+          - persistent_notification.notification_6
+          - persistent_notification.notification_7
+          - persistent_notification.notification_8
+        state_filter:
+          - "notifying" 
+    #### Filered Lights ON ####
+      - type: entity-filter
+        show_empty: false
+        card: 
+          type: entities
+        entities:
+          - timer.dogwalk
+        state_filter:
+          - "active"   
+          
+    #### Filered Lights ON ####
+      - type: entity-filter
+        show_empty: false
+        card: 
+          type: glance
+          column_width: calc(100% / 3)
+          title: תאורה דלוקה בבית
+        entities:
+          - entity: light.white_bulb
+            tap_action: toggle
+          - entity: light.living_room_color_bulb
+            tap_action: toggle
+          - entity: light.sonoff_light
+            tap_action: toggle
+          - entity: light.philips_bulb
+            tap_action: toggle
+          - entity: light.sonoff_hallway_light
+            tap_action: toggle
+          - entity: light.gateway_light_34ce0088d2f7
+            tap_action: toggle
+          - entity: light.desk_lamp
+            tap_action: toggle
+          - entity: switch.bedroom_fan_light
+            tap_action: toggle
+        state_filter:
+          - "on"
+       
+    #### Filered People HOME ####
+      - type: entity-filter
+        show_empty: false
+        card: 
+          type: glance
+          title: אנשים בבית
+          show_state: false
+        entities:
+          - device_tracker.eliraniphone #byIP at DDWT 
+          - device_tracker.shiraniphone #shiran
+          - device_tracker.android983a5bef7ebe50ce #svet Phone
+          - device_tracker.redminote4israelkes #israel Phone
+          - device_tracker.galaxys9 #amir abu
+        state_filter:
+          - "home" 
+
+#################################################################
+#                      Welcome Eliran & Shiran                      #
+################################################################# 
+      - type: picture-elements
+        image: /local/MyEntities/greeter-card01.jpg
+        elements:
+          - type: state-label
+            entity: sensor.time
+            style:
+              top: 8%
+              left: 10%
+              color: rgb(249, 251, 255)
+              text-shadow: 2px 2px DarkSlateGrey
+              font-family: Trebuchet MS
+              font-weight: bold
+              pointer-events: none
+              text-rendering: optimizeLegibility
+              -moz-osx-font-smoothing: grayscale
+              font-smoothing: antialiased
+              -webkit-font-smoothing: antialiased
+              font-size: 125%
+
+          - type: state-icon
+            entity: sensor.outside_temp
+            style:
+              top: 8%
+              left: 90%
+          
+          - type: state-label
+            entity: sensor.outside_temp
+            suffix: "° מעלות"
+            # suffix: °
+            style:
+              direction: rtl #Set the text direction to "right-to-left" -for Hebrew
+              top: 8%
+              left: 77%
+              font-weight: bold
+              color: rgb(249, 251, 255)
+              font-family: Trebuchet MS
+              text-shadow: 2px 2px DarkSlateGrey
+              text-rendering: optimizeLegibility
+              -moz-osx-font-smoothing: grayscale
+              font-smoothing: antialiased
+              -webkit-font-smoothing: antialiased
+              font-size: 145%
+  
+          - type: state-label
+            entity: sensor.time_of_day
+            style:
+              top: 30%
+              left: 50%
+              color: rgb(249, 251, 255)
+              font-size: 250%
+              pointer-events: none
+              text-shadow: 2px 2px DarkSlateGrey
+              font-family: Trebuchet MS
+              font-style: oblique
+              font-weight: 400
+              text-rendering: optimizeLegibility
+              -moz-osx-font-smoothing: grayscale
+              font-smoothing: antialiased
+              -webkit-font-smoothing: antialiased
+  
+          - type: state-label
+            entity: sensor.imsweather
+            prefix: "התחזית להיום: "
+            style:
+              top: 15%
+              left: 75%
+              color: rgb(249, 251, 255)
+              font-family: Trebuchet MS
+              font-style: oblique
+              text-shadow: 2px 2px DarkSlateGrey
+              font-size: 120%
+              pointer-events: none
+              font-weight: 400
+              text-rendering: optimizeLegibility
+              -moz-osx-font-smoothing: grayscale
+              font-smoothing: antialiased
+              -webkit-font-smoothing: antialiased
+  
+          - type: state-label
+            entity: sensor.greeter_card_info
+            style:
+              top: 76%
+              left: 46.5%
+              font-family: 'Assistant, sans-serif'
+              color: rgb(249, 251, 255)
+              
+          - type: custom:state-attribute-element
+            entity: calendar.icloudhome
+            attribute: message
+            style:
+              top: 83.5%
+              left: 53%
+              font-family: 'Assistant, sans-serif'
+              color: rgb(249, 251, 255)
+
+
+          - type: state-label
+            entity: sensor.greeter_card_info_2
+            style:
+              top: 46.5%
+              left: 47.5%
+              font-family: 'Assistant, sans-serif'
+              color: rgb(249, 251, 255)
+              
+          - type: custom:state-attribute-element
+            entity: calendar.work
+            attribute: message
+            style:
+              top: 53.5%
+              left: 57.5%
+              font-family: 'Assistant, sans-serif'
+              color: rgb(249, 251, 255)
+#################################################################
+#                       House - General View                    #
+################################################################# 
+      - type: picture-elements
+        image: /local/MyEntities/home.jpg
+        elements:  
+          - type: state-icon
+            entity: sensor.outside_temp
+            style:
+              top: 8%
+              left: 90%
+          - type: state-label
+            entity: sensor.outside_temp
+            suffix: "° מעלות"
+            style:
+              direction: rtl #Set the text direction to "right-to-left" -for Hebrew
+              top: 8%
+              left: 73%
+              font-weight: bold
+
+          - type: state-icon
+            entity: binary_sensor.door_window_sensor_158d0001b714e9
+            style:
+              top: 82%
+              left: 62.7%
+              color: white
+
+          - type: state-icon
+            entity: binary_sensor.door_window_sensor_158d0001b714e9
+            style:
+              top: 94%
+              left: 4%
+              color: white
+
+          - type: state-icon
+            entity: binary_sensor.motion_sensor_158d0000e62376
+            style:
+              top: 94%
+              left: 12%
+              color: white 
+
+          - type: state-icon
+            entity: light.white_bulb
+            style:
+              top: 94%
+              left: 20%
+              color: white 
+
+          - type: state-icon
+            entity: light.living_room_color_bulb
+            style:
+              top: 94%
+              left: 28%
+              color: white                                         
+
+          - type: state-icon
+            entity: light.sonoff_light
+            style:
+              top: 94%
+              left: 38%
+              color: white
+
+          - type: state-icon
+            entity: light.philips_bulb
+            style:
+              top: 94%
+              left: 46%
+              color: white                    
+
+          - type: state-icon
+            entity: light.sonoff_hallway_light
+            style:
+              top: 94%
+              left: 54%
+              color: white     
+              
+          - type: state-icon
+            entity: light.gateway_light_34ce0088d2f7 
+            style:
+              top: 94%
+              left: 62%
+              color: white 
+              
+          - type: state-icon
+            entity: binary_sensor.door_window_sensor_158d0000d834ac 
+            style:
+              top: 94%
+              left: 70%
+              color: white                   
+
+          - type: state-icon
+            entity: light.desk_lamp
+            style:
+              top: 94%
+              left: 78%
+              color: white 
+
+          - type: state-icon
+            entity: switch.sonoff_xiaomicctv_switch
+            style:
+              top: 94%
+              left: 85%
+              color: white 
+
+          - type: state-icon
+            entity: switch.mqtt_pow2
+            style:
+              top: 94%
+              left: 91%
+              color: white   
+          - type: state-icon
+            entity: switch._mqtt_pow1
+            style:
+              top: 94%
+              left: 97%
+              color: white  
+              
+          ## temp ##
+          - type: state-label
+            entity: sensor.temperature_158d0001150e4e #Room Temp
+            tap_action: more-info
+            style:
+              top: 85%
+              left: 40% 
+              color: white
+              font-weight: bold
+
+          - type: state-label
+            entity: sensor.humidity_158d0001150e4e #Room Hum
+            style:
+              top: 85%
+              left: 52%
+              color: white   
+              font-weight: bold
+
+          - type: state-label
+            entity: sensor.sensibo1_temp
+            style:
+              top: 52%
+              left: 24%
+              color: white
+              font-weight: bold
+          - type: state-label
+            entity: sensor.sensibo1_humidity
+            tap_action: more-info
+            style:
+              top: 52%
+              left: 70% 
+              color: white
+              font-weight: bold
+                                
+          - type: state-label
+            entity: sensor.upstairs_temperature
+            style:
+              top: 95%
+              left: 87%
+              color: white
+              
+#################################################################
+#                       Hebrew Google Calendar                  #
+#################################################################               
+      - type: vertical-stack
+        cards:
+          - type: "custom:hebrew-calendar-card" #"custom:calendar-card"
+            # name: לוח שנה
+            entities: 
+              - calendar.work
+              - calendar.icloudhome
+      - type: iframe
+        url: https://ticker.mivzakim.net/ticker/filter/2100
+        aspect_ratio: 23%
+      # - type: horizontal-stack
+      #   cards:
+
+
+
+            
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: >
+              ## כל התאורה  
+              
+              ___
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: group.allmylights
+                icon: mdi:sofa
+                color: auto
+                color_off: 'var(--secondary-text-color)' #'var(--primary-color)'
+                name: כל התאורה
+                style:
+                  - font-size: 12px
+                  - font-weight: bold
+              - type: "custom:button-card"
+                entity: light.white_bulb
+                icon: mdi:page-layout-sidebar-left
+                color: auto
+                color_off: 'var(--secondary-text-color)' #'var(--primary-color)'
+                name: סלון שמאלית
+                style:
+                  - font-size: 12px
+                  - font-weight: bold
+              - type: "custom:button-card"
+                entity: light.living_room_color_bulb
+                icon: mdi:page-layout-sidebar-right
+                color: auto
+                color_off: 'var(--secondary-text-color)' #'var(--primary-color)'
+                name: סלון ימינית
+                style:
+                  - font-size: 12px
+                  - font-weight: bold              
+              - type: "custom:button-card"
+                entity: light.sonoff_light
+                icon: mdi:ceiling-light
+                color: auto
+                color_off: 'var(--secondary-text-color)' #'var(--primary-color)'
+                name: מטבח
+                style:
+                  - font-size: 12px
+                  - font-weight: bold
+              - type: "custom:button-card"
+                entity: light.sonoff_hallway_light
+                icon: mdi:track-light
+                color: auto
+                color_off: 'var(--secondary-text-color)' #'var(--primary-color)'
+                name: מסדרון
+                style:
+                  - font-size: 12px
+                  - font-weight: bold 
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: light.desk_lamp
+                icon: mdi:lamp
+                color: auto
+                color_off: 'var(--secondary-text-color)' #'var(--primary-color)'
+                name: מנורת שולחן
+                style:
+                  - font-size: 12px
+                  - font-weight: bold
+              - type: "custom:button-card"
+                entity: light.philips_bulb
+                icon: mdi:lightbulb-on-outline
+                color: auto
+                color_off: 'var(--secondary-text-color)' #'var(--primary-color)'
+                name: חדר שירות
+                style:
+                  - font-size: 12px
+                  - font-weight: bold
+              - type: "custom:button-card"
+                entity: light.gateway_light_34ce0088d2f7
+                icon: mdi:album
+                color: auto
+                color_off: 'var(--secondary-text-color)' #'var(--primary-color)'
+                name:  מנורת רכזת
+                style:
+                  - font-size: 12px
+                  - font-weight: bold              
+            
+              
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                # title: סלון
+                show_header_toggle: false
+                entities:
+                  - light.white_bulb
+                  - light.living_room_color_bulb
+                  - type: divider
+                  - light.sonoff_hallway_light
+                  - light.gateway_light_34ce0088d2f7
+              - type: entities
+                # title: מטבח
+                show_header_toggle: false
+                entities:
+                  - light.sonoff_light
+                  - light.philips_bulb
+                  - type: divider
+                  - light.desk_lamp
+                  # - entity: switch.bedroom_fan_light
+                  #   name: חדר שינה
+    # #### all my lights in Vertical stack ####   
+          # - type: horizontal-stack
+          #   cards:
+          #     - type: picture-glance
+          #       title: סלון
+          #       image: /local/MyEntities/livingroom.jpeg
+          #       entities:
+          #         - light.white_bulb
+          #         - light.living_room_color_bulb
+          #     - type: picture-glance
+          #       title: מטבח
+          #       image: /local/MyEntities/kitchen.jpeg
+          #       entities:
+          #         - light.sonoff_light
+          #         - light.philips_bulb
+          #   ######      
+          # - type: horizontal-stack
+          #   cards:
+          #     - type: picture-glance
+          #       title: מסדרון
+          #       image: /local/MyEntities/hallway.jpeg
+          #       entities:
+          #         - light.sonoff_hallway_light
+          #         - light.gateway_light_34ce0088d2f7
+          #     - type: picture-glance
+          #       title: חדר שינה
+          #       image: /local/MyEntities/bedroom.jpeg
+          #       entities:
+          #         - light.desk_lamp
+          #         - switch.bedroom_fan_light
+        
+
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - type: custom:thermostat-card
+                    title: מזגן סלון
+                    entity: climate.living_room
+                    step: 1
+                    chevron_size: 75
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - climate.living_room
+                      
+              - type: vertical-stack
+                cards:
+                  - type: sensor 
+                    entity: sensor.sensibo1_temp
+                    name: טמפרטורה בסלון
+                    accuracy: 25
+                    line_width: 8
+                    height: 100 #height of the line graph.
+                    font_size: 78 #Adjust the font size of the state value, as percentage of the original size.
+                    line_value_below: 27
+                    line_color_below: '#469D44' #green
+                    line_value_above: 27
+                    line_color_above: '#e74c3c' #red
+                  - type: sensor
+                    entity: sensor.sensibo1_humidity #sensor.temperature_158d0001150e4e
+                    name: לחות בסלון
+                    accuracy: 25
+                    line_width: 8
+                    height: 100 #height of the line graph.
+                    font_size: 78 #Adjust the font size of the state value, as percentage of the original size.
+                    line_value_below: 70
+                    line_color_below: '#469D44' #green
+                    line_value_above: 70
+                    line_color_above: '#e74c3c' #red
+                    
+                    
+      - type: horizontal-stack
+        cards:                    
+          - type: picture-elements
+            image: /local/MyEntities/vacuum_card03.jpg
+            elements:
+            - type: state-icon
+              tap_action: more-info
+              entity: vacuum.xiaomi_vacuum
+              title: מידע נוסף
+              icon: mdi:robot-vacuum
+              style:
+                top: 10%
+                left: 10%
+                
+            - type: state-label
+              entity: sensor.vacuum_status
+              style:
+                top: 10%
+                right: 5%
+                color: rgb(255, 255, 255)
+                transform: translate(0%,-50%)
+                pointer-events: none
+                text-shadow: 1px 1px black
+                font-family: Trebuchet MS
+                font-size: 90%
+                font-weight: bold
+                border-right-style: solid
+                border-color: rgb(34, 154, 210)
+                background-color: rgb(54, 65, 78)
+                opacity: 0.8
+        
+            - type: state-label
+              entity: sensor.vacuum_battery
+              style:
+                top: 40%
+                right: 5%
+                color: rgb(255, 255, 255)
+                transform: translate(0%,-50%)
+                pointer-events: none
+                text-shadow: 1px 1px black
+                font-family: Trebuchet MS
+                font-size: 90%
+                font-weight: bold
+                border-right-style: solid
+                border-color: rgb(34, 154, 210)
+                background-color: rgb(54, 65, 78)
+                opacity: 0.8                    
+            - type: icon
+              title: בצע ניקיון נקודתי
+              icon: mdi:camera-metering-spot
+              tap_action: call-service
+              entity: vacuum.xiaomi_vacuum
+              service: vacuum.clean_spot
+              style:
+                top: 80%
+                left: 80%
+                
+            - type: icon
+              title: חזור לעמדת הטענה
+              tap_action: call-service
+              icon: mdi:home
+              entity: vacuum.xiaomi_vacuum
+              service: vacuum.return_to_base
+              style:
+                top: 80%
+                left: 60%
+        
+            - type: icon
+              title: התחל או השהה פעילות
+              icon: mdi:play
+              tap_action: call-service
+              entity: vacuum.xiaomi_vacuum
+              service: vacuum.start
+              style:
+                top: 80%
+                left: 40%
+        
+            - type: icon
+              title: עצור שאיבה
+              icon: mdi:stop
+              tap_action: call-service
+              entity: vacuum.xiaomi_vacuum
+              service: vacuum.stop
+              style:
+                top: 80%
+                left: 20%
+          - type: sensor
+            entity: sensor.temperature_158d0001150e4e
+            name: טמפרטורה בחדר
+            accuracy: 25
+            line_width: 8
+            height: 30 #height of the line graph.
+            font_size: 40 #Adjust the font size of the state value, as percentage of the original size.
+            line_value_below: 27
+            line_color_below: '#469D44' #green
+            line_value_above: 27
+            line_color_above: '#e74c3c' #red
+
+    #### customUI  weather card #### 
+      - type: "custom:weather-card"
+        entity_title: מזג אוויר
+        entity_weather: weather.yweather
+        entity_sun: sun.sun
+        
+        
+
+
+   #### all my switchs in Vertical stack ####
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: >
+              ## כל הלחצנים
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                # title: מפסקים מצלמות
+                show_header_toggle: false
+                entities:
+                  - entity: switch.mqtt_pow2
+                    name: מפסק מטבח
+                  - entity: switch.sonoff_xiaomicctv_switch
+                    name: מפסק סלון  
+                  - climate.living_room
+              - type: entities
+                # title: טלויזיה
+                show_header_toggle: false
+                entities:
+                  - entity: switch.xiaomi_powerstrip
+                    name: מפצל בסלון
+                  - switch._mqtt_pow1
+                  - vacuum.xiaomi_vacuum
+                  
+          - type: markdown
+            content: >
+              ### טלויזיה
+
+              ___
+
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - switch.tv_lg
+              - switch.tv_lg_vol
+          ######      
+          - type: glance
+            column_width: calc(100% / 4)
+            entities:
+              - switch.tv_lg_hdmi1
+              - switch.tv_lg_hdmi2
+              - switch.tv_lg_hdmi3
+              - switch.tv_lg_mute
+                  
+   #### all my sensors in glance with actions ####
+      - type: glance
+        # show_name: false
+        title: כל החישינים
+        entities:
+          - entity: binary_sensor.door_window_sensor_158d0001b714e9 #home door
+            name: ראשית
+          - binary_sensor.motion_sensor_158d0000e62376
+          - entity: sensor.sensibo1_temp #sensor.temperature_158d0001150e4e
+            name: טמפרטורה
+          - sensor.sensibo1_humidity
+          - entity: binary_sensor.door_window_sensor_158d0000d834ac #home door
+            name: חדר שינה
+          - entity: vacuum.xiaomi_vacuum
+            name: שואב אבק
+            # tap_action: toggle
+          # - switch._mqtt_pow1
+          # - entity: sensor.illumination_34ce0088d2f7
+          #   name: אור ברכזת
+          - climate.living_room   
+          - entity: switch.mqtt_pow2
+            name:  מטבח
+            tap_action: toggle
+          - entity: switch.sonoff_xiaomicctv_switch
+            name: מצלמת סלון
+            tap_action: toggle
+          - entity: switch.xiaomi_powerstrip
+            name: מפצל  
+  # #### all my sensors in glance with actions ####
+  #     - type: glance
+  #       # show_name: false
+  #       title: מידע מערכת
+  #       column_width: calc(100% / 3)
+  #       entities:
+  #         - entity: sensor.date__time
+  #           name: תאריך 
+  #         - entity: sensor.eliran_iphone_battery_level
+  #           name: סוללה אלירן
+  #         - entity: sensor.shiran_iphone_battery_level
+  #           name: סוללה שירן
+  #         ###
+  #         - entity: sensor.since_last_boot
+  #           name: OS זמן ריצה
+  #         - entity: sensor.time_online
+  #           name: HA זמן ריצה
+  #         - entity: sensor.latest_ha_backup
+  #           name: גיבוי אחרון
+  #         - entity: script.restart_home_assistant
+  #           name: HA אתחול
+  #         - entity: sensor.hass
+  #           name: גודל גיבויים
+  #         # - sensor.gpu_temp
+  #         # - sensor.cpu_temp
+
+
+
+   #### Cameras ####   
+      - type: vertical-stack
+        cards:
+          - type: picture-entity
+            entity: camera.outdoor_cctv
+          - type: picture-entity
+            entity: camera.home_cctv1
+          # - type: picture-entity
+          #   entity: camera.home_cctv2
+  ### Currency Exchange Rates in glance####
+      - type: custom:swipe-card
+        card_width: '185px'
+        start_card: 2
+        parameters:
+          effect: 'coverflow'
+          grabCursor: true
+          centeredSlides: true
+          slidesPerView: 'auto'
+          coverflowEffect:
+            rotate: 50
+            stretch: 0
+            depth: 100
+            modifier: 1
+            slideShadows : true
+          pagination:
+            type: 'bullets'
+        cards:
+          - type: sensor
+            entity: sensor.euroeur
+            # name: Temperatuur
+            line_width: 8
+            line_color: '#FF6384'
+          - type: sensor
+            entity: sensor.dollarusd
+            # name: Luchtvochtigheid
+            line_color: '#36A2EB'
+            line_width: 8
+          - type: sensor
+            entity: sensor.poundgbp
+            # name: Licht
+            # line_color: '#ffce57'
+            line_width: 8
+          - type: sensor
+            entity: sensor.exchange_date
+            graph: none
+            font_size: 70 #Adjust the font size of the state value, as percentage of the original size.
+         
+
+
+
+
+      - type: glance
+        column_width: calc(100% / 2)
+        title: "סטטיסטיקה"
+        show_header_toggle: true
+        entities:
+          # - timer.dogwalk
+          - entity: sensor.home_to_adoraim
+            # name: מהבית לאדוריים
+          - entity: sensor.home_to_otniel
+            name: מהבית לעתניאל          
+          - sensor.shiran_at_home_yesterday
+          - sensor.eliran_at_home_yesterday
+      - type: picture
+        image: /local/MyEntities/FloorPlaneLink.png #/local/custom_ui/floorplan/floorplan.svg
+        navigation_path: /floorplan
+#### SECOND view ####
+  - title: Server
+    # the final path is /lovelace/Server_info
+    # background: /local//MyEntities/servers_room.jpg
+    id: Server_info
+    # Each view can have a different theme applied. Theme should be defined in the frontend.
+    # theme: badge
+    icon: mdi:mdi:desktop-classic
+    cards:
+      - type: glance
+        title: קישורים
+        show_state: false
+        # column_width: calc(100% / 5)
+        entities:
+          - weblink.server
+          - weblink.ide
+          - weblink.cloudflare
+          - weblink.nextcloud
+          - weblink.router
+          
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: sensor
+                entity:  sensor.speedtest_download
+                name: הורדה
+                accuracy: 100
+                line_width: 8
+                # height: 30 #height of the line graph.
+                font_size: 70 #Adjust the font size of the state value, as percentage of the original size.
+                line_value_below: 450
+                line_color_below: '#e74c3c' #red 
+                line_value_above: 450
+                line_color_above: '#469D44' #green
+              - type: sensor
+                entity:  sensor.speedtest_upload
+                name: העלאה
+                accuracy: 100
+                line_width: 8
+                # height: 30 #height of the line graph.
+                font_size: 70 #Adjust the font size of the state value, as percentage of the original size.
+                line_value_below: 50
+                line_color_below: '#e74c3c' #red 
+                line_value_above: 50
+                line_color_above: '#469D44' #green
+          - type: custom:dual-gauge-card
+            title: מהירות גלישה
+            cardwidth: 230
+            outer:
+              min: 0
+              max: 800
+              entity: sensor.speedtest_download
+              label: "הורדה"
+              colors: #up to (if speed is 0-100 the color is red , etc...)
+               - color: '#990000' #red
+                 value: 300
+               - color: 'var(--label-badge-green)'
+                 value: 500
+               - color: 'var(--label-badge-yellow)'
+                 value: 800
+            inner:
+              min: 0
+              max: 150
+              entity: sensor.speedtest_upload
+              label: "העלאה"
+              colors: #up to (if speed is 0-100 the color is red , etc...)
+              - color: '#990000' #red
+                value: 30
+              - color: 'var(--label-badge-green)'
+                value: 50
+              - color: 'var(--label-badge-yellow)'
+                value: 70  
+                
+          # - type: history-graph
+          #   hours_to_show: 168 #1Week
+          #   refresh_interval: 3600 #1 Hour
+          #   entities:
+          #     - sensor.speedtest_download
+          #     - sensor.speedtest_upload
+          
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                  - entity: sensor.speedtest_ping
+              - type: entities
+                entities:
+                  - entity: script.update_speedtestnet
+                    tap_action: toggle 
+
+      # - type: custom:vertical-stack-in-card
+      #   cards:
+      #     - type: horizontal-stack
+      #       cards:
+      #         - type: custom:gauge-card
+      #           title: הורדה
+      #           entity: sensor.speedtest_download
+      #           scale: '33px'
+      #           min: 0
+      #           max: 420
+      #           severity:
+      #             red: 0
+      #             green: 250
+      #             amber: 370
+      #         - type: custom:vertical-stack-in-card
+      #           cards:
+      #             - type: markdown
+      #               content: >
+      #                 ### מהירות גלישה
+      #             - type: custom:bignumber-card
+      #               title: פינג
+      #               entity: sensor.speedtest_ping
+      #               scale: 12px
+      #               from: bottom
+      #               min: 0
+      #               max: 250
+      #               severity:
+      #                 - value: 30
+      #                   style: 'var(--label-badge-green)'
+      #                 - value: 75
+      #                   style: 'var(--label-badge-yellow)'
+      #                 - value: 100
+      #                   style: 'var(--label-badge-red)'
+      #         - type: custom:gauge-card
+      #           title: העלאה
+      #           entity: sensor.speedtest_upload
+      #           scale: '33px'
+      #           min: 0
+      #           max: 200
+      #           severity:
+      #             red: 0
+      #             green: 65
+      #             amber: 120
+
+      #     - type: history-graph
+      #       hours_to_show: 168 #1Week
+      #       refresh_interval: 3600 #1 Hour
+      #       entities:
+      #         - sensor.speedtest_download
+      #         - sensor.speedtest_upload
+      #     - type: entities
+      #       entities:
+      #         - entity: script.update_speedtestnet
+      #           tap_action: toggle 
+          # - type: glance
+          #   # show_name: false
+          #   # title: מהירות גלישה
+          #   column_width: calc(100% / 4)
+          #   entities:
+          #     - sensor.speedtest_download
+          #     - sensor.speedtest_ping
+          #     - sensor.speedtest_upload
+          #     - entity: script.update_speedtestnet
+          #       tap_action: toggle     
+            
+
+      #### all my lights in Vertical stak ####   
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: glance
+            # show_name: false
+            title: מידע על השרת
+            column_width: calc(100% / 3)
+            entities:
+              - entity: sensor.date__time
+                name: תאריך 
+              - entity: sensor.since_last_boot
+                name: OS זמן ריצה
+              - entity: sensor.time_online
+                name: HA זמן ריצה
+          - type: entities
+            entities:
+              - sensor.geoip
+              - device_tracker.902b343ecbfa #main server 
+              - device_tracker.8322 #wan cable
+              - device_tracker.winserver #Windows VM
+          ###
+          - type: horizontal-stack
+            cards:
+              - type: custom:circle-sensor-card
+                entity: sensor.processor_use
+                name: ניצול מעבד
+                max: 100
+                min: 0
+                show_card: true
+                stroke_width: 18
+                font_style:
+                  color: white
+                  font-size: 1em
+                  text-shadow: '2px 2px black'
+                  font-family: 'Trebuchet MS'
+                fill: '#3d3d3d' #Background
+                color_stops:
+                  0: 'var(--label-badge-green)'
+                  75: 'var(--label-badge-yellow)'
+                  90: 'var(--label-badge-red)' #red
+              - type: custom:circle-sensor-card
+                entity: sensor.memory_use_percent
+                name: ניצול זכרון
+                max: 100
+                min: 0
+                show_card: true
+                stroke_width: 18
+                font_style:
+                  color: white
+                  font-size: 1em
+                  text-shadow: '2px 2px black'
+                  font-family: 'Trebuchet MS'
+                fill: '#3d3d3d' #Background
+                color_stops:
+                  0: 'var(--label-badge-green)'
+                  75: 'var(--label-badge-yellow)'
+                  90: 'var(--label-badge-red)' #red
+                  
+
+              - type: custom:circle-sensor-card
+                entity: sensor.cpu_temp
+                name: טמפרטורה מעבד
+                max: 105
+                min: 0
+                show_card: true
+                stroke_width: 18
+                font_style:
+                  color: white
+                  font-size: 0.8em
+                  text-shadow: '2px 2px black'
+                  font-family: 'Trebuchet MS'
+                fill: '#3d3d3d' #Background
+                color_stops:
+                  0: 'var(--label-badge-green)'
+                  65: 'var(--label-badge-yellow)'
+                  105: 'var(--label-badge-red)'
+
+          - type: horizontal-stack
+            cards:                  
+              - type: custom:circle-sensor-card
+                entity: sensor.hdd_sdc_temp
+                name: SSD Evo 850
+                max: 70
+                min: 0
+                show_card: true
+                stroke_width: 18
+                font_style:
+                  color: white
+                  font-size: 0.8em
+                  text-shadow: '2px 2px black'
+                  font-family: 'Trebuchet MS'
+                fill: '#3d3d3d' #Background
+                color_stops:
+                  0: 'var(--label-badge-green)'
+                  55: 'var(--label-badge-yellow)'
+                  65: 'var(--label-badge-red)'
+                  
+              - type: custom:circle-sensor-card
+                entity: sensor.hdd_sdb_temp
+                name: SSD Evo 830
+                max: 60
+                min: 0
+                show_card: true
+                stroke_width: 18
+                font_style:
+                  color: white
+                  font-size: 0.8em
+                  text-shadow: '2px 2px black'
+                  font-family: 'Trebuchet MS'
+                fill: '#3d3d3d' #Background
+                color_stops:
+                  0: 'var(--label-badge-green)'
+                  45: 'var(--label-badge-yellow)'
+                  55: 'var(--label-badge-red)'
+                  
+              - type: custom:circle-sensor-card
+                entity: sensor.hdd_sde_temp
+                name: WD WD10EARS
+                max: 60
+                min: 0
+                show_card: true
+                stroke_width: 18
+                font_style:
+                  color: white
+                  font-size: 0.8em
+                  text-shadow: '2px 2px black'
+                  font-family: 'Trebuchet MS'
+                fill: '#3d3d3d' #Background
+                color_stops:
+                  0: 'var(--label-badge-green)'
+                  45: 'var(--label-badge-yellow)'
+                  55: 'var(--label-badge-red)'
+                  
+                  
+              - type: custom:circle-sensor-card
+                entity: sensor.hdd_sdd_temp
+                name: WD WD10EZEX
+                max: 60
+                min: 0
+                show_card: true
+                stroke_width: 18
+                font_style:
+                  color: white
+                  font-size: 0.8em
+                  text-shadow: '2px 2px black'
+                  font-family: 'Trebuchet MS'
+                fill: '#3d3d3d' #Background
+                color_stops:
+                  0: 'var(--label-badge-green)'
+                  45: 'var(--label-badge-yellow)'
+                  55: 'var(--label-badge-red)'
+
+          ###
+          - type: glance
+            # show_name: false
+            # title: גיבויים
+            column_width: calc(100% / 4)
+            entities: 
+              - entity: sensor.homeassistant_v2db
+                name: DB גודל
+              - entity: sensor.latest_ha_backup
+                name:  אחרון HA גיבוי
+              - entity: sensor.hass
+                name: HA גודל גיבויי
+              - sensor.disk_use_percent_home
+          ###          
+          - type: entities
+            entities:
+              - type: divider
+          ###
+          - type: glance
+            # show_name: false
+            # title: גיבויים
+            column_width: calc(100% / 4)
+            entities: 
+              - entity: sensor.last_HA_released_version
+                name:  אחרונה HA  
+              - entity: script.restart_home_assistant
+                name: HA אתחול
+                tap_action: toggle
+              - entity: script.reboot_router
+                name: איתחול ראוטר
+                tap_action: toggle
+              - entity: sensor.current_version
+                name: מותקנת HA 
+          ###                
+          - type: entities
+            entities:
+              - type: divider
+          ###              
+          - type: glance
+            # show_name: false
+            # title: גיבויים
+            column_width: calc(100% / 4)
+            entities: 
+              - entity: script.backup_ha_config
+                name: בלבד HA גבה תקיית
+              - entity: script.backup_ha_and_move_backup_to_unraid
+                name: העבר גיבויים לשרת
+              - script.start_windowsvm
+              - script.shutdown_windowsvm
+              
+
+      - type: glance
+        # show_name: false
+        column_width: calc(100% / 5)
+        title: מצב הצפנה
+        entities:   
+          - entity: sensor.ssl_server
+            name: SSL Server
+          - entity: sensor.ssl_hass
+            name: SSL HA
+          - entity: sensor.ssl_router
+            name: SSL Router
+          - entity: sensor.ssl_ide
+            name:  SSL IDE
+          - entity: sensor.ssl_cloud
+            name:  SSL Cloud
+      - type: vertical-stack
+        cards:
+          - type: picture-elements
+            image: /local/MyEntities/Keys.jpeg
+            elements:
+              - type: state-icon
+                entity: sensor.last_successful_authentication
+                style:
+                  top: 6%
+                  left: 50%
+                  
+              - type: state-label
+                entity: sensor.last_successful_authentication
+                prefix: 'אייפיי כניסה אחרון: '
+                style:
+                  direction: rtl
+                  top: 13%
+                  right: 22.5%
+                  color: rgb(255, 255, 255)
+                  transform: none
+                  font-family: Trebuchet MS
+                  text-shadow: 2px 2px black
+                  font-size: 100%
+                  pointer-events: none
+                  font-weight: bold
+                  border-right-style: outset
+                  border-left-style: outset
+                  border-bottom-style: outset
+                  border-top-style: outset
+                  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+                  border-color: rgb(34, 154, 210)
+                  background-color: rgb(54, 65, 78)
+                  opacity: 0.8
+                  
+              - type: custom:state-attribute-element
+                entity: sensor.last_successful_authentication
+                attribute: country
+                prefix: 'ארץ: '
+                style:
+                  direction: rtl #Set the text direction to "right-to-left" -for Hebrew
+                  top: 73.4%
+                  right: 2.5%
+                  color: rgb(255, 255, 255)
+                  transform: none
+                  font-family: Trebuchet MS
+                  text-shadow: 2px 2px black
+                  font-size: 90%
+                  pointer-events: none
+                  font-weight: bold
+                  border-right-style: solid
+                  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+                  border-color: rgb(34, 154, 210)
+                  background-color: rgb(54, 65, 78)
+                  opacity: 0.8    
+                  
+              - type: custom:state-attribute-element
+                entity: sensor.last_successful_authentication
+                attribute: hostname
+                prefix: 'שם מארח: '
+                style:
+                  direction: rtl #Set the text direction to "right-to-left" -for Hebrew
+                  top: 80%
+                  right: 2.5%
+                  color: rgb(255, 255, 255)
+                  transform: none
+                  font-family: Trebuchet MS
+                  text-shadow: 2px 2px black
+                  font-size: 90%
+                  pointer-events: none
+                  font-weight: bold
+                  border-right-style: solid
+                  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+                  border-color: rgb(34, 154, 210)
+                  background-color: rgb(54, 65, 78)
+                  opacity: 0.8
+    
+              - type: state-label
+                entity: sensor.authentication_known_ip_info
+                prefix: 'אייפיי חדש? '
+                style:
+                  direction: rtl #Set the text direction to "right-to-left" -for Hebrew
+                  top: 86.7%
+                  right: 2.5%
+                  color: rgb(255, 255, 255)
+                  transform: none
+                  font-family: Trebuchet MS
+                  text-shadow: 2px 2px black
+                  font-size: 80%
+                  pointer-events: none
+                  font-weight: bold
+                  border-right-style: solid
+                  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+                  border-color: rgb(34, 154, 210)
+                  background-color: rgb(54, 65, 78)
+                  opacity: 0.8
+                  
+          - type: iframe
+            url: https://geo.myip.ms/?icon=small
+            aspect_ratio: 18%
+          
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: מצב מכשירים #IOT Status
+            entities:       
+              - device_tracker.xiaomigateway
+              - device_tracker.yeelightdesklamp #desk lamp
+              - device_tracker.yeelightcolorbulb
+              - device_tracker.yeelightwhitebulb
+              - device_tracker.philipsbulb
+              - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
+              - device_tracker.esp_717fd4 #sonoff4 
+              - type: divider
+              - device_tracker.48022c80b661 #outdoor cctv
+              - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
+              - device_tracker.homecctv #HomeCCTV VStarcam 360 
+              - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
+              - device_tracker.54e4bdbe134c #hikvision CCTV
+              # - device_tracker.286c07773d15 #Xiaomi cctv
+              # - device_tracker.nbsp #Xiaomi cctv new MAC
+              - type: divider
+              - device_tracker.sonoffpow1 #sonoff pow1 boiler
+              - device_tracker.xiaomipowerstrip
+              - device_tracker.xiaomiircontroller
+              - device_tracker.rockrobo #Xiaomi Vaccum Cleaner Gen1
+              - type: divider
+              # - device_tracker.4098ada0c3dd #apple???
+              - device_tracker.amazon04d23d06d #echo dot
+              # - device_tracker.esp_48122c # ???
+              - device_tracker.8322 #wan cable
+              # - device_tracker.talamisaiiphone
+              # - device_tracker.samsunggalaxys7edge
+              
+              
+      - type: entities
+        title: מוצרים מחוברים #IOT Status
+        entities:  
+          #Online Devices -By TRACKER
+          - device_tracker.appletv #apple TV
+          - device_tracker.partnertv
+          - device_tracker.eliranmacbookpro
+          # - device_tracker.eliransplewatch
+          - device_tracker.desktop9cb3035 #shiran PC
+          - device_tracker.amazon04d23d06d #echo dot
+          # - device_tracker.chromecast
+          # - device_tracker.eliransimac
+          
           
       - type: entities
-        # Title of the entities card
-        title: כל החיישנים #All My Lights
-        # The entities here will be shown in the same order as specified.
+        title: Sonoff מצב גירסאות
+        show_header_toggle: false
         entities:
-          - binary_sensor.door_window_sensor_158d0001b714e9 #home door
+          - sensor.sonoff_latest_release
+          - script.check_sonoffs_version
+          - type: divider
+          # - script.update_sonoffs
+          - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
+          - sensor.sonoff_touch_kitchen_version
+          - device_tracker.esp_717fd4 #sonoff4 
+          - sensor.sonoff_hallway_light_version
+          - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
+          - sensor.sonoff_pow_homecctv_version
+          - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
+          - sensor.sonoff_xiaomicctv_version
+          - device_tracker.sonoffpow1 #sonoff pow1 boiler
+          - sensor.sonoff_pow_boiler_version
+      - type: custom:tracker-card
+        title: עדכונים
+        trackers:
+          - sensor.custom_card_tracker
+          - sensor.custom_component_tracker        
+
+
+#### THIRD view ####
+  - title: FloorPlan
+    # the final path is /lovelace/FloorPlan
+    id: FloorPlan
+    # Each view can have a different theme applied. Theme should be defined in the frontend.
+    # theme: badge
+    icon: mdi:floor-plan
+    cards:
+    - type: picture
+      image: /local/MyEntities/FloorPlaneLink.png #/local/custom_ui/floorplan/floorplan.svg
+      navigation_path: /floorplan
+      
+#### view 4 ####    
+  - title: "Living Room"
+    id: LivingRoom
+    icon: mdi:theater
+    cards:
+
+   #### all my lights in Vertical stack ####
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: >
+              ## תאורה מרכזית  
+              
+              ___
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                # title: סלון
+                show_header_toggle: false
+                entities:
+                  - light.white_bulb
+                  - type: divider
+                  - light.sonoff_light
+                  - light.philips_bulb
+              - type: entities
+                # title: מטבח
+                show_header_toggle: false
+                entities:
+                  - light.living_room_color_bulb
+                  - type: divider
+                  - light.sonoff_hallway_light
+                  - light.gateway_light_34ce0088d2f7
+
+          - type: picture-glance
+            title: סלון
+            image: /local/MyEntities/livingroom.jpeg
+            entities:
+              - light.white_bulb
+              - light.living_room_color_bulb
+    
+                ######      
+          - type: horizontal-stack
+            cards:
+              - type: picture-glance
+                title: מטבח
+                image: /local/MyEntities/kitchen.jpeg
+                entities:
+                  - light.sonoff_light
+                  - light.philips_bulb
+              - type: picture-glance
+                title: מסדרון
+                image: /local/MyEntities/hallway.jpeg
+                entities:
+                  - light.sonoff_hallway_light
+                  - light.gateway_light_34ce0088d2f7
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - type: custom:thermostat-card
+                    title: מזגן סלון
+                    entity: climate.living_room
+                    step: 1
+                    chevron_size: 75
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - climate.living_room
+                      
+              - type: vertical-stack
+                cards:
+                  - type: sensor
+                    entity: sensor.sensibo1_temp
+                    title: טמפרטורה בסלון
+                    accuracy: 25
+                    line_width: 8
+                    height: 100 #height of the line graph.
+                    font_size: 78 #Adjust the font size of the state value, as percentage of the original size.
+                    line_value_below: 27
+                    line_color_below: '#469D44' #green
+                    line_value_above: 27
+                    line_color_above: '#e74c3c' #red
+                  - type: sensor
+                    entity: sensor.sensibo1_humidity #sensor.temperature_158d0001150e4e
+                    name: לחות בסלון
+                    accuracy: 25
+                    line_width: 8
+                    height: 100 #height of the line graph.
+                    font_size: 78 #Adjust the font size of the state value, as percentage of the original size.
+                    line_value_below: 70
+                    line_color_below: '#469D44' #green
+                    line_value_above: 70
+                    line_color_above: '#e74c3c' #red
+                    
+      - type: picture-elements
+        image: /local/MyEntities/vacuum_card03.jpg
+        elements:
+        - type: state-icon
+          tap_action: more-info
+          entity: vacuum.xiaomi_vacuum
+          title: מידע נוסף
+          icon: mdi:robot-vacuum
+          style:
+            top: 10%
+            left: 10%
+            
+        - type: state-label
+          entity: sensor.vacuum_status
+          style:
+            top: 10%
+            right: 5%
+            color: rgb(255, 255, 255)
+            transform: translate(0%,-50%)
+            pointer-events: none
+            text-shadow: 1px 1px black
+            font-family: Trebuchet MS
+            font-size: 90%
+            font-weight: bold
+            border-right-style: solid
+            border-color: rgb(34, 154, 210)
+            background-color: rgb(54, 65, 78)
+            opacity: 0.8
+    
+        - type: state-label
+          entity: sensor.vacuum_battery
+          style:
+            top: 40%
+            right: 5%
+            color: rgb(255, 255, 255)
+            transform: translate(0%,-50%)
+            pointer-events: none
+            text-shadow: 1px 1px black
+            font-family: Trebuchet MS
+            font-size: 90%
+            font-weight: bold
+            border-right-style: solid
+            border-color: rgb(34, 154, 210)
+            background-color: rgb(54, 65, 78)
+            opacity: 0.8                    
+        - type: icon
+          title: בצע ניקיון נקודתי
+          icon: mdi:camera-metering-spot
+          tap_action: call-service
+          entity: vacuum.xiaomi_vacuum
+          service: vacuum.clean_spot
+          style:
+            top: 80%
+            left: 80%
+            
+        - type: icon
+          title: חזור לעמדת הטענה
+          tap_action: call-service
+          icon: mdi:home
+          entity: vacuum.xiaomi_vacuum
+          service: vacuum.return_to_base
+          style:
+            top: 80%
+            left: 60%
+    
+        - type: icon
+          title: התחל או השהה פעילות
+          icon: mdi:play
+          tap_action: call-service
+          entity: vacuum.xiaomi_vacuum
+          service: vacuum.start
+          style:
+            top: 80%
+            left: 40%
+    
+        - type: icon
+          title: עצור שאיבה
+          icon: mdi:stop
+          tap_action: call-service
+          entity: vacuum.xiaomi_vacuum
+          service: vacuum.stop
+          style:
+            top: 80%
+            left: 20%
+
+
+
+
+      - type: glance
+        title: "מידע"
+        column_width: calc(100% / 4)
+        show_header_toggle: false
+        entities:
+          - sensor.temperature_158d0001150e4e
+          - binary_sensor.door_window_sensor_158d0001b714e9
+          - binary_sensor.motion_sensor_158d0000e62376
+          - sensor.sensibo1_temp
+          - sensor.humidity_158d0001150e4e
+          - entity: switch.xiaomi_powerstrip
+            name: מפצל בסלון
+          - entity: vacuum.xiaomi_vacuum
+            name: שואב אבק           
+          - sensor.sensibo1_humidity
+          
+   #### all my switchs in Vertical stack ####
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: >
+              ### כל המפסקים
+              
+              ___
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                # title: מפסקים מצלמות
+                show_header_toggle: false
+                entities:
+                  - entity: switch.mqtt_pow2
+                    name: מפסק מטבח
+                  - entity: switch.sonoff_xiaomicctv_switch
+                    name: מפסק סלון  
+                  - climate.living_room
+              - type: entities
+                # title: טלויזיה
+                show_header_toggle: false
+                entities:
+                  - entity: switch.xiaomi_powerstrip
+                    name: מפצל בסלון
+                  - switch._mqtt_pow1
+                  - vacuum.xiaomi_vacuum
+                  
+          - type: markdown
+            content: >
+              ### טלויזיה
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - switch.tv_lg
+              - switch.tv_lg_vol
+          ######      
+          - type: glance
+            column_width: calc(100% / 4)
+            entities:
+              - switch.tv_lg_hdmi1
+              - switch.tv_lg_hdmi2
+              - switch.tv_lg_hdmi3
+              - switch.tv_lg_mute
+                  
+          
+      - type: entities
+        title: "אנשים"
+        show_header_toggle: false
+        entities:
+          - device_tracker.eliraniphone
+          - device_tracker.shiraniphone
+      - type: vertical-stack
+        cards:
+        - type: media-control
+          entity: media_player.partnertv
+        - type: media-control
+          entity: media_player.apple_tv
+
+      - type: entities
+        title: "רדיו"
+        show_header_toggle: true
+        entities:
+          - input_select.radio_station
+          - input_select.chromecast_radio
+          - script.ilradio
+
+      - type: picture
+        image: /local/MyEntities/FloorPlaneLink.png #/local/custom_ui/floorplan/floorplan.svg
+        navigation_path: /floorplan
+
+
+      ####
+      - type: entities
+        title: "כל השליטה מרחוק"
+        show_header_toggle: false
+        entities:
+          - device_tracker.rmproplus
+          - remote.apple_tv
+#### view 5 ####           
+  - title: "BedRoom"
+    id: BedRoom
+    icon: mdi:hotel
+    cards:
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            title: "תאורה"
+            show_header_toggle: false
+            entities:
+              - switch.bedroom_fan_light
+              - light.desk_lamp
+          - type: picture-glance
+            title: חדר שינה
+            image: /local/MyEntities/bedroom.jpeg
+            entities:
+              - light.desk_lamp
+              - switch.bedroom_fan_light
+      - type: vertical-stack
+        cards:
+          - type: glance
+            title: מידע
+            column_width: calc(100% / 4)
+            entities:
+              - binary_sensor.door_window_sensor_158d0000d834ac
+              - entity: vacuum.xiaomi_vacuum
+                name: שואב אבק
+              - climate.living_room
+              - binary_sensor.motion_sensor_158d0000e62376
+          - type: horizontal-stack
+            cards:         
+              - type: sensor
+                entity: sensor.temperature_158d0001150e4e
+                name: טמפרטורה בחדר
+                accuracy: 25
+                line_width: 8
+                height: 100 #height of the line graph.
+                font_size: 75 #Adjust the font size of the state value, as percentage of the original size.
+                line_value_below: 27
+                line_color_below: '#469D44' #green
+                line_value_above: 27
+                line_color_above: '#e74c3c' #red  
+              - type: sensor
+                entity: sensor.humidity_158d0001150e4e
+                name: לחות בחדר
+                accuracy: 25
+                line_width: 8
+                height: 100 #height of the line graph.
+                font_size: 75 #Adjust the font size of the state value, as percentage of the original size.
+                line_value_below: 70
+                line_color_below: '#469D44' #green
+                line_value_above: 70
+                line_color_above: '#e74c3c' #red
+          
+    #### customUI  weather card #### 
+      - type: "custom:weather-card"
+        entity_title: מזג אוויר
+        entity_weather: weather.yweather
+        entity_sun: sun.sun
+        
+        
+      - type: custom:vertical-stack-in-card
+        cards:   
+          - type: markdown
+            content: >
+              ### שעון מעורר
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                  - entity: sensor.alarm_clock_time
+                    name: שעת השעון
+              - type: entities
+                entities:
+                  - input_boolean.alarm_clock_status
+          - type: entities
+            entities:
+              - input_number.alarm_clock_hour
+              - input_number.alarm_clock_minute
+          
+
+      - type: vertical-stack
+        cards:
+        - type: media-control
+          entity: media_player.partnertv
+        - type: media-control
+          entity: media_player.apple_tv
+        
+      - type: entities
+        title: "רדיו"
+        show_header_toggle: true
+        entities:
+          - input_select.radio_station
+          - input_select.chromecast_radio
+          - script.ilradio
+          
+#### view 5.5 ####           
+  - title: "TV"
+    id: TV
+    icon: mdi:remote
+    cards:  
+      - type: vertical-stack
+        cards:
+          - type: "custom:content-card-remote-control"
+            broadlink_entity: 'broadlink_send_packet_192_168_1_80'
+            name: PartnerTV
+            remote_template: partner
+            buttons:
+              power: "JgBQAAABJ5QWDxYPFTUVDxYPFRAVEBUPFjQVNBYPFjQVNBY0EzcVNBUQFRAVDxY0FRAVDxYPFg8VNRU0FTUVDxY0FTQWNBU1FQAFIgABJ0oWAA0FAAAAAAAAAAA=" #
+              volplus: "JgBQAAABJ5QUERMSEzcTERQRExITEhMRFDYTNxMREzcTNhQ2EzcTNhMSEzYUERMSExITEhMRFBETNxMSEzYTNxM2EzcTNhM3EwAFJAABJ0sTAA0FAAAAAAAAAAA=" #
+              volmin: "JgBQAAABJ5QUEBYPFTUVEBUPFg8VEBUQFDUVNRUQFTQVNRU0FTUVNBU1FTQWDxURFBAVDxYPFRAVEBUPFjQVNRU0FTUVNBY0FQAFIgABJ0oWAA0FAAAAAAAAAAA=" # 
+              partner: "ZZZ="
+              mute: "JgBQAAABJ5QTEhQSEjYUERUQFBEUERQRFDUUNRUQFDYUNRU1FDUTNxU1FBAWDxU1FQ8WDxYPFRAVEBU0FTUVEBU0FTUVNBY0FQAFIgABJ0oWAA0FAAAAAAAAAAA="
+              record: "ZZZ="
+              source: "JgBYAAABJ5QTEhMSEzYVEBQRFBEUEBUQFDYUNRQRFDYUNRQ2FTQVNRU0FjQVEBQzFxAVEBUQFQ8WDxUQFDUWEBI3FTQWNBU0FQAFIwABJ0sUAAxSAAEnSxMADQU=" #
+              one: "ZZZ="
+              two: "ZZZ="
+              three: "ZZZ="
+              four: "ZZZ="
+              five: "ZZZ="
+              six: "ZZZ="
+              seven: "ZZZ="
+              eight: "ZZZ="
+              nine: "ZZZ="
+              zero: "ZZZ="
+              section12: "ZZZ="
+              lastch: "ZZZ="
+              fastforward: "ZZZ="
+              rewind: "ZZZ="
+              play: "ZZZ="
+              stop: "ZZZ="
+              vod: "ZZZ="
+              myrec: "ZZZ="
+              netflix: "ZZZ="
+              youtube: "ZZZ="
+              channelup: "ZZZ="
+              channeldown: "ZZZ="
+              home: "ZZZ="
+              menu: "ZZZ="
+              back: "ZZZ="
+              circle: "ZZZ="
+              left: "ZZZ="
+              right: "ZZZ="
+              top: "ZZZ="
+              bottom: "ZZZ="
+              ok: "ZZZ="
+              
+      - type: vertical-stack
+        cards:
+          - type: custom:israeli-broadcast-schedule-card
+            title: לוח שידורים לערוץ רשת 13
+            channel: CH36
+            max: 2
+          - type: custom:israeli-broadcast-schedule-card
+            title: לוח שידורים לערוץ קשת 12
+            channel: CH34
+            max: 2
+      # - type: vertical-stack
+      #   cards:            
+          - type: custom:israeli-broadcast-schedule-card
+            title: לוח שידורים לערוץ עשר 10 
+            channel: TV04
+            max: 2       
+          - type: custom:israeli-broadcast-schedule-card
+            title: לוח שידורים לערוץ ויוה 
+            channel: TV20
+            max: 2 
+   
+### view 6 ###
+  - title: "Kitchen"
+    id: Kitchen
+    icon: mdi:stove
+    cards:
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: >
+              ### תאורת מטבח
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                  - light.sonoff_light
+              - type: entities
+                entities:
+                  - light.philips_bulb
+
+
+              
+          - type: picture-glance
+            title: מטבח
+            image: /local/MyEntities/kitchen.jpeg
+            entities:
+              - light.sonoff_light
+              - light.philips_bulb
+          
+      - type: glance
+        column_width: calc(100% / 3)
+        title: "מידע"
+        show_header_toggle: true
+        entities:
+          - sensor.date__time
+          - binary_sensor.motion_sensor_158d0000e62376
+          - sensor.temperature_158d0001150e4e
+          - sensor.humidity_158d0001150e4e
+          - vacuum.xiaomi_vacuum
+          - switch.mqtt_pow2
+
+
+ 
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: >
+              ### דוד חכם
+          - type: entities
+            entities:
+              - switch._mqtt_pow1
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                   - input_boolean.boiler_on_clock_status
+              - type: entities
+                entities:
+                   - sensor.boiler_on_clock_time
+          - type: entities
+            entities:
+              - input_number.boiler_on_clock_hour
+              - input_number.boiler_on_clock_minute
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                   - input_boolean.boiler_off_clock_status
+              - type: entities
+                entities:
+                   - sensor.boiler_off_clock_time
+          - type: entities
+            entities:
+              - input_number.boiler_off_clock_hour
+              - input_number.boiler_off_clock_minute
+          
+      - type: glance
+        column_width: calc(100% / 4)
+        title: "מפסק מצלמת מטבח"
+        show_header_toggle: true
+        entities:
+          - entity: switch.mqtt_pow2
+            name: מצלמת מטבח
+          - sensor.pow2_current
+          - sensor.pow2_energy_today
+          - entity: sensor.pow2_energy_total
+            name: צריכה כוללת
+          - sensor.pow2_energy_yesterday
+          - sensor.pow2_voltage
+          - sensor.pow2_watt
+          - entity: sensor.pow2_total_cost
+            name: עלות כוללת
+### view 7 ###
+  - title: Sensor Page
+    id: Sensors
+    icon: mdi:access-point
+    cards:
+      - type: glance
+        column_width: calc(100% / 3)
+        title: "כל החיישנים"
+        show_header_toggle: false
+        entities:
+          - binary_sensor.door_window_sensor_158d0001b714e9
           - binary_sensor.motion_sensor_158d0000e62376
           - sensor.temperature_158d0001150e4e
           - sensor.humidity_158d0001150e4e
           - light.gateway_light_34ce0088d2f7
           - sensor.illumination_34ce0088d2f7
-          - sensor.hline_1 #-----------------#
           - binary_sensor.door_window_sensor_158d0000d834ac
           - switch.xiaomi_powerstrip
-          # - group.xiaomi_powerstrip_info
           - vacuum.xiaomi_vacuum
           - switch._mqtt_pow1
-          # - group.boiler_setup
-          # - group.boiler_setup_timer
-          - sensor.hline_2 #-----------------#
           - switch.mqtt_pow2
-          # - group.POW2_setup
           - switch.sonoff_xiaomicctv_switch
-          # - sensor.hline_3 #-----------------#
+          - sensor.sensibo1_temp
+          - sensor.sensibo1_humidity
+
+      - type: entities
+        title: Server Status
+        show_header_toggle: true
+        entities:
+          - device_tracker.902b343ecbfa
+          - device_tracker.8322
+          - device_tracker.winserver
+      - type: entities
+        title: "מצב מכשירים"
+        show_header_toggle: true
+        entities:
+          - device_tracker.xiaomigateway
+          - device_tracker.yeelightdesklamp
+          - device_tracker.yeelightcolorbulb
+          - device_tracker.yeelightwhitebulb
+          - device_tracker.philipsbulb
+          - device_tracker.sonoff_kitchen
+          - device_tracker.esp_717fd4
+          - type: divider
+          - device_tracker.48022c80b661
+          - device_tracker.sonoffpow2
+          - device_tracker.homecctv
+          - device_tracker.5ccf7f729dd8
+          - device_tracker.54e4bdbe134c
+          - type: divider
+          - device_tracker.sonoffpow1
+          - device_tracker.xiaomipowerstrip
+          - device_tracker.xiaomiircontroller
+          # - device_tracker.raspberrypi
+          - device_tracker.rockrobo
+          - device_tracker.amazon04d23d06d
+          - device_tracker.8322
+
+
+      - type: glance
+        title: מהירות גלישה
+        column_width: calc(100% / 4)
+        entities:
+          - sensor.speedtest_download
+          - sensor.speedtest_ping
+          - sensor.speedtest_upload
+          - entity: script.update_speedtestnet
+            tap_action: toggle     
+### view 7.5 ###
+  - title: Air Conditioner
+    id: AirConditioner
+    icon: mdi:air-conditioner
+    cards:            
+      - type: horizontal-stack
+        cards:
+          - type: sensor
+            entity: sensor.sensibo1_temp
+            title: טמפרטורה בסלון
+            accuracy: 25
+            line_width: 8
+            height: 60 #height of the line graph.
+            font_size: 60 #Adjust the font size of the state value, as percentage of the original size.
+            line_value_below: 27
+            line_color_below: '#469D44' #green
+            line_value_above: 27
+            line_color_above: '#e74c3c' #red
+          - type: sensor
+            entity: sensor.sensibo1_humidity #sensor.temperature_158d0001150e4e
+            name: לחות בסלון
+            accuracy: 25
+            line_width: 8
+            height: 60 #height of the line graph.
+            font_size: 60 #Adjust the font size of the state value, as percentage of the original size.
+            line_value_below: 70
+            line_color_below: '#469D44' #green
+            line_value_above: 70
+            line_color_above: '#e74c3c' #red
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: custom:thermostat-card
+            title: מזגן סלון
+            entity: climate.living_room
+            step: 1
+            chevron_size: 75
+    
+              
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - climate.living_room
+### view 8 ###
+  - title: Lights Page
+    id: AllLights
+    icon: mdi:lightbulb-outline
+    cards:
+   #### all my lights in Vertical stack ####
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: >
+              ## כל התאורה
+              
+              ___
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                # title: סלון
+                show_header_toggle: false
+                entities:
+                  - light.white_bulb
+                  - light.living_room_color_bulb
+                  - type: divider
+                  - light.sonoff_hallway_light
+                  - light.gateway_light_34ce0088d2f7
+              - type: entities
+                # title: מטבח
+                show_header_toggle: false
+                entities:
+                  - light.sonoff_light
+                  - light.philips_bulb
+                  - type: divider
+                  - light.desk_lamp
+                  - entity: switch.bedroom_fan_light
+                    name: חדר שינה
+        #### all my lights in Vertical stak ####   
+      - type: vertical-stack
+        # name: כל התאורה
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: picture-glance
+                title: סלון
+                image: /local/MyEntities/livingroom.jpeg
+                entities:
+                  - light.white_bulb
+                  - light.living_room_color_bulb
+              - type: picture-glance
+                title: מטבח
+                image: /local/MyEntities/kitchen.jpeg
+                entities:
+                  - light.sonoff_light
+                  - light.philips_bulb
+            ######      
+          - type: horizontal-stack
+            cards:
+              - type: picture-glance
+                title: מסדרון
+                image: /local/MyEntities/hallway.jpeg
+                entities:
+                  - light.sonoff_hallway_light
+                  - light.gateway_light_34ce0088d2f7
+              - type: picture-glance
+                title: חדר שינה
+                image: /local/MyEntities/bedroom.jpeg
+                entities:
+                  - light.desk_lamp
+                  - switch.bedroom_fan_light
+### view 9 ###
+  - title: "Boiler Page"
+    id: Boiler
+    icon: mdi:shower-head
+    cards:
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: >
+              ### דוד חכם
+          - type: entities
+            entities:
+              - switch._mqtt_pow1
+              - type: divider
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                  - input_boolean.boiler_on_clock_status
+              - type: entities
+                entities:
+                  - sensor.boiler_on_clock_time
+          - type: entities
+            entities:
+              - input_number.boiler_on_clock_hour
+              - input_number.boiler_on_clock_minute
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                  - input_boolean.boiler_off_clock_status
+              - type: entities
+                entities:
+                  - sensor.boiler_off_clock_time
+          - type: entities
+            entities:
+              - input_number.boiler_off_clock_hour
+              - input_number.boiler_off_clock_minute
+              
+      - type: entities
+        title: "טיימר לדוד"
+        show_header_toggle: false
+        entities:
+          - switch._mqtt_pow1
+          - type: divider
+          - script.timer_off_boiler
+          - input_number.slider_boiler
+          - sensor.pow1_current
+          
+      - type: glance
+        column_width: calc(100% / 4)
+        title: "מידע נוסף על הדוד"
+        show_header_toggle: true
+        entities:
+          - entity: switch._mqtt_pow1
+            name: מפסק דוד
+          - sensor.pow1_current
+          - sensor.pow1_energy_today
+          - entity: sensor.pow1_energy_total
+            name: צריכה כוללת
+          - sensor.pow1_energy_yesterday
+          - sensor.pow1_voltage
+          - sensor.pow1_watt
+          - entity: sensor.pow1_total_cost
+            name: עלות כוללת
+### view 10 ###
+  - title: CCTV info
+    id: CCTV
+    icon: mdi:cctv
+    cards:
+      - type: picture-entity
+        entity: camera.cctv1_snapshot
+        camera_image: camera.cctv1_snapshot
+      - type: vertical-stack
+        cards: 
+    
+          - type: picture-entity
+            entity: camera.outdoor_cctv
+            camera_image: camera.outdoor_cctv
+    
+          - type: picture-entity
+            entity: camera.home_cctv1
+            camera_image: camera.home_cctv1
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: >
+              ### מפסקי מצלמות
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                   - entity: switch.mqtt_pow2
+                     name: מצלמת מטבח
+              - type: entities
+                entities:
+                  - entity: switch.sonoff_xiaomicctv_switch
+                    name: מצלמת סלון
+          - type: markdown
+            content: >
+              ### חיבור לרשת              
+          - type: glance
+            column_width: calc(100% / 3)
+            # title: "חיבור לרשת"
+            show_header_toggle: true
+            entities:
+              - device_tracker.homecctv
+              - device_tracker.54e4bdbe134c
+              - device_tracker.48022c80b661
+              # - device_tracker.c42f9026a7cf
+      - type: history-graph
+        hours_to_show: 24 #2 Days
+        refresh_interval: 21600 #6 Hours
+        entities:
+          - device_tracker.eliraniphone
+          - device_tracker.elirantur2
+          - switch.sonoff_xiaomicctv_switch
+          - device_tracker.shiraniphone
+          - switch.mqtt_pow2
+
+### view 11 ###
+  - title: weather_Page
+    id: weather_Page
+    icon: mdi:weather-pouring
+    cards:
+    #### customUI  weather card #### 
+      - type: "custom:weather-card"
+        entity_title: מזג אוויר
+        entity_weather: weather.yweather
+        entity_sun: sun.sun
+#### view 12 ###
+  - title: "\u05E9\u05D9\u05E8\u05DF"
+    id: ShiranPage
+    icon: mdi:human-female
+    cards:
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            entities:
+              - group.allmylights
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                # title: סלון
+                show_header_toggle: false
+                entities:
+                  - light.white_bulb
+                  - light.living_room_color_bulb
+                  - type: divider
+                  - light.sonoff_hallway_light
+                  - light.gateway_light_34ce0088d2f7
+              - type: entities
+                # title: מטבח
+                show_header_toggle: false
+                entities:
+                  - light.sonoff_light
+                  - light.philips_bulb
+                  - type: divider
+                  - light.desk_lamp
+                  - entity: switch.bedroom_fan_light
+                    name: חדר שינה
+        #### all my lights in Vertical stak ####   
+      - type: vertical-stack
+        # name: כל התאורה
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: picture-glance
+                title: סלון
+                image: /local/MyEntities/livingroom.jpeg
+                entities:
+                  - light.white_bulb
+                  - light.living_room_color_bulb
+              - type: picture-glance
+                title: מטבח
+                image: /local/MyEntities/kitchen.jpeg
+                entities:
+                  - light.sonoff_light
+                  - light.philips_bulb
+            ######      
+          - type: horizontal-stack
+            cards:
+              - type: picture-glance
+                title: מסדרון
+                image: /local/MyEntities/hallway.jpeg
+                entities:
+                  - light.sonoff_hallway_light
+                  - light.gateway_light_34ce0088d2f7
+              - type: picture-glance
+                title: חדר שינה
+                image: /local/MyEntities/bedroom.jpeg
+                entities:
+                  - light.desk_lamp
+                  - switch.bedroom_fan_light
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: markdown
+            content: >
+              ### דוד חכם
+          - type: entities
+            entities:
+              - switch._mqtt_pow1
+              - type: divider
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                  - input_boolean.boiler_on_clock_status
+              - type: entities
+                entities:
+                  - sensor.boiler_on_clock_time
+          - type: entities
+            entities:
+              - input_number.boiler_on_clock_hour
+              - input_number.boiler_on_clock_minute
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                  - input_boolean.boiler_off_clock_status
+              - type: entities
+                entities:
+                  - sensor.boiler_off_clock_time
+          - type: entities
+            entities:
+              - input_number.boiler_off_clock_hour
+              - input_number.boiler_off_clock_minute
+              
+          - type: entities
+            title: "טיימר לדוד"
+            show_header_toggle: false
+            entities:
+              - switch._mqtt_pow1
+              - type: divider
+              - script.timer_off_boiler
+              - input_number.slider_boiler
+              - sensor.pow1_current
+              
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - type: custom:thermostat-card
+                    title: מזגן סלון
+                    entity: climate.living_room
+                    step: 1
+                    chevron_size: 75
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - climate.living_room
+                      
+              - type: vertical-stack
+                cards:
+                  - type: sensor
+                    entity: sensor.sensibo1_temp
+                    title: טמפרטורה בסלון
+                    accuracy: 25
+                    line_width: 8
+                    height: 100 #height of the line graph.
+                    font_size: 78 #Adjust the font size of the state value, as percentage of the original size.
+                    line_value_below: 27
+                    line_color_below: '#469D44' #green
+                    line_value_above: 27
+                    line_color_above: '#e74c3c' #red
+                  - type: sensor
+                    entity: sensor.sensibo1_humidity #sensor.temperature_158d0001150e4e
+                    name: לחות בסלון
+                    accuracy: 25
+                    line_width: 8
+                    height: 100 #height of the line graph.
+                    font_size: 78 #Adjust the font size of the state value, as percentage of the original size.
+                    line_value_below: 70
+                    line_color_below: '#469D44' #green
+                    line_value_above: 70
+                    line_color_above: '#e74c3c' #red
+                    
+                    
+      - type: horizontal-stack
+        cards:                    
+          - type: picture-elements
+            image: /local/MyEntities/vacuum_card03.jpg
+            elements:
+            - type: state-icon
+              tap_action: more-info
+              entity: vacuum.xiaomi_vacuum
+              title: מידע נוסף
+              icon: mdi:robot-vacuum
+              style:
+                top: 10%
+                left: 10%
+                
+            - type: state-label
+              entity: sensor.vacuum_status
+              style:
+                top: 10%
+                right: 5%
+                color: rgb(255, 255, 255)
+                transform: translate(0%,-50%)
+                pointer-events: none
+                text-shadow: 1px 1px black
+                font-family: Trebuchet MS
+                font-size: 90%
+                font-weight: bold
+                border-right-style: solid
+                border-color: rgb(34, 154, 210)
+                background-color: rgb(54, 65, 78)
+                opacity: 0.8
+        
+            - type: state-label
+              entity: sensor.vacuum_battery
+              style:
+                top: 40%
+                right: 5%
+                color: rgb(255, 255, 255)
+                transform: translate(0%,-50%)
+                pointer-events: none
+                text-shadow: 1px 1px black
+                font-family: Trebuchet MS
+                font-size: 90%
+                font-weight: bold
+                border-right-style: solid
+                border-color: rgb(34, 154, 210)
+                background-color: rgb(54, 65, 78)
+                opacity: 0.8                    
+            - type: icon
+              title: בצע ניקיון נקודתי
+              icon: mdi:camera-metering-spot
+              tap_action: call-service
+              entity: vacuum.xiaomi_vacuum
+              service: vacuum.clean_spot
+              style:
+                top: 80%
+                left: 80%
+                
+            - type: icon
+              title: חזור לעמדת הטענה
+              tap_action: call-service
+              icon: mdi:home
+              entity: vacuum.xiaomi_vacuum
+              service: vacuum.return_to_base
+              style:
+                top: 80%
+                left: 60%
+        
+            - type: icon
+              title: התחל או השהה פעילות
+              icon: mdi:play
+              tap_action: call-service
+              entity: vacuum.xiaomi_vacuum
+              service: vacuum.start
+              style:
+                top: 80%
+                left: 40%
+        
+            - type: icon
+              title: עצור שאיבה
+              icon: mdi:stop
+              tap_action: call-service
+              entity: vacuum.xiaomi_vacuum
+              service: vacuum.stop
+              style:
+                top: 80%
+                left: 20%
+          - type: sensor
+            entity: sensor.temperature_158d0001150e4e
+            name: טמפרטורה בחדר
+            accuracy: 25
+            line_width: 8
+            height: 30 #height of the line graph.
+            font_size: 40 #Adjust the font size of the state value, as percentage of the original size.
+            line_value_below: 27
+            line_color_below: '#469D44' #green
+            line_value_above: 27
+            line_color_above: '#e74c3c' #red
+
+
+### view 13 ###
+  - title: People at Home
+    icon: mdi:home-account
+    cards:
+      - type: entities
+        entities:
+          - timer.dogwalk
+      - type: entities
+        title: "\u05D0\u05E0\u05E9\u05D9\u05DD"
+        show_header_toggle: true
+        entities:
+          - device_tracker.eliraniphone
+          - device_tracker.shiraniphone
+          - device_tracker.android983a5bef7ebe50ce
+          - device_tracker.redminote4israelkes
+          - device_tracker.talamishaimbp
+          - device_tracker.desktop4ba97q9
+          - device_tracker.galaxys9
+      - type: entities
+        title: "\u05DE\u05D5\u05E6\u05E8\u05D9\u05DD \u05DE\u05D7\u05D5\u05D1\u05E8\
+          \u05D9\u05DD"
+        show_header_toggle: true
+        entities:
+          - device_tracker.appletv
+          - device_tracker.partnertv
+          - device_tracker.eliranmacbookpro
+          - device_tracker.amazon04d23d06d
+          - device_tracker.eliransplewatch
+          - device_tracker.desktop9cb3035
+          - device_tracker.chromecast
+          - device_tracker.eliransimac
+      - type: entities
+        title: "\u05DE\u05E6\u05D1 \u05DE\u05DB\u05E9\u05D9\u05E8\u05D9\u05DD"
+        show_header_toggle: true
+        entities:
+          - device_tracker.xiaomigateway
+          - device_tracker.yeelightdesklamp
+          - device_tracker.yeelightcolorbulb
+          - device_tracker.yeelightwhitebulb
+          - device_tracker.philipsbulb
+          - device_tracker.sonoff_kitchen
+          - device_tracker.esp_717fd4
+          - type: divider
+          - device_tracker.48022c80b661
+          - device_tracker.sonoffpow2
+          - device_tracker.homecctv
+          - device_tracker.5ccf7f729dd8
+          - device_tracker.54e4bdbe134c
+          - device_tracker.nbsp
+          - type: divider
+          - device_tracker.sonoffpow1
+          - device_tracker.xiaomipowerstrip
+          - device_tracker.xiaomiircontroller
+          - device_tracker.raspberrypi
+          - device_tracker.rockrobo
+          - type: divider
+          - device_tracker.amazon04d23d06d
+          - device_tracker.esp_48122c
+          - device_tracker.8322
+          - device_tracker.talamisaiiphone
+          - device_tracker.samsunggalaxys7edge
+      - type: entities
+        title: "\u05DB\u05DC \u05D4\u05E9\u05DC\u05D9\u05D8\u05D4 \u05DE\u05E8\u05D7\
+          \u05D5\u05E7"
+        show_header_toggle: true
+        entities:
+          - device_tracker.rmproplus
+          - remote.apple_tv
+### view 14 ###
+  - title: securityinfo
+    id: securityinfo
+    icon: mdi:security-home
+    cards:
+
+      - type: picture-elements
+        image: /local/MyEntities/vacuum_card03.jpg
+        elements:
+
+        - type: state-icon
+          tap_action: more-info
+          entity: vacuum.xiaomi_vacuum
+          title: מידע נוסף
+          icon: mdi:robot-vacuum
+          style:
+            top: 10%
+            left: 10%
+
+            
+        - type: state-label
+          entity: sensor.vacuum_status
+          style:
+            top: 10%
+            right: 5%
+            color: rgb(255, 255, 255)
+            transform: translate(0%,-50%)
+            pointer-events: none
+            text-shadow: 1px 1px black
+            font-family: Trebuchet MS
+            font-size: 90%
+            font-weight: bold
+            border-right-style: solid
+            border-color: rgb(34, 154, 210)
+            background-color: rgb(54, 65, 78)
+            opacity: 0.8
+    
+        - type: state-label
+          entity: sensor.vacuum_battery
+          style:
+            top: 40%
+            right: 5%
+            color: rgb(255, 255, 255)
+            transform: translate(0%,-50%)
+            pointer-events: none
+            text-shadow: 1px 1px black
+            font-family: Trebuchet MS
+            font-size: 90%
+            font-weight: bold
+            border-right-style: solid
+            border-color: rgb(34, 154, 210)
+            background-color: rgb(54, 65, 78)
+            opacity: 0.8                    
+        - type: icon
+          title: בצע ניקיון נקודתי
+          icon: mdi:camera-metering-spot
+          tap_action: call-service
+          entity: vacuum.xiaomi_vacuum
+          service: vacuum.clean_spot
+          style:
+            top: 80%
+            left: 80%
+            
+            
+        - type: icon
+          title: חזור לעמדת הטענה
+          tap_action: call-service
+          icon: mdi:home
+          entity: vacuum.xiaomi_vacuum
+          service: vacuum.return_to_base
+          style:
+            top: 80%
+            left: 60%
+    
+        - type: icon
+          title: התחל או השהה פעילות
+          icon: mdi:play
+          tap_action: call-service
+          entity: vacuum.xiaomi_vacuum
+          service: vacuum.start
+          style:
+            top: 80%
+            left: 40%
+    
+        - type: icon
+          title: עצור שאיבה
+          icon: mdi:stop
+          tap_action: call-service
+          entity: vacuum.xiaomi_vacuum
+          service: vacuum.stop
+          style:
+            top: 80%
+            left: 20%
+
+      - type: vertical-stack
+        cards: 
+          - type: picture-entity
+            entity: camera.cctv1_snapshot
+            camera_image: camera.cctv1_snapshot
+    
+          - type: picture-entity
+            entity: camera.outdoor_cctv
+            camera_image: camera.outdoor_cctv
+    
+          - type: picture-entity
+            entity: camera.home_cctv1
+            camera_image: camera.home_cctv1
+      - type: entities
+        entities:
+          - switch.mqtt_pow2
+          - switch.sonoff_xiaomicctv_switch
+          - automation.xiaomi_gateway_offline
+          - automation.turn_off_cctv_cameras_if_eliran_at_home
+          - automation.turn_off_cctv_cameras_if_shiran_at_home
+          - automation.turn_on_cctv_cameras_if_eliran_and_shiran_not_at_home
+      - type: entities
+        title: "\u05DE\u05DB\u05E9\u05D9\u05E8\u05D9 \u05D0\u05D1\u05D8\u05D7\u05D4"
+        show_header_toggle: true
+        entities:
+          - binary_sensor.door_window_sensor_158d0001b714e9
+          - binary_sensor.motion_sensor_158d0000e62376
+          - device_tracker.sonoffpow2
+          - device_tracker.homecctv
+          - device_tracker.5ccf7f729dd8
+          - device_tracker.54e4bdbe134c
+          - device_tracker.48022c80b661
+          - device_tracker.xiaomigateway
+          - device_tracker.8322
+      - type: entities
+        title: "\u05D0\u05E0\u05E9\u05D9\u05DD"
+        show_header_toggle: true
+        entities:
+          - device_tracker.eliraniphone
+          - device_tracker.shiraniphone
+          - device_tracker.android983a5bef7ebe50ce
+          - device_tracker.redminote4israelkes
+      - type: entities
+        title: Server Status
+        show_header_toggle: true
+        entities:
+          - device_tracker.902b343ecbfa
+          - device_tracker.8322
+          - device_tracker.winserver
+
+#### view 15 ####
+  - title: summary
+    icon: mdi:dots-vertical
+    cards:
+      - type: entities
+        title: "\u05DB\u05DC \u05D4\u05EA\u05D0\u05D5\u05E8\u05D4 \u05D1\u05D1\u05D9\
+          \u05EA"
+        show_header_toggle: true
+        entities:
+          - light.white_bulb
+          - light.living_room_color_bulb
+          - type: divider
+          - light.sonoff_light
+          - light.philips_bulb
+          - type: divider
+          - light.sonoff_hallway_light
+          - light.gateway_light_34ce0088d2f7
+          - type: divider
+          - light.desk_lamp
+          - switch.bedroom_fan_light
+      - type: entities
+        title: "\u05DB\u05DC \u05D4\u05D7\u05D9\u05D9\u05E9\u05E0\u05D9\u05DD"
+        show_header_toggle: false
+        entities:
+          - binary_sensor.door_window_sensor_158d0001b714e9
+          - binary_sensor.motion_sensor_158d0000e62376
+          - sensor.temperature_158d0001150e4e
+          - sensor.humidity_158d0001150e4e
+          - light.gateway_light_34ce0088d2f7
+          - sensor.illumination_34ce0088d2f7
+          - type: divider
+          - binary_sensor.door_window_sensor_158d0000d834ac
+          - switch.xiaomi_powerstrip
+          - vacuum.xiaomi_vacuum
+          - switch._mqtt_pow1
+          - type: divider
+          - switch.mqtt_pow2
+          - switch.sonoff_xiaomicctv_switch
           - binary_sensor.switch_158d000149b9ab
           - binary_sensor.wall_switch_both_158d0001712d0e
           - binary_sensor.wall_switch_left_158d0001712d0e
           - binary_sensor.wall_switch_right_158d0001712d0e
           - binary_sensor.switch_158d0000d8c836
-
-      - type: glance
-        # Title of the entities card
-        title: people2
-        # The entities here will be shown in the same order as specified.
-        entities:
-          - device_tracker.eliraniphone #byIP at DDWT 
-          - device_tracker.shiraniphone #shiran
-          - device_tracker.amazon04d23d06d
-          # # - device_tracker.eliran_iphone #by APP (GPS)
-          # # - sensor.hline_1 #-----------------#
-          - device_tracker.android983a5bef7ebe50ce #svet Phone
-          - device_tracker.redminote4israelkes #israel Phone
-          - device_tracker.talamishaimbp
-          - device_tracker.desktop4ba97q9 #matan laptop
-          - device_tracker.galaxys9 #amir abu
-      
-      
-      
-
-      - type: glance
-        # Title of the entities card
-        title:  שער יציג
-        # The entities here will be shown in the same order as specified.
-        entities:
-          - sensor.exchange_date
-          - sensor.dollarusd
-          - sensor.euroeur
-          - sensor.poundgbp
-          
-      - type: camera-preview
-        title: cameras
-        # The entities here will be shown in the same order as specified.
-        entities:
-          - camera.home_cctv1
-          - camera.home_cctv2
-          - camera.outdoor_cctv
-          
-
-        # The filter card will filter available entities for certain criteria
-        # and render it as type 'entities'.
-      - type: entity-filter
-        # Filter criteria. They are all optional.
-        filter:
-          - domain: input_boolean
-            state: 'on'
-        # This config will be passed to the card rendering the filter results
-        card_config:
-          title: Input booleans that are on
-
-    # Specify a tab_icon if you want the view tab to be an icon.
-  - tab_icon: mdi:home-assistant
-    # Name of the view. Will be used as the tooltip for tab icon
-    name: Second view
-    theme: midnight
-    cards:
       - type: entities
-        # Title of the entities card
-        title:  אבטחה #People
+        title: "\u05D0\u05E0\u05E9\u05D9\u05DD"
+        show_header_toggle: true
         entities:
-          - group.security_notification
-          - group.Security_tracker
+          - device_tracker.eliraniphone
+          - device_tracker.shiraniphone
+          - device_tracker.android983a5bef7ebe50ce
+          - device_tracker.redminote4israelkes
+          - device_tracker.talamishaimbp
+          - device_tracker.desktop4ba97q9
+          - device_tracker.galaxys9
+      - type: entities
+        title: "\u05EA\u05D0\u05D5\u05E8\u05EA \u05E1\u05DC\u05D5\u05DF"
+        show_header_toggle: false
+        entities:
+          - light.white_bulb
+          - light.living_room_color_bulb
+          - type: divider
+          - light.sonoff_light
+          - light.philips_bulb
+          - type: divider
+          - light.sonoff_hallway_light
+          - light.gateway_light_34ce0088d2f7
+      - type: entities
+        title: "\u05DE\u05D9\u05D3\u05E2"
+        show_header_toggle: true
+        entities:
+          - binary_sensor.motion_sensor_158d0000e62376
+          - sensor.temperature_158d0001150e4e
+          - sensor.humidity_158d0001150e4e
+          - type: divider
+          - binary_sensor.door_window_sensor_158d0001b714e9
+          - switch.xiaomi_powerstrip
+          - vacuum.xiaomi_vacuum
+      - type: entities
+        title: "\u05D3\u05D5\u05D3 \u05D7\u05DB\u05DD"
+        show_header_toggle: true
+        entities:
+          - switch._mqtt_pow1
+          - type: divider
+          - input_boolean.boiler_on_clock_status
+          - sensor.boiler_on_clock_time
+          - input_number.boiler_on_clock_hour
+          - input_number.boiler_on_clock_minute
+          - type: divider
+          - input_boolean.boiler_off_clock_status
+          - sensor.boiler_off_clock_time
+          - input_number.boiler_off_clock_hour
+          - input_number.boiler_off_clock_minute
+      - type: entities
+        title: "\u05D8\u05D9\u05D9\u05DE\u05E8 \u05DC\u05D3\u05D5\u05D3"
+        show_header_toggle: true
+        entities:
+          - switch._mqtt_pow1
+          - script.timer_off_boiler
+          - input_number.slider_boiler
+          - sensor.pow1_current
+      - type: entities
+        title: "\u05DE\u05E4\u05E1\u05E7 \u05DE\u05E6\u05DC\u05DE\u05EA \u05DE\u05D8\
+          \u05D1\u05D7"
+        show_header_toggle: true
+        entities:
+          - switch.mqtt_pow2
+          - type: divider
+          - sensor.pow2_current
+          - sensor.pow2_energy_today
+          - sensor.pow2_energy_total
+          - sensor.pow2_energy_yesterday
+          - sensor.pow2_voltage
+          - sensor.pow2_watt
+          - sensor.pow2_total_cost
+      - type: entities
+        title: "\u05D0\u05D1\u05D8\u05D7\u05D4"
+        show_header_toggle: true
+        entities:
           - switch.mqtt_pow2
           - switch.sonoff_xiaomicctv_switch
-          - group.People
-          - camera.outdoor_cctv
-          - camera.home_cctv1
-          - camera.home_cctv2
-          - automation.home_cctv_offline
-          - automation.xiaomi_cctv_offline
           - automation.xiaomi_gateway_offline
           - automation.turn_off_cctv_cameras_if_eliran_at_home
           - automation.turn_off_cctv_cameras_if_shiran_at_home
           - automation.turn_on_cctv_cameras_if_eliran_and_shiran_not_at_home
-          - automation.security_warning_door_open
-          - group.battery_alert
-          - group.battery_status
-          
-      - type: entity-filter
-        filter:
-          - domain: gruop.people2
-            state: 'home'
-        card: glance
-        card_config:
-          title: People at home
-      - type: entity-picture
-        image: https://images.pexels.com/photos/775219/pexels-photo-775219.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=295&w=490
-        entity: light.sonoff_hallway_light
-        
-      - type: picture-glance
-        image: https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=240&w=495
-        title: מצב הסלון
+      - type: vertical-stack
+        cards: 
+          - type: picture-entity
+            entity: camera.cctv1_snapshot
+            camera_image: camera.cctv1_snapshot
+    
+          - type: picture-entity
+            entity: camera.outdoor_cctv
+            camera_image: camera.outdoor_cctv
+    
+          - type: picture-entity
+            entity: camera.home_cctv1
+            camera_image: camera.home_cctv1
+      - type: entities
+        title: "\u05DE\u05DB\u05E9\u05D9\u05E8\u05D9 \u05D0\u05D1\u05D8\u05D7\u05D4"
+        show_header_toggle: true
         entities:
-          - binary_sensor.door_window_sensor_158d0001b714e9 #home door
+          - binary_sensor.door_window_sensor_158d0001b714e9
           - binary_sensor.motion_sensor_158d0000e62376
-          - sensor.temperature_158d0001150e4e
-          - sensor.humidity_158d0001150e4e
-          # - light.gateway_light_34ce0088d2f7
-          # - sensor.illumination_34ce0088d2f7
-          # - sensor.hline_1 #-----------------#
-          - binary_sensor.door_window_sensor_158d0000d834ac
-          # - switch.xiaomi_powerstrip
-          # - group.xiaomi_powerstrip_info
-          # - vacuum.xiaomi_vacuum
-          # - switch._mqtt_pow1
-          # - group.boiler_setup
-          # - group.boiler_setup_timer
-          # - sensor.hline_2 #-----------------#
+          - type: divider
+          - device_tracker.sonoffpow2
+          - device_tracker.homecctv
+          - type: divider
+          - device_tracker.5ccf7f729dd8
+          - device_tracker.54e4bdbe134c
+          - type: divider
+          - device_tracker.48022c80b661
+          - device_tracker.nbsp
+          - device_tracker.xiaomigateway
+          - device_tracker.8322
+      - type: entities
+        title: "\u05D0\u05E0\u05E9\u05D9\u05DD"
+        show_header_toggle: true
+        entities:
+          - device_tracker.eliraniphone
+          - device_tracker.shiraniphone
+          - device_tracker.android983a5bef7ebe50ce
+          - device_tracker.redminote4israelkes
+          - device_tracker.talamishaimbp
+          - device_tracker.desktop4ba97q9
+          - device_tracker.galaxys9
+      - type: entities
+        title: Server Status
+        show_header_toggle: true
+        entities:
+          - sensor.geoip
+          - device_tracker.902b343ecbfa
+          - device_tracker.8322
+          - device_tracker.winserver
+      - type: entities
+        title: "\u05E1\u05D8\u05D8\u05D9\u05E1\u05D8\u05D9\u05E7\u05D4"
+        show_header_toggle: true
+        entities:
+          - timer.dogwalk
+          - type: divider
+          - sensor.home_to_adoraim
+          - sensor.home_to_otniel
+          - type: divider
+          - sensor.shiran_at_home_yesterday
+          - sensor.eliran_at_home_yesterday
+      - type: entities
+        title: "\u05E7\u05D1\u05D5\u05E6\u05D4 \u05DE\u05D5\u05D1\u05E0\u05EA-\u05DB\
+          \u05DC \u05D4\u05DC\u05D7\u05E6\u05E0\u05D9\u05DD"
+        show_header_toggle: true
+        entities:
+          - switch._mqtt_pow1
           - switch.mqtt_pow2
-          # - group.POW2_setup
           - switch.sonoff_xiaomicctv_switch
+          - switch.tv_lg
+          - switch.tv_lg_vol
+          - switch.tv_lg_hdmi1
+          - switch.tv_lg_hdmi2
+          - switch.tv_lg_hdmi3
+          - switch.tv_lg_mute
+          - switch.xiaomi_powerstrip
+          - switch.bedroom_fan_light
+      - type: entities
+        title: "\u05DB\u05DC \u05D4\u05DC\u05D7\u05E6\u05E0\u05D9\u05DD"
+        show_header_toggle: true
+        entities:
+          - switch.mqtt_pow2
+          - switch.sonoff_xiaomicctv_switch
+          - type: divider
+          - switch.tv_lg
+          - switch.tv_lg_vol
+          - switch.tv_lg_hdmi1
+          - switch.tv_lg_hdmi2
+          - switch.tv_lg_hdmi3
+          - switch.tv_lg_mute
+          - type: divider
+          - switch._mqtt_pow1
+          - switch.xiaomi_powerstrip
+          - vacuum.xiaomi_vacuum
+      - type: entities
+        title: Battery Alert
+        show_header_toggle: false
+        entities:
+          - input_number.battery_alert_threshold_min
+          - input_number.battery_alert_threshold_max
+          - automation.battery_notification
+          - automation.battery_notification_clear
+          - automation.battery_sensor_from_battery_level_attribute
+          - automation.battery_sensor_from_battery_attribute
+          - automation.battery_sensor_from_battery_numeric_attribute
+      - type: entities
+        title: "\u05E1\u05E7\u05E8\u05D9\u05E4\u05D8\u05D9\u05DD"
+        show_header_toggle: true
+        entities:
+          - script.backup_ha_and_move_backup_to_unraid
+          - script.backup_ha_config
+          - script.flash_gateway1
+          - script.flash_gateway2
+          - script.ilradio
+          - script.purple_night_light
+          - script.restart_home_assistant
+          - script.test_actionable_notify
+          - script.update_hass
+          - script.update_speedtestnet
+          - script.white_night_light
+          - script.ac_fan_speed
+          - script.ac_turn_off
+          - script.ac_turn_on
+          - script.check_sonoffs_tasmota_status
+          - script.check_sonoffs_version
+          - script.morning_sequence
+          - script.shutdown_windowsvm
+          - script.start_windowsvm
+          - script.test_push
+          - script.turn_off_tv
+          - script.turn_on_tv
+          - script.tv_input
+          - script.tv_vol_down
+          - script.tv_vol_up
+          - script.timer_off_boiler
+      - type: entities
+        title: "\u05D0\u05D5\u05D8\u05D5\u05DE\u05E6\u05D9\u05D5\u05EA"
+        show_header_toggle: true
+        entities:
+          - automation.ac_off_for_alexa
+          - automation.ac_on_for_alexa
+          - automation.clean_aquarium_reminder
+          - automation.control_devices
+          - automation.daily_hass_backup
+          - automation.dog_walk_started
+          - automation.drinkingwater_filter_reminder
+          - automation.feed_the_dog_evening
+          - automation.feed_the_dog_morning
+          - automation.hikvision_cctv_is_on_alert
+          - automation.hot_temperature_alert
+          - automation.ip_address_update
+          - automation.if_there_is_motion_and_its_dark_turn_on_the_gateway_light
+          - automation.notify_for_new_devices
+          - automation.notify_when_error_in_config
+          - automation.notify_when_front_door_is_open_on_tv
+          - automation.plants_cleaning_reminder
+          - automation.reset_feed_the_dog_notifications
+          - automation.security_status
+          - automation.send_notification_upon_failed_login_attempt
+          - automation.set_day_mode_theme_after_sunrise
+          - automation.set_day_theme_at_startup
+          - automation.set_night_mode_theme_after_sunset
+          - automation.set_night_theme_at_startup
+          - automation.simulate_presence_4a
+          - automation.startup_notification
+          - automation.toggle_desk_lamp_light_on_single_press
+          - automation.toggle_hallway_light_on_double_click_livingroomswitch
+          - automation.toggle_living_room_both__on_single_press
+          - automation.toggle_living_room_left_light_on_single_press
+          - automation.toggle_living_room_lights_on_single_press_livingroomswitch
+          - automation.toggle_living_room_right_light_on_single_press
+          - automation.update_available_notifications
+          - automation.weekly_os_backup
+          - automation.xiaomi_gateway_offline
+          - automation.battery_notification
+          - automation.battery_notification_clear
+          - automation.battery_sensor_from_battery_attribute
+          - automation.battery_sensor_from_battery_level_attribute
+          - automation.battery_sensor_from_battery_numeric_attribute
+          - automation.cold_temperature_alert
+          - automation.enable_automation_630_am
+          - automation.home_cctv_is_on_alert
+          - automation.ios_notification_action_allmycctv_inhome_off
+          - automation.ios_notification_action_allmycctv_inhome_on
+          - automation.ios_notification_action_allmylights_off
+          - automation.ios_notification_action_boiler_off
+          - automation.ios_notification_action_boiler_on
+          - automation.ios_notification_action_boiler_on_by_timer
+          - automation.ios_notification_action_cctv_kitchen_on
+          - automation.ios_notification_action_cctv_xiaomi_on
+          - automation.ios_notification_action_dog_feeded_evening
+          - automation.ios_notification_action_dog_feeded_morning
+          - automation.ios_notification_action_only_gateway_light_on
+          - automation.ios_notification_action_only_kitchen_light_on
+          - automation.ios_notification_action_pausepresencemode
+          - automation.ios_notification_action_resetha
+          - automation.notify_if_the_boiler_turn_off
+          - automation.notify_if_the_boiler_turn_on
+          - automation.notify_if_the_boiler_was_on_for_more_then_5_min
+          - automation.notify_if_the_home_door_was_open_for_more_then_1_min
+          - automation.notify_when_the_alarm_is_finish
+          - automation.notify_when_the_boiler_clock_off_ended
+          - automation.notify_when_the_boiler_clock_on_start
+          - automation.security_warning_door_open_unauthorised
+          - automation.some_of_allmylights_still_on_at_bedtime_
+          - automation.some_of_groupallmylights_is_on_and_its_before_sunset
+          - automation.turn_off_cctv_cameras_if_morning_and_we_are_at_home
+          - automation.turn_on_cctv_cameras_if_late_night
+          - automation.turn_off_cctv_cameras_if_eliran_at_home
+          - automation.turn_off_cctv_cameras_if_shiran_at_home
+          - automation.turn_off_groupallmylights_on_long_press_livingroomswitch
+          - automation.turn_off_groupallmylights_on_long_press_roomswitch
+          - automation.turn_on_cctv_cameras_if_eliran_and_shiran_not_at_home
+
+
