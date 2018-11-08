@@ -1008,6 +1008,11 @@
     above: 30
     # below: 25
   action:
+  - service: homeassistant.turn_on
+    entity_id: light.gateway_light_34ce0088d2f7
+    data:
+      brightness: 255
+      rgb_color: [88,0,82] #Purple
   - service: notify.NotifyEliranIOSAndTelegram
     data:
       title: 'מד טמפרטורה'

@@ -183,3 +183,5 @@
       name: אפל טיוי
     media_player.salon:
       name: פרטנר טיוי
+    binary_sensor.motion_sensor_158d0000e62376:
+      name: תנועה במסדרון

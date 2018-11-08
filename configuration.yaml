@@ -24,15 +24,17 @@ customizer:
   custom_ui: hosted
 
 # Enables the frontend
+
 frontend:
-  javascript_version: latest
+  javascript_version: latest #auto
   themes: !include config/themes.yaml
-  extra_html_url:
-   - /local/custom_ui/custom-weather-card.html
-   - /local/custom_ui/state-card-floorplan.html
-   - /local/custom_ui/state-card-hline.html 
-  extra_html_url_es5:
-   - /local/custom_ui/state-card-hline_es5.html
+  # extra_html_url:
+  #   - /local/custom_ui/state-card-custom-ui.html
+  #   - /local/custom_ui/state-card-floorplan.html
+  # extra_html_url_es5:
+  #   - /local/custom_ui/state-card-custom-ui-es5.html
+  # extra_html_url: #???
+  # - /local/custom_ui/custom-weather-card.html
 
 recorder:
   purge_keep_days: 7
@@ -161,10 +163,7 @@ custom_updater:
   card_urls:
       - https://raw.githubusercontent.com/rdehuyss/homeassistant-lovelace-google-calendar-card/master/custom_updater.json
       - https://raw.githubusercontent.com/rdehuyss/homeassistant-lovelace-alarm-clock-card/master/custom_updater.json
-      - https://raw.githubusercontent.com/kalkih/mini-graph-card/master/tracker.json
-      - https://raw.githubusercontent.com/kuuji/button-card/master/tracker.json
       - https://raw.githubusercontent.com/bramkragten/custom-ui/master/updater.json
-      
 climate:
   - platform: sensibo
     api_key: !secret SensiboApiKey
@@ -175,6 +174,9 @@ logger:
 google:
   client_id: !secret Google_CLIENT_ID
   client_secret: !secret Google_CLIENT_SECRET
+  
+# zoneminder:
+#   host: 192.168.1.200:8081  
 
 ##############
 ## includes

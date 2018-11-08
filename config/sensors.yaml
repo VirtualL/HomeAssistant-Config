@@ -290,21 +290,21 @@
     name: 'Latest HA Backup'
     scan_interval: 43200 #12 Hours
     
-    ###HLINE CUI
-  - platform: template
-    sensors:
-      hline_1:
-        value_template: hline
-      hline_2:
-        value_template: hline
-      hline_3:
-        value_template: hline
-      hline_4:
-        value_template: hline
-      hline_5:
-        value_template: hline
-      hline_6:
-        value_template: hline
+  #   ###HLINE CUI
+  # - platform: template
+  #   sensors:
+  #     hline_1:
+  #       value_template: hline
+  #     hline_2:
+  #       value_template: hline
+  #     hline_3:
+  #       value_template: hline
+  #     hline_4:
+  #       value_template: hline
+  #     hline_5:
+  #       value_template: hline
+  #     hline_6:
+  #       value_template: hline
         
 ####################################### Temp and Hum From sensibo #######################################
   - platform: template
@@ -313,10 +313,12 @@
         friendly_name: 'טמפרטורת סלון' #power Strip Temperature
         value_template: '{{ states.climate.living_room.attributes.current_temperature }}'
         unit_of_measurement: "°C" #"°מעלות" #temperature in C
+        entity_id: climate.living_room
       sensibo1_humidity:
         friendly_name: 'לחות סלון' #power Strip Temperature
         value_template: '{{ states.climate.living_room.attributes.current_humidity }}'
-        unit_of_measurement: "%" 
+        unit_of_measurement: "%"
+        entity_id: climate.living_room
         
         
 ####################################### https://sharethelove.io/xiaomi-vacuum-card #######################################        
@@ -515,7 +517,10 @@
     host: 192.168.1.80
     mac: '78:0F:77:18:19:DF'
     name: RMPro
-
+    
+  # - platform: zoneminder
+  #   include_archived: false
+    
   # - platform: command_line #working good in ubuntu  - not working on Docker
   #   command: "bash /config/scripts/GetCPUTemp.sh"
   #   name: 'CPU temp'

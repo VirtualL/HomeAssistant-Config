@@ -17,5 +17,29 @@
   - name: Home
     latitude: !secret HomeLatitude
     longitude: !secret HomeLongitude
-    radius: 100
-    icon: mdi:account-multiple
+    radius: 20
+    icon: mdi:home-heart
+
+  - name: Zalman
+    latitude: !secret SvetHomeLatitude
+    longitude: !secret SvetHomeLongitude
+    radius: 20
+    icon: mdi:home
+    
+  - name: Turgeman
+    latitude: !secret TurHomeLatitude
+    longitude: !secret TurHomeLongitude
+    radius: 25
+    icon: mdi:home-outline
+    
+  - name: SuperPharm
+    latitude: !secret SuperPharmLatitude
+    longitude: !secret SuperPharmLongitude
+    radius: 35
+    icon: mdi:pharmacy
+
+  - name: SapirCollege
+    latitude: !secret SapirLatitude
+    longitude: !secret SapirLongitude
+    radius: 500
+    icon: mdi:school

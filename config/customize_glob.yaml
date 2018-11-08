@@ -19,43 +19,4 @@ group.*:
     icon_color: if (state =='on') return 'gold';
 light.*:
   state_card_mode: single-line #or "break-slider"
-  
-
-sensor.hline_*:
-  custom_ui_state_card: state-card-hline
-  config:
-    width: 85 #--> in percents
-    height: 2 #--> in pixels, adds to bordertop
-    backgroundcolor: white
-    bordertop: none
-    backgroundimage: linear-gradient(to right, rgba(240,248,255, 0), rgba(0,191,255, 0.80), rgba(240,248,255, 0))
-    
-# ###OP1
-# custom_ui_state_card: state-card-hline
-# config:
-#   width: 90 #--> in percents
-#   height: 0 #--> in pixels, adds to bordertop
-#   backgroundcolor: white
-#   bordertop: '1px solid black'
-# ###OP2
-# custom_ui_state_card: state-card-hline
-# config:
-#   width: 90 #--> in percents
-#   height: 0 #--> in pixels, adds to bordertop
-#   backgroundcolor: white
-#   bordertop: '2mm ridge rgb(135, 206, 250, 1)'
-# ###OP3
-# custom_ui_state_card: state-card-hline
-# config:
-#   width: 65 #--> in percents
-#   height: 0 #--> in pixels, adds to bordertop
-#   backgroundcolor: white
-#   bordertop: '2px double lightskyblue'
-# ###OP4
-# custom_ui_state_card: state-card-hline
-# config:
-#   width: 85 #--> in percents
-#   height: 2 #--> in pixels, adds to bordertop
-#   backgroundcolor: white
-#   bordertop: none
-#   backgroundimage: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(135, 206, 250, 0.75), rgba(0, 0, 0, 0))
+  custom_ui_state_card: state-card-custom-ui

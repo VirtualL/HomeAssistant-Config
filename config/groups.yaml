@@ -45,40 +45,43 @@ Salon_light:
 AllMylights:
   name: All Lights
   view: no
+  control: hidden
   entities:
     - light.white_bulb
     - light.living_room_color_bulb
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - light.sonoff_light
     - light.philips_bulb
-    - sensor.hline_2 #-----------------#
+    ##- sensor.hline_2 #-----------------#
     - light.sonoff_hallway_light
     - light.gateway_light_34ce0088d2f7
-    - sensor.hline_3 #-----------------#
+    #- sensor.hline_3 #-----------------#
     - light.desk_lamp
-    - switch.bedroom_fan_light
-    
+    # - switch.bedroom_fan_light
 AllMySwitchs:
   name: All Switchs
   view: no
+  control: hidden
+  icon: mdi:power-socket-eu
   entities:
      # - group.boiler_setup
      # - group.boiler_setup_timer
-    # - sensor.hline_1 #-----------------#
+    # #- sensor.hline_1 #-----------------#
     - switch.mqtt_pow2
     # - group.POW2_setup #???
     - switch.sonoff_xiaomicctv_switch
-    - sensor.hline_2 #-----------------#
+    #- sensor.hline_3 #-----------------#
+    - switch._mqtt_pow1
+    - climate.living_room
+    - switch.xiaomi_powerstrip
+    # - group.xiaomi_powerstrip_info
+    - vacuum.xiaomi_vacuum
+    ##- sensor.hline_2 #-----------------#
     - switch.tv_lg
     - switch.tv_lg_vol
     - switch.tv_lg_hdmi1
     - switch.tv_lg_hdmi2
     - switch.tv_lg_hdmi3
-    - sensor.hline_3 #-----------------#
-    - switch._mqtt_pow1
-    - switch.xiaomi_powerstrip
-    # - group.xiaomi_powerstrip_info
-    - vacuum.xiaomi_vacuum
     # - switch.bedroom_fan_light
 
 Devices_online:
@@ -100,18 +103,18 @@ App_info:
   icon: mdi:apple-ios
   entities:
     - sensor.date__time
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - sensor.eliran_iphone_battery_level
     - sensor.eliran_iphone_battery_state
     - sensor.shiran_iphone_battery_level
     - sensor.shiran_iphone_battery_state
-    - sensor.hline_2 #-----------------#
+    #- sensor.hline_2 #-----------------#
     - sensor.since_last_boot
     - sensor.time_online
-    - sensor.hline_3 #-----------------#
+    #- sensor.hline_3 #-----------------#
     - script.restart_home_assistant
     - script.reboot_os
-    - sensor.hline_4 #-----------------#
+    #- sensor.hline_4 #-----------------#
     - sensor.latest_ha_backup
     - sensor.hass
 
@@ -128,7 +131,7 @@ Sensors:
     - sensor.humidity_158d0001150e4e
     - light.gateway_light_34ce0088d2f7
     - sensor.illumination_34ce0088d2f7
-    - sensor.hline_1 #-----------------#
+    ##- sensor.hline_1 #-----------------#
     - binary_sensor.door_window_sensor_158d0000d834ac
     - switch.xiaomi_powerstrip
     # - group.xiaomi_powerstrip_info
@@ -136,11 +139,11 @@ Sensors:
     - switch._mqtt_pow1
     # - group.boiler_setup
     # - group.boiler_setup_timer
-    - sensor.hline_2 #-----------------#
+    #- sensor.hline_2 #-----------------#
     - switch.mqtt_pow2
     # - group.POW2_setup
     - switch.sonoff_xiaomicctv_switch
-    # - sensor.hline_3 #-----------------#
+    # #- sensor.hline_3 #-----------------#
     - binary_sensor.switch_158d000149b9ab
     - binary_sensor.wall_switch_both_158d0001712d0e
     - binary_sensor.wall_switch_left_158d0001712d0e
@@ -164,12 +167,12 @@ boiler_setup:
   # control: hidden
   entities:
     - switch._mqtt_pow1
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - input_boolean.boiler_on_clock_status
     - sensor.boiler_on_clock_time
     - input_number.boiler_on_clock_hour
     - input_number.boiler_on_clock_minute
-    - sensor.hline_3 #-----------------#
+    #- sensor.hline_3 #-----------------#
     - input_boolean.boiler_off_clock_status
     - sensor.boiler_off_clock_time
     - input_number.boiler_off_clock_hour
@@ -183,7 +186,7 @@ boiler_info:
   view: no
   entities:
     - switch._mqtt_pow1
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - sensor.pow1_current
     - sensor.pow1_energy_today
     - sensor.pow1_energy_total
@@ -198,7 +201,7 @@ POW2_setup:
   # control: hidden
   entities:
     - switch.mqtt_pow2
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - sensor.pow2_current
     - sensor.pow2_energy_today
     - sensor.pow2_energy_total
@@ -221,7 +224,7 @@ alarm_clock:
   name: 'שעון מעורר'
   entities:
     - input_boolean.alarm_clock_status
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - sensor.alarm_clock_time
     - input_number.alarm_clock_hour
     - input_number.alarm_clock_minute
@@ -233,7 +236,7 @@ People:
     - device_tracker.eliraniphone #byIP at DDWT 
     - device_tracker.shiraniphone #shiran
     # - device_tracker.eliran_iphone #by APP (GPS)
-    # - sensor.hline_1 #-----------------#
+    # #- sensor.hline_1 #-----------------#
     - device_tracker.android983a5bef7ebe50ce #svet Phone
     - device_tracker.redminote4israelkes #israel Phone
     - device_tracker.talamishaimbp
@@ -255,10 +258,10 @@ Living_Room_lights:
   entities:
     - light.white_bulb
     - light.living_room_color_bulb
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - light.sonoff_light #kithen
     - light.philips_bulb
-    - sensor.hline_2 #-----------------#
+    #- sensor.hline_2 #-----------------#
     - light.sonoff_hallway_light
     - light.gateway_light_34ce0088d2f7
     
@@ -271,7 +274,7 @@ Living_Room_Info:
     - binary_sensor.motion_sensor_158d0000e62376
     - sensor.temperature_158d0001150e4e
     - sensor.humidity_158d0001150e4e 
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - binary_sensor.door_window_sensor_158d0001b714e9 #home door
     - switch.xiaomi_powerstrip
     - vacuum.xiaomi_vacuum
@@ -342,7 +345,7 @@ IOT_Status:  #Online Devices -By TRACKER
     - device_tracker.philipsbulb
     - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
     - device_tracker.esp_717fd4 #sonoff4 
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - device_tracker.48022c80b661 #outdoor cctv
     - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
     - device_tracker.homecctv #HomeCCTV VStarcam 360 
@@ -350,14 +353,14 @@ IOT_Status:  #Online Devices -By TRACKER
     - device_tracker.54e4bdbe134c #hikvision CCTV
     # - device_tracker.286c07773d15 #Xiaomi cctv
     - device_tracker.nbsp #Xiaomi cctv new MAC
-    - sensor.hline_2 #-----------------#
+    #- sensor.hline_2 #-----------------#
     - device_tracker.sonoffpow1 #sonoff pow1 boiler
     - device_tracker.xiaomipowerstrip
-    - device_tracker.xiaomiircontroller
+    - device_tracker.rmproplus
     - device_tracker.raspberrypi
     - device_tracker.elirantdesktop
     - device_tracker.rockrobo #Xiaomi Vaccum Cleaner Gen1
-    - sensor.hline_3 #-----------------#
+    #- sensor.hline_3 #-----------------#
     - device_tracker.4098ada0c3dd #apple???
     - device_tracker.amazon04d23d06d #echo dot
     - device_tracker.esp_48122c # ???
@@ -378,10 +381,10 @@ historyStat:
   view: no
   entities:
     - timer.dogwalk
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - sensor.home_to_adoraim
     - sensor.home_to_otniel
-    - sensor.hline_2 #-----------------#
+    #- sensor.hline_2 #-----------------#
     # - sensor.home_door_time_since_open
     - sensor.shiran_at_home_yesterday
     - sensor.eliran_at_home_yesterday
@@ -452,25 +455,25 @@ Server_info:
   view: no
   entities:
     - sensor.date__time
-    - sensor.hline_2 #-----------------#
+    #- sensor.hline_2 #-----------------#
     - sensor.since_last_boot
     - sensor.time_online
-    - sensor.hline_3 #-----------------#
+    #- sensor.hline_3 #-----------------#
     - sensor.processor_use 
     - sensor.memory_use_percent
     - sensor.disk_use_percent_home
     - sensor.homeassistant_v2db
-    - sensor.hline_4 #-----------------#
+    #- sensor.hline_4 #-----------------#
     - script.restart_home_assistant
     - script.reboot_os
     - script.update_hass
-    - sensor.hline_5 #-----------------#
+    #- sensor.hline_5 #-----------------#
     - sensor.last_HA_released_version
     - sensor.current_version
     - script.backup_ha_config
     - sensor.latest_ha_backup
     - sensor.hass
-    - sensor.hline_6 #-----------------#
+    ##- sensor.hline_6 #-----------------#
     # - script.backup_all_os
     - script.backup_ha_and_movebackup_ubuntuvm
     - script.start_windowsvm
@@ -671,13 +674,13 @@ Security_tracker:
   entities:
     - binary_sensor.door_window_sensor_158d0001b714e9 #home door
     - binary_sensor.motion_sensor_158d0000e62376
-    - sensor.hline_1 #-----------------#
+    #- sensor.hline_1 #-----------------#
     - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
     - device_tracker.homecctv #via ip
-    - sensor.hline_2 #-----------------#
+    #- sensor.hline_2 #-----------------#
     - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
     - device_tracker.54e4bdbe134c #hikvision CCTV
-    - sensor.hline_3 #-----------------#
+    #- sensor.hline_3 #-----------------#
     - device_tracker.48022c80b661 #outdoor cctv
     - device_tracker.nbsp #Xiaomi cctv new ip
     - device_tracker.xiaomigateway
@@ -741,3 +744,4 @@ zones:
   name: FloorPlan zones
   entities:
     - binary_sensor.floorplan
+    
