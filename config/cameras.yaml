@@ -14,14 +14,17 @@
   name: Home CCTV2
   input: !secret HomeCCTV2URL
   
-- platform: onvif
-  name: Outdoor CCTV
-  host: !secret OutdoorCCTVIP
-  port: 10080
-  username: !secret OutdoorCCTVusername
-  password: !secret OutdoorCCTVpassword
+# - platform: onvif
+#   name: Outdoor CCTV
+#   host: !secret OutdoorCCTVIP
+#   port: 10080
+#   username: !secret OutdoorCCTVusername
+#   password: !secret OutdoorCCTVpassword
   
-
+- platform: ffmpeg
+  name: Outdoor CCTV
+  input: !secret OutdoorCCTV_02_URL
+  
 - platform: local_file #for security warnings 
   file_path: '/config/tmp/home_cctv1.png'
   name: "CCTV1_Snapshot"

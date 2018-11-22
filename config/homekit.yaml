@@ -24,7 +24,8 @@
       - device_tracker.xiaomigateway
       - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
       - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
-      - device_tracker.48022c80b661 #outdoor cctv
+      - device_tracker.hikvision_outdoor_cctv_01 
+      # - device_tracker.48022c80b661 #outdoor cctv
       - device_tracker.homecctv #HomeCCTV VStarcam 360 
       - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
       - device_tracker.54e4bdbe134c #hikvision CCTV
@@ -37,8 +38,6 @@
       - device_tracker.060891e3ce51 #Windows VM
       - media_player.apple_tv
       - media_player.salon
-      - script.start_windowsvm
-      - script.shoutdown_windowsvm
       - sensor.sensibo1_temp
       - sensor.sensibo1_humidity
       # not in use - using sensibo

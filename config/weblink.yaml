@@ -8,10 +8,6 @@
       url: http://018.speedtestcustom.com
       icon: mdi:speedometer
       
-    - name: My Super Led RGB
-      url: https://gamadril.github.io/hyperion-remote
-      icon: mdi:led-strip
-
     - name: IDE
       icon: mdi:cloud-braces
       url: !secret c9IdeURL

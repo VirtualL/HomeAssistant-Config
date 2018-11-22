@@ -1,20 +1,24 @@
 ##################################################
 #
-# GOOGLE ASSISTANT -Currently, not in use !
+# GOOGLE ASSISTANT - The Manual Way no Monthly Payment.
+# https://www.home-assistant.io/components/google_assistant/#first-time-setup
 #
 ##################################################
   
-  project_id: HomeAssistant-VirtualL
-  client_id: !secret GoogleAsistantClientID #[long URL safe random string]
-  access_token: !secret GoogleAsistantAccessToken #[a different long URL safe random string]
-  agent_user_id: !secret MyEmail
-  # api_key: [a Homegraph API Key generated for the Google Actions project]
+  project_id: !secret Google_Home_project_id
+  api_key: !secret Google_Home_API_KEY
   exposed_domains:
-    - switch
     - light
+    - switch
+    - vacuum
     - script
+    #- climate
+    - media_player
+    
   entity_config:
-    ####################LIGHTS ######
+########################################
+###LIGHTS
+########################################
     light.white_bulb:
       name: Left Bulb
       room: Salon
@@ -31,29 +35,37 @@
 
     light.philips_bulb:
       name: Service
-      room: Kitchen
+      room: Service
       aliases:
-        - Philips light
         - Service light
+        - Philips light
     light.sonoff_hallway_light:
       name: Misdaron
-      room: HallWay
+      room: Hallway
       aliases:
-        - HallWay
-        - Misdaron
+        - Hallway
+        - MISSDARON
+        - MISSDARON light
     light.gateway_light_34ce0088d2f7:
-      name: GateWay
-      room: HallWay
+      name: Gateway
+      room: Salon
       aliases:
         - GateWay light
         
     light.desk_lamp:
       name: Desk Lamp
-      room: BedRoom
+      room: Bedroom
       aliases:
         - Desk Lamp
-        - BedRoom Light
-    ####################SWITCHS ########
+        - Bedroom Light
+###############expose: FALSE##################
+    light.yeelight_rgb_286c07106e1b:
+      expose: false
+    light.yeelight_white_f0b4290e4e68:
+      expose: false    
+########################################
+###SWITCHS
+########################################
     switch.mqtt_pow2:
       name: Kitchen Camera
       room: Kitchen
@@ -69,28 +81,56 @@
     switch.tv_lg_vol:
       name: Volume
       room: Salon
-      
+      aliases:
+        - Volume TV
+        - TV Volume
+    switch.tv_lg_mute:
+      name: Mute
+      room: Salon
+      aliases:
+        - Mute TV
+        - TV Mute
+        
     switch._mqtt_pow1:
       name: Boiler
-      room: Salon
+      room: Hallway
       
     switch.xiaomi_powerstrip:
-      name: Boiler
+      name: Power strip
       room: Salon
-      
+###############expose: FALSE##################
+    switch.tv_lg_hdmi1:
+      expose: false
+    switch.tv_lg_hdmi2:
+      expose: false
+    switch.tv_lg_hdmi3:
+      expose: false    
+########################################
+###Vaccum
+########################################      
     vacuum.xiaomi_vacuum:
       name: Vaccum Cleaner
-      room: HallWay
-      ####################SCRIPTS ########
+      room: Hallway
+      aliases:
+        - Roobik
+        
+########################################
+###SCRIPTS
+########################################
     script.restart_home_assistant:
       name: Restart Home Assitant
       room: Garage
-    script.reboot_os:
-      name: Reboot Server
+    script.reboot_router:
+      name: Reboot Router
       room: Garage
-    script.backup_ha_config:
+    script.backup_ha_and_move_backup_to_unraid:
       name: Backup Home Assitant
       room: Garage
+###############expose: FALSE##################
+    script.backup_ha_config:
+      expose: false    
+    script.check_sonoffs_tasmota_status:
+      expose: false    
     script.update_hass:
       expose: false
     script.timer_off_boiler:
@@ -111,4 +151,36 @@
       expose: false
     script.flash_gateway2:
       expose: false
-    
+    script.install_after_update_hass:
+      expose: false
+    script.update_speedtestnet:
+      expose: false 
+    script.morning_sequence:
+      expose: false 
+      
+########################################
+###CLIMATE- not in use - Sensibo API better
+########################################      
+#     climate.living_room:
+#       name: AC
+#       room: Salon
+#       aliases:
+#         - MAZGAN
+#         - Air con
+#         - Air conditioning
+#         - Air conditioner
+########################################
+###MEDIA PLAYER
+########################################      
+    media_player.apple_tv:
+      name: Apple TV
+      room: Salon
+    media_player.partnertv:
+      name: Partner TV
+      room: Salon      
+########################################
+###GENERAL
+########################################      
+    binary_sensor.motion_sensor_158d0000e62376:
+      name: Hallway motion
+      expose: true

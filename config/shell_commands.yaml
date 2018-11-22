@@ -5,10 +5,9 @@
 ##################################################################################
   backup_hass_config: "bash /config/scripts/backup_HASS_config.sh"
   backup_ha_and_move_backup_to_unraid: "bash /config/scripts/backup_HA_and_Move_Backup_To_Unraid.sh"
-  start_windowsvm: "bash /config/scripts/start_WindowsVM.sh"
-  shutdown_windowsvm: "bash /config/scripts/shutdown_WindowsVM.sh"
   reboot_router: "bash /config/scripts/RebootRouter.sh"
   update_snapshot: "bash /config/scripts/Update_Snapshot.sh"
+  install_after_update_hass: "bash /config/scripts/install_Comp_after_Update.sh"
 
 ################################################################################
 ## NOT

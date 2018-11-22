@@ -62,9 +62,9 @@ device_tracker:
     host: 192.168.1.1
     username: !secret AsusWrtUsername
     password: !secret AsusWrtPassword
-    interval_seconds: 10
-    track_new_devices: yes
-    consider_home: 90 
+    # interval_seconds: 10
+    # track_new_devices: yes
+    # consider_home: 90 
 
 #Xiaomi Gateway (Aqara)
 xiaomi_aqara:
@@ -94,10 +94,6 @@ timer:
     duration: '00:30:00'
     icon: mdi:paw
 
-#for iftt api via webhook (using with webhook for sonoff etc... )
-# ifttt:
-#   key: !secret Iftt_key
-
 mqtt:
   password: !secret mqtt_password
   
@@ -126,12 +122,13 @@ weather:
 tts:
   - platform: google #english 
 
-cloudflare:
-  email: !secret MyEmail 
-  api_key: !secret CloudflareAPIKey
-  zone: !secret CloudflareZone
-  records:
-    - !secret CloudflareSubDomain1
+#update every 1 hour. -using dnsomatic for better updates. 
+# cloudflare:
+#   email: !secret MyEmail 
+#   api_key: !secret CloudflareAPIKey
+#   zone: !secret CloudflareZone
+#   records:
+#     - !secret CloudflareSubDomain1
 
 # Cloud
 cloud:
@@ -161,8 +158,6 @@ custom_updater:
     - cards
     - python_scripts
   card_urls:
-      - https://raw.githubusercontent.com/rdehuyss/homeassistant-lovelace-google-calendar-card/master/custom_updater.json
-      - https://raw.githubusercontent.com/rdehuyss/homeassistant-lovelace-alarm-clock-card/master/custom_updater.json
       - https://raw.githubusercontent.com/bramkragten/custom-ui/master/updater.json
 climate:
   - platform: sensibo
@@ -206,8 +201,7 @@ homekit: !include config/homekit.yaml # For apple HomeKit support
 #to avoid from monthly payments (in Home Assitant Cloud) 
 #and to give more options for customization
 alexa: !include config/alexa.yaml
-#Currently, not in use !
-#google_assistant: !include config/google_assistant.yaml 
+google_assistant: !include config/google_assistant.yaml 
 
 ############################################################################
 ##

@@ -78,16 +78,6 @@
      alias: 'Reboot Router'
      sequence:
        - service: shell_command.reboot_router           
-###########################################
-  start_windowsvm:
-     alias: 'start_windowsvm' #start windowsVM via qm with Proxmox
-     sequence:
-       - service: shell_command.start_windowsvm
-###############################################
-  shutdown_windowsvm:
-     alias: 'shutdown_windowsvm' #start windowsVM via qm with Proxmox
-     sequence:
-       - service: shell_command.shutdown_windowsvm
 ###############################################
   backup_ha_and_move_backup_to_unraid:
      alias: 'Backup All Ha and Move To Unraid'
@@ -98,6 +88,11 @@
      alias: 'Backup Home Assitant config'
      sequence:
        - service: shell_command.backup_hass_config       
+###############################################
+  install_after_update_hass:
+     alias: 'install after Update Hass'
+     sequence:
+       - service: shell_command.install_after_update_hass             
 ###############################################
 # "power1" is good for me,in others sonoff setups maybe "power2"/"power3" etc...
   check_sonoffs_tasmota_status:

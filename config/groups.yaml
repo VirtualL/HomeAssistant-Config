@@ -476,9 +476,6 @@ Server_info:
     ##- sensor.hline_6 #-----------------#
     # - script.backup_all_os
     - script.backup_ha_and_movebackup_ubuntuvm
-    - script.start_windowsvm
-    - script.shoutdown_windowsvm
-
     
 SSL:
   name: מצב הצפנה
@@ -488,7 +485,6 @@ SSL:
     - sensor.ssl_hass #to know how much time for SSL CA
     - sensor.ssl_router #to know how much time for SSL CA
     - sensor.ssl_ide #to know how much time for SSL CA
-    - sensor.ssl_sonoff #to know how much time for SSL CA
   ###PAGES###
 # Alert_Page:
 #   name: Alert Page
@@ -744,4 +740,3 @@ zones:
   name: FloorPlan zones
   entities:
     - binary_sensor.floorplan
-    

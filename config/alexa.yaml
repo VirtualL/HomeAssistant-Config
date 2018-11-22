@@ -13,6 +13,15 @@
         # - script.ac_turn_on
         # - script.ac_fan_speed
         # - input_boolean.ac_status_alexa
+        - binary_sensor.motion_sensor_158d0000e62376
+        - sensor.humidity_158d0001150e4e
+        - sensor.temperature_158d0001150e4e
+        - sensor.illumination_34ce0088d2f7
+        
+        - binary_sensor.door_window_sensor_158d0000d834ac
+        - binary_sensor.door_window_sensor_158d0001b714e9
+        - sensor.sensibo1_humidity
+        - sensor.sensibo1_temp
       include_domains:
         - light
         - switch
@@ -112,7 +121,24 @@
       # group.allmylights:
       #   name: All My Lights
     # https://developer.amazon.com/docs/device-apis/alexa-discovery.html#display-categories
-    
+         ##############BINARY SENSORS and SENSORS
+      binary_sensor.motion_sensor_158d0000e62376:
+        name: Hallway motion
+      
+      sensor.humidity_158d0001150e4e:
+        name: Bedroom Humidity
+      sensor.temperature_158d0001150e4e:
+        name: Bedroom Temperature
+      sensor.illumination_34ce0088d2f7:
+        name: Gateway illumination
+      binary_sensor.door_window_sensor_158d0000d834ac:
+        name: Bedroom door
+      binary_sensor.door_window_sensor_158d0001b714e9:
+        name: Main door
+      sensor.sensibo1_humidity:
+        name: Living room Humidity
+      sensor.sensibo1_temp:
+        name: Living room Temperature
 ##
 ## https://www.home-assistant.io/components/alexa/#configuring-a-flash-briefing-skill-in-home-assistant
 ##

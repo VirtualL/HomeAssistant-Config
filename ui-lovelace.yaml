@@ -23,13 +23,11 @@ resources:
     type: js
   - url: https://unpkg.com/moment@2.22.2/moment.js
     type: js
-  - url: /local/custom_components/calendar-card.js?v=1.0.1
-    type: module
   - url: /local/custom_components/hebrew-calendar-card.js?v=1.0.1
     type: module
   - url: /local/custom-lovelace/swipe-card/swipe-card.js?v=1.1.0
     type: module
-  - url: /local/custom_components/fold-entity-row.js?v=855537
+  - url: /local/custom_components/fold-entity-row.js?v=a310c8
     type: js
   - url: /local/custom_components/ynet-card.js?v=0.0.18
     type: js
@@ -69,7 +67,6 @@ views:
         show_empty: false
         card:
           type: glance
-          columns: 3
           title: התקנים עם סוללות חלשות
         filter:
           include:
@@ -81,7 +78,7 @@ views:
                 battery_level: < 25
 #########################################################################
 # All the persistent notification will displayed in glance
-# Currently not in use because the new alert window
+# Currently not in use because the new alert  window
 #########################################################################  
       # - id: 6e6e220f353848c6827a1f2be7f71bc9  # Automatically created id
       #   type: entity-filter
@@ -102,7 +99,6 @@ views:
       #     - persistent_notification.notification_8
       #   state_filter:
       #     - notifying
-      
 #########################################################################
 # every time the door was open-will be displayed
 ######################################################################### 
@@ -291,7 +287,7 @@ views:
             style:
               top: 8%
               left: 90%
-              
+
           - type: state-label
             entity: sensor.outside_temp
             suffix: ° מעלות
@@ -520,7 +516,7 @@ views:
                 entity: light.desk_lamp
                 tap_action: toggle
                 hold_action: more-info
-                
+
               - type: entity-button
                 entity: light.philips_bulb
                 tap_action: toggle
@@ -530,7 +526,7 @@ views:
                 entity: light.gateway_light_34ce0088d2f7
                 tap_action: toggle
                 hold_action: more-info
-                
+
               - type: entity-button
                 entity: group.allmylights
                 icon: mdi:sofa
@@ -652,7 +648,7 @@ views:
                     style:
                       top: 10%
                       left: 10%
-    
+
                   - type: state-label
                     entity: sensor.vacuum_status
                     style:
@@ -669,7 +665,7 @@ views:
                       border-color: rgb(34, 154, 210)
                       background-color: rgb(54, 65, 78)
                       opacity: 0.8
-    
+
                   - type: state-label
                     entity: sensor.vacuum_battery
                     style:
@@ -695,7 +691,7 @@ views:
                     style:
                       top: 80%
                       left: 80%
-    
+
                   - type: icon
                     title: חזור לעמדת הטענה
                     tap_action: call-service
@@ -705,7 +701,7 @@ views:
                     style:
                       top: 80%
                       left: 60%
-    
+
                   - type: icon
                     title: התחל או השהה פעילות
                     icon: mdi:play
@@ -715,7 +711,7 @@ views:
                     style:
                       top: 80%
                       left: 40%
-    
+
                   - type: icon
                     title: עצור שאיבה
                     icon: mdi:stop
@@ -754,7 +750,7 @@ views:
           #################################################################
           - type: custom:fold-entity-row
             head: group.allmyswitchs
-            
+
           - type: horizontal-stack
             cards:
               - type: entity-button
@@ -772,7 +768,7 @@ views:
               - type: entity-button
                 entity: climate.living_room
                 name: מזגן בסלון
-                
+
 
           - type: horizontal-stack
             cards:
@@ -781,19 +777,19 @@ views:
                 name: מפצל בסלון
                 tap_action: toggle
                 hold_action: more-info
-                
+
               - type: entity-button
                 entity: switch._mqtt_pow1
                 tap_action: toggle
                 hold_action: more-info
-                
+
               - type: entity-button
                 entity: vacuum.xiaomi_vacuum
                 tap_action: toggle
                 hold_action: more-info
-                
+
           - type: custom:vertical-stack-in-card
-            cards:                
+            cards:
               - type: entities
                 show_header_toggle: false
                 entities:
@@ -808,7 +804,7 @@ views:
                   - switch.tv_lg_hdmi1
                   - switch.tv_lg_hdmi2
                   - switch.tv_lg_hdmi3
-                  - switch.tv_lg_mute                
+                  - switch.tv_lg_mute
 
 # #### all my switchs in Vertical stack ####
 #       - id: 7dc3bd9f0391430887bc9dfe7734952b  # Automatically created id
@@ -992,6 +988,22 @@ views:
     # theme: badge
     icon: mdi:mdi:desktop-classic
     cards:
+#########################################################################
+# Devices with weak batteries will displayed  
+#########################################################################  
+      - type: conditional
+        conditions:
+          - entity: device_tracker.eliraniphone
+            state: "not_home"
+        card:
+          type: glance
+          entities:
+            - device_tracker.shiran_iphone
+            - device_tracker.elirantur2
+          
+    #device_tracker.elirantur2
+    #device_tracker.shiran_iphone
+    
       - id: 356d71d9869b4ec59d4a7884887c13d9  # Automatically created id
         type: glance
         title: קישורים
@@ -1146,7 +1158,6 @@ views:
           - type: glance
             # show_name: false
             title: מידע על השרת
-            columns: 3
             entities:
               - entity: sensor.date__time
                 name: תאריך
@@ -1156,11 +1167,11 @@ views:
                 name: HA זמן ריצה
           - type: entities
             entities:
-              - sensor.geoip
               - type: custom_ui_state_card
                 entity: device_tracker.902b343ecbfa #main server 
               - device_tracker.8322 #wan cable
-              - device_tracker.winserver #Windows VM
+              - device_tracker.serverpc
+              # - device_tracker.winserver #Windows VM Eliran
           ###
           - type: horizontal-stack
             cards:
@@ -1220,8 +1231,26 @@ views:
           - type: horizontal-stack
             cards:
               - type: custom:circle-sensor-card
+                entity: sensor.hdd_sdb_temp
+                name: SSD Evo 860
+                max: 60
+                min: 0
+                show_card: true
+                stroke_width: 18
+                font_style:
+                  color: white
+                  font-size: 0.8em
+                  text-shadow: 2px 2px black
+                  font-family: Trebuchet MS
+                fill: '#3d3d3d' #Background
+                color_stops:
+                  0: var(--label-badge-green)
+                  45: var(--label-badge-yellow)
+                  55: var(--label-badge-red)
+
+              - type: custom:circle-sensor-card
                 entity: sensor.hdd_sdc_temp
-                name: SSD Evo 850
+                name: 1TB WD10EZEX
                 max: 70
                 min: 0
                 show_card: true
@@ -1236,57 +1265,24 @@ views:
                   0: var(--label-badge-green)
                   55: var(--label-badge-yellow)
                   65: var(--label-badge-red)
-              - type: custom:circle-sensor-card
-                entity: sensor.hdd_sdb_temp
-                name: SSD Evo 830
-                max: 60
-                min: 0
-                show_card: true
-                stroke_width: 18
-                font_style:
-                  color: white
-                  font-size: 0.8em
-                  text-shadow: 2px 2px black
-                  font-family: Trebuchet MS
-                fill: '#3d3d3d' #Background
-                color_stops:
-                  0: var(--label-badge-green)
-                  45: var(--label-badge-yellow)
-                  55: var(--label-badge-red)
-              - type: custom:circle-sensor-card
-                entity: sensor.hdd_sde_temp
-                name: WD WD10EARS
-                max: 60
-                min: 0
-                show_card: true
-                stroke_width: 18
-                font_style:
-                  color: white
-                  font-size: 0.8em
-                  text-shadow: 2px 2px black
-                  font-family: Trebuchet MS
-                fill: '#3d3d3d' #Background
-                color_stops:
-                  0: var(--label-badge-green)
-                  45: var(--label-badge-yellow)
-                  55: var(--label-badge-red)
-              - type: custom:circle-sensor-card
-                entity: sensor.hdd_sdd_temp
-                name: WD WD10EZEX
-                max: 60
-                min: 0
-                show_card: true
-                stroke_width: 18
-                font_style:
-                  color: white
-                  font-size: 0.8em
-                  text-shadow: 2px 2px black
-                  font-family: Trebuchet MS
-                fill: '#3d3d3d' #Background
-                color_stops:
-                  0: var(--label-badge-green)
-                  45: var(--label-badge-yellow)
-                  55: var(--label-badge-red)
+
+              # - type: custom:circle-sensor-card
+              #   entity: sensor.hdd_sdd_temp
+              #   name: WD 4TB
+              #   max: 60
+              #   min: 0
+              #   show_card: true
+              #   stroke_width: 18
+              #   font_style:
+              #     color: white
+              #     font-size: 0.8em
+              #     text-shadow: 2px 2px black
+              #     font-family: Trebuchet MS
+              #   fill: '#3d3d3d' #Background
+              #   color_stops:
+              #     0: var(--label-badge-green)
+              #     45: var(--label-badge-yellow)
+              #     55: var(--label-badge-red)
 
           ###
           - type: glance
@@ -1311,7 +1307,7 @@ views:
             # title: גיבויים
             columns: 4
             entities:
-              - entity: sensor.home_assistant_released_version 
+              - entity: sensor.home_assistant_released_version
                 name: אחרונה HA
               - entity: script.restart_home_assistant
                 name: HA אתחול
@@ -1329,14 +1325,14 @@ views:
           - type: glance
             # show_name: false
             # title: גיבויים
-            columns: 4
+            # columns: 2
             entities:
               - entity: script.backup_ha_config
                 name: בלבד HA גבה תקיית
               - entity: script.backup_ha_and_move_backup_to_unraid
                 name: העבר גיבויים לשרת
-              - script.start_windowsvm
-              - script.shutdown_windowsvm
+              - entity: script.install_after_update_hass
+                name: התקן חוסרים 
 
 
       - id: aaeff8d9a77e4909adb772005f7f0935  # Automatically created id
@@ -1352,8 +1348,6 @@ views:
             name: SSL Router
           - entity: sensor.ssl_ide
             name: SSL IDE
-          - entity: sensor.ssl_cloud
-            name: SSL Cloud
       - id: 52415046feec4717885e72a94f8f04da  # Automatically created id
         type: vertical-stack
         cards:
@@ -1477,7 +1471,8 @@ views:
               - device_tracker.esp_717fd4 #sonoff4 
               - type: section
                 label: מצלמות
-              - device_tracker.48022c80b661 #outdoor cctv
+              - device_tracker.hikvision_outdoor_cctv_01  
+              # - device_tracker.48022c80b661 #outdoor cctv
               - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
               - device_tracker.homecctv #HomeCCTV VStarcam 360 
               - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
@@ -1583,32 +1578,31 @@ views:
                     name: סלון שמאל
                     tap_action: toggle
                     hold_action: more-info
-                    
+
                   - type: entity-button
                     entity: light.living_room_color_bulb
                     tap_action: toggle
                     hold_action: more-info
-                  
+
                   - type: entity-button
                     entity: light.sonoff_hallway_light
                     tap_action: toggle
                     hold_action: more-info
-    
+
               - id: 1c7abb1c4c3f4b3cadc72eec36f4a0a1  # Automatically created id
                 type: horizontal-stack
                 cards:
-    
                   - type: entity-button
                     entity: light.sonoff_light
                     name: מטבח
                     tap_action: toggle
                     hold_action: more-info
-                    
+
                   - type: entity-button
                     entity: light.philips_bulb
                     tap_action: toggle
                     hold_action: more-info
-                    
+
                   - type: entity-button
                     entity: light.desk_lamp
                     tap_action: toggle
@@ -1797,7 +1791,7 @@ views:
               #################################################################
               - type: custom:fold-entity-row
                 head: group.allmyswitchs
-                
+
               - type: horizontal-stack
                 cards:
                   - type: entity-button
@@ -1805,18 +1799,18 @@ views:
                     name: מצלמת מטבח
                     tap_action: toggle
                     hold_action: more-info
-    
+
                   - type: entity-button
                     entity: switch.sonoff_xiaomicctv_switch
                     name: מצלמת סלון
                     tap_action: toggle
                     hold_action: more-info
-    
+
                   - type: entity-button
                     entity: climate.living_room
                     name: מזגן בסלון
-                    
-    
+
+
               - type: horizontal-stack
                 cards:
                   - type: entity-button
@@ -1824,12 +1818,12 @@ views:
                     name: מפצל בסלון
                     tap_action: toggle
                     hold_action: more-info
-                    
+
                   - type: entity-button
                     entity: switch._mqtt_pow1
                     tap_action: toggle
                     hold_action: more-info
-                    
+
                   - type: entity-button
                     entity: vacuum.xiaomi_vacuum
                     tap_action: toggle
@@ -1940,7 +1934,8 @@ views:
             entities:
               - device_tracker.homecctv
               - device_tracker.54e4bdbe134c
-              - device_tracker.48022c80b661
+              - device_tracker.hikvision_outdoor_cctv_01
+              # - device_tracker.48022c80b661 #outdoorCCTV
               # - device_tracker.c42f9026a7cf
       - id: 271fb48f48fc421798929080f1e08766  # Automatically created id
         type: history-graph
@@ -1949,8 +1944,9 @@ views:
         entities:
           - device_tracker.eliraniphone
           - device_tracker.elirantur2
-          - switch.sonoff_xiaomicctv_switch
           - device_tracker.shiraniphone
+          - device_tracker.shiran_iphone
+          - switch.sonoff_xiaomicctv_switch
           - switch.mqtt_pow2
 #### view 5 ####           
   - title: BedRoom
@@ -2251,8 +2247,9 @@ views:
         entities:
           - device_tracker.902b343ecbfa
           - device_tracker.8322
-          - device_tracker.winserver
-          
+          - device_tracker.serverpc
+          # - device_tracker.winserver #Eliran ServerVM
+
       - id: d0f36c51b8494dc8a145433bcb884248  # Automatically created id
         type: entities
         title: מצב מכשירים
@@ -2270,7 +2267,8 @@ views:
           # - type: divider
           - type: section
             label: מצלמות
-          - device_tracker.48022c80b661
+          - device_tracker.hikvision_outdoor_cctv_01  
+          #- device_tracker.48022c80b661 #outdoor cctv
           - device_tracker.sonoffpow2
           - device_tracker.homecctv
           - device_tracker.5ccf7f729dd8
@@ -2807,7 +2805,8 @@ views:
           - device_tracker.esp_717fd4
           - type: section
             label: מצלמות
-          - device_tracker.48022c80b661
+          - device_tracker.hikvision_outdoor_cctv_01  
+          # - device_tracker.48022c80b661 #outdoor cctv
           - device_tracker.sonoffpow2
           - device_tracker.homecctv
           - device_tracker.5ccf7f729dd8
@@ -2966,7 +2965,8 @@ views:
           - device_tracker.homecctv
           - device_tracker.5ccf7f729dd8
           - device_tracker.54e4bdbe134c
-          - device_tracker.48022c80b661
+          - device_tracker.hikvision_outdoor_cctv_01
+          # - device_tracker.48022c80b661 #outdoor cctv
           - device_tracker.xiaomigateway
           - device_tracker.8322
       - id: 4c67b9e57b4244c9b5f23459b9b24ff9  # Automatically created id
@@ -2985,7 +2985,8 @@ views:
         entities:
           - device_tracker.902b343ecbfa
           - device_tracker.8322
-          - device_tracker.winserver
+          - device_tracker.serverpc
+          # - device_tracker.winserver #ELiran Server VM
 
 #### view 15 ####
   - id: 16  # Automatically created id
@@ -3150,7 +3151,8 @@ views:
           - device_tracker.5ccf7f729dd8
           - device_tracker.54e4bdbe134c
           - type: divider
-          - device_tracker.48022c80b661
+          - device_tracker.hikvision_outdoor_cctv_01
+          # - device_tracker.48022c80b661 # outdoor cctv
           - device_tracker.nbsp
           - device_tracker.xiaomigateway
           - device_tracker.8322
@@ -3171,10 +3173,10 @@ views:
         title: Server Status
         show_header_toggle: true
         entities:
-          - sensor.geoip
           - device_tracker.902b343ecbfa
           - device_tracker.8322
-          - device_tracker.winserver
+          - device_tracker.serverpc
+          # - device_tracker.winserver #Eliran ServerVM
       - id: 43c5e1f1ecb74623873615f8bca4e588  # Automatically created id
         type: entities
         title: סטטיסטיקה
@@ -3255,8 +3257,6 @@ views:
           - script.check_sonoffs_tasmota_status
           - script.check_sonoffs_version
           - script.morning_sequence
-          - script.shutdown_windowsvm
-          - script.start_windowsvm
           - script.test_push
           - script.turn_off_tv
           - script.turn_on_tv

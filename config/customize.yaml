@@ -355,16 +355,16 @@ script.reboot_router:
 #   icon: mdi:progress-upload
 script.backup_all_os:
   friendly_name: גבה את השרת לאמצעי אחסון
-   
   icon: mdi:backup-restore
 script.backup_hs_and_move_backup_to_unraid:
   friendly_name: גבה הוםאסיסט והעבר גיבוים שבועיים לכונן
-   
   icon: mdi:backup-restore
 script.backup_ha_config:
   friendly_name: גבה תיקיית הום-אסיסטנט
-   
   icon: mdi:file-restore
+script.install_after_update_hass:
+  friendly_name:  התקן חוסרים לאחר עדכון גירסא
+  icon: mdi:cellphone-arrow-down
 script.ac_fan_speed:
   friendly_name: מהירות מאוורר מזגן
   
@@ -773,17 +773,6 @@ script.update_speedtestnet:
   
 sensor.hass: 
   friendly_name: גודל תיקיית גיבויים
-script.start_windowsvm:
-  friendly_name: התחל וינדוס
-  icon: mdi:windows
-script.shutdown_windowsvm:
-  friendly_name: כבה וינדוס
-  icon: mdi:windows
-  
-
-sensor.geoip:
-  friendly_name: אייפיי חיצוני
-  icon: mdi:ethernet
 sensor.cpu_temp:
   friendly_name: טמפרטורה מעבד
   icon: mdi:desktop-tower

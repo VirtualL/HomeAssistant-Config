@@ -3,18 +3,18 @@
 #PANEL IFRAME
 #
 #################################################################################
-  c9:
-    title: IDE
-    icon: mdi:cloud-braces
-    url: !secret c9IdeURL 
-  server:
-    title: Server
-    icon: mdi:desktop-classic
-    url: !secret serverURL
-  sonoff:
-    title: Sonoff
-    icon: mdi:chip
-    url: !secret sonoffURL
+  # c9:
+  #   title: IDE
+  #   icon: mdi:cloud-braces
+  #   url: !secret c9IdeURL 
+  # server:
+  #   title: Server
+  #   icon: mdi:desktop-classic
+  #   url: !secret serverURL
+  # sonoff:
+  #   title: Sonoff
+  #   icon: mdi:chip
+  #   url: !secret sonoffURL
     
     
     

@@ -11,7 +11,7 @@ If you like anything here, Be sure to star my repo! or consider making a donatio
 ## Information
 |  [![Paypal](https://img.shields.io/badge/Donate-Paypal-3b7bbf.svg?logo=paypal&longCache=true&style=for-the-badge)](https://www.paypal.me/VirtualL123) [![buymeacoffee](https://img.shields.io/badge/Donate-Buy--Me--a--Coffee-F7D606.svg?logo=coffeescript&longCache=true&style=for-the-badge)](https://www.buymeacoffee.com/VirtualL) | [![LastCommit](https://img.shields.io/github/last-commit/VirtualL/HomeAssistant-Config.svg?style=for-the-badge)](https://github.com/VirtualL/HomeAssistant-Config/commits/master)|
 |:---:|:---:|
-| Runing Perfectly at [Home Assistant](.HA_VERSION) 0.81.6, iOS 12.1 ,MacOS Mojave 10.14 with Browsers: Chrome and Safari Latest | This shows how up to date this repo is |
+| Runing Perfectly at [Home Assistant](.HA_VERSION) 0.82.1, iOS 12.1 ,MacOS Mojave 10.14 with Browsers: Chrome and Safari Latest | This shows how up to date this repo is |
 | [![GitHub stars](https://img.shields.io/github/stars/VirtualL/HomeAssistant-Config.svg?style=for-the-badge)](https://github.com/VirtualL/HomeAssistant-Config/stargazers) | [![GitHub issues](https://img.shields.io/github/issues/VirtualL/HomeAssistant-Config.svg?style=for-the-badge)](https://github.com/VirtualL/HomeAssistant-Config/issues) |
 | Please :star: this repo if you find it useful, like these people have. | This is like my TODO list |
 |[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg?style=for-the-badge)](http://unlicense.org/)| [![contributions welcome](https://img.shields.io/badge/contributions-welcome-blue.svg?style=for-the-badge)](https://github.com/VirtualL/HomeAssistant-Config/pulls) |

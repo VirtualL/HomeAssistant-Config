@@ -37,16 +37,14 @@
     host: !secret base_url #For example google.com 
   - platform: cert_expiry
     name: SSL Router
-    host: !secret AsusWrtSSL
+    host: !secret routerSSL
   - platform: cert_expiry
     name: SSL IDE
     host: !secret c9IdeSSL #For example google.com 
   - platform: cert_expiry
     name: SSL Server
     host: !secret serverSSL
-  - platform: cert_expiry
-    name: SSL Cloud
-    host: !secret CloudSSL
+
   #Travel time From Home to Work
   - platform: waze_travel_time
     name: Home To Adoraim
@@ -351,6 +349,8 @@
 ################# A platform which allows you to get information sucessfull logins to Home Assistant ################# 
 ################# https://github.com/custom-components/sensor.authenticated ################# 
   - platform: authenticated
+    provider: extreme
+    enable_notification: false
     # enable_notification: true #on by default
     
 
@@ -485,38 +485,29 @@
     command: "cat /sys/class/thermal/thermal_zone2/temp"
     value_template: '{{ (value | multiply(0.001)) | round(1) }}'
     
-  - platform: command_line
+  - platform: command_line #SAMSUNG EVO 860
     name: 'HDD_sdb_temp'
     unit_of_measurement: "°מעלות" #temperature in C "°C"
     scan_interval: 120 #2 min
     command: "hddtemp -n /dev/sdb"
     
-  - platform: command_line
+  - platform: command_line #WD1TB
     name: 'HDD_sdc_temp'
     unit_of_measurement: "°מעלות" #temperature in C "°C"
     scan_interval: 120 #2 min
     command: "hddtemp -n /dev/sdc"
     
-  - platform: command_line
-    name: 'HDD_sdd_temp'
-    unit_of_measurement: "°מעלות" #temperature in C "°C"
-    scan_interval: 120 #2 min
-    command: "hddtemp -n /dev/sdd"
+  # - platform: command_line #WD 4TB
+  #   name: 'HDD_sdd_temp'
+  #   unit_of_measurement: "°מעלות" #temperature in C "°C"
+  #   scan_interval: 120 #2 min
+  #   command: "hddtemp -n /dev/sdd"
 
-  - platform: command_line
-    name: 'HDD_sde_temp'
-    unit_of_measurement: "°מעלות" #temperature in C "°C"
-    scan_interval: 120 #2 min
-    command: "hddtemp -n /dev/sde"
-    
-  #https://github.com/custom-components/sensor.geoip  
-  - platform: geoip
-  
-  - platform: broadlink
-    update_interval: 60
-    host: 192.168.1.80
-    mac: '78:0F:77:18:19:DF'
-    name: RMPro
+  # - platform: broadlink
+  #   update_interval: 60
+  #   host: 192.168.1.80
+  #   mac: '78:0F:77:18:19:DF'
+  #   name: RMPro
     
   # - platform: zoneminder
   #   include_archived: false
