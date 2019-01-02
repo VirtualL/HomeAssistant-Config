@@ -7,44 +7,33 @@
     include_entities:
       - climate.living_room
       - vacuum.xiaomi_vacuum
-      - script.reboot_os
-      - script.restart_home_assistant
-
-      - binary_sensor.motion_sensor_158d0000e62376
-      - sensor.humidity_158d0001150e4e
-      - sensor.illumination_34ce0088d2f7
-      - sensor.temperature_158d0001150e4e
-      - vacuum.xiaomi_vacuum
+      - binary_sensor.xiaomi_motion_sensor_hallway
+      - sensor.humidity_bedroom_0
+      - sensor.xiaomi_gateway_illumination
+      - sensor.temperature_bedroom_0
         #Online Devices -By TRACKER
-      - device_tracker.appletv #apple TV
-      - device_tracker.amazon04d23d06d #echo dot
-      - device_tracker.desktop9cb3035 #shiran PC
+      - device_tracker.homeipad
       - device_tracker.eliraniphone #byIP at DDWT 
       - device_tracker.shiraniphone #shiran
       - device_tracker.xiaomigateway
       - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
       - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
-      - device_tracker.hikvision_outdoor_cctv_01 
-      # - device_tracker.48022c80b661 #outdoor cctv
       - device_tracker.homecctv #HomeCCTV VStarcam 360 
-      - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
-      - device_tracker.54e4bdbe134c #hikvision CCTV
-      - device_tracker.sonoffpow1 #sonoff pow1 boiler
-      - device_tracker.esp_717fd4 #sonoff4 
       - device_tracker.rockrobo #Xiaomi Vaccum Cleaner Gen1
-      - device_tracker.000000020202 #wan cable
-      - device_tracker.902b343ecbfa #main server 
-      - device_tracker.ubuntuserver #unubtu VM
-      - device_tracker.060891e3ce51 #Windows VM
-      - media_player.apple_tv
-      - media_player.salon
+      #
+      - device_tracker.main_server #main server 
+      - device_tracker.windows_vm #Windows VM
       - sensor.sensibo1_temp
       - sensor.sensibo1_humidity
+      - device_tracker.ipc_10
       # not in use - using sensibo
       # - script.ac_turn_off
       # - script.ac_turn_on
       # - script.ac_fan_speed
       # - input_boolean.ac_status_alexa
+      - script.restart_home_assistant
+      - script.reboot_router
+      - script.backup_ha_and_move_backup_to_unraid
     include_domains:
       - light
       - switch
@@ -68,6 +57,12 @@
       - binary_sensor.wall_switch_both_158d0001e119a7
       - binary_sensor.wall_switch_left_158d0001e119a7
       - binary_sensor.wall_switch_right_158d0001e119a7
+      - switch.ha_dockermon_cloud9ide
+      - switch.ha_dockermon_hadockermon
+      - switch.ha_dockermon_heimdall
+      - switch.ha_dockermon_letsencrypt
+      - switch.ha_dockermon_unifi
+      - switch.ha_dockermon_unms
   entity_config:
     ############## GENERAL
     vacuum.xiaomi_vacuum:
@@ -112,42 +107,32 @@
     switch.tv_lg:
       name: טלויזיה
       
-    input_boolean.ac_status_alexa:
-      name: מזגן
-
-      
-    # sensor.temperature_158d0001150e4e:
+    # sensor.temperature_bedroom_0:
     #     name: Temperature 
     #   description: The Temperature in the living room
     #   display_categories: TEMPERATURE_SENSOR
       
-    # sensor.humidity_158d0001150e4e:
+    # sensor.humidity_bedroom_0:
     #     name: Humidity 
     #   description: The Humidity in the living room
     #   display_categories: OTHER
       
     ##############SCRIPTS - all script. get "Applies to Scenes"  by default
-    script.reboot_os:
-      name: איתחול המערכת
     script.restart_home_assistant:
       name: איתחול הום אסיסטנט
     script.ac_fan_speed:
       name: מהירות מזגן
     group.allmylights:
       name: כל התאורה
-    sensor.humidity_158d0001150e4e:
-      name: לחות בחדר שינה
-    sensor.illumination_34ce0088d2f7:
+    sensor.humidity_bedroom_0:
+      name: לחות בחדר הורים
+    sensor.xiaomi_gateway_illumination:
       name: עוצמת אור ברכזת
-    sensor.temperature_158d0001150e4e:
-      name: טמפרטורה בחדר שינה
+    sensor.temperature_bedroom_0:
+      name: טמפרטורה בחדר הורים
     #Online Devices -By TRACKER
-    device_tracker.appletv:
-      name: אפל טיוי
-    device_tracker.amazon04d23d06d:
-      name: אלכסה
-    device_tracker.desktop9cb3035:
-      name: המחשב של שירן
+    device_tracker.homeipad:
+      name: אייפד
     device_tracker.eliraniphone:
       name: אלירן
     device_tracker.shiraniphone:
@@ -158,8 +143,8 @@
       name: מנורת מטבח
     device_tracker.sonoffpow2:
       name: מפסק מצלמת מטבח
-    device_tracker.48022c80b661:
-      name: מצלמת חוץ
+    device_tracker.ipc_10:
+      name: 10 מצלמת חוץ
     device_tracker.homecctv:
       name: מצלמת מטבח
     device_tracker.5ccf7f729dd8:
@@ -168,19 +153,13 @@
       name: מצלמת סלון
     device_tracker.sonoffpow1:
       name: מצב דוד
-    device_tracker.esp_717fd4:
-      name: מסדרון
-    device_tracker.000000020202:
-      name: אינטרנט
-    device_tracker.902b343ecbfa:
+    device_tracker.main_server:
       name: שרת ראשי
-    device_tracker.ubuntuserver:
-      name: שרת אובונטו
-    device_tracker.060891e3ce51:
+    device_tracker.windows_vm:
       name: וינדוס וירטואל
-    media_player.apple_tv:
-      name: אפל טיוי
-    media_player.salon:
-      name: פרטנר טיוי
-    binary_sensor.motion_sensor_158d0000e62376:
+    binary_sensor.xiaomi_motion_sensor_hallway:
       name: תנועה במסדרון
+    script.reboot_router:
+      name: Reboot Router
+    script.backup_ha_and_move_backup_to_unraid:
+      name: Backup Home Assitant

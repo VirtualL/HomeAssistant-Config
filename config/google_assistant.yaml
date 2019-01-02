@@ -5,20 +5,23 @@
 #
 ##################################################
   
-  project_id: !secret Google_Home_project_id
-  api_key: !secret Google_Home_API_KEY
+  project_id: !secret Google_Home_project_id_or
+  api_key: !secret Google_Home_API_KEY_or
   exposed_domains:
     - light
     - switch
     - vacuum
     - script
-    #- climate
     - media_player
+    #- climate
     
   entity_config:
 ########################################
 ###LIGHTS
 ########################################
+    group.salon_light:
+      name: Salon light
+      room: Salon
     light.white_bulb:
       name: Left Bulb
       room: Salon
@@ -57,7 +60,13 @@
       room: Bedroom
       aliases:
         - Desk Lamp
-        - Bedroom Light
+        
+    light.bedroom_fan_light:
+      name: BedRoom Lamp
+      room: Bedroom
+      aliases:
+        - Bedroom light
+        - Fan Light
 ###############expose: FALSE##################
     light.yeelight_rgb_286c07106e1b:
       expose: false
@@ -104,7 +113,141 @@
     switch.tv_lg_hdmi2:
       expose: false
     switch.tv_lg_hdmi3:
-      expose: false    
+      expose: false
+      
+    input_boolean.alarm_clock_status:
+      expose: false
+    input_boolean.boiler_off_clock_status:
+      expose: false
+    input_boolean.boiler_on_clock_status:
+      expose: false
+    input_boolean.weather:
+      expose: false
+    group.all_automations:
+      expose: false
+    group.all_devices:
+      expose: false
+    group.all_lights:
+      expose: false
+    group.all_remotes:
+      expose: false
+    group.all_scripts:
+      expose: false
+    group.all_switches:
+      expose: false
+    group.all_vacuum_cleaners:
+      expose: false
+    group.allmycontrollers:
+      expose: false
+    group.allmylights:
+      expose: false
+    group.allmyswitchs:
+      expose: false
+    group.app_info:
+      expose: false
+    group.bedroom_lights:
+      expose: false
+    group.bedroom_page:
+      expose: false
+    group.bedroom_sensors:
+      expose: false
+    group.boiler_info:
+      expose: false
+    group.boiler_page:
+      expose: false
+    group.boiler_setup:
+      expose: false
+    group.boiler_setup_timer:
+      expose: false
+    group.calendar:
+      expose: false
+    group.cameras:
+      expose: false
+    group.cameras_tracker:
+      expose: false
+    group.controllable_devices:
+      expose: false
+    group.default_view:
+      expose: false
+    group.devices_online:
+      expose: false
+    group.docker_container:
+      expose: false
+    group.floorplan:
+      expose: false
+    group.historystat:
+      expose: false
+    group.iot_status:
+      expose: false
+    group.israeliradio:
+      expose: false
+    group.kitchen_light:
+      expose: false
+    group.kitchen_page:
+      expose: false
+    group.kitchen_sensors:
+      expose: false
+    group.lights_page:
+      expose: false
+    group.linivgroom_page:
+      expose: false
+    group.living_room_info:
+      expose: false
+    group.living_room_lights:
+      expose: false
+    group.people:
+      expose: false
+    group.people_page:
+      expose: false
+    group.pow2_setup:
+      expose: false
+    group.rates:
+      expose: false
+    group.security_info:
+      expose: false
+    group.security_tracker:
+      expose: false
+    group.sensor_page:
+      expose: false
+    group.sensors:
+      expose: false
+    group.server_info:
+      expose: false
+    group.server_info_page:
+      expose: false
+    group.server_status:
+      expose: false
+    group.shiran_page:
+      expose: false
+    group.sonoffs_info:
+      expose: false
+    group.speedtestnet:
+      expose: false
+    group.ssl:
+      expose: false
+    group.summary:
+      expose: false
+    group.weather_page:
+      expose: false
+    group.weatherui:
+      expose: false
+    group.zones:
+      expose: false
+    group.alarm_clock:
+      expose: false
+      
+    switch.ha_dockermon_cloud9ide:
+      expose: false
+    switch.ha_dockermon_hadockermon:
+      expose: false
+    switch.ha_dockermon_heimdall:
+      expose: false
+    switch.ha_dockermon_letsencrypt:
+      expose: false
+    switch.ha_dockermon_unifi:
+      expose: false
+    switch.ha_dockermon_unms:      
+      expose: false
 ########################################
 ###Vaccum
 ########################################      
@@ -135,8 +278,6 @@
       expose: false
     script.timer_off_boiler:
       expose: false
-    script.ilradio:
-      expose: false
     script.check_sonoffs_version:
       expose: false
     script.backup_all_os:
@@ -155,9 +296,7 @@
       expose: false
     script.update_speedtestnet:
       expose: false 
-    script.morning_sequence:
-      expose: false 
-      
+
 ########################################
 ###CLIMATE- not in use - Sensibo API better
 ########################################      
@@ -172,15 +311,16 @@
 ########################################
 ###MEDIA PLAYER
 ########################################      
-    media_player.apple_tv:
-      name: Apple TV
-      room: Salon
-    media_player.partnertv:
-      name: Partner TV
-      room: Salon      
+    # media_player.apple_tv:
+    #   name: Apple TV
+    #   room: Salon
+    
+    #  
+    # media_player.partnertv #discover by Google Home APP
+    #
 ########################################
 ###GENERAL
 ########################################      
-    binary_sensor.motion_sensor_158d0000e62376:
+    binary_sensor.xiaomi_motion_sensor_hallway:
       name: Hallway motion
       expose: true

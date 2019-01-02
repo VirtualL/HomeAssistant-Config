@@ -146,7 +146,8 @@
 #                                                       #
 #########################################################
 
-  - alias: "Reset Feed The Dog Notifications"
+  - alias: 'Reset Feed The Dog Notifications'
+    initial_state: 'on'
     trigger:
       platform: time
       at: '01:00'
@@ -165,8 +166,8 @@
 # iOS notification action DOG_FEEDED
 #                                                  #
 ####################################################
-  - alias: iOS notification action DOG_FEEDED morning
-    initial_state: true
+  - alias: 'iOS notification action DOG_FEEDED morning'
+    initial_state: 'on'
     hide_entity: true
     trigger:
       platform: event
@@ -180,8 +181,8 @@
       - service: automation.trigger
         entity_id: automation.dog_has_been_fed__morning
 
-  - alias: iOS notification action DOG_FEEDED evening
-    initial_state: true
+  - alias: 'iOS notification action DOG_FEEDED evening'
+    initial_state: 'on'
     hide_entity: true
     trigger:
       platform: event

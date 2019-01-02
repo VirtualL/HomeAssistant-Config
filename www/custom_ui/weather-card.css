@@ -6,14 +6,14 @@
     margin: auto;
     padding-top: 2em;
     padding-bottom: 1em;
-    padding-left: 1em;
-    padding-right:1em;
+    padding-right: 1em;
+    padding-left:1em;
     position: relative;
   }
 
   .ha-icon {
     height: 18px;
-    margin-right: 5px;
+    margin-left: 5px;
     color: var(--paper-item-icon-color);
   }
 
@@ -41,16 +41,11 @@
     font-weight: 300;
     color: var(--primary-text-color);
     list-style: none;
-    margin-left: -2em;
+    margin-right: -2em;
     margin-top: 4.5em;
+    direction: rtl;
   }
 
-  .variations.right {
-    position: absolute;
-    right: 1em;
-    margin-left: 0;
-    margin-right: 1em;
-  }
 
   .unit {
     font-size: .8em;
@@ -60,15 +55,17 @@
     width: 100%;
     margin: 0 auto;
     height: 9em;
+    text-align: left;
+    direction: rtl;
   }
 
   .day {
     display: block;
     width: 20%;
-    float: left;
+    float: right;
     text-align: center;
     color: var(--primary-text-color);
-    border-right: .1em solid #d9d9d9;
+    border-left: .1em solid #d9d9d9;
     line-height: 2;
     box-sizing: border-box;
   }
@@ -78,12 +75,12 @@
   }
 
   .forecast .day:first-child {
-    margin-left: 0;
+    margin-right: 0;
   }
 
   .forecast .day:nth-last-child(1) {
-    border-right: none;
-    margin-right: 0;
+    border-left: none;
+    margin-left: 0;
   }
 
   .highTemp {
@@ -105,7 +102,7 @@
   .icon {
     width: 50px;
     height: 50px;
-    margin-right: 5px;
+    margin-left: 5px;
     display: inline-block;
     vertical-align: middle;
     background-size: contain;
@@ -118,10 +115,11 @@
     font-weight: 300;
     font-size: 1.5em;
     color: var(--primary-text-color);
-    text-align: left;
+    text-align: right;
     position: absolute;
     top: -0.5em;
-    left: 6em;
+    right: 6em;
     word-wrap: break-word;
     width: 30%;
+    direction: rtl;
   }

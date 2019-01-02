@@ -152,10 +152,10 @@ doors START
 
 */
 
-#sensor\.binary_sensor.door_window_sensor_158d0001b714e9 {
+#sensor\.binary_sensor.door_sensor_main_entrance {
   transform-origin: bottom right;
 }
-#sensor\.binary_sensor.door_window_sensor_158d0000d834ac {
+#sensor\.binary_sensor.door_sensor_bedroom {
   transform-origin: bottom right;
 }
 

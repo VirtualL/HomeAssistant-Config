@@ -3,31 +3,53 @@
 #CAMERA
 #
 ################################################################################
+#Vstarcam Home 01
 - platform: onvif
   name: Home CCTV1
   host: !secret HomeCCTV1IP
   port: 10080
   username: !secret HomeCCTV1username
   password: !secret HomeCCTV1password
-  
+#Vstarcam Home 02  
+# - platform: onvif
+#   name: Home CCTV2
+#   host: !secret HomeCCTV1IP
+#   port: 10080
+#   username: !secret HomeCCTV2username
+#   password: !secret HomeCCTV2password 
+#hikvision Home CCTV2
 - platform: ffmpeg
   name: Home CCTV2
   input: !secret HomeCCTV2URL
   
+- platform: onvif
+  name: Outdoor CCTV
+  host: !secret IPC10_IP
+  profile: 1 # 0 for SuperHD
+  port: 80
+  username: !secret IPC10username
+  password: !secret IPC10password
+    
+#Vstarcarm Outdoor  
 # - platform: onvif
 #   name: Outdoor CCTV
 #   host: !secret OutdoorCCTVIP
 #   port: 10080
 #   username: !secret OutdoorCCTVusername
 #   password: !secret OutdoorCCTVpassword
-  
-- platform: ffmpeg
-  name: Outdoor CCTV
-  input: !secret OutdoorCCTV_02_URL
-  
+
+#HIKVISION Outdoor CCTV 
+# - platform: ffmpeg
+#   name: Outdoor CCTV
+#   input: !secret OutdoorCCTV_02_URL  
+
 - platform: local_file #for security warnings 
   file_path: '/config/tmp/home_cctv1.png'
   name: "CCTV1_Snapshot"
   
 
 # - platform: zoneminder
+
+
+# #Adds support for BlueIris Camera
+# - platform: blueiris

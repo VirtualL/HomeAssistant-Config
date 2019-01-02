@@ -42,13 +42,13 @@ light.sonoff_light:
 binary_sensor.switch_158d0000d8c836:
   friendly_name: לחצן חדר שינה
   hidden: true
-binary_sensor.motion_sensor_158d0000e62376:
+binary_sensor.xiaomi_motion_sensor_hallway:
   friendly_name: חיישן תנועה
   device_class: motion
-binary_sensor.door_window_sensor_158d0000d834ac:
+binary_sensor.door_sensor_bedroom:
   friendly_name: דלת חדר שינה
   device_class: door
-binary_sensor.door_window_sensor_158d0001b714e9:
+binary_sensor.door_sensor_main_entrance:
   friendly_name: דלת כניסה
   device_class: door
 binary_sensor.switch_158d000149b9ab:
@@ -66,20 +66,24 @@ binary_sensor.wall_switch_right_158d0001712d0e:
   friendly_name: לחצן קיר - ימני
   icon: mdi:arrow-right-bold-box
   hidden: true
-sensor.humidity_158d0001150e4e:
+sensor.humidity_bedroom_0:
   friendly_name: לחות בבית
   icon: mdi:water-percent
-sensor.temperature_158d0001150e4e:
+  device_class: humidity
+sensor.temperature_bedroom_0:
   friendly_name: טמפרטורה בחדר שינה
   unit_of_measurement: "°C"
+  device_class: temperature
   # unit_of_measurement: "°מעלות"
   
 light.gateway_light_34ce0088d2f7:
   friendly_name: תאורת רכזת
   icon: mdi:album
-sensor.illumination_34ce0088d2f7:
+sensor.xiaomi_gateway_illumination:
   friendly_name: עוצמת אור ברכזת
   unit_of_measurement: 'לומן'
+  device_class: illuminance
+
 switch.xiaomi_powerstrip:
   friendly_name: מפצל שקעים בסלון
   icon: mdi:power-plug
@@ -97,6 +101,7 @@ sensor.power_strip_temp:
   friendly_name: טמפרטורת מפצל
   icon: mdi:oil-temperature
   unit_of_measurement: "°C"
+  device_class: temperature
    
 sensor.power_strip_watt:
   friendly_name: צריכה נוכחית 
@@ -106,12 +111,15 @@ sensor.power_strip_watt:
 #   friendly_name: עלות לשעת שימוש
 #   icon: mdi:finance
    
-media_player.salon:
-  friendly_name: פרטנר טיוי
+# media_player.salon:
+#   friendly_name: פרטנר טיוי
    
 media_player.apple_tv:
   friendly_name: אפל טיוי
-   
+
+media_player.salon_speaker:
+  frindly_name: גוגל מיני
+  icon: mdi:google-home 
 group.alerts:
   friendly_name: התראות
   hidden: true
@@ -168,26 +176,35 @@ sensor.time_online:
 
 sensor.ssl_hass:
   friendly_name: זמן לסיום SSL HASS
-  icon: mdi:certificate
   unit_of_measurement: 'ימים'
 
 sensor.ssl_router:
   friendly_name:  זמן לסיום SSL Router
-  icon: mdi:certificate
   unit_of_measurement: 'ימים'
 sensor.ssl_ide:
   friendly_name:  זמן לסיום SSL IDE
-  icon: mdi:certificate
   unit_of_measurement: 'ימים'
   
 sensor.ssl_server:
   friendly_name:  זמן לסיום SSL Server
-  icon: mdi:certificate
   unit_of_measurement: 'ימים'
   
-sensor.ssl_cloud:  
+sensor.ssl_homepage:
+  friendly_name:  זמן לסיום SSL HomePage
+  unit_of_measurement: 'ימים'
+
+sensor.ssl_cctv:
+  friendly_name:  זמן לסיום SSL CCTV
+  unit_of_measurement: 'ימים'
+
+sensor.ssl_unifi:
+  friendly_name:  זמן לסיום SSL Unifi
   unit_of_measurement: 'ימים'  
 
+sensor.ssl_unms:
+  friendly_name: זמן לסיום SSL UNMS
+  unit_of_measurement: 'ימים'
+  
 sensor.restart_homebridge:
   friendly_name: איתחול הום-ברידג
   icon: mdi:apple
@@ -223,9 +240,11 @@ device_tracker.desktop4ba97q9:
 device_tracker.d0034b143687:
   friendly_name: אפל טיוי
    
-device_tracker.partnertv:
+device_tracker.partner_tv:
   friendly_name: פרטנר טיוי
-   
+device_tracker.partnertv:
+  friendly_name: פרטנר טיוי    
+  
 device_tracker.eliranmacbookpro:
   friendly_name: מקבוק פרו -אלירן
    
@@ -249,8 +268,8 @@ group.Sensors:
 remote.apple_tv:
   friendly_name: אפל טיוי
    
-remote.ir_controller:
-  friendly_name: שליטה אינפרא
+# remote.ir_controller:
+#   friendly_name: שליטה אינפרא
    
 switch.sonoff_xiaomicctv_switch:
   friendly_name: מפסק מצלמת סלון
@@ -345,11 +364,13 @@ script.test_push:
   homebridge_hidden: true
 script.restart_home_assistant:
   friendly_name: איתחול הום-אסיסטנט
-   
   icon: mdi:restart
 script.reboot_router:
   friendly_name: איתחול ראוטר
   icon: mdi:router-wireless
+script.reboot_ap:
+  friendly_name: AP איתחול
+  icon: mdi:wifi
 # script.update_hass:
 #  friendly_name: עדכן גירסא להום-אסיסטנט
 #   icon: mdi:progress-upload
@@ -428,9 +449,6 @@ sensor.kitchen_light_on_today:
 # script.test_actionable_notify:
 #   homebridge_hidden: ture
 
-script.ilradio:
-    friendly_name: Start Playing
-    icon: mdi:play
 
 switch.tv_lg:
   assumed_state: true
@@ -473,13 +491,14 @@ group.all_switches:
 group.AllMySwitchs:
   friendly_name: כל הלחצנים
   hidden: false
-   
-switch.bedroom_fan_light: #livolio
+
+light.bedroom_fan_light: #ifan
   icon: mdi:wall-sconce-flat
-  assumed_state: true
   friendly_name: תאורה בחדר שינה
-   
   device_class: light
+  
+fan.bedroom_fan:
+  friendly_name: מאורר חדר שינה
 
 group.all_lights:
    
@@ -783,5 +802,30 @@ climate.living_room:
   friendly_name: מזגן
 sensor.sensibo1_temp:
   icon: mdi:oil-temperature
+  device_class: temperature  
 sensor.sensibo1_humidity:
   icon: mdi:water-percent
+  device_class: humidity  
+
+#17Track
+sensor.packages_in_transit:
+  friendly_name: חבילות בדרך
+  icon: mdi:truck-delivery
+sensor.packages_delivered:
+  friendly_name: חבילות שנשלחו
+  icon: mdi:package-variant
+sensor.packages_not_found:
+  friendly_name: חבילות שלא נמצאו
+  icon: mdi:briefcase-search
+sensor.packages_undelivered:
+  friendly_name: חבילות שלא נשלחו
+  icon: mdi:help-box  
+sensor.packages_returned:
+  friendly_name: חבילות שהוחזרו
+  icon: mdi:directions-fork
+sensor.packages_expired:   
+  friendly_name: חבילות שפג תוקפן
+  icon: mdi:tab-unselected
+sensor.packages_ready_to_be_picked_up:  
+  friendly_name:  חבילות מוכנות לאיסוף
+  icon: mdi:new-box

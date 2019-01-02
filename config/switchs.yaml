@@ -3,59 +3,82 @@
 #SWITCH
 #
 ################################################################################
-  - platform: xiaomi_miio
-    name:  Xiaomi PowerStrip
-    host: 192.168.1.132
-    token: !secret XiaomiPowerStripToken
-    model: qmi.powerstrip.v1
+  # - platform: xiaomi_miio  #OPENk
+  #   name:  Xiaomi PowerStrip
+  #   host: 192.168.XX.XX #CHANGE IP
+  #   token: !secret XiaomiPowerStripToken
+  #   model: qmi.powerstrip.v1
 
-    ##############
-    ##sonoff pow1 BOILER (an Sonoff POW Device with MQTT via Tasmota)
-    ###############
+################################################################################
+##sonoff pow1 BOILER (an Sonoff POW Device with MQTT via Tasmota)
+################################################################################
   - platform: mqtt
     name: " MQTT POW1"
     state_topic: "stat/sonoff1/POWER"
     command_topic: "cmnd/sonoff1/POWER"
+    # value_template: '{{ value_json.POWER }}' #added new
     availability_topic: "tele/sonoff1/LWT"
     qos: 1
     payload_on: "ON"
     payload_off: "OFF"
     payload_available: "Online"
     payload_not_available: "Offline"
-    retain: true
-    ##############
-    ##sonoff pow2  (an Sonoff POW Device with MQTT via Tasmota)
-    ###############
+    retain: false
+    
+################################################################################
+##sonoff pow2  (an Sonoff POW Device with MQTT via Tasmota)
+################################################################################
   - platform: mqtt
     name: "MQTT POW2"
     state_topic: "stat/sonoff2/POWER"
     command_topic: "cmnd/sonoff2/POWER"
+    # value_template: '{{ value_json.POWER }}' #added new
     availability_topic: "tele/sonoff2/LWT"
     qos: 1
     payload_on: "ON"
     payload_off: "OFF"
     payload_available: "Online"
     payload_not_available: "Offline"
-    retain: true
-    ###############
-    ##sonoff5 = sonoff basic - now for Xiaomi CCTV ( switch.sonoff_xiaomicctv_switch )
-    ###############
+    retain: false
+    
+################################################################################
+##sonoff5 = sonoff basic - now for Xiaomi CCTV ( switch.sonoff_xiaomicctv_switch )
+################################################################################
   - platform: mqtt
     name: "Sonoff XiaomiCCTV Switch"
     state_topic: "stat/sonoff5/POWER"
     command_topic: "cmnd/sonoff5/POWER"
+    # value_template: '{{ value_json.POWER }}' #added new
     availability_topic: "tele/sonoff5/LWT"
     qos: 1
     payload_on: "ON"
     payload_off: "OFF"
     payload_available: "Online"
     payload_not_available: "Offline"
-    retain: true
+    retain: false
+################################################################################
+##blitzwolf_switch = BlitzWolf SHP2 - with Tasmota firmware
+################################################################################ 
+  - platform: mqtt
+    name: "BlitzWolf Switch"
+    state_topic: "stat/blitzwolf_switch/POWER"
+    command_topic: "cmnd/blitzwolf_switch/POWER"
+    # value_template: '{{ value_json.POWER }}' #added new
+    availability_topic: "tele/blitzwolf_switch/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: false    
 
-
+################################################################################
+##Broadlink RM Pro - to control TV on/off , Hdmi input , TV volume ,Mute and more
+################################################################################
   - platform: broadlink
-    host: 192.168.1.80
-    mac: '78:0F:77:18:19:DF'
+    
+    host: 192.168.XX.XX #CHANGE IP 
+    mac: 'AA:AA:AA:AA:AA:AA' #CHANGE MAC ADD
     type: rm2_pro_plus2
     timeout: 15
     friendly_name: RMProPlus
@@ -84,7 +107,21 @@
       tv_lg_mute:
         friendly_name: "TV Mute"        
         command_on: 'JgBQAAABJ5QTEhQSEjYUERUQFBEUERQRFDUUNRUQFDYUNRU1FDUTNxU1FBAWDxU1FQ8WDxYPFRAVEBU0FTUVEBU0FTUVNBY0FQAFIgABJ0oWAA0FAAAAAAAAAAA='
-        
+################################################################################
+## HA-Dockermon an custom component to support for controlling HA Dockermon.- 
+## https://home-assistant.io/components/switch.hadockermon/ 
+################################################################################
+  - platform: hadockermon
+    host: 192.168.XX.XX #CHANGE IP
+    port: 8126
+    containers:
+      - 'unifi'
+      - 'unms'
+      - 'ha-dockermon'
+
+    
+# #Adds support for BlueIris profile switch (Arm / Unarm)
+#   - platform: blueiris     
 ################################################################################
 ## NOT
 ## IN 
@@ -196,7 +233,7 @@
 # PC status With MqttFX to know online status
   # - platform: mqtt
   #   name: " MQTT PC"
-  #   state_topic: "stat/PC/POWER"
+  #   state_topic: "stat/PC/STATUS2"
   #   command_topic: "cmnd/PC/POWER"
   #   availability_topic: "tele/PC/LWT"
   #   qos: 1
@@ -204,4 +241,4 @@
   #   payload_off: "OFF"
   #   payload_available: "Online"
   #   payload_not_available: "Offline"
-  #   retain: true
+  #   retain: false

@@ -35,52 +35,7 @@ sensor:
 #sensor.current_version    
 - platform: version
 
-# # get Home asistant Current Version In Production
-# -  platform: command_line
-#   command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
-#   name: last_HA_released_version 
-#   scan_interval: 21600 #6 Hours
-
 automation:
-# - alias: Home Assistant Release Check
-#   initial_state: on
-#   trigger:
-#   - platform: state
-#     entity_id: sensor.home_assistant_release
-#   - platform: homeassistant
-#     event: start
-#   condition:
-#     condition: template
-#     value_template:  "{{ states('sensor.last_HA_released_version') != states('sensor.current_version') }}"
-#   action:
-#   - service: persistent_notification.create
-#     data_template:
-#       title: Home Assistant Release
-#       message: >-
-#         A new version of Home Assistant is available, {{ states('sensor.last_HA_released_version') }}, while current version is {{states('sensor.current_version') }}
-        
-#         Link: {{states.sensor.home_assistant_released_version.attributes.html_url}}
-        
-#         Release notes:
-        
-#         {{states.sensor.home_assistant_released_version.attributes.body.split("## All changes")[0]}}
-        
-#   - service: notify.NotifyEliranIOSAndTelegram
-#     data_template:
-#       message: >-
-#         A new version of Home Assistant is available, {{ states('sensor.home_assistant_released_version') }}, while current version is {{states('sensor.current_version') }}
-        
-#         Link: {{states.sensor.home_assistant_released_version.attributes.html_url}}
-        
-#         Release notes:
-        
-#         {{states.sensor.home_assistant_released_version.attributes.body.split("## All changes")[0]}}
-        
-        
-        
-        
-        
-
 #########################################################################################################################
 - alias: Home Assistant Release Check
   initial_state: on

@@ -8,7 +8,7 @@
       # hide_app_toolbar:          # hide the application toolbar (when used as a custom panel)
       date_format: DD-MMM-YYYY   # Date format to use in hover-over text
       
-      last_motion_entity: binary_sensor.motion_sensor_158d0000e62376
+      last_motion_entity: binary_sensor.xiaomi_motion_sensor_hallway
       last_motion_class: last-motion
 ###################################__GROUPS__###################################
       groups:
@@ -40,8 +40,8 @@
 #########################Doors#########################
         - name: Doors
           entities:
-            - binary_sensor.door_window_sensor_158d0001b714e9 #home door
-            - binary_sensor.door_window_sensor_158d0000d834ac #bedroom door
+            - binary_sensor.door_sensor_main_entrance #home door
+            - binary_sensor.door_sensor_bedroom #bedroom door
           states:
             - state: 'off'
               class: 'door_closed90'
@@ -50,10 +50,10 @@
 #########################Sensors Status#########################
         - name: Sensors Status
           entities:
-             - sensor.temperature_158d0001150e4e
-             - sensor.humidity_158d0001150e4e
+             - sensor.temperature_bedroom_0
+             - sensor.humidity_bedroom_0
              - switch._mqtt_pow1 #boiler
-             - binary_sensor.motion_sensor_158d0000e62376
+             - binary_sensor.xiaomi_motion_sensor_hallway
           states:
             - state: 'on'
               class: 'color_green'
@@ -119,7 +119,7 @@
         # - name: Status     
         #   entities:
         #     - switch._mqtt_pow1 #boiler
-        #     - binary_sensor.motion_sensor_158d0000e62376
+        #     - binary_sensor.xiaomi_motion_sensor_hallway
         #   states:
         #     - state: 'on'
         #       class: 'light-on'

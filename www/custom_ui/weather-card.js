@@ -51,35 +51,12 @@ class WeatherCard extends HTMLElement {
       'exceptional': '!!',
     }
 
-    const windDirections = [
-    'N', 
-    'NNE', 
-    'NE', 
-    'ENE', 
-    'E', 
-    'ESE',
-    'SE', 
-    'SSE',
-    'S', 
-    'SSW', 
-    'SW', 
-    'WSW', 
-    'W', 
-    'WNW', 
-    'NW', 
-    'NNW', 
-    'N'
-    ];
+
     const entity = hass.states[this.config.entity_weather];
     const currentCondition = entity.state;
     const humidity = entity.attributes.humidity;
-    const pressure = entity.attributes.pressure;
     const temperature = Math.round(entity.attributes.temperature);
-    const visibility = entity.attributes.visibility;
-    const windBearing = windDirections[(parseInt((entity.attributes.wind_bearing + 11.25) / 22.5))];
-    const windSpeed = entity.attributes.wind_speed;
     const forecast = entity.attributes.forecast.slice(0, 5);
-
     const sun = hass.states[this.config.entity_sun];
     const sunraise = sun.attributes.next_rising;
     const sunset = sun.attributes.next_setting;
@@ -88,15 +65,10 @@ class WeatherCard extends HTMLElement {
       <span class="icon bigger" style="background: none, url(/local/weather_icons/animated/${weatherIcons[currentCondition]}.svg) no-repeat; background-size: contain;">${currentCondition}</span>
       <span class="temp">${temperature}</span><span class="tempc"> ${getUnit('temperature')}</span>
       <span>
-        <ul class="variations right">
-            <li><span class="ha-icon"><ha-icon icon="mdi:water-percent"></ha-icon></span>${humidity}<span class="unit"> %</span></li>
-            <li><span class="ha-icon"><ha-icon icon="mdi:gauge"></ha-icon></span>${pressure}<span class="unit"> ${getUnit('air_pressure')}</span></li>
-            <li><span class="ha-icon"><ha-icon icon="mdi:weather-sunset-up"></ha-icon></span>${new Date(sunraise).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</li>
-        </ul>
         <ul class="variations">
-            <li><span class="ha-icon"><ha-icon icon="mdi:weather-windy"></ha-icon></span>${windBearing} ${windSpeed}<span class="unit"> ${getUnit('length')}/h</span></li>
-            <li><span class="ha-icon"><ha-icon icon="mdi:weather-fog"></ha-icon></span>${visibility}<span class="unit"> ${getUnit('length')}</span></li>
+            <li><span class="ha-icon"><ha-icon icon="mdi:water-percent"></ha-icon></span>${humidity}<span class="unit"> %</span></li>
             <li><span class="ha-icon"><ha-icon icon="mdi:weather-sunset-down"></ha-icon></span>${new Date(sunset).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</li>
+            <li><span class="ha-icon"><ha-icon icon="mdi:weather-sunset-up"></ha-icon></span>${new Date(sunraise).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</li>
         </ul>
       </span>
       <div class="forecast clear">

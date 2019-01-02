@@ -22,3 +22,5 @@
     services:
       - service: elirantelegram
       - service: ios_elirantur2
+      - service: ios_homeipad
+      

@@ -23,8 +23,8 @@
 #             DrinkingWater FILETER REMINDER            #
 #                                                       #
 #########################################################
-
-  - alias: "DrinkingWater Filter Reminder"
+  - alias: 'DrinkingWater Filter Reminder'
+    initial_state: 'on'
     trigger:
       platform: time
       at: '18:00:00'
@@ -46,7 +46,8 @@
 #                                                       #
 #########################################################
 
-  - alias: "Clean aquarium Reminder"
+  - alias: 'Clean aquarium Reminder'
+    initial_state: 'on'
     trigger:
       platform: time
       at: '14:00:00'
@@ -72,8 +73,8 @@
 #            Plants Cleaning Reminder                   #
 #                                                       #
 #########################################################
-
-  - alias: "Plants Cleaning Reminder"
+  - alias: 'Plants Cleaning Reminder'
+    initial_state: 'on'
     trigger:
       platform: time
       at: '20:00:00'

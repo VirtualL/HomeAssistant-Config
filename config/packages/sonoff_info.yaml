@@ -39,3 +39,7 @@ sensor:
     name: Sonoff XiaomiCCTV Version
     state_topic: "stat/sonoff5/STATUS2"
     value_template: "{{ value_json['StatusFWR'].Version }}"
+  - platform: mqtt
+    name: Sonoff iFan Bedroom Version
+    state_topic: "stat/sonoff_ifan/STATUS2"
+    value_template: "{{value_json['StatusFWR'].Version }}"

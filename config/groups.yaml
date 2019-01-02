@@ -27,11 +27,9 @@ default_view: #the main page view.if not init,the first Page will be with all th
       # - group.xiaomi_powerstrip_info
       # - vacuum.xiaomi_vacuum
       # - group.IOT_Status
-      - group.All_My_MediaPlayers
       - group.historyStat
       - gruop.AllmyControllers
       - group.IsraeliRadio
-      - weblink.mysuperled_rgb
       - group.rates
       # - group.Security_info
 
@@ -56,8 +54,8 @@ AllMylights:
     - light.sonoff_hallway_light
     - light.gateway_light_34ce0088d2f7
     #- sensor.hline_3 #-----------------#
+    - light.bedroom_fan_light
     - light.desk_lamp
-    # - switch.bedroom_fan_light
 AllMySwitchs:
   name: All Switchs
   view: no
@@ -73,7 +71,8 @@ AllMySwitchs:
     #- sensor.hline_3 #-----------------#
     - switch._mqtt_pow1
     - climate.living_room
-    - switch.xiaomi_powerstrip
+    - fan.bedroom_fan
+    # - switch.xiaomi_powerstrip
     # - group.xiaomi_powerstrip_info
     - vacuum.xiaomi_vacuum
     ##- sensor.hline_2 #-----------------#
@@ -82,7 +81,7 @@ AllMySwitchs:
     - switch.tv_lg_hdmi1
     - switch.tv_lg_hdmi2
     - switch.tv_lg_hdmi3
-    # - switch.bedroom_fan_light
+    
 
 Devices_online:
   name: Devices Online
@@ -113,7 +112,6 @@ App_info:
     - sensor.time_online
     #- sensor.hline_3 #-----------------#
     - script.restart_home_assistant
-    - script.reboot_os
     #- sensor.hline_4 #-----------------#
     - sensor.latest_ha_backup
     - sensor.hass
@@ -125,16 +123,16 @@ Sensors:
   entities:
     #Xiaomi aqvara
     - climate.living_room   
-    - binary_sensor.door_window_sensor_158d0001b714e9 #home door
-    - binary_sensor.motion_sensor_158d0000e62376
-    - sensor.temperature_158d0001150e4e
-    - sensor.humidity_158d0001150e4e
+    - binary_sensor.door_sensor_main_entrance #home door
+    - binary_sensor.xiaomi_motion_sensor_hallway
+    - sensor.temperature_bedroom_0
+    - sensor.humidity_bedroom_0
     - light.gateway_light_34ce0088d2f7
-    - sensor.illumination_34ce0088d2f7
+    - sensor.xiaomi_gateway_illumination
     ##- sensor.hline_1 #-----------------#
-    - binary_sensor.door_window_sensor_158d0000d834ac
-    - switch.xiaomi_powerstrip
-    # - group.xiaomi_powerstrip_info
+    - binary_sensor.door_sensor_bedroom
+    - fan.bedroom_fan
+    # - switch.xiaomi_powerstrip
     - vacuum.xiaomi_vacuum
     - switch._mqtt_pow1
     # - group.boiler_setup
@@ -243,13 +241,6 @@ People:
     - device_tracker.desktop4ba97q9 #matan laptop
     - device_tracker.galaxys9 #amir abu
 
-All_My_MediaPlayers:
-  name: Media Players
-  view: no
-  entities:
-    - media_player.apple_tv
-    - media_player.salon
-    - group.IsraeliRadio
 
 Living_Room_lights:
   name: Living Room Lights
@@ -271,11 +262,11 @@ Living_Room_Info:
   view: no
   entities:
     - climate.living_room   
-    - binary_sensor.motion_sensor_158d0000e62376
-    - sensor.temperature_158d0001150e4e
-    - sensor.humidity_158d0001150e4e 
+    - binary_sensor.xiaomi_motion_sensor_hallway
+    - sensor.temperature_bedroom_0
+    - sensor.humidity_bedroom_0 
     #- sensor.hline_1 #-----------------#
-    - binary_sensor.door_window_sensor_158d0001b714e9 #home door
+    - binary_sensor.door_sensor_main_entrance #home door
     - switch.xiaomi_powerstrip
     - vacuum.xiaomi_vacuum
     # - binary_sensor.switch_158d000149b9ab
@@ -284,21 +275,20 @@ Living_Room_Info:
     # - binary_sensor.wall_switch_right_158d0001712d0e
     # - group.xiaomi_powerstrip_info
     # - switch._mqtt_pow1
-    - weblink.mysuperled_rgb
 
 
 BedRoom_Sensors:
   name: Bed Room Sensors
   view: no
   entities:
-    - binary_sensor.door_window_sensor_158d0000d834ac
+    - binary_sensor.door_sensor_bedroom
     - binary_sensor.switch_158d0000d8c836 #on off 
 
 BedRoom_lights:
   name: Bed Room Lights
   view: no
   entities:
-    - switch.bedroom_fan_light
+    - light.bedroom_fan_light
     - light.desk_lamp
 
 kitchen_Sensors:
@@ -306,9 +296,9 @@ kitchen_Sensors:
   view: no
   entities:
     - sensor.date__time
-    - binary_sensor.motion_sensor_158d0000e62376
-    - sensor.temperature_158d0001150e4e
-    - sensor.humidity_158d0001150e4e
+    - binary_sensor.xiaomi_motion_sensor_hallway
+    - sensor.temperature_bedroom_0
+    - sensor.humidity_bedroom_0
     
 kitchen_Light:
   name: תאורה
@@ -402,13 +392,6 @@ AllmyControllers:
     - switch.tv_lg_vol
     - cover.lg_volume
 
-IsraeliRadio:
-  name: רדיו ישראלי
-  entities:
-    - input_select.radio_station
-    - input_select.chromecast_radio
-    - script.ilradio
-    
 weatherUI:
   name: מזג אוויר
   entities:
@@ -465,7 +448,6 @@ Server_info:
     - sensor.homeassistant_v2db
     #- sensor.hline_4 #-----------------#
     - script.restart_home_assistant
-    - script.reboot_os
     - script.update_hass
     #- sensor.hline_5 #-----------------#
     - sensor.last_HA_released_version
@@ -505,11 +487,6 @@ Server_Info_Page:
   icon: mdi:mdi:desktop-classic
   view: yes
   entities:
-    - weblink.server
-    - weblink.ide
-    - weblink.cloudflare
-    - weblink.sonoff
-    - weblink.router
     - group.server_status
     - group.Server_info
     - group.speedtestnet
@@ -526,9 +503,8 @@ LinivgRoom_Page:
     - group.Living_Room_lights
     - group.Living_Room_Info
     - group.People
-    - group.All_My_MediaPlayers
     - group.all_remotes
-    - remote.ir_controller
+    # - remote.ir_controller
     - gruop.weatherUI
     - group.zones
     # - input_boolean.weather
@@ -545,8 +521,7 @@ BedRoom_page:
     # - input_boolean.weather
     - group.alarm_clock
     - group.all_remotes
-    - remote.ir_controller
-    - group.all_my_mediaplayers
+    # - remote.ir_controller
     - vacuum.xiaomi_vacuum
 
       #sonoff
@@ -668,8 +643,8 @@ Security_tracker:
   name: מכשירי אבטחה
   view: no
   entities:
-    - binary_sensor.door_window_sensor_158d0001b714e9 #home door
-    - binary_sensor.motion_sensor_158d0000e62376
+    - binary_sensor.door_sensor_main_entrance #home door
+    - binary_sensor.xiaomi_motion_sensor_hallway
     #- sensor.hline_1 #-----------------#
     - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
     - device_tracker.homecctv #via ip
@@ -719,7 +694,6 @@ summary:
     - gruop.All_My_MediaPlayers
     - group.Living_Room_lights
     - group.Living_Room_Info
-    - gruop.BedRoom_Sensors
     - gruop.BedRoom_lights
     - gruop.Kitchen
     - group.boiler_setup
@@ -740,3 +714,14 @@ zones:
   name: FloorPlan zones
   entities:
     - binary_sensor.floorplan
+    
+Docker_Container:
+  name: קונטיינרים
+  view: no
+  entities:
+    - switch.ha_dockermon_hadockermon
+    - switch.ha_dockermon_letsencrypt
+    - switch.ha_dockermon_unifi
+    - switch.ha_dockermon_unms
+    - switch.ha_dockermon_heimdall
+    - switch.ha_dockermon_cloud9ide

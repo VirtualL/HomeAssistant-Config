@@ -12,7 +12,7 @@
         arg: /home
       - type: memory_use_percent
       - type: processor_use
-      - type: since_last_boot
+      - type: last_boot
   #To monitor DataBase File size    
   - platform: filesize
     file_paths:
@@ -33,17 +33,29 @@
       - 'date'
   #Time in Days for SSL to Expired -made the cert with http://certbot.eff.org/ (Have SSL with NGINX)
   - platform: cert_expiry
-    name: SSL HASS
-    host: !secret base_url #For example google.com 
-  - platform: cert_expiry
     name: SSL Router
     host: !secret routerSSL
+  - platform: cert_expiry
+    name: SSL HASS
+    host: !secret base_url #For example google.com 
   - platform: cert_expiry
     name: SSL IDE
     host: !secret c9IdeSSL #For example google.com 
   - platform: cert_expiry
     name: SSL Server
     host: !secret serverSSL
+  - platform: cert_expiry
+    name: SSL HomePage
+    host: !secret HomePageSSL
+  - platform: cert_expiry
+    name: SSL CCTV
+    host: !secret CCTVSSL   
+  - platform: cert_expiry
+    name: SSL Unifi
+    host: !secret UnifiSSL
+  - platform: cert_expiry
+    name: SSL UNMS
+    host: !secret UNMS_SSL
 
   #Travel time From Home to Work
   - platform: waze_travel_time
@@ -210,22 +222,22 @@
     unit_of_measurement: "₪" # USD / Other local currency
     ########################################
 
-    ##Add More info for device xiaomi PowerStrip
-  - platform: template
-    sensors:
-      power_strip_temp:
-        friendly_name: 'טמפרטורת מפצל' #power Strip Temperature
-        value_template: '{{ states.switch.xiaomi_powerstrip.attributes.temperature }}'
-        unit_of_measurement: "°מעלות" #temperature in C
-      power_strip_watt:
-        friendly_name: 'צריכה נוכחית ' #Current W
-        value_template: '{{ states.switch.xiaomi_powerstrip.attributes.load_power }}'
-        unit_of_measurement: W
-      # power_strip_total_cost:
-      #   friendly_name: 'עלות לשעת פעילות' #price per hour 
-      #   value_template: '{{ (states.switch.xiaomi_powerstrip.attributes.load_power *0.5404 *0.001)| round(3)}}'
-      #   #ILS OR USD (Depends on local currency) Just change the value of "0.5404" to your local elctricity price
-      #   unit_of_measurement: "₪" # USD / Other local currency
+  #   #Add More info for device xiaomi PowerStrip
+  # - platform: template
+  #   sensors:
+  #     power_strip_temp:
+  #       friendly_name: 'טמפרטורת מפצל' #power Strip Temperature
+  #       value_template: '{{ states.switch.xiaomi_powerstrip.attributes.temperature }}'
+  #       unit_of_measurement: "°מעלות" #temperature in C
+  #     power_strip_watt:
+  #       friendly_name: 'צריכה נוכחית ' #Current W
+  #       value_template: '{{ states.switch.xiaomi_powerstrip.attributes.load_power }}'
+  #       unit_of_measurement: W
+  #     power_strip_total_cost:
+  #         friendly_name: 'עלות לשעת פעילות' #price per hour 
+  #         value_template: '{{ (states.switch.xiaomi_powerstrip.attributes.load_power *0.5404 *0.001)| round(3)}}'
+  #         #ILS OR USD (Depends on local currency) Just change the value of "0.5404" to your local elctricity price
+  #         unit_of_measurement: "₪" # USD / Other local currency
 
     ####################################### ALARM CLOCK #######################################
     #alarm clock that send a notifaction to phone (via iOS app-see Automations)
@@ -337,14 +349,6 @@
           {%- else -%}
             {{states.vacuum.xiaomi_vacuum.attributes.status}}:מצב
           {% endif %}
-  - platform: template
-    sensors:
-      vacuum_battery:
-        friendly_name: "Vacuum - Battery"
-        value_template: "{{ states.vacuum.xiaomi_vacuum.attributes.battery_level }}%:סוללה"
-        device_class: battery
-        # unit_of_measurement: '%'
-        
 
 ################# A platform which allows you to get information sucessfull logins to Home Assistant ################# 
 ################# https://github.com/custom-components/sensor.authenticated ################# 
@@ -472,7 +476,7 @@
     sensors:
       authentication_known_ip_info:
         value_template: >-
-          {% if is_state('sensor.last_successful_authenticationrature.attributes.new_ip', 'true') %}
+          {% if is_state('sensor.last_successful_authentication.attributes.new_ip', 'true') %}
             כן
           {% else %}
             לא
@@ -522,3 +526,8 @@
   #   name: 'GPU temp'
   #   unit_of_measurement: "°מעלות" #temperature in C
   #   scan_interval: 120 #2 min
+  
+  - platform: seventeentrack
+    username: !secret 17TrackEmail
+    password: !secret 17TrackPassword
+    

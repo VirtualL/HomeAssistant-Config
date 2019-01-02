@@ -35,6 +35,8 @@ frontend:
   #   - /local/custom_ui/state-card-custom-ui-es5.html
   # extra_html_url: #???
   # - /local/custom_ui/custom-weather-card.html
+lovelace:
+  mode: yaml  
 
 recorder:
   purge_keep_days: 7
@@ -43,7 +45,7 @@ recorder:
   
 http:
   # Secrets are defined in the file secrets.yaml
-  api_password: !secret api_password
+  #api_password: !secret api_password
   # ssl_certificate: !secret ssl_certificatePATH
   # ssl_key: !secret ssl_keyPATH 
   base_url: !secret base_url
@@ -55,16 +57,7 @@ http:
     - 192.168.1.1 #router
     - 172.18.0.2 #nginx
     - 172.18.0.3 #nginx
-
-#DD-WRT
-device_tracker:
-  - platform: asuswrt
-    host: 192.168.1.1
-    username: !secret AsusWrtUsername
-    password: !secret AsusWrtPassword
-    # interval_seconds: 10
-    # track_new_devices: yes
-    # consider_home: 90 
+device_tracker: !include config/device_trackers.yaml
 
 #Xiaomi Gateway (Aqara)
 xiaomi_aqara:
@@ -75,18 +68,21 @@ xiaomi_aqara:
 vacuum:
   - platform: xiaomi_miio
     name: Xiaomi Vacuum
-    host: 192.168.1.82
+    host: 192.168.XX.XX #CHANGE IP
     token: !secret XiaomiVacuumV1Token
     
-cast:
-  media_player:
-  - host: 192.168.1.104 #partnerTV
+#Google Cast devices like Android TVs and Chromecasts will be automatically 
+#discovered if you enable the discovery component.
+#https://www.home-assistant.io/components/cast/    
+# cast:
+#   media_player:
+#   - host: 192.168.XX.XX #CHANGE IP #partnerTV
   
-apple_tv:
-  - host: 192.168.1.121
-    name: Apple TV
-    login_id: !secret AppleTVLogin_id
-    credentials: !secret AppleTVcredentials
+# apple_tv:
+#   - host: 192.168.XX.XX #CHANGE IP
+#     name: Apple TV
+#     login_id: !secret AppleTVLogin_id
+#     # credentials: !secret AppleTVcredentials
 
 timer:
   #a Timer that Start Every time that the Home Door Open 
@@ -96,6 +92,9 @@ timer:
 
 mqtt:
   password: !secret mqtt_password
+  broker: 192.168.XX.XX #CHANGE IP
+  client_id: HOME_ASSISTANT
+  username: MQTT_USERNAME
   
 # Enables configuration UI
 config:
@@ -133,11 +132,6 @@ tts:
 # Cloud
 cloud:
 
-binary_sensor:
-  - platform: mqtt #floorPlan
-    state_topic: dummy/floorplan/sensor
-    name: Floorplan
-    
 panel_custom:
   - name: floorplan
     sidebar_title: Floorplan
@@ -170,9 +164,6 @@ google:
   client_id: !secret Google_CLIENT_ID
   client_secret: !secret Google_CLIENT_SECRET
   
-# zoneminder:
-#   host: 192.168.1.200:8081  
-
 ##############
 ## includes
 ############
@@ -183,13 +174,14 @@ script: !include config/scripts.yaml
 input_select: !include config/input_select.yaml
 input_boolean: !include config/input_boolean.yaml
 input_number: !include config/input_number.yaml
+binary_sensor: !include config/binary_sensors.yaml  
 camera: !include config/cameras.yaml
 switch: !include config/switchs.yaml  
+fan: !include config/fans.yaml  
 remote: !include config/remotes.yaml  
 light: !include config/lights.yaml  
 ios: !include config/ios.yaml
 notify: !include config/notify.yaml
-weblink: !include config/weblink.yaml
 panel_iframe: !include config/panel_iframe.yaml
 zone: !include config/zones.yaml
 history: !include config/history.yaml
@@ -205,10 +197,32 @@ google_assistant: !include config/google_assistant.yaml
 
 ############################################################################
 ##
-## sonoff1 = sonoff pow boiler ( switch._mqtt_pow1 )
-## sonoff2 = sonoff pow 2 general - now for homeCCTV Kitchen( switch.mqtt_pow2 )
+## sonoff1 = sonoff pow1 boiler ( switch._mqtt_pow1 )
+## sonoff2 =sonoff pow 2 general - now for homeCCTV Kitchen( switch.mqtt_pow2 )
 ## sonoff3 = sonoff touch - now for Kitchen Light ( light.sonoff_light )
 ## sonoff4 = sonoff basic -now for Hallway Light (light.sonoff_hallway_light )
 ## sonoff5 = sonoff basic - now for Xiaomi CCTV ( switch.sonoff_xiaomicctv_switch )
 ##
 ############################################################################
+
+rest_command:
+  set_preset_1_homecctv01:
+    url: !secret SetPreset01_HomeCCTV01_URL
+    method: POST
+  update_homecctv01_state:
+    url: http://192.168.XXX.XXX:8123/api/states/camera.cctv1_snapshot
+    method: POST    
+    headers: 
+      Authorization: !secret UpdateStateHomeCCTV01Token
+      Content-Type: 'application/json'
+    payload: '{"state": "recording"}'
+
+
+############################# ENTITY NAMES CHANGES ############################# 
+## binary_sensor.motion_sensor_158d0000e62376 = binary_sensor.xiaomi_motion_sensor_hallway
+## sensor.illumination_34ce0088d2f7 = sensor.xiaomi_gateway_illumination
+## binary_sensor.door_window_sensor_158d0000d834ac = binary_sensor.door_sensor_bedroom
+## binary_sensor.door_window_sensor_158d0001b714e9 = binary_sensor.door_sensor_main_entrance
+## sensor.humidity_158d0001150e4e = sensor.humidity_bedroom_0
+## sensor.temperature_158d0001150e4e = sensor.temperature_bedroom_0
+################################################################################

@@ -13,13 +13,13 @@
         # - script.ac_turn_on
         # - script.ac_fan_speed
         # - input_boolean.ac_status_alexa
-        - binary_sensor.motion_sensor_158d0000e62376
-        - sensor.humidity_158d0001150e4e
-        - sensor.temperature_158d0001150e4e
-        - sensor.illumination_34ce0088d2f7
+        - binary_sensor.xiaomi_motion_sensor_hallway
+        - sensor.humidity_bedroom_0
+        - sensor.temperature_bedroom_0
+        - sensor.xiaomi_gateway_illumination
         
-        - binary_sensor.door_window_sensor_158d0000d834ac
-        - binary_sensor.door_window_sensor_158d0001b714e9
+        - binary_sensor.door_sensor_bedroom
+        - binary_sensor.door_sensor_main_entrance
         - sensor.sensibo1_humidity
         - sensor.sensibo1_temp
       include_domains:
@@ -29,10 +29,16 @@
       exclude_entities:
         - light.yeelight_white_f0b4290e4e68 #Duplicate
         - light.yeelight_rgb_286c07106e1b #Duplicate
-        - switch.bedroom_fan_light #RF light
+        - light.bedroom_fan_light
         - switch.tv_lg_hdmi1
         - switch.tv_lg_hdmi2
         - switch.tv_lg_hdmi3
+        - switch.ha_dockermon_cloud9ide
+        - switch.ha_dockermon_hadockermon
+        - switch.ha_dockermon_heimdall
+        - switch.ha_dockermon_letsencrypt
+        - switch.ha_dockermon_unifi
+        - switch.ha_dockermon_unms
         
     entity_config:
       ############## GENERAL
@@ -76,10 +82,7 @@
     
       switch.sonoff_xiaomicctv_switch:
         name: Salon Camera
-        
-      switch._mqtt_pow1:
-        name: Boiler
-        description: The MQTT Sonoff POW  boiler
+
         
       switch.xiaomi_powerstrip:
         name: Power Strip
@@ -97,12 +100,12 @@
       #   display_categories: SWITCH
 
         
-      # sensor.temperature_158d0001150e4e:
+      # sensor.temperature_bedroom_0:
       #     name: Temperature 
       #   description: The Temperature in the living room
       #   display_categories: TEMPERATURE_SENSOR
         
-      # sensor.humidity_158d0001150e4e:
+      # sensor.humidity_bedroom_0:
       #     name: Humidity 
       #   description: The Humidity in the living room
       #   display_categories: OTHER
@@ -122,34 +125,19 @@
       #   name: All My Lights
     # https://developer.amazon.com/docs/device-apis/alexa-discovery.html#display-categories
          ##############BINARY SENSORS and SENSORS
-      binary_sensor.motion_sensor_158d0000e62376:
+      binary_sensor.xiaomi_motion_sensor_hallway:
         name: Hallway motion
-      
-      sensor.humidity_158d0001150e4e:
+      sensor.humidity_bedroom_0:
         name: Bedroom Humidity
-      sensor.temperature_158d0001150e4e:
+      sensor.temperature_bedroom_0:
         name: Bedroom Temperature
-      sensor.illumination_34ce0088d2f7:
+      sensor.xiaomi_gateway_illumination:
         name: Gateway illumination
-      binary_sensor.door_window_sensor_158d0000d834ac:
+      binary_sensor.door_sensor_bedroom:
         name: Bedroom door
-      binary_sensor.door_window_sensor_158d0001b714e9:
+      binary_sensor.door_sensor_main_entrance:
         name: Main door
       sensor.sensibo1_humidity:
         name: Living room Humidity
       sensor.sensibo1_temp:
         name: Living room Temperature
-##
-## https://www.home-assistant.io/components/alexa/#configuring-a-flash-briefing-skill-in-home-assistant
-##
-  flash_briefings:
-    whoishome:
-      - title: Home present
-        text: >
-          {%- if is_state('device_tracker.eliraniphone', 'home') and
-                 is_state('device_tracker.shiraniphone', 'home') -%}
-            You are both home, you silly
-          {%- else -%}
-            Shiran is at {{ states("device_tracker.shiraniphone") }}
-            and Eliran is at {{ states("device_tracker.eliraniphone") }}
-          {% endif %}
