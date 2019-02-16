@@ -1,6 +1,6 @@
 ##################################################
 #
-# GOOGLE ASSISTANT - The Manual Way no Monthly Payment.
+# GOOGLE ASSISTANT - The Manual Way without monthly Payment.
 # https://www.home-assistant.io/components/google_assistant/#first-time-setup
 #
 ##################################################
@@ -12,8 +12,8 @@
     - switch
     - vacuum
     - script
-    - media_player
-    #- climate
+    # - media_player
+    #- climate #using Sensibo Skill
     
   entity_config:
 ########################################
@@ -49,9 +49,9 @@
         - Hallway
         - MISSDARON
         - MISSDARON light
-    light.gateway_light_34ce0088d2f7:
+    light.gateway_light:
       name: Gateway
-      room: Salon
+      room: Hallway
       aliases:
         - GateWay light
         
@@ -60,9 +60,10 @@
       room: Bedroom
       aliases:
         - Desk Lamp
+        - Desktop Lamp
         
     light.bedroom_fan_light:
-      name: BedRoom Lamp
+      name: Bedroom light
       room: Bedroom
       aliases:
         - Bedroom light
@@ -100,7 +101,7 @@
         - Mute TV
         - TV Mute
         
-    switch._mqtt_pow1:
+    switch.mqtt_pow1:
       name: Boiler
       room: Hallway
       
@@ -114,7 +115,22 @@
       expose: false
     switch.tv_lg_hdmi3:
       expose: false
-      
+    switch.ha_dockermon_cloud9ide:
+      expose: false
+    switch.ha_dockermon_ha_dockermon:
+      expose: false
+    switch.ha_dockermon_heimdall:
+      expose: false
+    switch.ha_dockermon_letsencrypt:
+      expose: false
+    switch.ha_dockermon_unifi:
+      expose: false
+    switch.ha_dockermon_unms:      
+      expose: false
+            
+########################################
+###INPUT BOOLEAN
+########################################      
     input_boolean.alarm_clock_status:
       expose: false
     input_boolean.boiler_off_clock_status:
@@ -123,6 +139,59 @@
       expose: false
     input_boolean.weather:
       expose: false
+########################################
+###Vaccum
+########################################      
+    vacuum.xiaomi_vacuum:
+      name: Vaccum Cleaner
+      room: Hallway
+      aliases:
+        - Roobik
+########################################
+###SCRIPTS
+########################################
+    script.restart_home_assistant:
+      name: Restart Home Assitant
+      room: Garage
+    script.reboot_router:
+      name: Reboot Router
+      room: Garage
+    script.backup_ha_and_move_backup_to_unraid:
+      name: Backup Home Assitant
+      room: Garage
+    script.reboot_ap:
+      name: Reboot AP
+      room: Garage      
+###############expose: FALSE##################
+    script.backup_ha_config:
+      expose: false    
+    script.check_sonoffs_tasmota_status:
+      expose: false    
+    script.update_hass:
+      expose: false
+    script.timer_off_boiler:
+      expose: false
+    script.check_sonoffs_version:
+      expose: false
+    script.backup_all_os:
+      expose: false
+    script.test_push:
+      expose: false
+    script.white_night_light:
+      expose: false
+    script.purple_night_light:
+      expose: false
+    script.flash_gateway1:
+      expose: false
+    script.flash_gateway2:
+      expose: false
+    script.install_after_update_hass:
+      expose: false
+    script.update_speedtestnet:
+      expose: false 
+########################################
+###GROUP
+########################################  
     group.all_automations:
       expose: false
     group.all_devices:
@@ -234,71 +303,15 @@
     group.zones:
       expose: false
     group.alarm_clock:
-      expose: false
-      
-    switch.ha_dockermon_cloud9ide:
-      expose: false
-    switch.ha_dockermon_hadockermon:
-      expose: false
-    switch.ha_dockermon_heimdall:
-      expose: false
-    switch.ha_dockermon_letsencrypt:
-      expose: false
-    switch.ha_dockermon_unifi:
-      expose: false
-    switch.ha_dockermon_unms:      
-      expose: false
+      expose: false      
 ########################################
-###Vaccum
+###GENERAL
 ########################################      
-    vacuum.xiaomi_vacuum:
-      name: Vaccum Cleaner
-      room: Hallway
-      aliases:
-        - Roobik
-        
+    binary_sensor.xiaomi_motion_sensor_hallway:
+      name: Hallway motion
+      expose: true
 ########################################
-###SCRIPTS
-########################################
-    script.restart_home_assistant:
-      name: Restart Home Assitant
-      room: Garage
-    script.reboot_router:
-      name: Reboot Router
-      room: Garage
-    script.backup_ha_and_move_backup_to_unraid:
-      name: Backup Home Assitant
-      room: Garage
-###############expose: FALSE##################
-    script.backup_ha_config:
-      expose: false    
-    script.check_sonoffs_tasmota_status:
-      expose: false    
-    script.update_hass:
-      expose: false
-    script.timer_off_boiler:
-      expose: false
-    script.check_sonoffs_version:
-      expose: false
-    script.backup_all_os:
-      expose: false
-    script.test_push:
-      expose: false
-    script.white_night_light:
-      expose: false
-    script.purple_night_light:
-      expose: false
-    script.flash_gateway1:
-      expose: false
-    script.flash_gateway2:
-      expose: false
-    script.install_after_update_hass:
-      expose: false
-    script.update_speedtestnet:
-      expose: false 
-
-########################################
-###CLIMATE- not in use - Sensibo API better
+###CLIMATE- not in use - Sensibo Skill better
 ########################################      
 #     climate.living_room:
 #       name: AC
@@ -318,9 +331,3 @@
     #  
     # media_player.partnertv #discover by Google Home APP
     #
-########################################
-###GENERAL
-########################################      
-    binary_sensor.xiaomi_motion_sensor_hallway:
-      name: Hallway motion
-      expose: true

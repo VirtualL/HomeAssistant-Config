@@ -3,14 +3,6 @@
 #INPUT NUMBER
 #
 ################################################################################
-
-  slider_boiler:
-    name: Boiler timer (minutes)
-    initial: 15
-    min: 0
-    max: 60
-    step: 1
-
   alarm_clock_hour:
     name: שעות
     initial: 12
@@ -23,7 +15,7 @@
     min: 0
     max: 55
     step: 5
-
+    
   boiler_off_clock_hour:
     name: שעות
     initial: 8
@@ -48,3 +40,9 @@
     min: 0
     max: 55
     step: 5
+  slider_boiler:
+    name: Boiler timer (minutes)
+    initial: 15
+    min: 0
+    max: 60
+    step: 1

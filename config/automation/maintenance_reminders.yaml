@@ -32,7 +32,7 @@
       condition: template
       value_template: '{{ now().day == 30}}'
     action:
-      service: notify.NotifyEliranIOSAndTelegram
+      service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: "מיכל מים"
         message: "החלף פילטר למי השתייה"
@@ -60,7 +60,7 @@
           value_template: '{{ now().day == 15}}'
     
     action:
-      service: notify.NotifyEliranIOSAndTelegram
+      service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: האקווריום
         message: נקה את האקווריום של גדליה
@@ -82,7 +82,7 @@
       condition: template
       value_template: '{{ now().day == 20}}'
     action:
-      service: notify.NotifyEliranIOSAndTelegram
+      service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: "צמחים"
         message: "נקה את מיכלי הצמחים"

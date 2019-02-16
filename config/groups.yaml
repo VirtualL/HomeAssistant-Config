@@ -52,7 +52,7 @@ AllMylights:
     - light.philips_bulb
     ##- sensor.hline_2 #-----------------#
     - light.sonoff_hallway_light
-    - light.gateway_light_34ce0088d2f7
+    - light.gateway_light
     #- sensor.hline_3 #-----------------#
     - light.bedroom_fan_light
     - light.desk_lamp
@@ -69,9 +69,9 @@ AllMySwitchs:
     # - group.POW2_setup #???
     - switch.sonoff_xiaomicctv_switch
     #- sensor.hline_3 #-----------------#
-    - switch._mqtt_pow1
+    - switch.mqtt_pow1
     - climate.living_room
-    - fan.bedroom_fan
+    # - fan.bedroom_fan
     # - switch.xiaomi_powerstrip
     # - group.xiaomi_powerstrip_info
     - vacuum.xiaomi_vacuum
@@ -101,15 +101,15 @@ App_info:
   view: no
   icon: mdi:apple-ios
   entities:
-    - sensor.date__time
+    - sensor.date_time
     #- sensor.hline_1 #-----------------#
     - sensor.eliran_iphone_battery_level
     - sensor.eliran_iphone_battery_state
     - sensor.shiran_iphone_battery_level
     - sensor.shiran_iphone_battery_state
     #- sensor.hline_2 #-----------------#
-    - sensor.since_last_boot
-    - sensor.time_online
+    - sensor.unraid_uptime
+    - sensor.time_online_ha
     #- sensor.hline_3 #-----------------#
     - script.restart_home_assistant
     #- sensor.hline_4 #-----------------#
@@ -127,14 +127,14 @@ Sensors:
     - binary_sensor.xiaomi_motion_sensor_hallway
     - sensor.temperature_bedroom_0
     - sensor.humidity_bedroom_0
-    - light.gateway_light_34ce0088d2f7
+    - light.gateway_light
     - sensor.xiaomi_gateway_illumination
     ##- sensor.hline_1 #-----------------#
     - binary_sensor.door_sensor_bedroom
-    - fan.bedroom_fan
+    # - fan.bedroom_fan
     # - switch.xiaomi_powerstrip
     - vacuum.xiaomi_vacuum
-    - switch._mqtt_pow1
+    - switch.mqtt_pow1
     # - group.boiler_setup
     # - group.boiler_setup_timer
     #- sensor.hline_2 #-----------------#
@@ -148,14 +148,14 @@ Sensors:
     - binary_sensor.wall_switch_right_158d0001712d0e
     - binary_sensor.switch_158d0000d8c836
     # - switch.xiaomi_powerstrip
-    # - switch._mqtt_pow1
+    # - switch.mqtt_pow1
 
 boiler_setup_timer:
   name: טיימר לדוד 
   view: no 
   # control: hidden
   entities:
-    - switch._mqtt_pow1
+    - switch.mqtt_pow1
     - script.timer_off_boiler
     - input_number.slider_boiler
     - sensor.pow1_current
@@ -164,7 +164,7 @@ boiler_setup:
   view: no
   # control: hidden
   entities:
-    - switch._mqtt_pow1
+    - switch.mqtt_pow1
     #- sensor.hline_1 #-----------------#
     - input_boolean.boiler_on_clock_status
     - sensor.boiler_on_clock_time
@@ -183,12 +183,11 @@ boiler_info:
   name: מידע נוסף על הדוד
   view: no
   entities:
-    - switch._mqtt_pow1
+    - switch.mqtt_pow1
     #- sensor.hline_1 #-----------------#
     - sensor.pow1_current
     - sensor.pow1_energy_today
     - sensor.pow1_energy_total
-    - sensor.pow1_energy_yesterday
     - sensor.pow1_voltage
     - sensor.pow1_watt
     - sensor.pow1_total_cost
@@ -239,7 +238,7 @@ People:
     - device_tracker.redminote4israelkes #israel Phone
     - device_tracker.talamishaimbp
     - device_tracker.desktop4ba97q9 #matan laptop
-    - device_tracker.galaxys9 #amir abu
+    - device_tracker.amir_abu_phone_s9 #amir abu
 
 
 Living_Room_lights:
@@ -254,7 +253,7 @@ Living_Room_lights:
     - light.philips_bulb
     #- sensor.hline_2 #-----------------#
     - light.sonoff_hallway_light
-    - light.gateway_light_34ce0088d2f7
+    - light.gateway_light
     
 
 Living_Room_Info:
@@ -274,7 +273,7 @@ Living_Room_Info:
     # - binary_sensor.wall_switch_left_158d0001712d0e
     # - binary_sensor.wall_switch_right_158d0001712d0e
     # - group.xiaomi_powerstrip_info
-    # - switch._mqtt_pow1
+    # - switch.mqtt_pow1
 
 
 BedRoom_Sensors:
@@ -295,7 +294,7 @@ kitchen_Sensors:
   name: מידע
   view: no
   entities:
-    - sensor.date__time
+    - sensor.date_time
     - binary_sensor.xiaomi_motion_sensor_hallway
     - sensor.temperature_bedroom_0
     - sensor.humidity_bedroom_0
@@ -306,24 +305,8 @@ kitchen_Light:
   entities:
     - light.sonoff_light
     - light.philips_bulb
-    - light.gateway_light_34ce0088d2f7
+    - light.gateway_light
 
-# Weather:
-#   name: Weather
-#   view: no
-#   entities:
-#     - sensor.dark_sky_hourly_summary
-#     # - sensor.dark_sky_summary
-#     # - sensor.dark_sky_icon
-#     - sensor.dark_sky_temperature
-#     - sensor.dark_sky_humidity
-#     - sensor.dark_sky_precip_type
-#     - sensor.dark_sky_precip_probability
-#     - sensor.dark_sky_cloud_coverage
-#     - sensor.dark_sky_daily_high_temperature
-#     - sensor.dark_sky_daily_low_temperature
-#     - sensor.dark_sky_daily_summary
-#     - sensor.dark_sky_apparent_temperature
 
 IOT_Status:  #Online Devices -By TRACKER
   name: IOT Status
@@ -353,10 +336,9 @@ IOT_Status:  #Online Devices -By TRACKER
     #- sensor.hline_3 #-----------------#
     - device_tracker.4098ada0c3dd #apple???
     - device_tracker.amazon04d23d06d #echo dot
-    - device_tracker.esp_48122c # ???
     - device_tracker.000000020202 #wan cable
     - device_tracker.talamisaiiphone
-    - device_tracker.samsunggalaxys7edge
+    - device_tracker.guy_keren_phone_s7
     
 Server_Status:  #Online Devices -By TRACKER
   name: Server Status
@@ -415,13 +397,13 @@ controllable_devices:
     - light.sonoff_light
     - light.philips_bulb
     - light.sonoff_hallway_light
-    - light.gateway_light_34ce0088d2f7
+    - light.gateway_light
     - light.desk_lamp
     - switch.mqtt_pow2
     - switch.sonoff_xiaomicctv_switch
     - switch.tv_lg
     - switch.tv_lg_vol
-    - switch._mqtt_pow1
+    - switch.mqtt_pow1
     - switch.xiaomi_powerstrip
     - vacuum.xiaomi_vacuum
     
@@ -437,15 +419,17 @@ Server_info:
   name: Server Information
   view: no
   entities:
-    - sensor.date__time
+    - sensor.date_time
     #- sensor.hline_2 #-----------------#
-    - sensor.since_last_boot
-    - sensor.time_online
+    - sensor.unraid_uptime
+    - sensor.time_online_ha
     #- sensor.hline_3 #-----------------#
     - sensor.processor_use 
     - sensor.memory_use_percent
     - sensor.disk_use_percent_home
-    - sensor.homeassistant_v2db
+    - sensor.ssd_usage
+    - sensor.main_hdd_usage    
+    - sensor.home_assistant_v2_db
     #- sensor.hline_4 #-----------------#
     - script.restart_home_assistant
     - script.update_hass
@@ -659,7 +643,7 @@ Security_tracker:
 
 Security_info:
   name: אבטחה
-  icon: mdi:security-home
+  icon: mdi:shield-home-outline
   view: yes
   entities:
     - group.security_notification
@@ -706,7 +690,6 @@ summary:
     # - input_boolean.weather
     - group.all_switches
     - group.AllMySwitchs
-
     - group.all_scripts
     - group.all_automations
 
@@ -719,7 +702,7 @@ Docker_Container:
   name: קונטיינרים
   view: no
   entities:
-    - switch.ha_dockermon_hadockermon
+    - switch.ha_dockermon_ha_dockermon
     - switch.ha_dockermon_letsencrypt
     - switch.ha_dockermon_unifi
     - switch.ha_dockermon_unms

@@ -3,24 +3,4 @@
 #INPUT SELECT
 #
 ################################################################################
-  radio_station:
-    name: 'Select Radio Station:'
-    options:
-      - GalGalatz
-      - Galatz
-      - Radius 100FM
-      - Echo 99FM
-      - Kan 88FM
-      - 103FM
-      - Lev Hamedina 91FM
-      - Reshet Gimel
-      - Radio Darom
-      - Kol Hayam Haadom 102FM
-    icon: mdi:radio
-  chromecast_radio:
-    name: 'Select Speakers:'
-    options:
-     - AppleTV
-     - Everywhere
-    initial: Everywhere
-    icon: mdi:speaker-wireless
+#not in use currently #Disable on main Conf

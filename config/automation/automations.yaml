@@ -100,14 +100,15 @@
       data:
         visible: False
     ####
-    - service: notify.NotifyEliranIOSAndTelegram 
+    - service: notify.eliran_ios_and_ipad_and_telegram 
       data:
         title: 'System info'
         message: 'Home Assistant is Up and Running.'
         data:
           #iOS Only
           attachment: 
-            url: https://community-home-assistant-assets.s3-us-west-2.amazonaws.com/original/2X/6/6a99ebb8d0b585a00b407123ff76964cb3e18780.png
+            url: https://i.imgur.com/ZWIytcC.png 
+            #https://community-home-assistant-assets.s3-us-west-2.amazonaws.com/original/2X/6/6a99ebb8d0b585a00b407123ff76964cb3e18780.png
             
     - service: camera.local_file_update_file_path
       data:
@@ -143,13 +144,14 @@
     entity_id: persistent_notification.homeassistantcheck_config
     to: 'notifying'
   action:
-    service: notify.NotifyEliranIOSAndTelegram
+    service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'Home Assistant'
       message: 'Config error. See dev-info panel for details.'
       data:
         attachment: 
-          url: https://png.icons8.com/nolan/1600/source-code.png
+          url: https://i.imgur.com/JaIaGk1.png
+          #https://png.icons8.com/nolan/1600/source-code.png
 
 ##############################################################################   
 #
@@ -179,7 +181,7 @@
 #         for:
 #           minutes: 30
 #   action:
-#   - service: notify.NotifyEliranIOSAndTelegram
+#   - service: notify.eliran_ios_and_ipad_and_telegram
 #     data:
 #       title: 'אבטחה'  #Security
 #       message: 'מצב אורות רנדומלי בפעולה' #Random Lights mode is on   
@@ -189,7 +191,8 @@
 #           badge: 0
 #           category: 'modifymypresence' #the indentefier
 #         attachment: 
-#           url: https://cdn.dribbble.com/users/1117273/screenshots/3563096/full-color.gif
+#           url: https://i.imgur.com/fbayQJv.gif
+#            #https://cdn.dribbble.com/users/1117273/screenshots/3563096/full-color.gif
 #   - service: light.turn_on
 #     data_template:
 #       entity_id: light.white_bulb
@@ -232,8 +235,8 @@
 #           push:
 #               badge: 0
 #               category: 'modifymycctvswitch' #the indentefier
-#           attachment: 
-#             url: https://i2.wp.com/etnasasta.com/wp-content/uploads/2018/02/ce677824-4a52-4eeb-b334-ab4801d606ef.gif
+#          # attachment: 
+#          #   url: https://i2.wp.com/etnasasta.com/wp-content/uploads/2018/02/ce677824-4a52-4eeb-b334-ab4801d606ef.gif
 ##############################################################################   
 #
 # Hkvision CCTV online and someone at home
@@ -257,7 +260,7 @@
         entity_id: device_tracker.shiraniphone #shiran
         state: 'home'
   action:
-    - service: notify.NotifyEliranIOSAndTelegram
+    - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'מצלמת הסלון'   #Living room CCTV
         message: 'במצב דלוק,בדוק את סיבת ההדלקה'# Turn Off
@@ -266,7 +269,8 @@
               badge: 0
               category: 'modifymycctvswitch' #the indentefier
           attachment: 
-            url: https://mykharkov.info/wp-content/uploads/2015/03/camera_spying_big_brother_500_clr_4265.gif
+            url: https://i.imgur.com/NfTLZfH.gif
+            #https://mykharkov.info/wp-content/uploads/2015/03/camera_spying_big_brother_500_clr_4265.gif
 ##############################################################################   
 #
 # home CCTV Offline
@@ -314,7 +318,7 @@
         entity_id: device_tracker.shiraniphone #shiran
         state: 'home'
   action:
-    - service: notify.NotifyEliranIOSAndTelegram
+    - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'מצלמת המטבח' #Living room CCTV
         message: 'במצב דלוק,בדוק את סיבת ההדלקה'# Turn Off
@@ -323,7 +327,7 @@
               badge: 0
               category: 'modifymycctvswitch' #the indentefier
           attachment: 
-            url: https://mykharkov.info/wp-content/uploads/2015/03/camera_spying_big_brother_500_clr_4265.gif
+            url: https://i.imgur.com/NfTLZfH.gif
 ##############################################################################   
 #
 # Xiaomi GateWayOffline
@@ -338,13 +342,14 @@
     for:
       minutes: 2
   action:
-    service: notify.NotifyEliranIOSAndTelegram
+    service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'רכזת שואמי'   #Xiaomi Gateway
       message: 'הרכזת לא מחוברת לרשת' #is Offline
       data:
         attachment: 
-          url: http://mycarcamera.ru/wp-content/uploads/2016/06/migateway-st-05.png
+          url: https://i.imgur.com/9S9HpDi.png
+          #http://mycarcamera.ru/wp-content/uploads/2016/06/migateway-st-05.png
 ##############################################################################   
 #
 # turn ON CCTV cameras if late Night
@@ -369,13 +374,14 @@
     - service: automation.turn_off #disable autiomation
       data:
         entity_id: automation.turn_off_cctv_cameras_if_shiran_at_home
-    - service: notify.NotifyEliranIOSAndTelegram
+    - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'אבטחה'  #Security 
         message:  'השעה 2 בלילה,מצלמות הבית דלוקות'  #the time is 2AM CCTV's are on
         data:
           attachment: 
-            url: https://i.pinimg.com/originals/8c/42/d4/8c42d426f7fef619b2e4ee6f9eae6c0d.jpg
+            url: https://i.imgur.com/XyOT3VR.png
+            #https://i.pinimg.com/originals/8c/42/d4/8c42d426f7fef619b2e4ee6f9eae6c0d.jpg
 ##############################################################################   
 #
 # turn OFF CCTV cameras if Morning and we are at home -Need Some Testing!!!
@@ -403,7 +409,7 @@
       entity_id: switch.mqtt_pow2 #homeCCTV
     - service: homeassistant.turn_off
       entity_id: switch.sonoff_xiaomicctv_switch
-    - service: notify.NotifyEliranIOSAndTelegram
+    - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'אבטחה'  #security
         message: 'השעה 6:30 בבוקר, אם אתם בבית ,המצלמות יכבו'  #The time is 6:30AM if someone at home -CCTV OFF
@@ -412,7 +418,7 @@
               badge: 0
               category: 'modifymycctvswitch' #the indentefier
           attachment: 
-            url: http://icons.iconarchive.com/icons/papirus-team/papirus-status/512/camera-off-icon.png
+            url: https://i.imgur.com/W6ICkDd.png
 
 ##############################################################################   
 #
@@ -462,7 +468,7 @@
             badge: 0
             category: 'modifymycctvswitch' #the indentefier
           attachment: 
-            url: https://cdn2.iconfinder.com/data/icons/forbidden-signs/512/forbidden_record_video-512.png
+            url: https://i.imgur.com/W6ICkDd.png
 
 ##############################################################################   
 #
@@ -495,7 +501,7 @@
             badge: 0
             category: 'modifymycctvswitch' #the indentefier
           attachment: 
-            url: https://cdn2.iconfinder.com/data/icons/forbidden-signs/512/forbidden_record_video-512.png
+            url: https://i.imgur.com/W6ICkDd.png
 
 ##############################################################################   
 #
@@ -564,7 +570,7 @@
         entity_id: device_tracker.windows_vm #serverpc Eliran
         state: 'home'        
   action:
-    service: notify.NotifyEliranIOSAndTelegram
+    service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'אבטחה'
       message: 'כל המצלמות והחיישנים פועלים!'
@@ -572,7 +578,8 @@
         push:
           sound: "US-EN-Morgan-Freeman-Front-Door-Locked.wav"
         attachment: 
-          url: https://www.trendmicro.com/azure/wp-content/uploads/2016/05/TM_Lock_Sequence_300x300_Looping.gif
+          url: https://i.imgur.com/EKlDln1.gif
+          #https://www.trendmicro.com/azure/wp-content/uploads/2016/05/TM_Lock_Sequence_300x300_Looping.gif
 
 ##############################################################################   
 #
@@ -599,8 +606,8 @@
         entity_id: device_tracker.shiraniphone #shiran
         state: 'not_home'
   action:
-  - service: rest_command.set_preset_1_homecctv01 #move the camera to the main door.
-  - delay: 0:00:03 #give time to the camera to move to the preset
+  # - service: rest_command.set_preset_1_homecctv01 #move the camera to the main door.
+  # - delay: 0:00:03 #give time to the camera to move to the preset
   - service: camera.snapshot
     data:
       entity_id: camera.home_cctv1 #take snapshot with Exact time and save it 
@@ -641,7 +648,7 @@
         entity_id: camera.home_cctv1         
         #iOS only End  
 
-  - service: notify.EliranTelegram
+  - service: notify.eliran_telegram
     data:
       title: 'אבטחה' #securty
       message: 'דלת הבית נפתחה לפני 15 שניות, אנא וודא שהכניסה מאושרת!!!'  #Front Door was open 15 sec ago , Check if Unau
@@ -665,18 +672,18 @@
   initial_state: 'on'
   trigger:
     - platform: state
-      entity_id: persistent_notification.httplogin
+      entity_id: persistent_notification.http_login
   condition:
     - condition: template
-      value_template: "{{ trigger.to_state.state != off }}"
+      value_template: "{{ trigger.to_state.state != 'None' }}"
   action:
-    - service: notify.NotifyEliranIOSAndTelegram
+    - service: notify.eliran_ios_and_ipad_and_telegram
       data_template:
         title: 'בוצע נסיון כניסה שנכשל!'   #Failed login attempt!
-        message: "{{ states.persistent_notification.httplogin.attributes.message}}"
+        message: "{{ states.persistent_notification.http_login.attributes.message}}"
         #iOS only
         data:
-          url: http://extreme-ip-lookup.com/{{ states.persistent_notification.httplogin.attributes.message.split("from ") [1]}}
+          url: http://extreme-ip-lookup.com/{{ states.persistent_notification.http_login.attributes.message.split("from ") [1]}}
 ############################################################
 #
 # send notification upon IP BAN
@@ -686,19 +693,19 @@
   initial_state: 'on'
   trigger:
     - platform: state
-      entity_id: persistent_notification.ipban
+      entity_id: persistent_notification.ip_ban
   condition:
     - condition: template
-      value_template: "{{ trigger.to_state.state != off }}"
+      value_template: "{{ trigger.to_state.state != 'None' }}"
   action:
-    - service: notify.NotifyEliranIOSAndTelegram
+    - service: notify.eliran_ios_and_ipad_and_telegram
       data_template:
         title: 'אייפיי נחסם!'   #Failed login attempt!
-        message: "{{ states.persistent_notification.ipban.attributes.message}}"
+        message: "{{ states.persistent_notification.ip_ban.attributes.message}}"
         #iOS only
         data:
-        
-          url: http://extreme-ip-lookup.com/{{ states.persistent_notification.ipban.attributes.message.split("from ") [1]}}      
+          url: http://extreme-ip-lookup.com/{{ states.persistent_notification.ip_ban.attributes.message.split("from ") [1]}}
+
 ##############################################################################  
 #
 # notify if the boiler turn ON
@@ -708,12 +715,14 @@
   initial_state: 'on'
   trigger:
     platform: state
-    entity_id: switch._mqtt_pow1
-    from: 'off'
+    entity_id: switch.mqtt_pow1
     to: 'on'
-
   action:
-    - service: notify.NotifyShiranAndEliranIOS
+    - delay: 0:00:05 #to make sure the pow1_current get update
+    - condition: numeric_state
+      entity_id: 'sensor.pow1_current' #amper
+      above: 5 #amper  
+    - service: notify.shiran_and_eliran_ios
       data:
         title: 'דוד'
         message: 'הדוד דלוק!'
@@ -722,21 +731,52 @@
             badge: 0
             category: 'modifymyboilerswitch' #the indentefier      
           attachment: 
-            url: https://hasslefreeboilers.com/wp-content/uploads/2017/08/boilerman1.png
-    - service: notify.elirantelegram
+            url: https://i.imgur.com/m0hzS2h.png
+            #https://hasslefreeboilers.com/wp-content/uploads/2017/08/boilerman1.png
+    - service: notify.eliran_telegram
       data:
         title: 'דוד'
         message: 'הדוד דלוק!'
 ##############################################################################  
 #
-# notify if the boiler was on for more then 5 min
+# notify if the boiler turn ON improperly
 #
 ##############################################################################  
-- alias:  'notify if the boiler was on for more then 5 min'
+- alias:  'notify if the boiler turn ON improperly'
   initial_state: 'on'
   trigger:
     platform: state
-    entity_id: switch._mqtt_pow1
+    entity_id: switch.mqtt_pow1
+    to: 'on'
+  action:
+    - delay: 0:00:05 #to make sure the pow1_current get update
+    - condition: numeric_state
+      entity_id: 'sensor.pow1_current' 
+      below: 5 #amper
+    - service: notify.shiran_and_eliran_ios
+      data:
+        title: 'דוד'
+        message: 'הדוד מכובה מהשקע הפיזי,נא הדלק לפני שימוש!'
+        data:
+          push:
+            badge: 0
+            category: 'modifymyboilerswitch' #the indentefier      
+          attachment: 
+            url: https://i.imgur.com/amLt6zz.png
+    - service: notify.eliran_telegram
+      data:
+        title: 'דוד'
+        message: 'הדוד מכובה מהשקע הפיזי,נא הדלק לפני שימוש!'
+##############################################################################  
+#
+# notify if the boiler was on for more then 10 min
+#
+##############################################################################  
+- alias:  'notify if the boiler was on for more then 10 min'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: switch.mqtt_pow1
     to: 'on'
     for:
       minutes: 5
@@ -744,14 +784,15 @@
     - service: notify.ios_elirantur2
       data:
         title: 'דוד' #boiler
-        message: 'הדוד דלוק יותר מ5 דקות!'  #the boiler is ON more then 5 min
+        message: 'הדוד דלוק יותר מ10 דקות!' #the boiler is ON more then 10 min
         data:
           push:
             badge: 0
             category: 'modifymyboilerswitch' #the indentefier       #for custom action from the notification
           attachment: 
-            url: http://boilerbooker.com/static/imgs/boilers3_2.gif
-    - service: notify.elirantelegram
+            url: https://i.imgur.com/igtwFWz.gif
+            #http://boilerbooker.com/static/imgs/boilers3_2.gif
+    - service: notify.eliran_telegram
       data:
         title: 'דוד'
         message: 'הדוד דלוק יותר מ5 דקות!'
@@ -764,22 +805,25 @@
   initial_state: 'on'
   trigger:
     platform: state
-    entity_id: switch._mqtt_pow1
+    entity_id: switch.mqtt_pow1
     from: 'on'
     to: 'off'
-
   action:
-    - service: notify.NotifyShiranAndEliranIOS
+    - delay: 0:00:05 #to make sure the pow1_current get update
+    - condition: numeric_state
+      entity_id: 'sensor.pow1_current' 
+      below: 5 #amper  
+    - service: notify.shiran_and_eliran_ios
       data:
         title: 'דוד'  #boiler
         message: 'הדוד מכובה!' #the boiler is off
         data:
           push:
             badge: 0
-            category: 'modifymyboilerswitch' #the indentefier      
+            category: 'modifymyboilerswitch' #the indentefier
           attachment: 
-            url: https://hasslefreeboilers.com/wp-content/uploads/2017/08/boilerman1.png
-    - service: notify.elirantelegram
+            url: https://i.imgur.com/igtwFWz.gif
+    - service: notify.eliran_telegram
       data:
         title: 'דוד'
         message: 'הדוד מכובה!'          
@@ -800,15 +844,35 @@
     state: 'on'
   action:
     - service: homeassistant.turn_on
-      entity_id: switch._mqtt_pow1
-    - service: notify.NotifyEliranIOSAndTelegram
+      entity_id: switch.mqtt_pow1
+    - service: notify.shiran_and_eliran_ios
+      data:
+        title: 'דוד'  #boiler
+        message: 'הדוד מכובה!' #the boiler is off
+        data:
+          push:
+            badge: 0
+            category: 'modifymyboilerswitch' #the indentefier
+          attachment: 
+            url: https://i.imgur.com/igtwFWz.gif      
+    - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'דוד' #boiler
         message: 'הדוד נדלק לפי השעון שהוגדר'  #the boiler is on 
         data:
+          push:
+            badge: 0
+            category: 'modifymyboilerswitch' #the indentefier        
           attachment: 
-            url: http://boilerbooker.com/static/imgs/boilers3_2.gif
-    - service: notify.elirantelegram
+            url: https://i.imgur.com/igtwFWz.gif
+    # - service: notify.eliran_ios_and_ipad_and_telegram
+    #   data:
+    #     title: 'דוד' #boiler
+    #     message: 'הדוד נדלק לפי השעון שהוגדר'  #the boiler is on 
+    #     data:
+    #       attachment: 
+    #         url: https://i.imgur.com/igtwFWz.gif            
+    - service: notify.eliran_telegram
       data:
         title: 'דוד'
         message: 'הדוד נדלק לפי השעון שהוגדר'  #the boiler is on 
@@ -829,23 +893,22 @@
     state: 'on'
   action:
     - service: homeassistant.turn_off
-      entity_id: switch._mqtt_pow1
+      entity_id: switch.mqtt_pow1
     - delay: 0:00:03
     - service: homeassistant.turn_off
       entity_id: input_boolean.boiler_off_clock_status 
     - service: homeassistant.turn_off
       entity_id: input_boolean.boiler_on_clock_status
-    - service: notify.NotifyEliranIOSAndTelegram
+    - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'דוד' #boiler
         message: 'הדוד נכבה לפי השעון שהוגדר'  #the boiler is off
         data:
+          push:
+            badge: 0
+            category: 'modifymyboilerswitch' #the indentefier             
           attachment: 
-            url: http://boilerbooker.com/static/imgs/boilers3_2.gif
-    - service: notify.elirantelegram
-      data:
-        title: 'דוד'
-        message: 'הדוד נכבה לפי השעון שהוגדר'  #the boiler is off
+            url: https://i.imgur.com/igtwFWz.gif
 ##############################################################################  
 #
 # New Device online -new Device found via asus WRT device_tracker
@@ -857,13 +920,14 @@
   - platform: event
     event_type: device_tracker_new_device
   action:
-      service: notify.NotifyEliranIOSAndTelegram
+      service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'Router'
         message: "New device is On-line Check if is authorized at known_devices.yaml"
         data:
           attachment: 
-            url: https://servoy.com/wp-content/uploads/mutlidevices_small_forweb.png
+            url: https://i.imgur.com/FwVl0vM.png
+            #https://servoy.com/wp-content/uploads/mutlidevices_small_forweb.png
 ##############################################################################  
 #
 # notify if the home door was open for more then 1 min
@@ -879,7 +943,7 @@
     for:
       minutes: 1
   action:
-    service: notify.NotifyEliranIOSAndTelegram
+    service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'חישן הדלת'  #Front Door sensor
       message: 'דלת הבית פתוחה יותר מדקה' #front door is open more then 1 min
@@ -887,7 +951,7 @@
         push:
           sound: "US-EN-Morgan-Freeman-Front-Door-Opened.wav"
         attachment: 
-          url: https://static.dezeen.com/uploads/2014/02/Evolution-Door-by-Klemens-Torggler-Dezeen-1.gif
+          url: https://i.imgur.com/O0BOOFA.gif
 ##############################################################################  
 #
 # Clicks type setup - Wall switch 1 (sofa)
@@ -969,9 +1033,43 @@
     event_data:
       entity_id: binary_sensor.wall_switch_both_158d0001e119a7
       click_type: both
+  condition:
+    condition: time # (needed?)
+    after: '06:00:01'
   action:
     service: homeassistant.turn_off
     entity_id: group.allmylights
+    
+    
+##############################################################################
+### Active only in the early morning
+############################################################################## 
+- alias: 'Toggle livingRoom enternce BOTH on single press early morning'
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: binary_sensor.wall_switch_both_158d0001e119a7
+      click_type: both
+  condition:
+    condition: time #between 5AM-6AM
+    after: '05:00:00'
+    before: '06:00:00'
+  action:
+    - delay: 0:00:15  
+    - service: homeassistant.turn_off
+      entity_id: group.allmylights
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'בוקר טוב אלירן'
+        message: "התאורה בבית כבויה, עבודה נעימה"
+        data:
+          attachment: 
+            url: https://i.imgur.com/FqwVy2P.gif
+          push:
+            badge: 0
+            category: 'modifymylights' #the indentefier
 ##############################################################################  
 #
 # Clicks setup - Bed roomSwitch
@@ -1063,7 +1161,7 @@
     from: 'off'
     to: 'on'
   action:
-    service: notify.PartnerTV #androidTV
+    service: notify.partner_tv #androidTV
     data:
       title: 'תורג׳מן הום'
       message: "דלת הבית פתוחה"
@@ -1086,13 +1184,14 @@
     data:
       brightness: 255
       rgb_color: [88,0,82] #Purple
-  - service: notify.NotifyEliranIOSAndTelegram
+  - service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'מד טמפרטורה'
       message: 'הטמפרטורה בחדר שינה מעל 30 מעלות'
       data:
         attachment: 
-          url: https://cdn2.iconfinder.com/data/icons/coloured-weather-icon-set-svg/100/Coloured_Weather_Icon_Set_by_ViconsDesign-12-512.png
+          url: https://i.imgur.com/5YfHCVy.gif
+          #https://cdn2.iconfinder.com/data/icons/coloured-weather-icon-set-svg/100/Coloured_Weather_Icon_Set_by_ViconsDesign-12-512.png
 ##############################################################################  
 #
 #  cold temperature alert
@@ -1115,13 +1214,14 @@
         entity_id: device_tracker.shiraniphone #shiran
         state: 'home'    
   action:
-  - service: notify.NotifyEliranIOSAndTelegram
+  - service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'מד טמפרטורה'
       message: 'הטמפרטורה בחדר השינה ירדה מתחת ל16 מעלות'
       data:
         attachment: 
-          url: https://cdn4.iconfinder.com/data/icons/weather-conditions/512/low_temperature-512.png
+          url: https://i.imgur.com/8i3pK9L.png
+          #https://cdn4.iconfinder.com/data/icons/weather-conditions/512/low_temperature-512.png
 ##############################################################################  
 #
 #  Hot temperature alert
@@ -1136,13 +1236,14 @@
     above: 30
     # below: 25
   action:
-  - service: notify.NotifyEliranIOSAndTelegram
+  - service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'מד טמפרטורה'
       message: 'הטמפרטורה בבית מעל 30 מעלות'
       data:
         attachment: 
-          url: https://cdn2.iconfinder.com/data/icons/coloured-weather-icon-set-svg/100/Coloured_Weather_Icon_Set_by_ViconsDesign-12-512.png
+          url: https://i.imgur.com/5YfHCVy.gif
+          #https://cdn2.iconfinder.com/data/icons/coloured-weather-icon-set-svg/100/Coloured_Weather_Icon_Set_by_ViconsDesign-12-512.png
 ##############################################################################  
 #
 #  cold temperature alert
@@ -1165,13 +1266,14 @@
         entity_id: device_tracker.shiraniphone #shiran
         state: 'home'       
   action:
-  - service: notify.NotifyEliranIOSAndTelegram
+  - service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'מד טמפרטורה'
       message: 'הטמפרטורה בבית ירדה מתחת ל18 מעלות'
       data:
         attachment: 
-          url: https://cdn4.iconfinder.com/data/icons/weather-conditions/512/low_temperature-512.png
+          url: https://i.imgur.com/8i3pK9L.png
+          #https://cdn4.iconfinder.com/data/icons/weather-conditions/512/low_temperature-512.png
 ##############################################################################  
 ############################################################################## 
 #
@@ -1224,13 +1326,14 @@
     entity_id: input_boolean.alarm_clock_status
     state: 'on'
   action:
-    service: notify.NotifyEliranIOSAndTelegram
+    service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'שעון מעורר' #alarm clock
       message: 'שעון מעורר נגמר!'   #Alarm Clock is Finsh
       data:
         attachment: 
-          url: https://cdn.dribbble.com/users/225481/screenshots/1114887/wekker-2.gif
+          url: https://i.imgur.com/lso7Poa.gif
+          #https://cdn.dribbble.com/users/225481/screenshots/1114887/wekker-2.gif
 
 ####################################################
 #                                                  #
@@ -1257,6 +1360,9 @@
         title: 'לילה טוב'
         message: "התאורה בבית דולקת האם ברצונך לכבות?"
         data:
+          attachment: 
+            url: https://i.imgur.com/FqwVy2P.gif
+            #https://aeotec.com/images/products/nano_dimmer_new/lightbulb-compatibility.png            
           push:
             sound: "US-EN-Morgan-Freeman-Good-Night.wav"
             badge: 0
@@ -1284,7 +1390,7 @@
         entity_id: device_tracker.shiraniphone #shiran
         state: 'not_home'
   action:
-    service: notify.NotifyEliranIOSAndTelegram
+    service: notify.eliran_ios_and_ipad_and_telegram
     data:
       message: 'חלק מאורות הבית נשכחו דלוקים'
       data:
@@ -1293,7 +1399,8 @@
           badge: 0
           category: 'modifymylights' #the ID
         attachment: 
-          url: https://aeotec.com/images/products/nano_dimmer_new/lightbulb-compatibility.png
+          url: https://i.imgur.com/f6np0J1.png
+          #https://aeotec.com/images/products/nano_dimmer_new/lightbulb-compatibility.png
 
 ####################################################
 #                                                  #
@@ -1307,37 +1414,39 @@
     at: '01:30:00'
   action:
     - service: shell_command.backup_ha_and_move_backup_to_unraid
-    - service: notify.NotifyEliranIOSAndTelegram
+    - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'גיבוי'#backup
         message: 'הגיבוי היומי להום-אסיסטנט בביצוע בדוק סיום תקין בבוקר '    #daily backup of hass configis runing
         data:
           attachment: 
-            url: https://d33wubrfki0l68.cloudfront.net/b1c67285b113e40ab92d0136aed5c79f3d3ceb17/69117/images/screenshots/ui2015.png
+            url: https://i.imgur.com/a6TFrE1.png
+            #https://d33wubrfki0l68.cloudfront.net/b1c67285b113e40ab92d0136aed5c79f3d3ceb17/69117/images/screenshots/ui2015.png
 # ###################################################
 # #                                                  #
 # # Run the script Weekly to backup all OS (move the img proxmox made and save ha config in server)
 # #                                                  #
 # ####################################################
-- alias: 'Weekly OS Backup'
-  initial_state: 'on'
-  trigger:
-    platform: time
-    at: '02:30:00'
-  condition:
-  - condition: time
-    weekday:
-      - wed #3 Tuesday at night
-      - sun #7 Saturday at night
-  action:
-    - service: shell_command.backup_ha_and_move_backup_to_unraid
-    - service: notify.NotifyEliranIOSAndTelegram
-      data:
-        title: 'גיבוי'#backup
-        message: 'הגיבוי השבועי לכלל המערכת בפעולה! בדוק סיום תקין בבוקר,בקבצי השרת'   #Backup For all the os is in prograss
-        data:
-          attachment: 
-            url: https://www.bullten.com/img/icon/weekly-backup.png
+# - alias: 'Weekly OS Backup' #TODO
+#   initial_state: 'on'
+#   trigger:
+#     platform: time
+#     at: '02:30:00'
+#   condition:
+#   - condition: time
+#     weekday:
+#       - wed #3 Tuesday at night
+#       - sun #7 Saturday at night
+#   action:
+#     - service: shell_command.backup_ha_and_move_backup_to_unraid
+#     - service: notify.eliran_ios_and_ipad_and_telegram
+#       data:
+#         title: 'גיבוי'#backup
+#         message: 'הגיבוי השבועי לכלל המערכת בפעולה! בדוק סיום תקין בבוקר,בקבצי השרת'   #Backup For all the os is in prograss
+#         data:
+#           attachment: 
+#             url: https://i.imgur.com/M9d07WE.png
+#             #https://www.bullten.com/img/icon/weekly-backup.png
 
 ###################################################
 #                                                  #
@@ -1353,7 +1462,7 @@
 #       entity_id: sensor.myipopendnscom
 #   action:
 #     - service: cloudflare.update_records #update my DNS
-#     - service: notify.NotifyEliranIOSAndTelegram
+#     - service: notify.eliran_ios_and_ipad_and_telegram
 #       data:
 #         title: מצב רשת #Your Public IP has changed to
 #         message: "האייפי החיצוני שונה ל: {{ states.sensor.myipopendnscom.state }}"
@@ -1389,7 +1498,7 @@
         entity_id: device_tracker.shiraniphone #shiran
         state: 'not_home'
   action:
-    service: notify.NotifyEliranIOSAndTelegram
+    service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'התראה'
       message: 'שכחת את המזגן דלוק! האם לכבות?'
@@ -1399,7 +1508,8 @@
           badge: 0
           category: 'modifyaircon' #the ID
         attachment: 
-          url: http://www.giersnet.pl/wp-content/uploads/2018/01/klima.png        
+          url: https://i.imgur.com/BGL6Udp.png
+          #http://www.giersnet.pl/wp-content/uploads/2018/01/klima.png        
 
 #####################################################
 ##                                                  #
@@ -1409,11 +1519,12 @@
 - alias: 'Some of the MAIN containers are OFF Alert'
   initial_state: 'on'
   trigger:
-    - platform: state #OR State (if one of this switch will turn off , the alert will made)
-      entity_id: switch.ha_dockermon_hadockermon,switch.ha_dockermon_letsencrypt,switch.ha_dockermon_unifi,switch.ha_dockermon_unms,switch.ha_dockermon_heimdall #switch.ha_dockermon_cloud9ide
-      to: 'off'
-      for:
-        minutes: 5
+    platform: state #OR State (if one of this switch will turn off , the alert will made)
+    entity_id: switch.ha_dockermon_ha_dockermon,switch.ha_dockermon_letsencrypt,switch.ha_dockermon_unifi,switch.ha_dockermon_heimdall 
+    #switch.ha_dockermon_unms, switch.ha_dockermon_cloud9ide
+    to: 'off'
+    for:
+      minutes: 5
   action:
     - service: notify.ios_elirantur2
       data:
@@ -1421,35 +1532,323 @@
         message: 'חלק מהקונטיינרים החשובים לעבודה תקינה של המערכת, כבויים בדוק את הסיבה'
         data:
           attachment: 
-            url: https://cdn-images-1.medium.com/max/1200/1*6aiG8217Vy9kEpF5k9ag4Q.gif
+            url: https://i.imgur.com/0IRKbmi.gif
+            #https://cdn-images-1.medium.com/max/1200/1*6aiG8217Vy9kEpF5k9ag4Q.gif
 ##############################################################################   
 #
-# cameras and gateway are online 
+# Virtual Machine is OFF alert
 #
 ##############################################################################   
-- alias: 'Security status'
+- alias: 'Virtual Machine is OFF alert'
   initial_state: 'on'
   trigger:
     platform: state
     entity_id: device_tracker.windows_vm #serverpc Eliran
     to: 'not_home'
     for:
-      minutes: 5
+      minutes: 3
   action:
-    service: notify.NotifyEliranIOSAndTelegram
+    service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'אבטחה'
       message: ' Blue Iris לא פעילה , בדוק תקינות המערכת הוירטואלית '
       data:
         attachment: 
-          url: http://blueirissoftware.com/media/Download_03.png
-            
+          url: https://i.imgur.com/rflw5ZU.png
+          #http://blueirissoftware.com/media/Download_03.png
+          
+          
+##############################################################################   
+#
+# Virtual Machine is Back Online alert
+#
+##############################################################################   
+- alias: 'Virtual Machine is Back Online alert'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: device_tracker.windows_vm #serverpc Eliran
+    from: 'not_home'
+    to: 'home'
+    for:
+      minutes: 5
+  action:
+    service: notify.eliran_ios_and_ipad_and_telegram
+    data:
+      title: 'אבטחה'
+      message: ' Blue Iris חזרה לפעילות , בדוק זמינות בממשק '
+      data:
+        attachment: 
+          url: https://i.imgur.com/rflw5ZU.png
+
+##############################################################################   
+#
+# RDP port is Open alert
+#
+##############################################################################   
+- alias: 'RDP port is Open alert'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.windows_rdp_port
+    to: 'on'
+    for:
+      minutes: 45
+  action:
+    service: notify.eliran_ios_and_ipad_and_telegram
+    data:
+      title: 'אבטחה'
+      message: ' פורט שולחן  פתוח! נא סגור אותו ידנית אם אין שימוש '
+      data:
+        push:
+          sound: "US-EN-Morgan-Freeman-Setting-The-Mood.wav"
+          badge: 0
+          category: 'close_rdp_port' #the indentefier      
+        attachment: 
+          url: https://i.imgur.com/REHcU44.png
+
+##############################################################################   
+#
+# iPad is offline alert
+#
+##############################################################################   
+- alias: 'iPad is offline alert'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: device_tracker.homeipad 
+    to: 'not_home'
+    for:
+      minutes: 5
+  action:
+    service: notify.eliran_ios_and_ipad_and_telegram
+    data:
+      title: 'HomeKit'
+      message: 'האייפד לא מחובר לרשת! לכן אין גישה להוםקיט מחוץ לבית'
+      data:
+        attachment: 
+          url: https://i.imgur.com/u0lVY15.png
+          #https://cdn.vox-cdn.com/uploads/chorus_image/image/56018769/homekit_large.0.png
+
+          
+#############################################################################   
+#
+# Turn-ON Salon light 
+#
+#############################################################################   
+- alias: "Dog at Home Lights"
+  initial_state: 'on'
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: '+00:30:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.eliraniphone
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.shiraniphone #shiran
+        state: 'not_home'
+  action:
+  - service: notify.eliran_ios_and_ipad_and_telegram
+    data:
+      title: 'תאורה'  #Security
+      message: 'זורו לבד בבית ,הודלקה תאורת סלון שמאל'
+      data:
+        push:
+          sound: "US-EN-Morgan-Freeman-Turning-On-The-Mood-Lights.wav"
+          badge: 0
+          category: 'modifymylights' #the indentefier
+        attachment: 
+          url: https://i.imgur.com/SohwJ6w.gif
+          #https://media.tenor.com/images/dde7e721dd7129d019a72ba9a98e6cc6/tenor.gif
+          #http://homeli.co.uk/wp-content/uploads/2015/05/Dog-Interacting-with-the-Flyte-Levitating-Light.gif
+  - service: light.turn_on
+    data_template:
+      entity_id: light.white_bulb
+      
+      
+#############################################################################   
+#
+# Turn-ON Salon light By action notification O
+#
+#############################################################################   
+- alias: "ask for start vacuum cleaner at 2PM"
+  initial_state: 'on'
+  trigger:
+    platform: time
+    at: '14:00:00'
+    # When 'at' is used, you cannot also match on hour, minute, seconds.
+    # Military time format.
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.eliraniphone
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.shiraniphone #shiran
+        state: 'not_home'
+  action:
+  - service: notify.eliran_ios_and_ipad_and_telegram
+    data:
+      title: 'שואב אבק'  #vacuum cleaner
+      message: 'אף אחד לא בבית , האם להפעיל שואב אבק?'
+      data:
+        push:
+          sound: "US-EN-Morgan-Freeman-Setting-The-Mood.wav"
+          badge: 0
+          category: 'vaccum_cleaner' #the indentefier
+        attachment: 
+          url: https://i.imgur.com/p2DJQkT.gif
+
+#####################################################
+##                                                  #
+## The Boiler is ON and nobody at home -alert to turn it off
+##                                                  #
+#####################################################
+- alias: 'The Boiler is ON and nobody at home'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: switch.mqtt_pow1
+    to: 'on'
+    for:
+      minutes: 10
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.eliraniphone
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.shiraniphone #shiran
+        state: 'not_home'
+      - condition: numeric_state
+        entity_id: 'sensor.pow1_current' 
+        above: 5 #amper        
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'התראה' #alert
+        message: 'שכחת את הדוד דלוק! האם לכבות?'
+        data:
+          push:
+            badge: 0
+            category: 'modifymyboilerswitch' #the indentefier 
+          attachment: 
+            url: https://i.imgur.com/igtwFWz.gif
+
+#####################################################
+##                                                  #
+## The Boiler is ON and physically "off" by the switch
+##                                                  #
+#####################################################
+- alias: 'The Boiler is ON and physically off alert'
+  initial_state: 'on'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.pow1_current
+    below: 5 #amper
+  condition:
+    - condition: state
+      entity_id: 'switch.mqtt_pow1'
+      state: 'on'
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'התראה' #alert
+        message: 'הדוד דלוק, אך מנותק מהזרם,האם לכבות?'
+        data:
+          push:
+            badge: 0
+            category: 'modifymyboilerswitch' #the indentefier
+          attachment: 
+            url: https://i.imgur.com/igtwFWz.gif
+#####################################################
+##                                                  #
+## Notify if the database is High                   #
+##                                                  #
+#####################################################
+- alias: 'Database usage alert'
+  initial_state: 'on'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.home_assistant_v2_db
+    above: 800
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'התראה' #alert
+        message: 'גודל הדאטה-בייס מעל 800 מגה'
+        data:
+          attachment: 
+            url: https://i.imgur.com/rvBlPPV.png
+
+#####################################################
+##                                                  #
+## main hard disk usage alert                       #
+##                                                  #
+#####################################################
+- alias: 'main hard disk usage alert'
+  initial_state: 'on'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.main_hdd_usage
+    above: 80
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'התראה' #alert
+        message: 'ניצול הדיסק הראשי מעל 80 אחוז!'
+        data:
+          attachment: 
+            url: https://i.imgur.com/aIFAfBY.gif
+#####################################################
+##                                                  #
+## SSD cache usage alert                            #
+##                                                  #
+#####################################################
+- alias: 'SSD cache usage alert'
+  initial_state: 'on'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.ssd_usage
+    above: 80
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'התראה' #alert
+        message: 'ניצול דיסק ססדי מטמון מעל 80 אחוז!'
+        data:
+          attachment: 
+            url: https://i.imgur.com/bnPrwki.png
+####################################################
+#                                                  #
+# Dog walk restart timer
+#                                                  #
+####################################################
+- alias: 'Dog walk started'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.door_sensor_main_entrance
+    to: 'off'
+  action:
+    - service: timer.cancel
+      entity_id: timer.dogwalk
+    - service: timer.start
+      entity_id: timer.dogwalk
+      
+      
 ###################################################
 #                                                  #
 # Telegram ad iOS Notify exemples
 #                                                  #
 ####################################################     
-    # - service: notify.EliranTelegram
+    # - service: notify.eliran_telegram
     #   data:
     #     title: 'System info'
     #     message: 'Home Assistant is Up and Running.'
@@ -1468,7 +1867,10 @@
     #     data:
     #       attachment: 
     #         url: https://community-home-assistant-assets.s3-us-west-2.amazonaws.com/original/2X/6/6a99ebb8d0b585a00b407123ff76964cb3e18780.png
-##############################################################################
+
+##################################################################################################################################################
+################## iOS notification actions ######################################################################################################
+##################################################################################################################################################
 ####################################################
 #                                                  #
 # iOS notification action FOR LIGHTS!
@@ -1513,6 +1915,21 @@
       entity_id: group.AllMylights
     - service: homeassistant.turn_on
       entity_id: light.gateway_light
+- alias: 'iOS notification action ONLY_SALON_R_LIGHT_ON ' #Right Bulb only
+  initial_state: 'on'
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: ONLY_SALON_R_LIGHT_ON #the action that was tap
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.AllMylights
+    - service: homeassistant.turn_on
+      entity_id: light.living_room_color_bulb
+      
+      
 ####################################################
 #                                                  #
 # iOS notification action FOR CAMERAS
@@ -1597,7 +2014,7 @@
       actionName: BOILER_ON #the action that was tap
   action:
     - service: homeassistant.turn_on
-      entity_id: switch._mqtt_pow1
+      entity_id: switch.mqtt_pow1
 
 - alias: 'iOS notification action BOILER_ON_BY_TIMER'
   initial_state: 'on'
@@ -1638,41 +2055,64 @@
     event_data:
       actionName: RESETHA #the action that was tap
   action:
-   - service: homeassistant.restart
+  - service: homeassistant.restart
 
 ####################################################
 #                                                  #
-# iOS notification action AirCon !
+# iOS notification action VACCUM CLEANER !
 #                                                  #
 ####################################################
-- alias: 'iOS notification action AIRCON_OFF'
+- alias: 'iOS notification action START_VACCUM_CLEANER'
   initial_state: 'on'
   hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
     event_data:
-      actionName: AIRCON_OFF #the action that was tap
+      actionName: START_VACCUM_CLEANER #the action that was tap
   action:
-    - service: homeassistant.turn_off
-      entity_id: climate.living_room
-
-
-- alias: 'Dog walk started'
+    - service: vacuum.start
+      entity_id: vacuum.xiaomi_vacuum
+####################################################
+- alias: 'iOS notification action STOP_VACCUM_CLEANER'
   initial_state: 'on'
+  hide_entity: true
   trigger:
-    platform: state
-    entity_id: binary_sensor.door_sensor_main_entrance
-    to: 'off'
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: STOP_VACCUM_CLEANER #the action that was tap
   action:
-    - service: timer.cancel
-      entity_id: timer.dogwalk
-    - service: timer.start
-      entity_id: timer.dogwalk
-    
+    - service: vacuum.stop
+      entity_id: vacuum.xiaomi_vacuum
+####################################################
+- alias: 'iOS notification action RETURN_TO_BASE_VACCUM_CLEANER'
+  initial_state: 'on'
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: RETURN_TO_BASE_VACCUM_CLEANER #the action that was tap
+  action:
+    - service: vacuum.return_to_base
+      entity_id: vacuum.xiaomi_vacuum
+####################################################
+- alias: 'iOS notification action CLOSE_RDP'
+  initial_state: 'on'
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: CLOSE_RDP_PORT #the action that was tap
+  action:
+    - service: script.turn_on
+      entity_id: script.close_rdp_port
+
 # # # When timer is stopped, the time run out, another message is sent
 # # - action:
-# #  - service: notify.NotifyEliranIOSAndTelegram
+# #  - service: notify.eliran_ios_and_ipad_and_telegram
 # #     data:
 # #       message: 'טיימר טיול כלב נגמר!'
 # #       title: "טיימר" 

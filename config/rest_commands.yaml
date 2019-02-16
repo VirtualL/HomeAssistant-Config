@@ -1,0 +1,12 @@
+################################################################################
+#
+#REST COMMANDS
+#
+#################################################################################  
+  update_homecctv01_state: 
+    url: !secret update_homecctv01_stateHA_API_URL
+    method: POST    
+    headers: 
+      authorization: !secret UpdateStateHomeCCTV01Token
+      content_type: 'application/json'
+    payload: '{"state": "recording"}'

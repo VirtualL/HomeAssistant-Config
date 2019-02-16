@@ -1,6 +1,7 @@
 #################################################################################
-## In customize i made most of the GUI changes, Localization To Hebrew 
-## (if the HomeAsistant Dev team not made it already)
+## In customize I made most of the GUI changes, Localization To Hebrew 
+## (ifcan't made them in the translations through Lokalis )
+## https://developers.home-assistant.io/docs/en/internationalization_translation.html
 ## in the past i was using homebridge to connect Homekit and Siri,
 ## Every Place you see "CUI" the meaning is that i am using home-assistant-custom-ui
 ## to improve visual info (Currently NOT Working on Lovelace UI)
@@ -76,7 +77,7 @@ sensor.temperature_bedroom_0:
   device_class: temperature
   # unit_of_measurement: "°מעלות"
   
-light.gateway_light_34ce0088d2f7:
+light.gateway_light:
   friendly_name: תאורת רכזת
   icon: mdi:album
 sensor.xiaomi_gateway_illumination:
@@ -129,9 +130,13 @@ group.historyStat:
    
   hidden: false
 
-sensor.date__time:
+sensor.date_time:
   friendly_name: תאריך ושעה
-   
+
+sensor.time:
+  friendly_name: שעה
+  hidden: true
+  
 sun.sun:
   friendly_name: שמש
    
@@ -149,27 +154,30 @@ sensor.shiran_iphone_battery_state:
    
 sensor.processor_use:
   friendly_name: ניצול מעבד
-   
   icon: mdi:memory
+  
 sensor.memory_use_percent:
   friendly_name: ניצול זכרון
   icon: mdi:chip
    
-sensor.disk_use_percent_home:
-  friendly_name: ניצול אחסון
-  icon: mdi:harddisk
+sensor.ssd_usage:
+  friendly_name: ניצול אחסון ססדי
+  icon: mdi:nas
+  
+sensor.main_hdd_usage:
+  friendly_name: ניצול אחסון דיסק ראשי
+  icon: mdi:harddisk  
    
-sensor.since_last_boot:
+sensor.unraid_uptime:
   friendly_name: זמן מאז אתחול המערכת
-  icon: mdi:ubuntu
+  icon: mdi:desktop-tower
    
-sensor.homeassistant_v2db:
+sensor.home_assistant_v2_db:
   friendly_name: גודל הדאטה בייס
   icon: mdi:database
-   
   unit_of_measurement: 'מגה-ביט'
   
-sensor.time_online:
+sensor.time_online_ha:
   friendly_name: זמן פעילות הום-אסיסטנט
   icon: mdi:home-assistant
   unit_of_measurement: 'ימים'
@@ -301,11 +309,7 @@ sensor.dark_sky_icon:
   friendly_name: סמל
    
   hidden: true
-sensor.dark_sky_apparent_temperature:
-  friendly_name: מרגיש כמו
-   
-  unit_of_measurement: "°מעלות"
-  
+
 sensor.dark_sky_precip_probability:
   friendly_name: סיכוי למשקעים
    
@@ -322,16 +326,12 @@ sensor.dark_sky_daily_summary:
 sensor.dark_sky_pressure:
   hidden: true
    
-  
 sensor.dark_sky_wind_bearing:
   hidden: true
    
 sensor.dark_sky_wind_speed:
   hidden: true
-   
-sensor.time:
-  hidden: true
-   
+
 sensor.dark_sky_precip_intensity: 
   hidden: true
 
@@ -497,14 +497,14 @@ light.bedroom_fan_light: #ifan
   friendly_name: תאורה בחדר שינה
   device_class: light
   
-fan.bedroom_fan:
-  friendly_name: מאורר חדר שינה
+# fan.bedroom_fan:
+#   friendly_name: מאורר חדר שינה
 
 group.all_lights:
    
   device_class: light
 # icon: mdi:power-socket-eu
-switch._mqtt_pow1:
+switch.mqtt_pow1:
   friendly_name: מפסק לדוד
   icon: mdi:shower-head
   #CUI
@@ -542,37 +542,26 @@ group.boiler_setup:
   device_class: power
    
 group.boiler_page:
-   
   icon: mdi:shower-head
 sensor.pow1_current:
   friendly_name: צריכה נוכחית 
-   
   icon: mdi:flash-circle
 sensor.pow1_energy_today:
   friendly_name: צריכה היום
-   
   icon: mdi:calendar-today
 sensor.pow1_energy_total:
   friendly_name: צריכת חשמל סה״כ
-   
   icon: mdi:chart-line
-sensor.pow1_energy_yesterday:
-  friendly_name: צריכה אתמול
    
-  icon: mdi:calendar-clock
 sensor.pow1_voltage:
   friendly_name: וולט נוכחי
-   
   icon: mdi:flash-circle
 sensor.pow1_watt:
   friendly_name: וואט נוכחי
-   
   icon: mdi:flash-circle
 sensor.pow1_total_cost:
   friendly_name: סך הכל עלות כוללת
-   
   icon: mdi:finance
-
 
 group.POW2_setup:
   friendly_name: מפסק מצלמת מטבח
@@ -747,15 +736,15 @@ sensor.latest_ha_backup:
   
 group.rates:
   friendly_name: שערי המרה
-sensor.dollarusd:
+sensor.dollar_usd:
   friendly_name: דולר #Dollar
   icon: mdi:currency-usd
   unit_of_measurement: "₪"
-sensor.euroeur:
+sensor.euro_eur:
   friendly_name: יורו  #Euro
   icon: mdi:currency-eur
   unit_of_measurement: "₪"
-sensor.poundgbp:
+sensor.pound_gbp:
   friendly_name: פאונד בריטי   #GBP
   icon: mdi:currency-gbp
   unit_of_measurement: "₪"
@@ -829,3 +818,17 @@ sensor.packages_expired:
 sensor.packages_ready_to_be_picked_up:  
   friendly_name:  חבילות מוכנות לאיסוף
   icon: mdi:new-box
+  
+binary_sensor.windows_rdp_port:  
+  friendly_name: שולחן עבודה מרוחק
+  icon: mdi:desktop-mac-dashboard
+  
+script.open_rdp_port:
+  icon: mdi:home-lock-open
+  
+script.close_rdp_port:
+  icon: mdi:home-lock
+  
+sensor.last_dogwalk:
+  # friendly_name: זמן פתיחת דלת אחרונה
+  icon: mdi:timelapse

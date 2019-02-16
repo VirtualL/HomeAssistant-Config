@@ -1,0 +1,45 @@
+################################################################################
+#
+#BINARY SENSOR
+#
+################################################################################
+
+  - platform: mqtt #floorPlan dummy sensor
+    state_topic: dummy/floorplan/sensor
+    name: Floorplan  
+
+    #Check if specific port is open in ip  XX=port YY.YY.YY.YY=IP
+    #nmap --privileged -p XX YY.YY.YY.YY | grep "open" | wc -l
+  - platform: command_line
+    name: windows rdp port
+    command: nmap --privileged -p PORT_NUMBER URL | grep "open" | wc -l
+    device_class: opening
+    payload_on: 1 #"open"
+    payload_off: 0 #"closed"
+    scan_interval: 300 #5min
+    
+#Not in use for now. TODO
+# #BlueIris MQTT Camera motion alert
+#   - platform: mqtt
+#     name: "BI Hom01 Motion"
+#     state_topic: BlueIris/Home01/Motion
+#     payload_on: "ON"
+#     payload_off: "OFF"
+#     device_class: motion     
+
+# #BlueIris MQTT Camera motion alert
+#   - platform: mqtt
+#     name: "BI Hom02 Motion"
+#     state_topic: BlueIris/Home02/Motion
+#     payload_on: "ON"
+#     payload_off: "OFF"
+#     device_class: motion
+    
+# #BlueIris MQTT Camera motion alert
+#   - platform: mqtt
+#     name: "BI IPC10 Motion"
+#     state_topic: BlueIris/IPC10/Motion
+#     payload_on: "ON"
+#     payload_off: "OFF"
+#     device_class: motion       
+    

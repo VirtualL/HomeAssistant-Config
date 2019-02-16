@@ -3,9 +3,9 @@
 #SWITCH
 #
 ################################################################################
-  # - platform: xiaomi_miio  #OPENk
+  # - platform: xiaomi_miio  #???
   #   name:  Xiaomi PowerStrip
-  #   host: 192.168.XX.XX #CHANGE IP
+  #   host: 192.168.1.132
   #   token: !secret XiaomiPowerStripToken
   #   model: qmi.powerstrip.v1
 
@@ -13,7 +13,7 @@
 ##sonoff pow1 BOILER (an Sonoff POW Device with MQTT via Tasmota)
 ################################################################################
   - platform: mqtt
-    name: " MQTT POW1"
+    name: "MQTT POW1"
     state_topic: "stat/sonoff1/POWER"
     command_topic: "cmnd/sonoff1/POWER"
     # value_template: '{{ value_json.POWER }}' #added new
@@ -76,9 +76,8 @@
 ##Broadlink RM Pro - to control TV on/off , Hdmi input , TV volume ,Mute and more
 ################################################################################
   - platform: broadlink
-    
-    host: 192.168.XX.XX #CHANGE IP 
-    mac: 'AA:AA:AA:AA:AA:AA' #CHANGE MAC ADD
+    host: 192.168.1.85
+    mac: '78:0F:77:18:19:DF'
     type: rm2_pro_plus2
     timeout: 15
     friendly_name: RMProPlus
@@ -112,16 +111,16 @@
 ## https://home-assistant.io/components/switch.hadockermon/ 
 ################################################################################
   - platform: hadockermon
-    host: 192.168.XX.XX #CHANGE IP
+    host: !secret MainHostIP 
     port: 8126
     containers:
       - 'unifi'
       - 'unms'
       - 'ha-dockermon'
+      - 'letsencrypt'
+      - 'cloud9ide'
+      - 'heimdall'
 
-    
-# #Adds support for BlueIris profile switch (Arm / Unarm)
-#   - platform: blueiris     
 ################################################################################
 ## NOT
 ## IN 
@@ -129,6 +128,8 @@
 ## All the entitys/Code below is working , just not in use in my case 
 ## (Switch Protocol, Component Etc... ) you can use it :)
 ################################################################################
+# #Adds support for BlueIris profile switch (Arm / Unarm)
+#   - platform: blueiris     
   # ###############
   # # NOT IN USE - Switch all RF to WiFi 
   # #An RF command from the GPIO PIN( with a RF 433Mhz ) for turn on/off livolo switchs (working ok +- not all times -an Livolo Problem)

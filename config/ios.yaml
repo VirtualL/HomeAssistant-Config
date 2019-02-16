@@ -1,7 +1,7 @@
 ################################################################################
-#IOS
-##this is my Actionable notifications options 
-##more info at: https://www.home-assistant.io/docs/ecosystem/ios/notifications/actions/
+#  IOS
+## this is my Actionable notifications options 
+## more info at: https://www.home-assistant.io/docs/ecosystem/ios/notifications/actions/
 ## more code in the end of automations.ymal
 ################################################################################
 
@@ -22,6 +22,12 @@
             authenticationRequired: no
             destructive: no
             behavior: 'default'
+          - identifier: 'ONLY_SALON_R_LIGHT_ON' #(MUST BE UPPER CASE)
+            title: 'השאר סלון ימין בלבד'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'            
           - identifier: 'ONLY_GATEWAY_LIGHT_ON' #(MUST BE UPPER CASE)
             title: 'השאר תאורה חלשה בלבד'
             activationMode: 'background'
@@ -122,6 +128,38 @@
         actions:
           - identifier: 'AIRCON_OFF' #(MUST BE UPPER CASE)
             title: 'כבה את המזגן בסלון'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'
+            
+      - name: vaccum
+        identifier: 'vaccum_cleaner' #(MUST BE LOWER CASE)
+        actions:
+          - identifier: 'START_VACCUM_CLEANER' #(MUST BE UPPER CASE)
+            title: 'הפעל את השואב'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive:  no #yes for red color
+            behavior: 'default'
+          - identifier: 'STOP_VACCUM_CLEANER' #(MUST BE UPPER CASE)
+            title: 'עצור את השואב'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+          - identifier: 'RETURN_TO_BASE_VACCUM_CLEANER' #(MUST BE UPPER CASE)
+            title: 'החזר לעגינה'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes
+            behavior: 'default'
+
+      - name: rdp
+        identifier: 'close_rdp_port' #(MUST BE LOWER CASE)
+        actions:
+          - identifier: 'CLOSE_RDP_PORT' #(MUST BE UPPER CASE)
+            title: 'סגור את הפורט הפתוח'
             activationMode: 'background'
             authenticationRequired: no
             destructive: yes #yes for red color

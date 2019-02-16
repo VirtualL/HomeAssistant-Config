@@ -1,7 +1,7 @@
 ################################################################################
 #
 #REMOTE - NOT IN USE - Working with Braodlink RM Pro
-#All the commads was made for xiaomi IR
+#         All the commads was made for xiaomi IR
 #################################################################################
   #for xiaomi  IR controller - NOT IN USE ANYMORE - Switch to BORADLINK RM PRO
   # - platform: xiaomi_miio

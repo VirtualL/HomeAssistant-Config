@@ -78,7 +78,7 @@ automation:
         
         {{states.sensor.home_assistant_released_version.attributes.body.split("## All changes")[0]}}
         
-  - service: notify.NotifyEliranIOSAndTelegram
+  - service: notify.eliran_ios_and_ipad_and_telegram
     data_template:
       message: >-
         A new version of Home Assistant is available, {{ states('sensor.home_assistant_released_version') }}, while current version is {{states('sensor.current_version') }}

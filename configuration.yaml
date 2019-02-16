@@ -18,6 +18,7 @@ homeassistant:
     - /config # - /home/homeassistant/.homeassistant/
     - /config/tmp # - /home/homeassistant/.homeassistant/tmp
     - /config/backup/hass #- /home/homeassistant/backup/hass
+system_health:
 
 # custom_ui
 customizer:
@@ -36,13 +37,20 @@ frontend:
   # extra_html_url: #???
   # - /local/custom_ui/custom-weather-card.html
 lovelace:
-  mode: yaml  
+  mode: yaml
 
-recorder:
-  purge_keep_days: 7
-  # db_url: mysql://hassuser:<Eliran007>@localhost/hass_db?charset=utf8
-  # db_url: mysql://hassuser:Eliran007@localhost/hass_db
-  
+recorder: !include config/recorder.yaml
+#The history component will track everything that is going on within HA.
+#It depends on the recorder component for storing the data and uses the same DB.
+history:
+
+#The logbook component provides a different perspective on the history of your 
+#house by showing all the changes that happened to your house in reverse chronological order.
+#It depends on the recorder component for storing the data.
+logbook:
+
+# api:
+
 http:
   # Secrets are defined in the file secrets.yaml
   #api_password: !secret api_password
@@ -54,9 +62,10 @@ http:
   use_x_forwarded_for: True
   trusted_proxies:
     - 127.0.0.1 #localhost
-    - 192.168.1.1 #router
-    - 172.18.0.2 #nginx
-    - 172.18.0.3 #nginx
+    - 192.XX.XX.XX #router
+    - 172.XX.XX.XX #nginx
+    # - 172.18.0.3 #nginx
+
 device_tracker: !include config/device_trackers.yaml
 
 #Xiaomi Gateway (Aqara)
@@ -68,7 +77,7 @@ xiaomi_aqara:
 vacuum:
   - platform: xiaomi_miio
     name: Xiaomi Vacuum
-    host: 192.168.XX.XX #CHANGE IP
+    host: 192.168.XXX.XXX #CHANGE_IP
     token: !secret XiaomiVacuumV1Token
     
 #Google Cast devices like Android TVs and Chromecasts will be automatically 
@@ -76,10 +85,10 @@ vacuum:
 #https://www.home-assistant.io/components/cast/    
 # cast:
 #   media_player:
-#   - host: 192.168.XX.XX #CHANGE IP #partnerTV
+#   - host: 192.168.XXX.XXX #CHANGE_IP #partnerTV
   
 # apple_tv:
-#   - host: 192.168.XX.XX #CHANGE IP
+#   - host: 192.168.XXX.XXX #CHANGE_IP
 #     name: Apple TV
 #     login_id: !secret AppleTVLogin_id
 #     # credentials: !secret AppleTVcredentials
@@ -88,13 +97,15 @@ timer:
   #a Timer that Start Every time that the Home Door Open 
   dogwalk:
     duration: '00:30:00'
-    icon: mdi:paw
+    icon: mdi:dog-side
 
 mqtt:
   password: !secret mqtt_password
-  broker: 192.168.XX.XX #CHANGE IP
+  #To use the Embedded MQTT Broker - Remove the 3 line below
+  # I am using Eclipse Mosquitto broker for my CCTV setup.
+  broker: !secret MainHostIP
   client_id: HOME_ASSISTANT
-  username: MQTT_USERNAME
+  username: homeassistant
   
 # Enables configuration UI
 config:
@@ -114,14 +125,14 @@ map:
 sun:
 
 weather:
-  #For the Custom-UI-Weather-state-card
-  - platform: yweather
-
+  - platform: darksky
+    api_key: !secret DarkSky_API_KEY
+    mode: daily
 # Text to speech
 tts:
   - platform: google #english 
 
-#update every 1 hour. -using dnsomatic for better updates. 
+#update every 1 hour. -using dns-o-matic for better updates via Router UI
 # cloudflare:
 #   email: !secret MyEmail 
 #   api_key: !secret CloudflareAPIKey
@@ -129,8 +140,9 @@ tts:
 #   records:
 #     - !secret CloudflareSubDomain1
 
-# Cloud
-cloud:
+# https://www.home-assistant.io/components/cloud/ - 
+# not in use-made alexa and google_assistant integration manualy. 
+# cloud:
 
 panel_custom:
   - name: floorplan
@@ -147,31 +159,38 @@ telegram_bot:
       - !secret TelegramChatIDNum1 
       
 custom_updater:
+  mode: storage
   track:
     - components
     - cards
     - python_scripts
   card_urls:
-      - https://raw.githubusercontent.com/bramkragten/custom-ui/master/updater.json
-climate:
-  - platform: sensibo
-    api_key: !secret SensiboApiKey
+      - https://raw.githubusercontent.com/ljmerza/calendar-card/master/custom_updater.json
+      - https://raw.githubusercontent.com/iammexx/home-assistant-config/master/ui/darksky/version.json
+      - https://raw.githubusercontent.com/kalkih/mini-graph-card/master/tracker.json
+      - https://raw.githubusercontent.com/kalkih/mini-media-player/master/tracker.json
+
+climate:      
+- platform: sensibo
+  api_key: !secret SensiboApiKey
 #https://www.home-assistant.io/components/logger/
 logger:
   default: warning #error #warning #info #warning #degbug
+  logs:
+    homeassistant.components.http.ban: warning
 
 google:
   client_id: !secret Google_CLIENT_ID
   client_secret: !secret Google_CLIENT_SECRET
   
 ##############
-## includes
+## includes - at external folder
 ############
 sensor: !include config/sensors.yaml
-group: !include config/groups.yaml #groups at External FILE
+group: !include config/groups.yaml 
 automation: !include_dir_merge_list config/automation/
 script: !include config/scripts.yaml
-input_select: !include config/input_select.yaml
+#input_select: !include config/input_select.yaml
 input_boolean: !include config/input_boolean.yaml
 input_number: !include config/input_number.yaml
 binary_sensor: !include config/binary_sensors.yaml  
@@ -184,39 +203,23 @@ ios: !include config/ios.yaml
 notify: !include config/notify.yaml
 panel_iframe: !include config/panel_iframe.yaml
 zone: !include config/zones.yaml
-history: !include config/history.yaml
 shell_command: !include config/shell_commands.yaml
 intent_script: !include config/intent_scripts.yaml
-logbook: !include config/logbook.yaml # View all events in a logbook
 homekit: !include config/homekit.yaml # For apple HomeKit support
-#alexa support Via Haaska (v3)
-#to avoid from monthly payments (in Home Assitant Cloud) 
-#and to give more options for customization
+#alexa support Via Haaska (v3) #to avoid from monthly payments (in Home Assitant Cloud) #and to give more options for customization
 alexa: !include config/alexa.yaml
 google_assistant: !include config/google_assistant.yaml 
-
+rest_command: !include config/rest_commands.yaml 
 ############################################################################
 ##
-## sonoff1 = sonoff pow1 boiler ( switch._mqtt_pow1 )
-## sonoff2 =sonoff pow 2 general - now for homeCCTV Kitchen( switch.mqtt_pow2 )
+## sonoff1 = sonoff pow1 boiler ( switch.mqtt_pow1 )
+## sonoff2 = sonoff pow 2 general - now for homeCCTV Kitchen( switch.mqtt_pow2 )
 ## sonoff3 = sonoff touch - now for Kitchen Light ( light.sonoff_light )
 ## sonoff4 = sonoff basic -now for Hallway Light (light.sonoff_hallway_light )
 ## sonoff5 = sonoff basic - now for Xiaomi CCTV ( switch.sonoff_xiaomicctv_switch )
+## sonoff_ifan = sonoff ifan02 with light and fan speed contoll at bedroom
 ##
 ############################################################################
-
-rest_command:
-  set_preset_1_homecctv01:
-    url: !secret SetPreset01_HomeCCTV01_URL
-    method: POST
-  update_homecctv01_state:
-    url: http://192.168.XXX.XXX:8123/api/states/camera.cctv1_snapshot
-    method: POST    
-    headers: 
-      Authorization: !secret UpdateStateHomeCCTV01Token
-      Content-Type: 'application/json'
-    payload: '{"state": "recording"}'
-
 
 ############################# ENTITY NAMES CHANGES ############################# 
 ## binary_sensor.motion_sensor_158d0000e62376 = binary_sensor.xiaomi_motion_sensor_hallway
@@ -225,4 +228,5 @@ rest_command:
 ## binary_sensor.door_window_sensor_158d0001b714e9 = binary_sensor.door_sensor_main_entrance
 ## sensor.humidity_158d0001150e4e = sensor.humidity_bedroom_0
 ## sensor.temperature_158d0001150e4e = sensor.temperature_bedroom_0
+## light.gateway_light_34ce0088d2f7 = light.gateway_light
 ################################################################################

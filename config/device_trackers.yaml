@@ -1,0 +1,36 @@
+################################################################################
+#
+#DEVICE TRACKER
+#
+################################################################################
+
+##unifi_direct- connect to AP directly
+  - platform: unifi_direct
+    host: !secret UAP_AC_LR_IP
+    username: !secret UnifiUsername
+    password: !secret UnifiPassword
+    
+##For LAN connections.
+  - platform: ping
+    hosts:
+      main_server: XXX.XXX.XXX.XXX #CHANGE_IP
+      windows_vm: XXX.XXX.XXX.XXX #CHANGE_IP
+      partner_tv: XXX.XXX.XXX.XXX #CHANGE_IP
+      UAP_AC_LR: XXX.XXX.XXX.XXX #CHANGE_IP
+      ipc_10: XXX.XXX.XXX.XXX #CHANGE_IP
+
+
+#unifi docker container (local Unfi Controller)    
+  # - platform: unifi
+  #   host: !secret UnifiHost
+  #   username: !secret UnifiControllerUsername
+  #   password: !secret UnifiControllerPassword 
+    
+#DD-WRT
+  # - platform: asuswrt
+  #   host: 192.168.1.1
+  #   username: !secret AsusWrtUsername
+  #   password: !secret AsusWrtPassword
+    # interval_seconds: 10
+    # track_new_devices: yes
+    # consider_home: 90 

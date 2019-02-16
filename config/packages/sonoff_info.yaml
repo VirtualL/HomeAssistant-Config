@@ -7,17 +7,10 @@ script:
             topic: "cmnd/sonoffs/status"
             payload: 2
 
-  # update_sonoffs: 
-  #     sequence:
-  #       - service: mqtt.publish
-  #         data_template:
-  #           topic: "cmnd/sonoffs/upgrade"
-  #           payload: 1
-            
 sensor:  
   - platform: command_line
     name: Sonoff latest release
-    command: "curl -s https://github.com/arendst/Sonoff-Tasmota/releases/latest | grep -o '[v][0-9]*.[0-9]*.[0-9]*'"
+    command: "curl -s https://github.com/arendst/Sonoff-Tasmota/releases/latest | grep -o 'v[0-9]*.[0-9]*.[0-9]*'"
     scan_interval: 43200 #12H
   - platform: mqtt
     name: Sonoff POW Boiler Version

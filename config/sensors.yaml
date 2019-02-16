@@ -8,30 +8,31 @@
   #system monitor on to know disk use , memory use,process use  etc...
   - platform: systemmonitor
     resources:
-      - type: disk_use_percent
-        arg: /home
       - type: memory_use_percent
       - type: processor_use
       - type: last_boot
+      # - type: disk_use_percent #not working on unraid (give the docker size only)
+      #   arg: /home #unraid cache drive
   #To monitor DataBase File size    
   - platform: filesize
     file_paths:
-      - /config/home-assistant_v2.db
-      #- /home/homeassistant/.homeassistant/home-assistant_v2.db
+      - /config/home-assistant_v2.db #Docker
+      #- /home/homeassistant/.homeassistant/home-assistant_v2.db #Linux
   #To monitor BackUp Folder size 
   - platform: folder
-    folder: /config/backup/hass
-  #Time that Home asisstant is Up and runing
+    folder: /config/backup/hass #Docker
+  #Time that Home asisstant is Up and runing #TODO
   - platform: uptime
-    name: Time Online
+    name: Time Online HA
     
   #Current time and date formats 
   - platform: time_date
     display_options:
       - 'date_time'
       - 'time'
-      - 'date'
-  #Time in Days for SSL to Expired -made the cert with http://certbot.eff.org/ (Have SSL with NGINX)
+      
+  #Time in Days for SSL to Expired
+  # made the cert with http://certbot.eff.org/ (SSL with NGINX)
   - platform: cert_expiry
     name: SSL Router
     host: !secret routerSSL
@@ -59,13 +60,13 @@
 
   #Travel time From Home to Work
   - platform: waze_travel_time
-    name: Home To Adoraim
+    name: home to adoraim
     origin: !secret HomeCoordinates
     destination: !secret Work1Coordinates
     region: 'IL'
   #Travel time From Home to Work2
   - platform: waze_travel_time
-    name: Home To Otniel
+    name: home to otniel
     origin: !secret HomeCoordinates
     destination: !secret Work2Coordinates
     region: 'IL'
@@ -95,11 +96,6 @@
     name: "POW1 energy today"
     state_topic: "tele/sonoff1/SENSOR"
     value_template: '{{ value_json["ENERGY"]["Today"] }}'
-    unit_of_measurement: "kWh"
-  - platform: mqtt
-    name: "POW1 energy yesterday"
-    state_topic: "tele/sonoff1/SENSOR"
-    value_template: '{{ value_json["ENERGY"]["Yesterday"] }}'
     unit_of_measurement: "kWh"
   - platform: mqtt
     name: "POW1 energy total"
@@ -264,15 +260,15 @@
             0
           {%- endif -%}
             {{ states.sensor.alarm_clock_minute.state }}
-    ####################################### End of ALARM CLOCK#######################################
-    ####################################### Speedtest.Net ####################################### 
+####################################### End of ALARM CLOCK#######################################
+####################################### Speedtest.Net ####################################### 
   - platform: speedtest
-    server_id: 9034
+    server_id: 9034 #018 Server
     monitored_conditions:
       - ping
       - download
       - upload
-    #######################################CURRENCIES Rates Via XML rate in Offical BANK OF ISRAEL#######################################
+#######################################CURRENCIES Rates Via XML rate in Offical BANK OF ISRAEL#######################################
   - platform: command_line
     name: Exchange Date
     command: "curl get https://www.boi.org.il/currency.xml?curr=27 2>&1 | grep LAST_UPDATE | grep -o '[0-9]*-[0-9]*-[0-9]*' "
@@ -292,30 +288,15 @@
     name: Pound(GBP)
     command: "curl get https://www.boi.org.il/currency.xml?curr=02 2>&1 | grep RATE | grep -o '[0-9].*[0-9]' "
     scan_interval: 43200 #12 Hours
-    ###########################################################################
+###########################################################################
     
-    ###### Latest config backup time
+###### Latest config backup time
   - platform: command_line
     command: "bash /config/scripts/latest_Hass_backup.py"
     name: 'Latest HA Backup'
     scan_interval: 43200 #12 Hours
     
-  #   ###HLINE CUI
-  # - platform: template
-  #   sensors:
-  #     hline_1:
-  #       value_template: hline
-  #     hline_2:
-  #       value_template: hline
-  #     hline_3:
-  #       value_template: hline
-  #     hline_4:
-  #       value_template: hline
-  #     hline_5:
-  #       value_template: hline
-  #     hline_6:
-  #       value_template: hline
-        
+
 ####################################### Temp and Hum From sensibo #######################################
   - platform: template
     sensors:
@@ -373,7 +354,7 @@
           {% else %}
             לילה טוב, אלירן
           {% endif %}
-
+          
   - platform: template
     sensors:
       greeter_card_info:
@@ -386,92 +367,98 @@
         value_template: > 
           עבודה:
           האירוע הבא {{ as_timestamp(states.calendar.work.attributes.start_time) | timestamp_custom('- %d/%m/%Y בשעה %H:%M') }}
-  - platform: template
-    sensors:
-      outside_temp:
-        friendly_name: "Outside Temperature"
-        # unit_of_measurement: '°C'
-        value_template: "{{ states.weather.yweather.attributes.temperature }}"
-        icon_template: >
-          {% if is_state("weather.yweather", "sunny") -%}
-             mdi:weather-sunny
-          {% elif is_state('weather.yweather', 'clear-night') -%}
-             mdi:weather-night
-          {% elif is_state('weather.yweather', 'rain') -%}
-             mdi:weather-rainy
-          {% elif is_state('weather.yweather', 'snow') -%}
-             mdi:weather-snowy
-          {% elif is_state('weather.yweather', 'sleet') -%}
-             mdi:weather-snowy-rainy
-          {% elif is_state('weather.yweather', 'wind') -%}
-             mdi:weather-windy-variant
-          {% elif is_state('weather.yweather', 'fog') -%}
-             mdi:weather-fog
-          {% elif is_state('weather.yweather', 'cloudy') -%}
-             mdi:weather-cloudy
-          {% elif is_state('weather.yweather', 'partly-cloudy-day') -%}
-             mdi:weather-partlycloudy
-          {% elif is_state('weather.yweather', 'hail') -%}
-             mdi:weather-hail
-          {% elif is_state('weather.yweather', 'thunderstorm') -%}
-             mdi:weather-lightning
-          {% else %}
-             mdi:help-circle
-          {% endif %}
+######################Outside Temperature with animated icons ################################
+#Not in use , Working good! 
+  # - platform: template
+  #   sensors:
+  #     outside_temp:
+  #       friendly_name: "Outside Temperature"
+  #       # unit_of_measurement: '°C'
+  #       value_template: "{{ states.weather.dark_sky.attributes.temperature }}"
+  #       icon_template: >
+  #         {% if is_state("weather.dark_sky", "sunny") -%}
+  #           mdi:weather-sunny
+  #         {% elif is_state('weather.dark_sky', 'clear-night') -%}
+  #           mdi:weather-night
+  #         {% elif is_state('weather.dark_sky', 'rainy') -%}
+  #           mdi:weather-rainy
+  #         {% elif is_state('weather.dark_sky', 'snow') -%}
+  #           mdi:weather-snowy
+  #         {% elif is_state('weather.dark_sky', 'sleet') -%}
+  #           mdi:weather-snowy-rainy
+  #         {% elif is_state('weather.dark_sky', 'wind') -%}
+  #           mdi:weather-windy-variant
+  #         {% elif is_state('weather.dark_sky', 'windy-variant') -%}
+  #           mdi:weather-windy-variant     
+  #         {% elif is_state('weather.dark_sky', 'windy') -%}
+  #           mdi:weather-windy-variant
+  #         {% elif is_state('weather.dark_sky', 'fog') -%}
+  #           mdi:weather-fog
+  #         {% elif is_state('weather.dark_sky', 'cloudy') -%}
+  #           mdi:weather-cloudy
+  #         {% elif is_state('weather.dark_sky', 'partly-cloudy-day') -%}
+  #           mdi:weather-partlycloudy
+  #         {% elif is_state('weather.dark_sky', 'hail') -%}
+  #           mdi:weather-hail
+  #         {% elif is_state('weather.dark_sky', 'thunderstorm') -%}
+  #           mdi:weather-lightning
+  #         {% else %}
+  #           mdi:help-circle
+  #         {% endif %}
 
-        entity_picture_template: >
-          {% if is_state("weather.yweather", "sunny") -%}
-             /local/weather_icons/animated/day.svg
-          {% elif is_state('weather.yweather', 'clear-night') -%}
-             /local/weather_icons/animated/night.svg
-          {% elif is_state('weather.yweather', 'rain') -%}
-             /local/weather_icons/animated/rain.svg
-          {% elif is_state('weather.yweather', 'snow') -%}
-             /local/weather_icons/animated/snow.svg
-          {% elif is_state('weather.yweather', 'sleet') -%}
-             /local/weather_icons/animated/sleet.svg
-          {% elif is_state('weather.yweather', 'wind') -%}
-             /local/weather_icons/animated/wind.svg
-          {% elif is_state('weather.yweather', 'fog') -%}
-             /local/weather_icons/animated/fog.svg
-          {% elif is_state('weather.yweather', 'cloudy') -%}
-             /local/weather_icons/animated/cloudy.svg
-          {% elif is_state('weather.yweather', 'partly-cloudy-day') -%}
-             /local/weather_icons/animated/partly-cloudy-day-1.svg
-          {% elif is_state('weather.yweather', 'hail') -%}
-             /local/weather_icons/animated/hail.svg
-          {% elif is_state('weather.yweather', 'thunderstorm') -%}
-             /local/weather_icons/animated/thunderstorm.svg
-          {% elif is_state('weather.yweather', 'hail') -%}
-             /local/weather_icons/animated/rainy-7.svg
-          {% elif is_state('weather.yweather', 'lightning') -%}
-             /local/weather_icons/animated/thunder.svg
-          {% elif is_state('weather.yweather', 'lightning-rainy') -%}
-             /local/weather_icons/animated/thunder.svg
-          {% elif is_state('weather.yweather', 'cloudy') -%}
-             /local/weather_icons/animated/cloudy.svg
-          {% elif is_state('weather.yweather', 'partlycloudy') -%}
-             /local/weather_icons/animated/cloudy.svg
-          {% elif is_state('weather.yweather', 'pouring') -%}
-             /local/weather_icons/animated/rainy-6.svg
-          {% elif is_state('weather.yweather', 'rainy') -%}
-             /local/weather_icons/animated/rainy-6.svg
-          {% elif is_state('weather.yweather', 'snowy') -%}
-             /local/weather_icons/animated/snowy-6.svg
-          {% elif is_state('weather.yweather', 'snowy-rainy') -%}
-             /local/weather_icons/animated/rainy-6.svg
-          {% elif is_state('weather.yweather', 'windy') -%}
-             /local/weather_icons/animated/cloudy.svg
-          {% else %}
-             /local/weather_icons/animated/help.svg
-          {% endif %}
+  #       entity_picture_template: >
+  #         {% if is_state("weather.dark_sky", "sunny") -%}
+  #           /local/icons/weather_icons/animated/day.svg
+  #         {% elif is_state('weather.dark_sky', 'clear-night') -%}
+  #           /local/icons/weather_icons/animated/night.svg
+  #         {% elif is_state('weather.dark_sky', 'snow') -%}
+  #           /local/icons/weather_icons/animated/snow.svg
+  #         {% elif is_state('weather.dark_sky', 'sleet') -%}
+  #           /local/icons/weather_icons/animated/sleet.svg
+  #         {% elif is_state('weather.dark_sky', 'wind') -%}
+  #           /local/icons/weather_icons/animated/wind.svg
+  #         {% elif is_state('weather.dark_sky', 'fog') -%}
+  #           /local/icons/weather_icons/animated/fog.svg
+  #         {% elif is_state('weather.dark_sky', 'cloudy') -%}
+  #           /local/icons/weather_icons/animated/cloudy.svg
+  #         {% elif is_state('weather.dark_sky', 'partly-cloudy-day') -%}
+  #           /local/icons/weather_icons/animated/partly-cloudy-day-1.svg
+  #         {% elif is_state('weather.dark_sky', 'hail') -%}
+  #           /local/icons/weather_icons/animated/hail.svg
+  #         {% elif is_state('weather.dark_sky', 'thunderstorm') -%}
+  #           /local/icons/weather_icons/animated/thunderstorm.svg
+  #         {% elif is_state('weather.dark_sky', 'hail') -%}
+  #           /local/icons/weather_icons/animated/rainy-7.svg
+  #         {% elif is_state('weather.dark_sky', 'lightning') -%}
+  #           /local/icons/weather_icons/animated/thunder.svg
+  #         {% elif is_state('weather.dark_sky', 'lightning-rainy') -%}
+  #           /local/icons/weather_icons/animated/thunder.svg
+  #         {% elif is_state('weather.dark_sky', 'cloudy') -%}
+  #           /local/icons/weather_icons/animated/cloudy.svg
+  #         {% elif is_state('weather.dark_sky', 'partlycloudy') -%}
+  #           /local/icons/weather_icons/animated/cloudy.svg
+  #         {% elif is_state('weather.dark_sky', 'pouring') -%}
+  #           /local/icons/weather_icons/animated/rainy-6.svg
+  #         {% elif is_state('weather.dark_sky', 'rainy') -%}
+  #           /local/icons/weather_icons/animated/rainy-6.svg
+  #         {% elif is_state('weather.dark_sky', 'snowy') -%}
+  #           /local/icons/weather_icons/animated/snowy-6.svg
+  #         {% elif is_state('weather.dark_sky', 'snowy-rainy') -%}
+  #           /local/icons/weather_icons/animated/rainy-6.svg
+  #         {% elif is_state('weather.dark_sky', 'windy') -%}
+  #           /local/icons/weather_icons/animated/cloudy.svg
+  #         {% else %}
+  #           /local/icons/weather_icons/animated/help.svg
+  #         {% endif %}
 
-  - platform: command_line
-    name: IMSWeather
-    command: " curl get http://www.ims.gov.il/ims/rss/beer_sheva.xml 2>&1 | grep -ni .*title=  | grep -o [א-ת]* "
-    scan_interval: 43200 #12 Hours    
+####################################### IMS Wheather Short ####################################### 
+#Working Good , Not in Use
+  # - platform: command_line
+  #   name: IMSWeather
+  #   command: " curl get http://www.ims.gov.il/ims/rss/beer_sheva.xml 2>&1 | grep -ni .*title=  | grep -o [א-ת]* "
+  #   scan_interval: 43200 #12 Hours    
     # command: "echo 'התחזית להיום: '; curl get http://www.ims.gov.il/ims/rss/beer_sheva.xml 2>&1 | grep -ni .*title=  | grep -o [א-ת]* "
-
+####################################### new ip login? ####################################### 
   - platform: template
     sensors:
       authentication_known_ip_info:
@@ -481,7 +468,7 @@
           {% else %}
             לא
           {% endif %}
-          
+####################################### CPU,HDD,SSD Temperatures #######################################           
   - platform: command_line
     name: 'CPU temp'
     unit_of_measurement: "°מעלות" #temperature in C "°C"
@@ -495,18 +482,93 @@
     scan_interval: 120 #2 min
     command: "hddtemp -n /dev/sdb"
     
-  - platform: command_line #WD1TB
+  - platform: command_line #OR Parity 4TB #WD1TB
     name: 'HDD_sdc_temp'
     unit_of_measurement: "°מעלות" #temperature in C "°C"
     scan_interval: 120 #2 min
     command: "hddtemp -n /dev/sdc"
-    
-  # - platform: command_line #WD 4TB
-  #   name: 'HDD_sdd_temp'
-  #   unit_of_measurement: "°מעלות" #temperature in C "°C"
-  #   scan_interval: 120 #2 min
-  #   command: "hddtemp -n /dev/sdd"
 
+  - platform: command_line #OR Seagate 4TB #WD 4TB
+    name: 'HDD_sdd_temp'
+    unit_of_measurement: "°מעלות" #temperature in C "°C"
+    scan_interval: 120 #2 min
+    command: "hddtemp -n /dev/sdd"
+####################################### Disks Usage #######################################   
+  - platform: command_line 
+    command: "bash /config/scripts/main_disk_usage.sh"
+    name: 'main hdd usage'
+    unit_of_measurement: "%" #temperature in C
+    scan_interval: 600 #10 min  
+
+  - platform: command_line 
+    command: "bash /config/scripts/ssd_usage.sh"
+    name: 'ssd usage'
+    unit_of_measurement: "%" #temperature in C
+    scan_interval: 600 #10 min
+####################################### www.17track.net ####################################### 
+  - platform: seventeentrack
+    username: !secret 17TrackEmail
+    password: !secret 17TrackPassword
+    
+################################### Weather Dark Sky SENSOR #####################################
+  - platform: darksky_dev2
+    api_key: !secret DarkSky_API_KEY
+    language: he
+    forecast:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    monitored_conditions:
+      - icon
+      - summary
+      - humidity
+      - temperature
+      - temperature_high
+      - temperature_low
+      - wind_speed #?
+      - wind_bearing #?
+      - precip_probability
+      - precip_intensity
+      - precip_intensity_max
+      - daily_summary
+      - pressure
+      - visibility
+      - apparent_temperature #Feels like
+    update_interval:
+      minutes: 5
+####################################### System Uptime ####################################### 
+  - platform: template
+    sensors:      
+      unraid_uptime:
+        friendly_name: Unraid Uptime
+        value_template: >
+          {% set up_time = as_timestamp(now()) - as_timestamp(states('sensor.last_boot')) %}
+          
+            {% set minutes = (up_time // 60) | int %}
+            {% set hours = (minutes // 60) %}
+            {% set days = (hours // 24) %}
+            {% set weeks = (days // 7) %}
+            {% set minutes = (minutes % 60) %}
+            {% set hours = (hours % 24) %}
+            {% set days = (days % 7) %}
+          
+            {% macro phrase(value, name) %}
+                 {%- set value = value %}
+                 {%- set end = 's' if value > 1 else '' %}
+                 {{- '{} {}{}'.format(value, name, end) if value | int > 0 else '' }}
+            {%- endmacro %}
+                      
+            {% set text = [ phrase(weeks, 'week'), phrase(days, 'day'), phrase(hours, 'hr'), phrase(minutes, 'min') ] | select('!=','') | list | join(', ') %}
+          
+          {% set last_comma = text.rfind(',') %}
+          {% set text = text[:last_comma] + ' and' + text[last_comma + 1:] %}
+          
+          {{ text }}
+
+####################################### NOT IN USE ####################################### 
   # - platform: broadlink
   #   update_interval: 60
   #   host: 192.168.1.80
@@ -527,7 +589,25 @@
   #   unit_of_measurement: "°מעלות" #temperature in C
   #   scan_interval: 120 #2 min
   
-  - platform: seventeentrack
-    username: !secret 17TrackEmail
-    password: !secret 17TrackPassword
+
     
+    
+ 
+
+
+  #   ###HLINE CUI
+  # - platform: template
+  #   sensors:
+  #     hline_1:
+  #       value_template: hline
+  #     hline_2:
+  #       value_template: hline
+  #     hline_3:
+  #       value_template: hline
+  #     hline_4:
+  #       value_template: hline
+  #     hline_5:
+  #       value_template: hline
+  #     hline_6:
+  #       value_template: hline
+              

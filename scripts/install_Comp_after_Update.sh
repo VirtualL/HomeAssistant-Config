@@ -1,23 +1,43 @@
 #!/bin/bash
-#this script will install all the regular staff are needed after Update of docker 
+#this script will install all the regular staff are needed after Update of docker
+
+#manually add new disk to hddtemp DB
+#docker exec home-assistant echo '"Samsung SSD 850 EVO 120G B" 190 C "Samsung SSD 850 EVO 120G B"' >>/etc/hddtemp.db; 
+#docker exec home-assistant echo '"SAMSUNG SSD 830 Series" 190 C "SAMSUNG SSD 830 Series"' >>/etc/hddtemp.db;
+
+
 
 sshpass -p UNRAIDPASSWORD ssh -o stricthostkeychecking=no UNRAIDUSER@192.168.1.201 '
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CLOUD9IDE apt-get update <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ";
+
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Cloud9ide install sshpass <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 docker exec cloud9ide apt-get update;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CLOUD9IDE apt-get install -y sshpass <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ";
 docker exec cloud9ide apt-get install -y sshpass;
 
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> home-assistant install hddtemp, sshpass, zip, netcat <<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 docker exec home-assistant apt-get update;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>apt-get update && install -y hddtemp sshpass zip netcat <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ";
 docker exec home-assistant apt-get install -y hddtemp sshpass zip netcat;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>cp hddtemp.db <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ";
-docker exec home-assistant cp /config/PRIVATE/hddtemp.db /etc/hddtemp.db;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>hddtemp -n /dev/sdb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> cp hddtempDATABASE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+docker exec  home-assistant cp /config/PRIVATE/hddtempDATABASE /etc/hddtemp.db
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> hddtemp -n /dev/sdb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 docker exec home-assistant hddtemp -n /dev/sdb;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>hddtemp -n /dev/sdc <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> hddtemp -n /dev/sdc <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 docker exec home-assistant hddtemp -n /dev/sdc;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>hddtemp -n /dev/sdd <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> hddtemp -n /dev/sdd <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 docker exec home-assistant hddtemp -n /dev/sdd;
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>restart home-assistant <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Restart home-assistant <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 docker restart home-assistant;
 '

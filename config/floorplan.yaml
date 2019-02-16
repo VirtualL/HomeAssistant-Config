@@ -1,7 +1,6 @@
       name: My Floorplan
       image: /local/custom_ui/floorplan/floorplan.svg
       stylesheet: /local/custom_ui/floorplan/floorplan.css
-      
       # These options are optional
       # warnings:                  # enable warnings (to find out why things might ot be working correctly)
       # pan_zoom:                  # enable experimental panning / zooming
@@ -10,12 +9,12 @@
       
       last_motion_entity: binary_sensor.xiaomi_motion_sensor_hallway
       last_motion_class: last-motion
-###################################__GROUPS__###################################
+#########################GROUPS#########################
       groups:
         - name: Time
           entities:
+            - sensor.date_time
             - sensor.time
-            - sensor.date
 #########################Lights#########################
         - name: Lights     
           entities:
@@ -52,7 +51,7 @@
           entities:
              - sensor.temperature_bedroom_0
              - sensor.humidity_bedroom_0
-             - switch._mqtt_pow1 #boiler
+             - switch.mqtt_pow1 #boiler
              - binary_sensor.xiaomi_motion_sensor_hallway
           states:
             - state: 'on'
@@ -66,16 +65,6 @@
           entities:
             - device_tracker.eliraniphone #byIP at DDWT 
             - device_tracker.shiraniphone #shiran
-          # text_template: '${entity.state ? entity.state : "unknown"}'
-          # class_template: '
-          #   var temp = parseFloat(entity.state.replace("°", ""));
-          #   if (temp < 10)
-          #     return "temp-low";
-          #   else if (temp < 30)
-          #     return "temp-medium";
-          #   else
-          #     return "temp-high";
-          #   '
           states:
             - state: 'home'
               class: 'tracker_home'
@@ -115,10 +104,17 @@
           action:
             domain: homeassistant
             service: toggle
+            
+            
+            
+            
+            
+            
+            
 #########################Switchs#########################
         # - name: Status     
         #   entities:
-        #     - switch._mqtt_pow1 #boiler
+        #     - switch.mqtt_pow1 #boiler
         #     - binary_sensor.xiaomi_motion_sensor_hallway
         #   states:
         #     - state: 'on'

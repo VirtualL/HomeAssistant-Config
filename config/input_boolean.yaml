@@ -5,12 +5,8 @@
 ################################################################################
   alarm_clock_status:
     initial: off
-
+    
   boiler_on_clock_status:
     initial: off
   boiler_off_clock_status:
     initial: off
-    
-#For the Custom-UI-Weather-state-card
-  weather:
-    name: מזג אוויר

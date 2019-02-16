@@ -28,8 +28,9 @@
       - delay: '00:{{ states.input_number.slider_boiler.state | int }}:00'
       - service: switch.turn_off
         data:
-          entity_id: switch._mqtt_pow1
-
+          entity_id: switch.mqtt_pow1
+          
+############################################### 
   #a button to use speed test manualy 
   update_speedtestnet:
     alias: Update SpeedtestNet info
@@ -59,7 +60,17 @@
   install_after_update_hass:
      alias: 'install after Update Hass'
      sequence:
-       - service: shell_command.install_after_update_hass             
+       - service: shell_command.install_after_update_hass     
+###############################################
+  open_rdp_port:
+     alias: 'Open RDP port'
+     sequence:
+       - service: shell_command.open_rdp_port  
+###############################################
+  close_rdp_port:
+     alias: 'Close RDP port'
+     sequence:
+       - service: shell_command.close_rdp_port        
 ###############################################
 # "power1" is good for me,in others sonoff setups maybe "power2"/"power3" etc...
   check_sonoffs_tasmota_status:
@@ -69,25 +80,24 @@
             topic: "cmnd/sonoffs/power1" #Update the power state of all the sonoffs
             payload: ""
 ###############################################            
-
   white_night_light:
     alias: White
     sequence:
       - service: homeassistant.turn_on
-        entity_id: light.gateway_light_34ce0088d2f7
+        entity_id: light.gateway_light
         data:
           brightness: 255
           rgb_color: [255,255,255]
-
+###############################################            
   purple_night_light:
     alias: Purple
     sequence:
       - service: homeassistant.turn_on
-        entity_id: light.gateway_light_34ce0088d2f7
+        entity_id: light.gateway_light
         data:
           brightness: 255
           rgb_color: [88,0,82]
-
+###############################################            
   flash_gateway1:
     alias: Flash Gateway On
     sequence:
@@ -102,14 +112,14 @@
       - service: script.turn_on
         data:
           entity_id: script.flash_gateway2
-
+###############################################            
   flash_gateway2:
     alias: Flash Gateway OnV2
     sequence:
       - service: light.turn_off
         data:
           entity_id: light.gateway_light_34ce0091234
-
+###############################################            
       - service: script.turn_on
         data:
           entity_id: script.flash_gateway1       

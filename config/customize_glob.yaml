@@ -17,6 +17,6 @@ group.*:
   templates:
     theme: if (state =='on') return 'alert_gold';
     icon_color: if (state =='on') return 'gold';
-light.*:
-  state_card_mode: single-line #or "break-slider"
-  custom_ui_state_card: state-card-custom-ui
+# light.*:
+#   state_card_mode: single-line #or "break-slider"
+#   custom_ui_state_card: state-card-custom-ui

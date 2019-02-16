@@ -3,6 +3,13 @@
 #ZONE
 #
 #################################################################################
+  # This will override the default home zone
+  - name: Home
+    latitude: !secret HomeLatitude
+    longitude: !secret HomeLongitude
+    radius: 20
+    icon: mdi:home-heart
+    
   - name: SCE
     latitude: !secret CollegeLatitude
     longitude: !secret CollegeLongitude
@@ -13,13 +20,7 @@
     latitude: !secret WorkLatitude
     longitude: !secret WorkLongitude
     radius: 7000
-  # This will override the default home zone
-  - name: Home
-    latitude: !secret HomeLatitude
-    longitude: !secret HomeLongitude
-    radius: 20
-    icon: mdi:home-heart
-
+    
   - name: Zalman
     latitude: !secret SvetHomeLatitude
     longitude: !secret SvetHomeLongitude

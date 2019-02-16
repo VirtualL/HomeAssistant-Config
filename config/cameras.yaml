@@ -3,13 +3,22 @@
 #CAMERA
 #
 ################################################################################
+# Vstarcam Home 01
+# - platform: onvif
+#   name: Home CCTV1
+#   host: !secret HomeCCTV1IP
+#   port: 10080
+#   username: !secret HomeCCTV1username
+#   password: !secret HomeCCTV1password
+  # extra_arguments: 'extra_arguments: -rtsp_transport udp
+  
 #Vstarcam Home 01
-- platform: onvif
+- platform: ffmpeg
   name: Home CCTV1
-  host: !secret HomeCCTV1IP
-  port: 10080
-  username: !secret HomeCCTV1username
-  password: !secret HomeCCTV1password
+  input: !secret HomeCCTV1URL
+
+  
+  
 #Vstarcam Home 02  
 # - platform: onvif
 #   name: Home CCTV2
@@ -18,7 +27,8 @@
 #   username: !secret HomeCCTV2username
 #   password: !secret HomeCCTV2password 
 #hikvision Home CCTV2
-- platform: ffmpeg
+
+- platform: ffmpeg 
   name: Home CCTV2
   input: !secret HomeCCTV2URL
   
@@ -30,7 +40,12 @@
   username: !secret IPC10username
   password: !secret IPC10password
     
-#Vstarcarm Outdoor  
+
+- platform: local_file #for security warnings 
+  file_path: '/config/tmp/home_cctv1.png'
+  name: "CCTV1_Snapshot"
+  
+#Vstarcarm Outdoor Eliran 
 # - platform: onvif
 #   name: Outdoor CCTV
 #   host: !secret OutdoorCCTVIP
@@ -38,18 +53,11 @@
 #   username: !secret OutdoorCCTVusername
 #   password: !secret OutdoorCCTVpassword
 
-#HIKVISION Outdoor CCTV 
+#HIKVISION Outdoor CCTV 4MP
 # - platform: ffmpeg
 #   name: Outdoor CCTV
 #   input: !secret OutdoorCCTV_02_URL  
 
-- platform: local_file #for security warnings 
-  file_path: '/config/tmp/home_cctv1.png'
-  name: "CCTV1_Snapshot"
-  
 
-# - platform: zoneminder
-
-
-# #Adds support for BlueIris Camera
+# #Adds support for BlueIris Camera stream.
 # - platform: blueiris

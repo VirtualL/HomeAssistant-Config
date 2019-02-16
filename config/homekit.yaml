@@ -11,7 +11,7 @@
       - sensor.humidity_bedroom_0
       - sensor.xiaomi_gateway_illumination
       - sensor.temperature_bedroom_0
-        #Online Devices -By TRACKER
+        
       - device_tracker.homeipad
       - device_tracker.eliraniphone #byIP at DDWT 
       - device_tracker.shiraniphone #shiran
@@ -23,9 +23,10 @@
       #
       - device_tracker.main_server #main server 
       - device_tracker.windows_vm #Windows VM
+      - device_tracker.ipc_10
+      
       - sensor.sensibo1_temp
       - sensor.sensibo1_humidity
-      - device_tracker.ipc_10
       # not in use - using sensibo
       # - script.ac_turn_off
       # - script.ac_turn_on
@@ -39,7 +40,6 @@
       - switch
       - binary_sensor
       
-      
     exclude_entities:
       - light.yeelight_white_f0b4290e4e68 #Duplicate
       - light.yeelight_rgb_286c07106e1b #Duplicate
@@ -47,90 +47,72 @@
       - switch.tv_lg_hdmi1
       - switch.tv_lg_hdmi2
       - switch.tv_lg_hdmi3
+      - switch.tv_lg_vol
       - binary_sensor.floorplan
       - binary_sensor.switch_158d0000d8c836
       - binary_sensor.switch_158d000149b9ab
       - binary_sensor.wall_switch_both_158d0001712d0e
       - binary_sensor.wall_switch_left_158d0001712d0e
       - binary_sensor.wall_switch_right_158d0001712d0e
-      - switch.tv_lg_vol
       - binary_sensor.wall_switch_both_158d0001e119a7
       - binary_sensor.wall_switch_left_158d0001e119a7
       - binary_sensor.wall_switch_right_158d0001e119a7
       - switch.ha_dockermon_cloud9ide
-      - switch.ha_dockermon_hadockermon
+      - switch.ha_dockermon_ha_dockermon
       - switch.ha_dockermon_heimdall
       - switch.ha_dockermon_letsencrypt
       - switch.ha_dockermon_unifi
       - switch.ha_dockermon_unms
   entity_config:
-    ############## GENERAL
-    vacuum.xiaomi_vacuum:
-      name: רוביק
-    ############## LIGHTS
+########################################
+###LIGHT
+########################################  
     #all light. get "display_categories: LIGHT"  by default
     light.sonoff_light:
       name: מטבח
-      
     light.desk_lamp:
       name: מנורת שולחן
-      
-    light.gateway_light_34ce0088d2f7:
+    light.gateway_light:
       name: רכזת
-      
     light.living_room_color_bulb:
       name: סלון ימנית
-    
     light.white_bulb:
       name: סלון שמאלית
-      
     light.philips_bulb:
       name: חדר שירות
-      
     light.sonoff_hallway_light:
       name: מסדרון
-    ##############SWITCH
+    light.bedroom_fan_light:
+      name: חדר שינה
+########################################
+###SWITCH
+########################################  
     #all switch. get "display_categories: SWITCH"  by default
     switch.mqtt_pow2:
       name: מצלמת מטבח
-  
     switch.sonoff_xiaomicctv_switch:
       name: מצלמת סלון
-      
-    switch._mqtt_pow1:
+    switch.mqtt_pow1:
       name: דוד
       type: shower
-      
     switch.xiaomi_powerstrip:
       name: מפצל שקעים
-      
     switch.tv_lg:
       name: טלויזיה
-      
-    # sensor.temperature_bedroom_0:
-    #     name: Temperature 
-    #   description: The Temperature in the living room
-    #   display_categories: TEMPERATURE_SENSOR
-      
-    # sensor.humidity_bedroom_0:
-    #     name: Humidity 
-    #   description: The Humidity in the living room
-    #   display_categories: OTHER
-      
-    ##############SCRIPTS - all script. get "Applies to Scenes"  by default
+########################################
+###SCRIPT
+########################################  
     script.restart_home_assistant:
       name: איתחול הום אסיסטנט
     script.ac_fan_speed:
       name: מהירות מזגן
-    group.allmylights:
-      name: כל התאורה
-    sensor.humidity_bedroom_0:
-      name: לחות בחדר הורים
-    sensor.xiaomi_gateway_illumination:
-      name: עוצמת אור ברכזת
-    sensor.temperature_bedroom_0:
-      name: טמפרטורה בחדר הורים
-    #Online Devices -By TRACKER
+    script.reboot_router:
+      name: Reboot Router
+    script.reboot_AP:
+      name: Reboot AP      
+########################################
+###DEVICE TRACKER 
+########################################
     device_tracker.homeipad:
       name: אייפד
     device_tracker.eliraniphone:
@@ -143,8 +125,6 @@
       name: מנורת מטבח
     device_tracker.sonoffpow2:
       name: מפסק מצלמת מטבח
-    device_tracker.ipc_10:
-      name: 10 מצלמת חוץ
     device_tracker.homecctv:
       name: מצלמת מטבח
     device_tracker.5ccf7f729dd8:
@@ -157,9 +137,37 @@
       name: שרת ראשי
     device_tracker.windows_vm:
       name: וינדוס וירטואל
+    device_tracker.ipc_10:
+      name: 10 מצלמת חוץ
+########################################
+###BINARY SENSOR
+########################################
+    binary_sensor.bi_hom01_motion:
+      name: תנועה מצלמת בית סלון
+    binary_sensor.bi_hom02_motion:
+      name: תנועה מצלמת בית כניסה
+    binary_sensor.bi_ipc10_motion:
+      name: תנועה מצלמת חוץ 10
+    binary_sensor.door_sensor_bedroom:
+      name: דלת חדר הורים
+    binary_sensor.door_sensor_main_entrance:
+      name: דלת ראשית  
     binary_sensor.xiaomi_motion_sensor_hallway:
-      name: תנועה במסדרון
-    script.reboot_router:
-      name: Reboot Router
-    script.backup_ha_and_move_backup_to_unraid:
-      name: Backup Home Assitant
+      name: תנועה במסדרון 
+########################################
+###SENSOR
+########################################         
+    sensor.humidity_bedroom_0:
+      name: לחות בחדר הורים
+    sensor.xiaomi_gateway_illumination:
+      name: עוצמת אור ברכזת
+    sensor.temperature_bedroom_0:
+      name: טמפרטורה בחדר הורים
+########################################
+###GENERAL
+########################################  
+    vacuum.xiaomi_vacuum:
+      name: רוביק
+    group.allmylights:
+      name: כל התאורה
+ 

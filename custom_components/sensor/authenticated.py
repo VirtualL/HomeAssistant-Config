@@ -63,8 +63,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         log = config[CONF_LOG_LOCATION]
     log = str(hass.config.path(LOGFILE))
     out = str(hass.config.path(OUTFILE))
-    add_devices([Authenticated(hass, notify, log, out, exclude,
-                               config[CONF_PROVIDER])])
+    add_devices([Authenticated(hass, notify, log, out, exclude,config[CONF_PROVIDER])])
 
 
 class Authenticated(Entity):

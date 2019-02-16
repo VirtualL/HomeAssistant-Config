@@ -8,8 +8,9 @@
   reboot_router: "bash /config/scripts/RebootRouter.sh"
   reboot_ap: "bash /config/scripts/RebootAP.sh"
   install_after_update_hass: "bash /config/scripts/install_Comp_after_Update.sh"
+  open_rdp_port: "bash /config/scripts/open_rdp_port.sh"
+  close_rdp_port: "bash /config/scripts/close_rdp_port.sh"  
   
-
 ################################################################################
 ## NOT
 ## IN 

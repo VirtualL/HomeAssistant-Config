@@ -1,0 +1,35 @@
+################################################################################
+#
+#FAN
+#
+################################################################################
+#Winter Time -not in use
+################################################################################
+##sonoff ifan02  with MQTT via Tasmota
+################################################################################
+  # - platform: mqtt  
+  #   name: "Bedroom Fan"
+  #   command_topic: "cmnd/sonoff_ifan/FanSpeed"
+  #   speed_command_topic: "cmnd/sonoff_ifan/FanSpeed"    
+  #   state_topic: "stat/sonoff_ifan/RESULT"
+  #   speed_state_topic: "stat/sonoff_ifan/RESULT"
+  #   state_value_template: >
+  #     {% if value_json.FanSpeed is defined %}
+  #       {% if value_json.FanSpeed == 0 -%}0{%- elif value_json.FanSpeed > 0 -%}4{%- endif %}
+  #     {% else %}
+  #       {% if states.fan.master_bedroom_fan.state == 'off' -%}0{%- elif states.fan.master_bedroom_fan.state == 'on' -%}4{%- endif %}
+  #     {% endif %}
+  #   speed_value_template: "{{ value_json.FanSpeed }}"
+  #   availability_topic: tele/sonoff_ifan/LWT
+  #   payload_off: "0"
+  #   payload_on: "4"
+  #   payload_low_speed: "1"
+  #   payload_medium_speed: "2"
+  #   payload_high_speed: "3"
+  #   payload_available: Online
+  #   payload_not_available: Offline
+  #   speeds:
+  #     - 'off'
+  #     - low
+  #     - medium
+  #     - high     
