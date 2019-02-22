@@ -33,12 +33,12 @@
         - switch.tv_lg_hdmi1
         - switch.tv_lg_hdmi2
         - switch.tv_lg_hdmi3
-        - switch.ha_dockermon_cloud9ide
-        - switch.ha_dockermon_ha_dockermon
-        - switch.ha_dockermon_heimdall
-        - switch.ha_dockermon_letsencrypt
-        - switch.ha_dockermon_unifi
-        - switch.ha_dockermon_unms
+        - binary_sensor.ha_dockermon_cloud9ide
+        - binary_sensor.ha_dockermon_ha_dockermon
+        - binary_sensor.ha_dockermon_heimdall
+        - binary_sensor.ha_dockermon_letsencrypt
+        - binary_sensor.ha_dockermon_unifi
+        - binary_sensor.ha_dockermon_unms
         
     entity_config:
 ########################################

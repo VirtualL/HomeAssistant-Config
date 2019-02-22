@@ -1520,8 +1520,8 @@
   initial_state: 'on'
   trigger:
     platform: state #OR State (if one of this switch will turn off , the alert will made)
-    entity_id: switch.ha_dockermon_ha_dockermon,switch.ha_dockermon_letsencrypt,switch.ha_dockermon_unifi,switch.ha_dockermon_heimdall 
-    #switch.ha_dockermon_unms, switch.ha_dockermon_cloud9ide
+    entity_id: binary_sensor.ha_dockermon_ha_dockermon,binary_sensor.ha_dockermon_letsencrypt,binary_sensor.ha_dockermon_unifi,binary_sensor.ha_dockermon_heimdall 
+    #binary_sensor.ha_dockermon_unms, binary_sensor.ha_dockermon_cloud9ide
     to: 'off'
     for:
       minutes: 5

@@ -249,7 +249,7 @@ views:
               - type: custom:card-modder
                 card:          
                   type: picture-elements
-                  image: /local/lovelace/eliran_shiran/eliran_turgeman_01.jpg
+                  image: /local/lovelace/eliran_shiran/eliran_turgeman.jpg
                   elements:
                     - type: state-label
                       entity: device_tracker.eliraniphone
@@ -1429,12 +1429,21 @@ views:
               - type: custom:card-modder
                 card:
                   type: custom:mini-graph-card
-                  entity: sensor.sensibo1_temp
-                  height: 65
-                  line_width: 2
-                  font_size: 70
-                  hours_to_show: 72 #3Days
-                  line_color: '#3498db'
+                  entities:
+                  - entity: sensor.sensibo1_temp
+                    height: 65
+                    line_width: 2
+                    font_size: 70
+                    hours_to_show: 72 #3Days
+                  align_header: right                    
+                  hour24: true
+                  color_thresholds:
+                    - value: 18
+                      color: "#3271db" #blue
+                    - value: 26
+                      color: "#f7d606" #yellow
+                    - value: 30
+                      color: "#3498db" #red
                 style:                 
                   background-image: url("/local/lovelace/background/cardbackk.png")
                   background-repeat: no-repeat
@@ -1447,12 +1456,20 @@ views:
               - type: custom:card-modder
                 card:
                   type: custom:mini-graph-card
-                  entity: sensor.sensibo1_humidity
-                  height: 65
-                  line_width: 2
-                  font_size: 70
-                  hours_to_show: 72 #3Days
-                  line_color: '#e74c3c'
+                  entities:
+                  - entity: sensor.sensibo1_humidity
+                    height: 65
+                    line_width: 2
+                    font_size: 70
+                    hours_to_show: 72 #3Days
+                  align_header: right                    
+                  hour24: true                    
+                  color_thresholds:
+                    - value: 55
+                      color: "#f7d606" #yellow
+                    - value: 60
+                      color: "#3498db" #red
+
                 style:                 
                   background-image: url("/local/lovelace/background/cardbackk.png")
                   background-repeat: no-repeat
@@ -2356,7 +2373,7 @@ views:
           - type: custom:card-modder
             card:
               type: picture-elements
-              image: /local/lovelace/unraid/sonoff_latest_version_03.jpg
+              image: /local/lovelace/unraid/sonoff_latest_version.jpg
               elements:
                 - type: state-label
                   entity: script.check_sonoffs_version
@@ -2804,17 +2821,17 @@ views:
               columns: 6
               title: מצב אפליקציות
               entities:
-                - entity: switch.ha_dockermon_ha_dockermon
+                - entity: binary_sensor.ha_dockermon_ha_dockermon
                   name: DockerM
-                - entity: switch.ha_dockermon_letsencrypt
+                - entity: binary_sensor.ha_dockermon_letsencrypt
                   name: Let'sEncr
-                - entity: switch.ha_dockermon_unifi
+                - entity: binary_sensor.ha_dockermon_unifi
                   name: Unifi
-                - entity: switch.ha_dockermon_unms
+                - entity: binary_sensor.ha_dockermon_unms
                   name: UNMS
-                - entity: switch.ha_dockermon_heimdall
+                - entity: binary_sensor.ha_dockermon_heimdall
                   name: HomeP
-                - entity: switch.ha_dockermon_cloud9ide
+                - entity: binary_sensor.ha_dockermon_cloud9ide
                   name: C9 IDE
             style:
               background-image: url("/local/lovelace/background/cardbackk.png")
@@ -3100,12 +3117,21 @@ views:
               - type: custom:card-modder
                 card:
                   type: custom:mini-graph-card
-                  entity: sensor.sensibo1_temp
-                  height: 65
-                  line_width: 2
-                  font_size: 70
-                  hours_to_show: 72 #3Days
-                  line_color: '#3498db'
+                  entities:
+                  - entity: sensor.sensibo1_temp
+                    height: 65
+                    line_width: 2
+                    font_size: 70
+                    hours_to_show: 72 #3Days
+                  align_header: right                    
+                  hour24: true                    
+                  color_thresholds:
+                    - value: 18
+                      color: "#3271db" #blue
+                    - value: 26
+                      color: "#f7d606" #yellow
+                    - value: 30
+                      color: "#3498db" #red
                 style:                 
                   background-image: url("/local/lovelace/background/cardbackk.png")
                   background-repeat: no-repeat
@@ -3118,12 +3144,19 @@ views:
               - type: custom:card-modder
                 card:
                   type: custom:mini-graph-card
-                  entity: sensor.sensibo1_humidity
-                  height: 65
-                  line_width: 2
-                  font_size: 70
-                  hours_to_show: 72 #3Days
-                  line_color: '#e74c3c'
+                  entities:
+                  - entity: sensor.sensibo1_humidity
+                    height: 65
+                    line_width: 2
+                    font_size: 70
+                    hours_to_show: 72 #3Days
+                  align_header: right                    
+                  hour24: true
+                  color_thresholds:
+                    - value: 55
+                      color: "#f7d606" #yellow
+                    - value: 60
+                      color: "#3498db" #red
                 style:                 
                   background-image: url("/local/lovelace/background/cardbackk.png")
                   background-repeat: no-repeat

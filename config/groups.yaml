@@ -702,9 +702,9 @@ Docker_Container:
   name: קונטיינרים
   view: no
   entities:
-    - switch.ha_dockermon_ha_dockermon
-    - switch.ha_dockermon_letsencrypt
-    - switch.ha_dockermon_unifi
-    - switch.ha_dockermon_unms
-    - switch.ha_dockermon_heimdall
-    - switch.ha_dockermon_cloud9ide
+    - binary_sensor.ha_dockermon_ha_dockermon
+    - binary_sensor.ha_dockermon_letsencrypt
+    - binary_sensor.ha_dockermon_unifi
+    - binary_sensor.ha_dockermon_unms
+    - binary_sensor.ha_dockermon_heimdall
+    - binary_sensor.ha_dockermon_cloud9ide

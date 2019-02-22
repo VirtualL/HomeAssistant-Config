@@ -57,12 +57,12 @@
       - binary_sensor.wall_switch_both_158d0001e119a7
       - binary_sensor.wall_switch_left_158d0001e119a7
       - binary_sensor.wall_switch_right_158d0001e119a7
-      - switch.ha_dockermon_cloud9ide
-      - switch.ha_dockermon_ha_dockermon
-      - switch.ha_dockermon_heimdall
-      - switch.ha_dockermon_letsencrypt
-      - switch.ha_dockermon_unifi
-      - switch.ha_dockermon_unms
+      - binary_sensor.ha_dockermon_cloud9ide
+      - binary_sensor.ha_dockermon_ha_dockermon
+      - binary_sensor.ha_dockermon_heimdall
+      - binary_sensor.ha_dockermon_letsencrypt
+      - binary_sensor.ha_dockermon_unifi
+      - binary_sensor.ha_dockermon_unms
   entity_config:
 ########################################
 ###LIGHT

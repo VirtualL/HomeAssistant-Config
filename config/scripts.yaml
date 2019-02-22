@@ -35,7 +35,7 @@
   update_speedtestnet:
     alias: Update SpeedtestNet info
     sequence:
-      - service: sensor.update_speedtest
+      - service: speedtestdotnet.speedtest
 ############################################### 
   reboot_router:
      alias: 'Reboot Router'

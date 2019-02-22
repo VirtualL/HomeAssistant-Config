@@ -115,17 +115,17 @@
       expose: false
     switch.tv_lg_hdmi3:
       expose: false
-    switch.ha_dockermon_cloud9ide:
+    binary_sensor.ha_dockermon_cloud9ide:
       expose: false
-    switch.ha_dockermon_ha_dockermon:
+    binary_sensor.ha_dockermon_ha_dockermon:
       expose: false
-    switch.ha_dockermon_heimdall:
+    binary_sensor.ha_dockermon_heimdall:
       expose: false
-    switch.ha_dockermon_letsencrypt:
+    binary_sensor.ha_dockermon_letsencrypt:
       expose: false
-    switch.ha_dockermon_unifi:
+    binary_sensor.ha_dockermon_unifi:
       expose: false
-    switch.ha_dockermon_unms:      
+    binary_sensor.ha_dockermon_unms:      
       expose: false
             
 ########################################

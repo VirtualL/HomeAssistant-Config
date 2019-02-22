@@ -182,7 +182,13 @@ logger:
 google:
   client_id: !secret Google_CLIENT_ID
   client_secret: !secret Google_CLIENT_SECRET
-  
+
+####################################### Speedtest.Net #######################################     
+speedtestdotnet:
+  server_id: 9034 #018 Server  
+# zoneminder:
+#   host: 192.168.1.200:8081  
+
 ##############
 ## includes - at external folder
 ############

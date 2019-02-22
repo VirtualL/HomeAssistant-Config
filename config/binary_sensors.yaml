@@ -12,12 +12,27 @@
     #nmap --privileged -p XX YY.YY.YY.YY | grep "open" | wc -l
   - platform: command_line
     name: windows rdp port
-    command: nmap --privileged -p PORT_NUMBER URL | grep "open" | wc -l
+    command: nmap --privileged -p 5050 mozesor.tk | grep "open" | wc -l
     device_class: opening
     payload_on: 1 #"open"
     payload_off: 0 #"closed"
     scan_interval: 300 #5min
-    
+
+################################################################################
+## HA-Dockermon an custom component to support for controlling HA Dockermon.- 
+## https://github.com/custom-components/binary_sensor.hadockermon
+################################################################################
+  - platform: hadockermon
+    host: !secret MainHostIP 
+    port: 8126
+    stats: true
+    containers:
+      - 'unifi'
+      - 'unms'
+      - 'ha-dockermon'
+      - 'letsencrypt'
+      - 'cloud9ide'
+      - 'heimdall'    
 #Not in use for now. TODO
 # #BlueIris MQTT Camera motion alert
 #   - platform: mqtt

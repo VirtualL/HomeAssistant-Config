@@ -261,13 +261,6 @@
           {%- endif -%}
             {{ states.sensor.alarm_clock_minute.state }}
 ####################################### End of ALARM CLOCK#######################################
-####################################### Speedtest.Net ####################################### 
-  - platform: speedtest
-    server_id: 9034 #018 Server
-    monitored_conditions:
-      - ping
-      - download
-      - upload
 #######################################CURRENCIES Rates Via XML rate in Offical BANK OF ISRAEL#######################################
   - platform: command_line
     name: Exchange Date
@@ -511,7 +504,7 @@
     password: !secret 17TrackPassword
     
 ################################### Weather Dark Sky SENSOR #####################################
-  - platform: darksky_dev2
+  - platform: darksky
     api_key: !secret DarkSky_API_KEY
     language: he
     forecast:
@@ -537,7 +530,7 @@
       - pressure
       - visibility
       - apparent_temperature #Feels like
-    update_interval:
+    scan_interval:
       minutes: 5
 ####################################### System Uptime ####################################### 
   - platform: template
@@ -569,12 +562,6 @@
           {{ text }}
 
 ####################################### NOT IN USE ####################################### 
-  # - platform: broadlink
-  #   update_interval: 60
-  #   host: 192.168.1.80
-  #   mac: '78:0F:77:18:19:DF'
-  #   name: RMPro
-    
   # - platform: zoneminder
   #   include_archived: false
     
