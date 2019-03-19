@@ -41,27 +41,27 @@ resources:
     ## https://github.com/thomasloven/lovelace-card-tools
   - url: /customcards/custom_lovelace_cards/card-tools.js #?v=97d985
     type: js    
-
   ## https://github.com/thomasloven/lovelace-layout-card    
   - url: /customcards/custom_lovelace_cards/layout-card.js #?v=2b29c0
     type: js
   ## https://github.com/ljmerza/calendar-card
   - url: /customcards/custom_lovelace_cards/calendar-card/calendar-card.js #?v=2.1.0
     type: js    
-    
-#####################Not showing up at tracker-card############################ 
     ## https://github.com/Gluwc/bar-card
-  - url: /customcards/custom_lovelace_cards/bar-card.js #?v=0.0.3
+  - url: /customcards/custom_lovelace_cards/bar-card.js
     type: js 
+#################################################################    
+#################Not showing up at tracker-card##################
+#################################################################
   ## https://github.com/ofekashery/custom-lovelace/tree/master/israeli-broadcast-schedule-card  
-  - url: /customcards/custom_lovelace_cards/israeli-broadcast-schedule-card.js #?v=0.0.3
+  - url: /customcards/custom_lovelace_cards/israeli-broadcast-schedule-card.js #NO Updater
     type: js
   ## https://github.com/dimagoltsman/ha-custom-lovelace-cards/tree/master/remote-control
   # more files at /local/content-card-remote-control/ 
-  - url: /customcards/custom_lovelace_cards/content-card-remote-control.js
+  - url: /customcards/custom_lovelace_cards/content-card-remote-control.js #NO Updater
     type: js
     ## https://github.com/ofekashery/custom-lovelace/tree/master/ynet-card 
-  - url: /customcards/custom_lovelace_cards/ynet-card.js #?v=0.0.18
+  - url: /customcards/custom_lovelace_cards/ynet-card.js #NO Updater
     type: js
 #################################################################
 #                          Module                               #
@@ -70,18 +70,21 @@ resources:
   - url: /customcards/custom_lovelace_cards/thermostat-card/thermostat-card.js #?v=0.1.1
     type: module  
   ## https://github.com/iammexx/home-assistant-config/tree/master/ui/darksky 
-  - url: /customcards/custom_lovelace_cards/dark-sky-weather-card.js #?v=0.9.4
+  - url: /customcards/custom_lovelace_cards/dark-sky-weather-card.js
     type: module 
   ## https://github.com/kalkih/mini-graph-card
-  - url: /customcards/custom_lovelace_cards/mini-graph-card-bundle.js #?v=0.1.0
+  - url: /customcards/custom_lovelace_cards/mini-graph-card-bundle.js 
     type: module 
   ## https://github.com/kalkih/mini-media-player 
-  - url: /customcards/custom_lovelace_cards/mini-media-player-bundle.js #?v=0.9.8
+  - url: /customcards/custom_lovelace_cards/mini-media-player-bundle.js 
     type: module    
-
-#####################Not showing up at tracker-card############################ 
+  - url: /customcards/custom_lovelace_cards/secondaryinfo-entity-row.js
+    type: module   
+#################################################################    
+#################Not showing up at tracker-card##################
+#################################################################
   ## https://github.com/bramkragten/custom-ui/tree/master/swipe-card  #TODO  
-  - url: /customcards/custom_lovelace_cards/swipe-card/swipe-card.js #?v=2.0.0
+  - url: /customcards/custom_lovelace_cards/swipe-card/swipe-card.js #NO Updater
     type: module
 #############################################################################################################################################
 #                                                                                                                                           # 
@@ -709,6 +712,7 @@ views:
               box-shadow: 3px 3px rgba(0,0,0,0.4)
               overflow: hidden
 
+
 ###############################################################################
 #                         BREAK                                               #
 #     to break the column right there,and move on to the next one             #
@@ -867,12 +871,12 @@ views:
                     color: white
                     font-weight: bold
 
-                - type: state-label
-                  entity: sensor.upstairs_temperature
-                  style:
-                    top: 95%
-                    left: 87%
-                    color: white
+                # - type: state-label
+                #   entity: sensor.upstairs_temperature
+                #   style:
+                #     top: 95%
+                #     left: 87%
+                #     color: white
             style:                 
               border-radius: 20px
               border: solid 1px rgba(100,100,100,0.3)
@@ -2011,10 +2015,10 @@ views:
                 - entity: sensor.ssl_ide
                   name: SSL IDE  
             style:
-              background-image: url("/local/lovelace/background/cardbackk.png")
+              background-image: url("/local/lovelace/security/SSL.png")
               background-repeat: no-repeat
               background-color: rgba(50,50,50,0.3)
-              background-size: 100% 68px
+              background-size: 100% 100%
               border-radius: 20px
               border: solid 1px rgba(100,100,100,0.3)
               box-shadow: 3px 3px rgba(0,0,0,0.4)
@@ -2072,8 +2076,12 @@ views:
               title: מכשירי אבטחה
               show_header_toggle: false
               entities:
-                - binary_sensor.door_sensor_main_entrance
-                - binary_sensor.xiaomi_motion_sensor_hallway
+                - entity: binary_sensor.door_sensor_main_entrance
+                  type: "custom:secondaryinfo-entity-row"
+                  secondary_info: "מצב סוללה:[[ binary_sensor.door_sensor_main_entrance.attributes.battery_level ]]%"
+                - entity: binary_sensor.xiaomi_motion_sensor_hallway
+                  type: "custom:secondaryinfo-entity-row"
+                  secondary_info: "מצב סוללה:[[ binary_sensor.xiaomi_motion_sensor_hallway.attributes.battery_level ]]%"
                 - type: divider
                 - device_tracker.sonoffpow2
                 - device_tracker.homecctv
@@ -2481,11 +2489,11 @@ views:
                     background-color: rgb(54, 65, 78)
                     opacity: 0.8
                 - type: state-icon
-                  entity: sensor.time_online_ha
+                  entity: sensor.hass_uptime
                   style: {top: 55%, left: 88%}
                 - type: state-label
-                  entity: sensor.time_online_ha
-                  prefix: 'זמן ריצת הום-אסיסטנט: '
+                  entity: sensor.hass_uptime
+                  prefix: 'זמן ריצת הום-אסיסטנט : '
                   style:
                     direction: rtl
                     top: 55%
@@ -2495,6 +2503,7 @@ views:
                     font-weight: bold
                     background-color: rgb(54, 65, 78)
                     opacity: 0.8
+
                 - type: state-label
                   entity: device_tracker.main_server #902b343ecbfa #main server 
                   prefix: 'שרת ראשי: '
@@ -2539,7 +2548,7 @@ views:
               - type: custom:bar-card
                 title: 'ניצול מעבד'
                 entity: sensor.processor_use
-                from: right
+                direction: right
                 width: 100%
                 min: 0
                 max: 100
@@ -2560,9 +2569,9 @@ views:
                   border-radius: 20px
         
               - type: custom:bar-card
-                title: 'טמפרטורה מעבד'
+                title: 'טמפרטורת מעבד'
                 entity: sensor.cpu_temp
-                from: right
+                direction: right
                 width: 100%
                 min: 0
                 max: 90
@@ -2585,7 +2594,7 @@ views:
           - type: custom:bar-card
             title: 'ניצול זכרון'
             entity: sensor.memory_use_percent
-            from: right
+            direction: right
             width: 100%
             title_position: inside
             height: 50px
@@ -2606,7 +2615,7 @@ views:
           - type: custom:bar-card
             title: 'ניצול נפח אחסון ססדי'
             entity: sensor.ssd_usage
-            from: right
+            direction: right
             width: 100%
             title_position: inside
             height: 50px
@@ -2627,7 +2636,7 @@ views:
           - type: custom:bar-card
             title: 'ניצול נפח אחסון דיסק ראשי'
             entity: sensor.main_hdd_usage
-            from: right
+            direction: right
             width: 100%
             title_position: inside
             height: 50px
@@ -2649,7 +2658,7 @@ views:
               - type: custom:bar-card
                 title: 'SSD' #Evo 860
                 entity: sensor.hdd_sdb_temp
-                from: right
+                direction: right
                 min: 0
                 max: 60
                 width: 100%
@@ -2673,7 +2682,7 @@ views:
                 max: 70
                 width: 100%
                 title_position: inside
-                from: right
+                direction: right
                 severity:
                 - value: 55 #till 55
                   hue: 90 #green
@@ -2693,7 +2702,7 @@ views:
                 max: 70
                 width: 100%
                 title_position: inside
-                from: right
+                direction: right
                 severity:
                 - value: 55 #till 55
                   hue: 90 #green
@@ -2717,10 +2726,10 @@ views:
               image: /local/lovelace/unraid/home_assistant.png
               elements:
                 - type: state-icon
-                  entity: sensor.time_online_ha
+                  entity: sensor.hass_uptime
                   style: {left: 15%, top: 10%, --iron-icon-height: 200%, --iron-icon-width: 200% }
                 - type: state-label
-                  entity: sensor.time_online_ha
+                  entity: sensor.hass_uptime
                   prefix: 'זמן ריצת הום-אסיסטנט: '
                   style:
                     direction: rtl
@@ -2825,7 +2834,7 @@ views:
                   name: DockerM
                 - entity: binary_sensor.ha_dockermon_letsencrypt
                   name: Let'sEncr
-                - entity: binary_sensor.ha_dockermon_unifi
+                - entity: binary_sensor.ha_dockermon_unifi_controller
                   name: Unifi
                 - entity: binary_sensor.ha_dockermon_unms
                   name: UNMS
@@ -3511,16 +3520,73 @@ views:
 #                     Home - Work events Card                   #
 #                                                               #
 #################################################################
-      - type: custom:card-modder
-        card:
-          type: "custom:calendar-card"
-          title: "לוח שנה"
-          numberOfDays: 14
-          progressBar: true
-          entities:
-            - calendar.work
-            - calendar.icloudhome
-        style:
-          --paper-card-background-color: rgba(50, 50, 50, 0.3)
-          border-radius: 20px
-          box-shadow: 3px 3px rgba(0,0,0,0.4)
+      # - type: custom:card-modder
+      #   card:
+      #     type: "custom:calendar-card"
+      #     title: "לוח שנה"
+      #     numberOfDays: 14
+      #     progressBar: true
+      #     entities:
+      #       - calendar.work
+      #       - calendar.icloudhome
+      #   style:
+      #     --paper-card-background-color: rgba(50, 50, 50, 0.3)
+      #     border-radius: 20px
+      #     box-shadow: 3px 3px rgba(0,0,0,0.4)
+          
+      - type: custom:dark-sky-weather-card
+        entity_sun: sun.sun
+        entity_daily_summary: sensor.dark_sky_daily_summary
+        entity_current_conditions: sensor.dark_sky_icon
+        entity_humidity: sensor.dark_sky_humidity
+        entity_pressure: sensor.dark_sky_pressure
+        entity_temperature: sensor.dark_sky_temperature
+        entity_visibility: sensor.dark_sky_visibility
+        entity_wind_bearing: sensor.dark_sky_wind_bearing
+        entity_wind_speed: sensor.dark_sky_wind_speed
+        entity_forecast_high_temp_1: sensor.dark_sky_daytime_high_temperature_1
+        entity_forecast_high_temp_2: sensor.dark_sky_daytime_high_temperature_2
+        entity_forecast_high_temp_3: sensor.dark_sky_daytime_high_temperature_3
+        entity_forecast_high_temp_4: sensor.dark_sky_daytime_high_temperature_4
+        entity_forecast_high_temp_5: sensor.dark_sky_daytime_high_temperature_5
+        entity_forecast_low_temp_1: sensor.dark_sky_overnight_low_temperature_1
+        entity_forecast_low_temp_2: sensor.dark_sky_overnight_low_temperature_2
+        entity_forecast_low_temp_3: sensor.dark_sky_overnight_low_temperature_3
+        entity_forecast_low_temp_4: sensor.dark_sky_overnight_low_temperature_4
+        entity_forecast_low_temp_5: sensor.dark_sky_overnight_low_temperature_5
+        entity_forecast_icon_1: sensor.dark_sky_icon_1
+        entity_forecast_icon_2: sensor.dark_sky_icon_2
+        entity_forecast_icon_3: sensor.dark_sky_icon_3
+        entity_forecast_icon_4: sensor.dark_sky_icon_4
+        entity_forecast_icon_5: sensor.dark_sky_icon_5
+        entity_summary_1: sensor.dark_sky_summary_1
+        entity_summary_2: sensor.dark_sky_summary_2
+        entity_summary_3: sensor.dark_sky_summary_3
+        entity_summary_4: sensor.dark_sky_summary_4
+        entity_summary_5: sensor.dark_sky_summary_5
+        locale: he
+        static_icons: false
+        sunset: true
+        tooltips: true
+        tooltip_bg_color: '#323232'
+        tooltip_border_color: '#646464'
+        tooltip_border_width: 2.5
+        tooltip_caret_size: 10
+        tooltip_fg_color: '#fff'
+        tooltip_left_offset: -5
+        tooltip_width: 100
+        entity_apparent_temp: sensor.dark_sky_apparent_temperature #Feels Like #TODO
+        entity_current_text: sensor.dark_sky_summary_0 #sensor.imsweather
+        current_text_font_size: 0.8 em
+        current_text_top_margin: 65px
+        current_text_left_pos: 4 em
+        entity_daytime_high: sensor.dark_sky_daytime_high_temperature_0
+        entity_pop: sensor.dark_sky_precip_probability
+        entity_pop_intensity: sensor.dark_sky_precip_intensity #משקעים
+        entity_pop_1: sensor.dark_sky_precip_probability_1
+        entity_pop_2: sensor.dark_sky_precip_probability_2
+        entity_pop_3: sensor.dark_sky_precip_probability_3
+        entity_pop_4: sensor.dark_sky_precip_probability_4
+        entity_pop_5: sensor.dark_sky_precip_probability_5
+        # slot_l2: remove
+        # slot_r3: remove

@@ -152,3 +152,7 @@ exclude:
     - sensor.sonoff_xiaomicctv_version
     - binary_sensor.floorplan
     - sensor.time_of_day
+    - sensor.time_online_ha
+    - sensor.hass_uptime
+    - sensor.unraid_uptime
+    - sensor.last_boot

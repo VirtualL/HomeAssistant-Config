@@ -59,12 +59,13 @@ class CardModder extends cardTools.litElement() {
     let root = this.card;
     let target = null;
     let styles = null;
-    if(this.classList.contains("element")) {
-      target = this.card;
-      root = this;
-    }
     while(!target) {
       await root.updateComplete;
+      if(root._cardModder) {
+        target = root._cardModder.target;
+        styles = root._cardModder.styles;
+        continue;
+      }
       if(root.querySelector("style"))
         styles = root.querySelector("style");
       if(root.querySelector("ha-card")) {
@@ -92,6 +93,11 @@ class CardModder extends cardTools.litElement() {
         continue;
       }
       break;
+    }
+    if(this.classList.contains("element")) {
+      if(!target)
+        target = this.card;
+      root = this;
     }
     if(!target && this.attempts) // Try again
       setTimeout(() => this._cardMod(), 100);

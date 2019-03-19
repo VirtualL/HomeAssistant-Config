@@ -171,16 +171,20 @@ sensor.main_hdd_usage:
 sensor.unraid_uptime:
   friendly_name: זמן מאז אתחול המערכת
   icon: mdi:desktop-tower
-   
+
 sensor.home_assistant_v2_db:
   friendly_name: גודל הדאטה בייס
   icon: mdi:database
   unit_of_measurement: 'מגה-ביט'
   
 sensor.time_online_ha:
+  friendly_name:  זמן פעילות הום-אסיסטנט בדקות
+  icon: mdi:home-assistant
+  unit_of_measurement: 'דקות'
+  
+sensor.hass_uptime:
   friendly_name: זמן פעילות הום-אסיסטנט
   icon: mdi:home-assistant
-  unit_of_measurement: 'ימים'
 
 sensor.ssl_hass:
   friendly_name: זמן לסיום SSL HASS

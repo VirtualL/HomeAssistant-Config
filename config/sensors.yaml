@@ -24,6 +24,7 @@
   #Time that Home asisstant is Up and runing #TODO
   - platform: uptime
     name: Time Online HA
+    unit_of_measurement: minutes #days
     
   #Current time and date formats 
   - platform: time_date
@@ -532,7 +533,7 @@
       - apparent_temperature #Feels like
     scan_interval:
       minutes: 5
-####################################### System Uptime ####################################### 
+#############################Unraid Server System Uptime ################################## 
   - platform: template
     sensors:      
       unraid_uptime:
@@ -548,18 +549,122 @@
             {% set hours = (hours % 24) %}
             {% set days = (days % 7) %}
           
-            {% macro phrase(value, name) %}
-                 {%- set value = value %}
-                 {%- set end = 's' if value > 1 else '' %}
-                 {{- '{} {}{}'.format(value, name, end) if value | int > 0 else '' }}
-            {%- endmacro %}
+            {%- if weeks > 0 -%}
+              {%- if weeks == 1 -%}
+                שבוע אחד
+              {%- else -%}
+                {{ weeks }} שבועות
+              {%- endif -%}
+            {%- endif -%}
+            
+            {%- if days > 0 -%}
+              {%- if weeks > 0 -%}
+                {{ ' ו' }}
+              {%- endif -%}
+              {%- if days == 1 -%}
+                יום אחד
+              {%- else -%}
+                {{ days }} ימים
+              {%- endif -%}
+            {%- endif -%}
+            
+            {%- if hours > 0 -%}
+              {%- if weeks > 0 or days > 0 -%}
+                {{ ' ו' }}
+              {%- endif -%}
+              {%- if hours == 1 -%}
+                שעה אחת
+              {%- else -%}
+                {{ hours }} שעות
+              {%- endif -%}
+            {%- endif -%}
+            
+            {%- if minutes > 0 -%}
+              {%- if weeks > 0 or days > 0 or hours > 0 -%}
+                {{ ' ו' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                דקה
+              {%- else -%}
+                {{ minutes }} דקות
+              {%- endif -%}
+            {%- endif -%}
+            
+        # value_template: >
+        #   {% set up_time = as_timestamp(now()) - as_timestamp(states('sensor.last_boot')) %}
+          
+        #     {% set minutes = (up_time // 60) | int %}
+        #     {% set hours = (minutes // 60) %}
+        #     {% set days = (hours // 24) %}
+        #     {% set weeks = (days // 7) %}
+        #     {% set minutes = (minutes % 60) %}
+        #     {% set hours = (hours % 24) %}
+        #     {% set days = (days % 7) %}
+          
+        #     {% macro phrase(value, name) %}
+        #         {%- set value = value %}
+        #         {%- set end = '' if value > 1 else '' %}
+        #         {{- '{} {}{}'.format(value, name, end) if value | int > 0 else '' }}
+        #     {%- endmacro %}
                       
-            {% set text = [ phrase(weeks, 'week'), phrase(days, 'day'), phrase(hours, 'hr'), phrase(minutes, 'min') ] | select('!=','') | list | join(', ') %}
+        #     {% set text = [ phrase(weeks, 'שבועות'), phrase(days, 'ימים'), phrase(hours, 'שעות'), phrase(minutes, 'דקות') ] | select('!=','') | list | join(', ') %}
           
-          {% set last_comma = text.rfind(',') %}
-          {% set text = text[:last_comma] + ' and' + text[last_comma + 1:] %}
+        #   {% set last_comma = text.rfind(',') %}
+        #   {% set text = text[:last_comma] + ' ו' + text[last_comma + 1:] %}
           
-          {{ text }}
+        #   {{ text }}          
+      hass_uptime:
+        friendly_name: Hass Uptime
+        value_template: >-
+            {% set minutes = (states('sensor.time_online_ha')) | int %}
+            {% set hours = (minutes // 60) %}
+            {% set days = (hours // 24) %}
+            {% set weeks = (days // 7) %}
+            {% set minutes = (minutes % 60) %}
+            {% set hours = (hours % 24) %}
+            {% set days = (days % 7) %}
+
+            {%- if weeks > 0 -%}
+              {%- if weeks == 1 -%}
+                שבוע אחד
+              {%- else -%}
+                {{ weeks }} שבועות
+              {%- endif -%}
+            {%- endif -%}
+            
+            {%- if days > 0 -%}
+              {%- if weeks > 0 -%}
+                {{ ' ו' }}
+              {%- endif -%}
+              {%- if days == 1 -%}
+                יום אחד
+              {%- else -%}
+                {{ days }} ימים
+              {%- endif -%}
+            {%- endif -%}
+            
+            {%- if hours > 0 -%}
+              {%- if weeks > 0 or days > 0 -%}
+                {{ ' ו' }}
+              {%- endif -%}
+              {%- if hours == 1 -%}
+                שעה אחת
+              {%- else -%}
+                {{ hours }} שעות
+              {%- endif -%}
+            {%- endif -%}
+            
+            {%- if minutes > 0 -%}
+              {%- if weeks > 0 or days > 0 or hours > 0 -%}
+                {{ ' ו' }}
+              {%- endif -%}
+              {%- if minutes == 1 -%}
+                דקה
+              {%- else -%}
+                {{ minutes }} דקות
+              {%- endif -%}
+            {%- endif -%}
+
 
 ####################################### NOT IN USE ####################################### 
   # - platform: zoneminder

@@ -27,7 +27,7 @@
     port: 8126
     stats: true
     containers:
-      - 'unifi'
+      - 'unifi-controller'
       - 'unms'
       - 'ha-dockermon'
       - 'letsencrypt'
