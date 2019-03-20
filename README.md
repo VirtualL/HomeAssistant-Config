@@ -170,12 +170,15 @@ And of course some cameras that support [ONVIF](https://www.home-assistant.io/co
 <img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_02.png width="1700">
 
 <img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_04.png width="1700">
+
 #### Security and Cameras :
 <img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_05.png width="1700">
 
 <img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_08.png width="1700">
+
 #### Boiler and AC :
-<img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_06.png width="500"> <img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_07.png width="500"> 
+<img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_06.png width="400"> <img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_07.png width="400">
+
 ##### DarkSky Weather Card :
 <img src=extras/pictures/Lovelace_Screenshots/dark-sky-weather-card.gif >
 
