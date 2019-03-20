@@ -157,22 +157,42 @@ And of course some cameras that support [ONVIF](https://www.home-assistant.io/co
 **Localization-All my Project has been localized to Hebrew  -But all the Code are Readable in English and Most of the Hebrew Staff Made on the Customize.yaml (names, units, etc...) - so feel free to get ideas from my Project :)**
 
 
-### Screenshots: 
-(will be updated with Lovelace UI soon)
+### Screenshots: [Lovelace UI](https://www.home-assistant.io/lovelace)
+
 
 #### The Main Page:
-<img src=extras/pictures/Screenshot00.jpg width="1700">
-
-<img src=extras/pictures/Screenshot01.jpg width="1700">
+<img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_01.png width="1700">
 
 #### Server and Devices Status :
-<img src=extras/pictures/Screenshot02.jpg width="1700"> 
+<img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_03.png width="1700">
+
+#### Living room and Media :
+<img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_02.png width="1700">
+
+<img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_04.png width="1700">
+#### Security and Cameras :
+<img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_05.png width="1700">
+
+<img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_08.png width="1700">
+#### Boiler and AC :
+<img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_06.png width="500"> <img src=extras/pictures/Lovelace_Screenshots/LovelaceUI_07.png width="500"> 
+##### DarkSky Weather Card :
+<img src=extras/pictures/Lovelace_Screenshots/dark-sky-weather-card.gif >
+
+### Screenshots (States UI): 
+#### The Main Page:
+<img src=extras/pictures/Screenshot00.jpg width="1000">
+
+<img src=extras/pictures/Screenshot01.jpg width="1000">
+
+#### Server and Devices Status :
+<img src=extras/pictures/Screenshot02.jpg width="1000"> 
 
 #### Main Page with "Dark_theme":
-<img src=extras/pictures/Screenshot03.jpg width="1700"> 
+<img src=extras/pictures/Screenshot03.jpg width="1000"> 
 
 #### FloorPlan (First sketch):
-<img src=extras/pictures/Screenshot04.jpg width="1700"> 
+<img src=extras/pictures/Screenshot04.jpg width="1000"> 
 
 
 
