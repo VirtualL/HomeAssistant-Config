@@ -13,12 +13,12 @@
       - sensor.temperature_bedroom_0
         
       - device_tracker.homeipad
-      - device_tracker.eliraniphone #byIP at DDWT 
-      - device_tracker.shiraniphone #shiran
+      - device_tracker.eliran_iphone_wifi #byIP at DDWT 
+      - device_tracker.shiran_iphone_wifi #shiran
       - device_tracker.xiaomigateway
       - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
       - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
-      - device_tracker.homecctv #HomeCCTV VStarcam 360 
+      - device_tracker.homecctv_01 #HomeCCTV VStarcam 360 
       - device_tracker.rockrobo #Xiaomi Vaccum Cleaner Gen1
       #
       - device_tracker.main_server #main server 
@@ -115,9 +115,9 @@
 ########################################
     device_tracker.homeipad:
       name: אייפד
-    device_tracker.eliraniphone:
+    device_tracker.eliran_iphone_wifi:
       name: אלירן
-    device_tracker.shiraniphone:
+    device_tracker.shiran_iphone_wifi:
       name: שירן
     device_tracker.xiaomigateway:
       name: רכזת
@@ -125,7 +125,7 @@
       name: מנורת מטבח
     device_tracker.sonoffpow2:
       name: מפסק מצלמת מטבח
-    device_tracker.homecctv:
+    device_tracker.homecctv_01:
       name: מצלמת מטבח
     device_tracker.5ccf7f729dd8:
       name: מפסק מצלמת סלון

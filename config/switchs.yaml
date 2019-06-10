@@ -108,6 +108,21 @@
         command_on: 'JgBQAAABJ5QTEhQSEjYUERUQFBEUERQRFDUUNRUQFDYUNRU1FDUTNxU1FBAWDxU1FQ8WDxYPFRAVEBU0FTUVEBU0FTUVNBY0FQAFIgABJ0oWAA0FAAAAAAAAAAA='
 
 ################################################################################
+## HA-Dockermon an custom component to support for controlling HA Dockermon.- 
+## https://github.com/custom-components/switch.hadockermon
+################################################################################
+  - platform: hadockermon
+    host: !secret MainHostIP 
+    port: 8126
+    containers:
+      - 'unifi-controller'
+      - 'unms'
+      - 'ha-dockermon'
+      - 'letsencrypt'
+      - 'code-server' #vscode
+      - 'eclipse-mosquitto' #mqtt
+      - 'heimdall'    
+################################################################################
 ## NOT
 ## IN 
 ## USE

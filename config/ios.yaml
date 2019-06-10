@@ -35,34 +35,6 @@
             destructive: no
             behavior: 'default'
             
-      - name: presenceaction
-        identifier: 'modifymypresence' #(MUST BE LOWER CASE)
-        actions:
-          - identifier: 'ALLMYLIGHTS_OFF' #(MUST BE UPPER CASE)
-            title: 'כבה את כל האורות בבית'
-            activationMode: 'background'
-            authenticationRequired: no
-            destructive: yes #yes for red color
-            behavior: 'default'
-          - identifier: 'ONLY_KITCHEN_LIGHT_ON' #(MUST BE UPPER CASE)
-            title: 'השאר במטבח בלבד'
-            activationMode: 'background'
-            authenticationRequired: no
-            destructive: no
-            behavior: 'default'
-          - identifier: 'PAUSEPRESENCEMODE' #(MUST BE UPPER CASE)
-            title: 'השהה מצב רדנומלי לשעתיים'
-            activationMode: 'background'
-            authenticationRequired: no
-            destructive: no #yes for red color
-            behavior: 'default'
-          - identifier: 'RESETHA' #(MUST BE UPPER CASE)
-            title: 'HA הפעל מחדש את'
-            activationMode: 'background'
-            authenticationRequired: no
-            destructive: yes #yes for red color
-            behavior: 'default'
-            
       - name: cctv
         identifier: 'modifymycctvswitch' #(MUST BE LOWER CASE)
         actions:

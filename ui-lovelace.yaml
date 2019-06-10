@@ -1,91 +1,103 @@
 resources: 
-###Resource url
-#This version of custom_updater will add another endpoint to your HA instance /customcards/
-#the goal of this is to not use /local/ which is designed for static files.
-#In this version you NEED to change your resource url's from /local/ to /customcards/ for all cards that you update with this component.
-#On your filesystem you will still place the cards under /www
-#this change is only for under resources in your lovelace config.
-# old example:
-# resources: 
-#   - url: /local/tracker-card.js?v=0.3.0
-#     type: js
-    
-# new example:
-# resources: 
-#   - url: /customcards/tracker-card.js
-#     type: js
+############# MOVE FROM "custom_updater" TO "HACS"!!! ##########################
+## https://custom-components.github.io/hacs/
+## BASICALLY YOU NEED TO ADD EVERY CUSTOM REPO TO HACS 
+## AND CHANGE ALL URL FROM:" /customcards/custom_lovelace_cards/XXXXXXXXX"
+## TO "/community_plugin/XXXXXXXXX/XXXXXXXXX.js" 
+## More info at: https://custom-components.github.io/hacs/#add-custom-repos
+################################################################################
+
 #################################################################
 #                             JS                                #
-#################################################################   
-  ## https://github.com/thomasloven/lovelace-card-modder 
-  - url: /customcards/custom_lovelace_cards/card-modder.js #?v=c7fa10
+################################################################# 
+## https://github.com/thomasloven/lovelace-card-modder 
+  - url: /community_plugin/lovelace-card-modder/card-modder.js
     type: js
-  ## https://github.com/ciotlosm/custom-lovelace/tree/master/monster-card
-  - url: /customcards/custom_lovelace_cards/monster-card.js #?v=0.2.3
+## https://github.com/custom-cards/monster-card
+  - url: /community_plugin/monster-card/monster-card.js
     type: js
-  ## https://github.com/custom-cards/vertical-stack-in-card  
-  - url: /customcards/custom_lovelace_cards/vertical-stack-in-card.js #?v=v0.1.1
+## https://github.com/custom-cards/vertical-stack-in-card  
+  - url: /community_plugin/vertical-stack-in-card/vertical-stack-in-card.js
     type: js
-  ## https://github.com/custom-cards/tracker-card  
-  - url: /customcards/custom_lovelace_cards/tracker-card.js #?v=0.3.2
+## https://github.com/custom-cards/state-attribute-element
+  - url: /community_plugin/state-attribute-element/state-attribute-element.js
     type: js
-    ## https://github.com/custom-cards/state-attribute-element
-  - url: /customcards/custom_lovelace_cards/state-attribute-element.js #?v=0.2.0
+## https://github.com/custom-cards/text-element
+  - url: /community_plugin/text-element/text-element.js
     type: js
-  ## https://github.com/custom-cards/text-element
-  - url: /customcards/custom_lovelace_cards/text-element.js #?v=0.0.2
+## https://github.com/thomasloven/lovelace-card-tools
+  - url: /community_plugin/lovelace-card-tools/card-tools.js    
     type: js    
-    ## https://github.com/thomasloven/lovelace-fold-entity-row
-  - url: /customcards/custom_lovelace_cards/fold-entity-row.js #?v=6d11d3
+## https://github.com/thomasloven/lovelace-layout-card    
+  - url: /community_plugin/lovelace-layout-card/layout-card.js
     type: js
-    ## https://github.com/thomasloven/lovelace-card-tools
-  - url: /customcards/custom_lovelace_cards/card-tools.js #?v=97d985
-    type: js    
-  ## https://github.com/thomasloven/lovelace-layout-card    
-  - url: /customcards/custom_lovelace_cards/layout-card.js #?v=2b29c0
+## https://github.com/ljmerza/calendar-card
+  - url: /community_plugin/calendar-card/calendar-card.js
     type: js
-  ## https://github.com/ljmerza/calendar-card
-  - url: /customcards/custom_lovelace_cards/calendar-card/calendar-card.js #?v=2.1.0
-    type: js    
-    ## https://github.com/Gluwc/bar-card
-  - url: /customcards/custom_lovelace_cards/bar-card.js
-    type: js 
-#################################################################    
-#################Not showing up at tracker-card##################
-#################################################################
-  ## https://github.com/ofekashery/custom-lovelace/tree/master/israeli-broadcast-schedule-card  
-  - url: /customcards/custom_lovelace_cards/israeli-broadcast-schedule-card.js #NO Updater
+## https://github.com/custom-cards/username-element
+  - url: /community_plugin/username-element/username-element.js
     type: js
-  ## https://github.com/dimagoltsman/ha-custom-lovelace-cards/tree/master/remote-control
-  # more files at /local/content-card-remote-control/ 
-  - url: /customcards/custom_lovelace_cards/content-card-remote-control.js #NO Updater
-    type: js
-    ## https://github.com/ofekashery/custom-lovelace/tree/master/ynet-card 
-  - url: /customcards/custom_lovelace_cards/ynet-card.js #NO Updater
+##  https://github.com/Letherwin/Todoist-List
+  - url: /community_plugin/todoist-list/todoist-list.js
     type: js
 #################################################################
 #                          Module                               #
-#################################################################s
-  ## https://github.com/ciotlosm/custom-lovelace/tree/master/thermostat-card    
-  - url: /customcards/custom_lovelace_cards/thermostat-card/thermostat-card.js #?v=0.1.1
+#################################################################
+## https://github.com/kalkih/mini-graph-card
+  - url: /community_plugin/mini-graph-card/mini-graph-card.js
+    type: module
+## https://github.com/kalkih/mini-media-player 
+  - url: /community_plugin/mini-media-player/mini-media-player.js
+    type: module
+    
+#*****************************************************************************#
+#*******************NOT SHOWING UP AT HACS ADDED MANUALLY*********************#
+#*******************    NEED TO UPDATE MANUALLY !!!!     *********************#
+#*****************************************************************************#
+###### custom_components
+# sensor.authenticated
+# CUSTOM UI - customizer Update via script "UpdateCustomUI.sh"   https://github.com/andrey-git/home-assistant-custom-ui 
+##############################################
+#                    JS                      #
+##############################################
+## https://github.com/ofekashery/custom-lovelace/tree/master/israeli-broadcast-schedule-card  
+  - url: /customcards/custom_lovelace_cards/israeli-broadcast-schedule-card.js #NO Updater
+    type: js
+## https://github.com/dimagoltsman/ha-custom-lovelace-cards/tree/master/remote-control
+  # more files at /local/content-card-remote-control/ 
+  - url: /customcards/custom_lovelace_cards/content-card-remote-control.js #No Updater
+    type: js
+##############################################
+#                  Module                    #
+##############################################
+## https://github.com/ciotlosm/custom-lovelace/tree/master/thermostat-card    
+  - url: /customcards/custom_lovelace_cards/thermostat-card/thermostat-card.js
     type: module  
-  ## https://github.com/iammexx/home-assistant-config/tree/master/ui/darksky 
+## https://github.com/iammexx/home-assistant-config/tree/master/ui/darksky 
   - url: /customcards/custom_lovelace_cards/dark-sky-weather-card.js
     type: module 
-  ## https://github.com/kalkih/mini-graph-card
-  - url: /customcards/custom_lovelace_cards/mini-graph-card-bundle.js 
-    type: module 
-  ## https://github.com/kalkih/mini-media-player 
-  - url: /customcards/custom_lovelace_cards/mini-media-player-bundle.js 
-    type: module    
-  - url: /customcards/custom_lovelace_cards/secondaryinfo-entity-row.js
-    type: module   
-#################################################################    
-#################Not showing up at tracker-card##################
-#################################################################
-  ## https://github.com/bramkragten/custom-ui/tree/master/swipe-card  #TODO  
-  - url: /customcards/custom_lovelace_cards/swipe-card/swipe-card.js #NO Updater
-    type: module
+
+#TODO check if need to be used
+# https://github.com/elad-bar/ha-blueiris
+#     ## https://github.com/thomasloven/lovelace-fold-entity-row
+#   - url: /customcards/custom_lovelace_cards/fold-entity-row.js #?v=6d11d3
+#     type: js
+#     ## https://github.com/Gluwc/bar-card
+#   - url: /customcards/custom_lovelace_cards/bar-card.js
+#     type: js 
+#     ## https://github.com/ofekashery/custom-lovelace/tree/master/ynet-card 
+#   - url: /customcards/custom_lovelace_cards/ynet-card.js #NO Updater
+#     type: js
+#   - url: /customcards/custom_lovelace_cards/secondaryinfo-entity-row.js
+#     type: module   
+##     https://github.com/kalkih/extended-entity-row
+#     ## https://github.com/custom-cards/timer-card
+#   - url: /customcards/custom_lovelace_cards/timer-card.js
+#     type: module            
+#   ## https://github.com/bramkragten/custom-ui/tree/master/swipe-card  #TODO  
+#   - url: /customcards/custom_lovelace_cards/swipe-card/swipe-card.js #NO Updater
+#     type: module
+
 #############################################################################################################################################
 #                                                                                                                                           # 
 #                                                               VIEW 1 - HOME                                                               #
@@ -103,6 +115,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
+        column_width: 250
         cards:
     ####################################################################
     #                                                                  #
@@ -242,6 +255,151 @@ views:
               border: solid 1px rgba(100,100,100,0.3)
               box-shadow: 3px 3px rgba(0,0,0,0.4)
               overflow: hidden
+
+
+          - type: custom:card-modder
+            card:
+              type: glance
+              title: iOS Eliran          
+              columns: 3
+              entities:
+                - device_tracker.eliran_iphone
+                - sensor.activity_1
+                - sensor.battery_level_1
+                - sensor.battery_state_1
+                - sensor.average_active_pace_1
+                - sensor.distance_1
+                - sensor.floors_ascended_1
+                - sensor.floors_descended_1
+                - sensor.steps_1
+                - sensor.bssid_1
+                - sensor.sim_1
+                - sensor.ssid_1
+                - sensor.cellular_provider_1
+                - sensor.last_update_trigger_1
+                - sensor.geocoded_location_1
+                
+            style:
+              background-image: url("/local/lovelace/background/cardbackk.png")
+              background-repeat: no-repeat
+              background-color: rgba(50,50,50,0.3)
+              background-size: 100% 68px
+              border-radius: 20px
+              border: solid 1px rgba(100,100,100,0.3)
+              box-shadow: 3px 3px rgba(0,0,0,0.4)
+              overflow: hidden  
+              
+          - type: custom:card-modder
+            card:
+              type: glance
+              title: iOS Shiran          
+              columns: 3
+              entities:
+                - device_tracker.shiran_iphone
+                - sensor.activity_2
+                - sensor.battery_level_2
+                - sensor.battery_state_2
+                - sensor.average_active_pace_2
+                - sensor.distance_2
+                - sensor.floors_ascended_2
+                - sensor.floors_descended_2
+                - sensor.steps_2
+                - sensor.bssid_2
+                - sensor.connection_type_2
+                - sensor.ssid_2
+                - sensor.cellular_provider_2
+                - sensor.last_update_trigger_2
+                - sensor.geocoded_location_2
+                
+            style:
+              background-image: url("/local/lovelace/background/cardbackk.png")
+              background-repeat: no-repeat
+              background-color: rgba(50,50,50,0.3)
+              background-size: 100% 68px
+              border-radius: 20px
+              border: solid 1px rgba(100,100,100,0.3)
+              box-shadow: 3px 3px rgba(0,0,0,0.4)
+              overflow: hidden  
+          - type: custom:card-modder
+            card:
+              type: glance
+              title: iOS iPad          
+              columns: 3
+              entities:
+                - device_tracker.smarthome_ipad
+                - sensor.activity_3
+                - sensor.battery_level_3
+                - sensor.battery_state_3
+                - sensor.bssid_3
+                - sensor.connection_type_3
+                - sensor.ssid_3
+                - sensor.last_update_trigger_3
+                - sensor.geocoded_location_3
+                  
+            style:
+              background-image: url("/local/lovelace/background/cardbackk.png")
+              background-repeat: no-repeat
+              background-color: rgba(50,50,50,0.3)
+              background-size: 100% 68px
+              border-radius: 20px
+              border: solid 1px rgba(100,100,100,0.3)
+              box-shadow: 3px 3px rgba(0,0,0,0.4)
+              overflow: hidden                
+#####ZZZZ###ZZZZ                  
+    #################################################################
+    #                                                               #
+    #                     Home - Or Shani Card                      #
+    #                                                               #
+    ################################################################# 
+          - type: horizontal-stack
+            cards:
+              - type: custom:card-modder
+                card:
+                  type: glance
+                  title: אלירן                  
+                  columns: 2
+                  entities:
+                    - entity: device_tracker.eliran_iphone #or_iphone
+                      name: מיקום                   
+                    - entity: sensor.connection_type_1 #WIFI/4G
+                      name: חיבור    
+                    - entity: sensor.geocoded_location_1
+                      name: ios                      
+                    - entity: sensor.activity_1 #CAR/Run/walk etc... #TODO FIX
+                      name: פעילות    
+
+                style:
+                  background-image: url("/local/lovelace/background/cardbackk.png")
+                  background-repeat: no-repeat
+                  background-color: rgba(50,50,50,0.3)
+                  background-size: 100% 68px
+                  border-radius: 20px
+                  border: solid 1px rgba(100,100,100,0.3)
+                  box-shadow: 3px 3px rgba(0,0,0,0.4)
+                  overflow: hidden  
+              - type: custom:card-modder
+                card:
+                  type: glance
+                  title: שירן
+                  columns: 2
+                  entities:
+                    - entity: device_tracker.shiran_iphone #shani_iphone #TODO
+                      name: מיקום                   
+                    - entity: sensor.connection_type_2 #WIFI/4G
+                      name: חיבור    
+                    - entity: sensor.activity_2 #CAR/Run/walk etc...
+                      name: פעילות    
+                    - entity: sensor.battery_level_2 #sensor.or_iphone_battery_level
+                      name: סוללה                   
+                style:
+                  background-image: url("/local/lovelace/background/cardbackk.png")
+                  background-repeat: no-repeat
+                  background-color: rgba(50,50,50,0.3)
+                  background-size: 100% 68px
+                  border-radius: 20px
+                  border: solid 1px rgba(100,100,100,0.3)
+                  # box-shadow: 3px 3px rgba(0,0,0,0.4)
+                  overflow: hidden   
     #################################################################
     #                                                               #
     #                     Home - Eliran Shiran Card                 #
@@ -252,28 +410,42 @@ views:
               - type: custom:card-modder
                 card:          
                   type: picture-elements
-                  image: /local/lovelace/eliran_shiran/eliran_turgeman.jpg
+                  image: /local/eliran.jpg
                   elements:
                     - type: state-label
-                      entity: device_tracker.eliraniphone
+                      entity: device_tracker.eliran_iphone_wifi
                       prefix: 'אלירן - '
                       style: {color: white, left: 75%, top: 90%}
                     - type: state-label
-                      entity:  device_tracker.elirantur2
+                      entity:  device_tracker.eliran_iphone #or_iphone
                       prefix: 'לפי מיקום - '
                       style:
                         direction: rtl
                         top: 10%
                         left: 50%
-                        background-color: black
-                        opacity: 0.7
+                        # background-color: black
+                        # opacity: 0.7
+                    # - type: state-icon
+                    #   entity: sensor.activity_1 #CAR/Run/walk etc...
+                    #   tap_action: more_info
+                    #   style: {color: white, left: 50%, top: 20%}   
+                      
+                    # - type: state-icon
+                    #   entity: sensor.connection_type_1 #WIFI/4G
+                    #   tap_action: more_info
+                    #   style: {color: white, left: 27%, top: 75%}   
+                      
                     - type: state-icon
-                      entity: sensor.eliran_iphone_battery_level
+                      entity: sensor.battery_level_1
                       tap_action: more_info
                       style: {color: white, left: 27%, top: 90%}
+                         
                     - type: state-label
-                      entity: sensor.eliran_iphone_battery_level
-                      style: {color: white, left: 13%, top: 91%}
+                      entity: sensor.battery_level_1 
+                      style: 
+                        color: white 
+                        left: 13% 
+                        top: 91%
                 style:                 
                   border-radius: 20px
                   border: solid 1px rgba(100,100,100,0.3)
@@ -282,39 +454,53 @@ views:
 
     #################################################################
     #                                                               #
-    #                     Home - Shiran Card                        #
+    #                     Home - shiran Card                        #
     #                                                               #
     #################################################################
               - type: custom:card-modder
                 card:          
                   type: picture-elements
-                  image: /local/lovelace/eliran_shiran/shiran_turgeman.jpg
+                  image: /local/shiran_black.jpg
                   elements:
                     - type: state-label
-                      entity: device_tracker.shiraniphone
+                      entity: device_tracker.shiran_iphone_wifi
                       prefix: 'שירן - '
                       style: {color: white, left: 75%, top: 90%}
                     - type: state-label
-                      entity:  device_tracker.shiran_iphone
+                      entity:  device_tracker.shiran_iphone #shani_iphone #TODO
                       prefix: 'לפי מיקום - '
                       style:
                         direction: rtl
                         top: 10%
                         left: 50%
-                        background-color: black
-                        opacity: 0.7
+                        # background-color: black
+                        # opacity: 0.7
+                    # - type: state-icon
+                    #   entity: sensor.activity_2 #CAR/Run/walk etc...
+                    #   tap_action: more_info
+                    #   style: {color: white, left: 50%, top: 20%}   
+                      
+                    # - type: state-icon
+                    #   entity: sensor.connection_type_2 #WIFI/4G
+                    #   tap_action: more_info
+                    #   style: {color: white, left: 27%, top: 75%}                           
                     - type: state-icon
-                      entity: sensor.shiran_iphone_battery_level
+                      entity: sensor.battery_level_2 #sensor.shani_iphone_battery_level
                       tap_action: more_info
                       style: {color: white, left: 27%, top: 90%}
+                         
                     - type: state-label
-                      entity: sensor.shiran_iphone_battery_level
-                      style: {color: white, left: 13%, top: 91%}
+                      entity: sensor.battery_level_2
+                      style: 
+                        color: white 
+                        left: 13% 
+                        top: 91%                        
                 style: 
                   border-radius: 20px
                   border: solid 1px rgba(100,100,100,0.3)
-                  box-shadow: 3px 3px rgba(0,0,0,0.4)       
-                  overflow: hidden
+                  # box-shadow: 3px 3px rgba(0,0,0,0.4)       
+                  overflow: hidden              
+
               
     #####################################################################
     #                                                                   #
@@ -540,29 +726,64 @@ views:
                     font-smoothing: antialiased
                     -webkit-font-smoothing: antialiased
                     font-size: 125%
-
+                    
                 - type: custom:state-attribute-element
                   entity: weather.dark_sky
                   attribute: temperature
                   suffix: °
                   style:
-                    direction: rtl
                     top: 8%
-                    left: 77%
-                    font-weight: bold
+                    # right: 15%
+                    left: 90%
                     color: rgb(249, 251, 255)
+                    font-weight: bold
                     font-family: Trebuchet MS
                     text-shadow: 2px 2px DarkSlateGrey
                     text-rendering: optimizeLegibility
                     -moz-osx-font-smoothing: grayscale
                     font-smoothing: antialiased
                     -webkit-font-smoothing: antialiased
-                    font-size: 145%
-
+                    font-size: 125%
+                    
                 - type: state-label
-                  entity: sensor.time_of_day
+                  entity: sensor.dark_sky_summary_0d #sensor.imsweather
+                  prefix: 'התחזית להיום: '
                   style:
-                    top: 30%
+                    direction: rtl
+                    top: 15%
+                    left: 65%
+                    color: rgb(249, 251, 255)
+                    font-family: Trebuchet MS
+                    font-style: oblique
+                    text-shadow: 2px 2px DarkSlateGrey
+                    font-size: 120%
+                    pointer-events: none
+                    font-weight: 400
+                    text-rendering: optimizeLegibility
+                    -moz-osx-font-smoothing: grayscale
+                    font-smoothing: antialiased
+                    -webkit-font-smoothing: antialiased
+                    
+                - type: state-label
+                  entity: sensor.time_of_day #בוקר טוב ערב טוב לילה טוב
+                  style:
+                    top: 25%
+                    left: 50%
+                    color: rgb(249, 251, 255)
+                    font-size: 250%
+                    pointer-events: none
+                    text-shadow: 2px 2px DarkSlateGrey
+                    font-family: Trebuchet MS
+                    font-style: oblique
+                    font-weight: 400
+                    text-rendering: optimizeLegibility
+                    -moz-osx-font-smoothing: grayscale
+                    font-smoothing: antialiased
+                    -webkit-font-smoothing: antialiased
+
+                - type: custom:username-element
+                  style:
+                    top: 35%
                     left: 50%
                     color: rgb(249, 251, 255)
                     font-size: 250%
@@ -577,57 +798,38 @@ views:
                     -webkit-font-smoothing: antialiased
 
                 - type: state-label
-                  entity: sensor.dark_sky_summary_0 #sensor.imsweather
-                  prefix: 'התחזית להיום: '
-                  style:
-                    top: 15%
-                    left: 50%
-                    color: rgb(249, 251, 255)
-                    font-family: Trebuchet MS
-                    font-style: oblique
-                    text-shadow: 2px 2px DarkSlateGrey
-                    font-size: 120%
-                    pointer-events: none
-                    font-weight: 400
-                    text-rendering: optimizeLegibility
-                    -moz-osx-font-smoothing: grayscale
-                    font-smoothing: antialiased
-                    -webkit-font-smoothing: antialiased
-
-                - type: state-label
-                  entity: sensor.greeter_card_info
-                  style:
-                    top: 76%
-                    left: 46.5%
-                    font-family: Assistant, sans-serif
-                    color: rgb(249, 251, 255)
-
-                - type: custom:state-attribute-element
-                  entity: calendar.icloudhome
-                  attribute: message
-                  style:
-                    top: 83.5%
-                    left: 53%
-                    font-family: Assistant, sans-serif
-                    color: rgb(249, 251, 255)
-
-
-                - type: state-label
                   entity: sensor.greeter_card_info_2
                   style:
-                    top: 46.5%
-                    left: 47.5%
+                    top: 49%
+                    left: 50%
                     font-family: Assistant, sans-serif
-                    color: rgb(249, 251, 255)
+                    
 
                 - type: custom:state-attribute-element
                   entity: calendar.work
                   attribute: message
                   style:
-                    top: 53.5%
-                    left: 57.5%
+                    top: 57%
+                    left: 50%
                     font-family: Assistant, sans-serif
-                    color: rgb(249, 251, 255)
+                    
+                    
+                - type: state-label
+                  entity: sensor.greeter_card_info
+                  style:
+                    top: 76%
+                    left: 50%
+                    font-family: Assistant, sans-serif
+                    
+
+                - type: custom:state-attribute-element
+                  entity: calendar.private #icloudhome
+                  attribute: message
+                  style:
+                    top: 83.5%
+                    left: 50%
+                    font-family: Assistant, sans-serif
+                  
             style:
               background-image: url("/local/lovelace/background/cardbackk.png")
               background-repeat: no-repeat
@@ -637,7 +839,6 @@ views:
               border: solid 1px rgba(100,100,100,0.3)
               box-shadow: 3px 3px rgba(0,0,0,0.4)
               overflow: hidden           
- 
       
 #################################################################
 #                                                               #
@@ -656,26 +857,26 @@ views:
               entity_visibility: sensor.dark_sky_visibility
               entity_wind_bearing: sensor.dark_sky_wind_bearing
               entity_wind_speed: sensor.dark_sky_wind_speed
-              entity_forecast_high_temp_1: sensor.dark_sky_daytime_high_temperature_1
-              entity_forecast_high_temp_2: sensor.dark_sky_daytime_high_temperature_2
-              entity_forecast_high_temp_3: sensor.dark_sky_daytime_high_temperature_3
-              entity_forecast_high_temp_4: sensor.dark_sky_daytime_high_temperature_4
-              entity_forecast_high_temp_5: sensor.dark_sky_daytime_high_temperature_5
-              entity_forecast_low_temp_1: sensor.dark_sky_overnight_low_temperature_1
-              entity_forecast_low_temp_2: sensor.dark_sky_overnight_low_temperature_2
-              entity_forecast_low_temp_3: sensor.dark_sky_overnight_low_temperature_3
-              entity_forecast_low_temp_4: sensor.dark_sky_overnight_low_temperature_4
-              entity_forecast_low_temp_5: sensor.dark_sky_overnight_low_temperature_5
-              entity_forecast_icon_1: sensor.dark_sky_icon_1
-              entity_forecast_icon_2: sensor.dark_sky_icon_2
-              entity_forecast_icon_3: sensor.dark_sky_icon_3
-              entity_forecast_icon_4: sensor.dark_sky_icon_4
-              entity_forecast_icon_5: sensor.dark_sky_icon_5
-              entity_summary_1: sensor.dark_sky_summary_1
-              entity_summary_2: sensor.dark_sky_summary_2
-              entity_summary_3: sensor.dark_sky_summary_3
-              entity_summary_4: sensor.dark_sky_summary_4
-              entity_summary_5: sensor.dark_sky_summary_5
+              entity_forecast_high_temp_1: sensor.dark_sky_daytime_high_temperature_1d
+              entity_forecast_high_temp_2: sensor.dark_sky_daytime_high_temperature_2d
+              entity_forecast_high_temp_3: sensor.dark_sky_daytime_high_temperature_3d
+              entity_forecast_high_temp_4: sensor.dark_sky_daytime_high_temperature_4d
+              entity_forecast_high_temp_5: sensor.dark_sky_daytime_high_temperature_5d
+              entity_forecast_low_temp_1: sensor.dark_sky_overnight_low_temperature_1d
+              entity_forecast_low_temp_2: sensor.dark_sky_overnight_low_temperature_2d
+              entity_forecast_low_temp_3: sensor.dark_sky_overnight_low_temperature_3d
+              entity_forecast_low_temp_4: sensor.dark_sky_overnight_low_temperature_4d
+              entity_forecast_low_temp_5: sensor.dark_sky_overnight_low_temperature_5d
+              entity_forecast_icon_1: sensor.dark_sky_icon_1d
+              entity_forecast_icon_2: sensor.dark_sky_icon_2d
+              entity_forecast_icon_3: sensor.dark_sky_icon_3d
+              entity_forecast_icon_4: sensor.dark_sky_icon_4d
+              entity_forecast_icon_5: sensor.dark_sky_icon_5d
+              entity_summary_1: sensor.dark_sky_summary_1d
+              entity_summary_2: sensor.dark_sky_summary_2d
+              entity_summary_3: sensor.dark_sky_summary_3d
+              entity_summary_4: sensor.dark_sky_summary_4d
+              entity_summary_5: sensor.dark_sky_summary_5d
               locale: he
               static_icons: false
               sunset: true
@@ -688,18 +889,18 @@ views:
               tooltip_left_offset: -5
               tooltip_width: 100
               entity_apparent_temp: sensor.dark_sky_apparent_temperature #Feels Like #TODO
-              entity_current_text: sensor.dark_sky_summary_0 #sensor.imsweather
+              entity_current_text: sensor.dark_sky_summary_0d #sensor.imsweather
               current_text_font_size: 0.8 em
               current_text_top_margin: 65px
               current_text_left_pos: 4 em
-              entity_daytime_high: sensor.dark_sky_daytime_high_temperature_0
+              entity_daytime_high: sensor.dark_sky_daytime_high_temperature_0d
               entity_pop: sensor.dark_sky_precip_probability
               entity_pop_intensity: sensor.dark_sky_precip_intensity #משקעים
-              entity_pop_1: sensor.dark_sky_precip_probability_1
-              entity_pop_2: sensor.dark_sky_precip_probability_2
-              entity_pop_3: sensor.dark_sky_precip_probability_3
-              entity_pop_4: sensor.dark_sky_precip_probability_4
-              entity_pop_5: sensor.dark_sky_precip_probability_5
+              entity_pop_1: sensor.dark_sky_precip_probability_1d
+              entity_pop_2: sensor.dark_sky_precip_probability_2d
+              entity_pop_3: sensor.dark_sky_precip_probability_3d
+              entity_pop_4: sensor.dark_sky_precip_probability_4d
+              entity_pop_5: sensor.dark_sky_precip_probability_5d
               # slot_l2: remove
               # slot_r3: remove
             style:
@@ -1022,11 +1223,11 @@ views:
           - type: custom:card-modder
             card:
               type: "custom:calendar-card" #"custom:hebrew-calendar-card"
-              title: "לוח שנה"
+              title: " " #"לוח שנה" ""
               progressBar: true
               entities:
                 - calendar.work
-                - calendar.icloudhome
+                - calendar.private #icloudhome
             style:
               --paper-card-background-color: rgba(50, 50, 50, 0.3)
               border-radius: 5px
@@ -1045,6 +1246,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
+        column_width: 250
         cards:
 #################################################################
 #                                                               #
@@ -1442,12 +1644,12 @@ views:
                   align_header: right                    
                   hour24: true
                   color_thresholds:
+                    - value: 0
+                      color: "#3271db" #till 18 blue
                     - value: 18
-                      color: "#3271db" #blue
-                    - value: 26
-                      color: "#f7d606" #yellow
-                    - value: 30
-                      color: "#3498db" #red
+                      color: "#f7d606" #19-29 yellow
+                    - value: 29
+                      color: "#BF4040" #from 29 red
                 style:                 
                   background-image: url("/local/lovelace/background/cardbackk.png")
                   background-repeat: no-repeat
@@ -1469,10 +1671,12 @@ views:
                   align_header: right                    
                   hour24: true                    
                   color_thresholds:
-                    - value: 55
-                      color: "#f7d606" #yellow
-                    - value: 60
-                      color: "#3498db" #red
+                    - value: 0 #till 20 #yellow "gold"
+                      color: "#FFD700" 
+                    - value: 20 #from 20-59 #green
+                      color: "#F9C536" 
+                    - value: 60 #from 60 #red 
+                      color: "#BF4040" 
 
                 style:                 
                   background-image: url("/local/lovelace/background/cardbackk.png")
@@ -1672,8 +1876,47 @@ views:
                   box-shadow: 3px 3px rgba(0,0,0,0.4)
                   overflow: hidden 
 
-
-           
+          # - type: custom:card-modder
+          #   card:
+          #     type: custom:timer-card
+          #     entity: timer.dogwalk
+          #     name: טיול כלב
+          #   style:
+          #     background-image: url("/local/lovelace/background/cardbackk.png")
+          #     background-repeat: no-repeat
+          #     background-color: rgba(50,50,50,0.3)
+          #     background-size: 100% 68px
+          #     border-radius: 20px
+          #     border: solid 1px rgba(100,100,100,0.3)
+          #     box-shadow: 3px 3px rgba(0,0,0,0.4)          
+              
+          - type: custom:card-modder
+            card:            
+              type: custom:todoist-list
+              entity: calendar.shopping_list
+              title: רשימת קניות
+            style:
+              background-image: url("/local/lovelace/background/cardbackk.png")
+              background-repeat: no-repeat
+              background-color: rgba(50,50,50,0.3)
+              background-size: 100% 68px
+              border-radius: 20px
+              border: solid 1px rgba(100,100,100,0.3)
+              box-shadow: 3px 3px rgba(0,0,0,0.4)        
+              
+          - type: custom:card-modder
+            card:            
+              type: custom:todoist-list
+              entity: calendar.inbox
+              title: inbox
+            style:
+              background-image: url("/local/lovelace/background/cardbackk.png")
+              background-repeat: no-repeat
+              background-color: rgba(50,50,50,0.3)
+              background-size: 100% 68px
+              border-radius: 20px
+              border: solid 1px rgba(100,100,100,0.3)
+              box-shadow: 3px 3px rgba(0,0,0,0.4)                        
 #############################################################################################################################################
 #                                                                                                                                           # 
 #                                                             VIEW 3 - Camera                                                               #
@@ -1687,6 +1930,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
+        column_width: 250
         cards:
     #################################################################
     #                                                               #
@@ -1713,7 +1957,7 @@ views:
               columns: 3
               show_header_toggle: true
               entities:
-                - device_tracker.homecctv
+                - device_tracker.homecctv_01
                 - device_tracker.54e4bdbe134c
                 - device_tracker.ipc_10 #hikvision_outdoor_cctv_01
                 - entity: device_tracker.windows_vm
@@ -1749,7 +1993,7 @@ views:
                 - switch.mqtt_pow2
                 - switch.sonoff_xiaomicctv_switch
                 - device_tracker.windows_vm
-                - device_tracker.homecctv
+                - device_tracker.homecctv_01
                 - device_tracker.54e4bdbe134c
                 - device_tracker.ipc_10 #hikvision_outdoor_cctv_01 
                 - binary_sensor.windows_rdp_port
@@ -1884,6 +2128,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
+        column_width: 250
         cards:    
 #################################################################
 #                                                               #
@@ -1941,8 +2186,8 @@ views:
               show_empty: false
               title: אנשים בבית
               entities:
-                - device_tracker.eliraniphone #byIP at DDWT 
-                - device_tracker.shiraniphone #shiran
+                - device_tracker.eliran_iphone_wifi #byIP at DDWT 
+                - device_tracker.shiran_iphone_wifi #shiran
                 - device_tracker.android983a5bef7ebe50ce #svet Phone
                 - device_tracker.redminote4israelkes #israel Phone
                 - device_tracker.amir_abu_phone_s9 #amir abu
@@ -1970,7 +2215,7 @@ views:
               columns: 3
               show_header_toggle: true
               entities:
-                - device_tracker.homecctv
+                - device_tracker.homecctv_01
                 - device_tracker.54e4bdbe134c
                 - device_tracker.ipc_10 #hikvision_outdoor_cctv_01
                 - entity: device_tracker.windows_vm
@@ -2077,14 +2322,14 @@ views:
               show_header_toggle: false
               entities:
                 - entity: binary_sensor.door_sensor_main_entrance
-                  type: "custom:secondaryinfo-entity-row"
-                  secondary_info: "מצב סוללה:[[ binary_sensor.door_sensor_main_entrance.attributes.battery_level ]]%"
+                  # type: "custom:secondaryinfo-entity-row"
+                  # secondary_info: "מצב סוללה:[[ binary_sensor.door_sensor_main_entrance.attributes.battery_level ]]%"
                 - entity: binary_sensor.xiaomi_motion_sensor_hallway
-                  type: "custom:secondaryinfo-entity-row"
-                  secondary_info: "מצב סוללה:[[ binary_sensor.xiaomi_motion_sensor_hallway.attributes.battery_level ]]%"
+                  # type: "custom:secondaryinfo-entity-row"
+                  # secondary_info: "מצב סוללה:[[ binary_sensor.xiaomi_motion_sensor_hallway.attributes.battery_level ]]%"
                 - type: divider
                 - device_tracker.sonoffpow2
-                - device_tracker.homecctv
+                - device_tracker.homecctv_01
                 - type: divider
                 - device_tracker.5ccf7f729dd8
                 - device_tracker.54e4bdbe134c
@@ -2150,8 +2395,8 @@ views:
                   prefix: 'ארץ: '
                   style:
                     direction: rtl #Set the text direction to "right-to-left" -for Hebrew
-                    top: 82%
-                    right: 55.5%
+                    top: 90%
+                    right: 11.5%
                     color: white
                     transform: none
                     font-family: Trebuchet MS
@@ -2241,10 +2486,10 @@ views:
               hours_to_show: 48 #2 Days
               refresh_interval: 10800 #3 Hours
               entities:
-                - device_tracker.eliraniphone
-                - device_tracker.elirantur2
-                - device_tracker.shiran_iphone
-                - device_tracker.shiraniphone
+                - device_tracker.eliran_iphone_wifi
+                - device_tracker.eliran_iphone # TODO GPS elirantur2
+                - device_tracker.shiran_iphone_wifi
+                - device_tracker.shiran_iphone # TODO GPS shiran_iphone
                 - switch.sonoff_xiaomicctv_switch
                 - switch.mqtt_pow2
             style:
@@ -2302,6 +2547,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
+        column_width: 250
         cards:
  
 #################################################################
@@ -2545,176 +2791,111 @@ views:
 #################################################################
           - type: horizontal-stack
             cards:
-              - type: custom:bar-card
-                title: 'ניצול מעבד'
-                entity: sensor.processor_use
-                direction: right
-                width: 100%
-                min: 0
-                max: 100
-                title_position: inside
-                height: 50px
-                severity:
-                - value: 50
-                  hue: 90 #green
-                - value: 75 #from 51-75
-                  hue: 40 #yellow
-                - value: 100 #from 76-100
-                  hue: 0 #red
-                card_style:
-                  border-radius: 20px
-                  box-shadow: 3px 3px rgba(0,0,0,0.4)
-                  overflow: hidden
-                bar_style:                  
-                  border-radius: 20px
-        
-              - type: custom:bar-card
-                title: 'טמפרטורת מעבד'
-                entity: sensor.cpu_temp
-                direction: right
-                width: 100%
-                min: 0
-                max: 90
-                title_position: inside 
-                height: 50px
-                severity:
-                - value: 50 #till 50
-                  hue: 90 #green
-                - value: 65 #from 51-65
-                  hue: 40 #yellow
-                - value: 90 #from 66-90
-                  hue: 0 #red
-                card_style:
-                  border-radius: 20px
-                  box-shadow: 3px 3px rgba(0,0,0,0.4)
-                  overflow: hidden
-                bar_style:                  
-                  border-radius: 20px
+              - type: custom:card-modder
+                card:
+                  type: custom:mini-graph-card
+                  name: טמפרטורת מעבד
+                  icon: mdi:oil-temperature
+                  points_per_hour: 1
+                  animate: true
 
-          - type: custom:bar-card
-            title: 'ניצול זכרון'
-            entity: sensor.memory_use_percent
-            direction: right
-            width: 100%
-            title_position: inside
-            height: 50px
-            severity:
-            - value: 50 #till 50
-              hue: 90 #green
-            - value: 75 #from 51-75
-              hue: 40 #yellow
-            - value: 100 #from 76-100
-              hue: 0 #red
-            card_style:
-              border-radius: 20px
-              box-shadow: 3px 3px rgba(0,0,0,0.4)
-              overflow: hidden
-            bar_style:
-              border-radius: 20px
-          
-          - type: custom:bar-card
-            title: 'ניצול נפח אחסון ססדי'
-            entity: sensor.ssd_usage
-            direction: right
-            width: 100%
-            title_position: inside
-            height: 50px
-            severity:
-            - value: 50 #till 50
-              hue: 90 #green
-            - value: 75 #from 51-75
-              hue: 40 #yellow
-            - value: 100 #from 76-100
-              hue: 0 #red
-            card_style:
-              border-radius: 20px
-              box-shadow: 3px 3px rgba(0,0,0,0.4)
-              overflow: hidden
-            bar_style:
-              border-radius: 20px
-              
-          - type: custom:bar-card
-            title: 'ניצול נפח אחסון דיסק ראשי'
-            entity: sensor.main_hdd_usage
-            direction: right
-            width: 100%
-            title_position: inside
-            height: 50px
-            severity:
-            - value: 50 #till 50
-              hue: 90 #green
-            - value: 75 #from 51-75
-              hue: 40 #yellow
-            - value: 100 #from 76-100
-              hue: 0 #red
-            card_style:
-              border-radius: 20px
-              box-shadow: 3px 3px rgba(0,0,0,0.4)
-              overflow: hidden
-            bar_style:
-              border-radius: 20px  
-          - type: horizontal-stack
-            cards:
-              - type: custom:bar-card
-                title: 'SSD' #Evo 860
-                entity: sensor.hdd_sdb_temp
-                direction: right
-                min: 0
-                max: 60
-                width: 100%
-                title_position: inside
-                severity:
-                - value: 45
-                  hue: 90 #green
-                - value: 60 #from  54-60 
-                  hue: 0 #red
-                card_style:
+                  decimals: 0 #to avoid show .XX
+                  hour24: ture
+                  show:
+                    extrema: ture
+                    fill: false
+                    name_adaptive_color: ture
+                  entities:
+                    - entity: sensor.cpu_temp
+                      name: מעבד
+                  color_thresholds:
+                    - value: 0 #till 60 #green
+                      color: "#80bf40" 
+                    - value: 60 #from 61-69 #yellow
+                      color: "#F9C536" 
+                    - value: 70 #from 71 #red
+                      color: "#BF4040" 
+                style:                 
+                  background-image: url("/local/lovelace/background/cardbackk.png")
+                  background-repeat: no-repeat
+                  background-color: rgba(50,50,50,0.3)
+                  background-size: 100% 180px
                   border-radius: 20px
+                  border: solid 1px rgba(100,100,100,0.3)
                   box-shadow: 3px 3px rgba(0,0,0,0.4)
-                  overflow: hidden
-                bar_style:
-                  border-radius: 20px
 
-              - type: custom:bar-card
-                title: '4TB' #WD10EZEX
-                entity: sensor.hdd_sdd_temp
-                min: 0
-                max: 70
-                width: 100%
-                title_position: inside
-                direction: right
-                severity:
-                - value: 55 #till 55
-                  hue: 90 #green
-                - value: 70 #from 56-70
-                  hue: 0 #red  
-                card_style:
+              - type: custom:card-modder
+                card:
+                  type: custom:mini-graph-card
+                  name: ניצול
+                  icon: mdi:chip
+                  points_per_hour: 6
+                  animate: true
+                  decimals: 0 #to avoid show .XX
+                  show:
+                    name_adaptive_color: ture
+                    fill: false
+                  entities:
+                    - entity: sensor.processor_use
+                      name: CPU                  
+                    - entity: sensor.memory_use_percent
+                      name: RAM
+                      color: '#80bf40' #always green (ram used for cache)
+                    - entity: sensor.ssd_usage
+                      name: SSD
+                    - entity: sensor.main_hdd_usage
+                      name: 4TB
+                  color_thresholds:
+                    - value: 0 #till 50
+                      color: '#80bf40' #green
+                    - value: 50 #from 51-75
+                      color: '#F9C536' #yellow
+                    - value: 75 #from 76
+                      color: '#BF4040' #red
+                style:                 
+                  background-image: url("/local/lovelace/background/cardbackk.png")
+                  background-repeat: no-repeat
+                  background-color: rgba(50,50,50,0.3)
+                  background-size: 100% 180px
                   border-radius: 20px
-                  box-shadow: 3px 3px rgba(0,0,0,0.4)
-                  overflow: hidden
-                bar_style:
-                  border-radius: 20px                  
+                  border: solid 1px rgba(100,100,100,0.3)
+                  box-shadow: 0px 3px rgba(0,0,0,0.4) #no right shadow
+          - type: custom:card-modder
+            card:
+              type: custom:mini-graph-card
+              name: טמפרטורת דיסקים
+              icon: mdi:server
+              points_per_hour: 1
+              animate: true
+              decimals: 0 #to avoid show .XX
+              line_width: 4
+              show:
+                name_adaptive_color: ture
+                fill: false
+              entities:
+                - entity: sensor.hdd_sdb_temp 
+                  name: SSD
+                - entity: sensor.hdd_sdd_temp 
+                  name: 4TB
+                - entity: sensor.hdd_sdc_temp 
+                  name: Parity
+              color_thresholds:
+                - value: 0 #till 50
+                  color: '#80bf40' #green
+                - value: 40 #from 40-49
+                  color: '#F9C536' #yellow
+                - value: 50 #from 50
+                  color: '#BF4040' #red     
+            style:                 
+              background-image: url("/local/lovelace/background/cardbackk.png")
+              background-repeat: no-repeat
+              background-color: rgba(50,50,50,0.3)
+              background-size: 100% 180px
+              border-radius: 20px
+              border: solid 1px rgba(100,100,100,0.3)
+              box-shadow: 3px 3px rgba(0,0,0,0.4)
+   
 
-              - type: custom:bar-card
-                title: 'Parity' #Seagate Parity 4TB #WD10EZEX
-                entity: sensor.hdd_sdc_temp
-                min: 0
-                max: 70
-                width: 100%
-                title_position: inside
-                direction: right
-                severity:
-                - value: 55 #till 55
-                  hue: 90 #green
-                - value: 70 #from 56-70
-                  hue: 0 #red  
-                card_style:
-                  border-radius: 20px
-                  box-shadow: 3px 3px rgba(0,0,0,0.4)
-                  overflow: hidden
-                bar_style:
-                  border-radius: 20px
-                  
 #################################################################
 #                                                               #
 #              System Status -Home Assistant Card               #
@@ -2830,18 +3011,18 @@ views:
               columns: 6
               title: מצב אפליקציות
               entities:
-                - entity: binary_sensor.ha_dockermon_ha_dockermon
+                - entity: switch.ha_dockermon_ha_dockermon
                   name: DockerM
-                - entity: binary_sensor.ha_dockermon_letsencrypt
+                - entity: switch.ha_dockermon_letsencrypt
                   name: Let'sEncr
-                - entity: binary_sensor.ha_dockermon_unifi_controller
+                - entity: switch.ha_dockermon_unifi_controller
                   name: Unifi
-                - entity: binary_sensor.ha_dockermon_unms
+                - entity: switch.ha_dockermon_unms
                   name: UNMS
-                - entity: binary_sensor.ha_dockermon_heimdall
+                - entity: switch.ha_dockermon_heimdall
                   name: HomeP
-                - entity: binary_sensor.ha_dockermon_cloud9ide
-                  name: C9 IDE
+                - entity:  switch.ha_dockermon_code_server
+                  name: VSCode
             style:
               background-image: url("/local/lovelace/background/cardbackk.png")
               background-repeat: no-repeat
@@ -2901,7 +3082,7 @@ views:
                   label: מצלמות
                 - device_tracker.ipc_10 #hikvision_outdoor_cctv_01  
                 - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
-                - device_tracker.homecctv #HomeCCTV VStarcam 360 
+                - device_tracker.homecctv_01 #HomeCCTV VStarcam 360 
                 - type: section
                   label: כללי
                 - device_tracker.appletv
@@ -2927,24 +3108,24 @@ views:
 #                System Status - Core Devices Card              #
 #                                                               #
 #################################################################              
-          - type: custom:card-modder
-            card:
-              type: custom:tracker-card
-              title: 'עדכונים'
-              name_text: 'שם'
-              current_text: 'נוכחית'
-              available_text: 'אחרונה'
-              check_text: 'בדוק עדכונים'
-              update_all_text: 'עדכן הכל'
-              trackers:
-                - sensor.custom_card_tracker
-                - sensor.custom_component_tracker
-            style:
-              background-color: rgba(50,50,50,0.3)
-              color: "#999999"
-              border-radius: 20px
-              border: solid 1px rgba(100,100,100,0.3)
-              box-shadow: 3px 3px rgba(0,0,0,0.4)
+          # - type: custom:card-modder #TODO REMOVE
+          #   card:
+          #     type: custom:tracker-card
+          #     title: 'עדכונים'
+          #     name_text: 'שם'
+          #     current_text: 'נוכחית'
+          #     available_text: 'אחרונה'
+          #     check_text: 'בדוק עדכונים'
+          #     update_all_text: 'עדכן הכל'
+          #     trackers:
+          #       - sensor.custom_card_tracker
+          #       - sensor.custom_component_tracker
+          #   style:
+          #     background-color: rgba(50,50,50,0.3)
+          #     color: "#999999"
+          #     border-radius: 20px
+          #     border: solid 1px rgba(100,100,100,0.3)
+          #     box-shadow: 3px 3px rgba(0,0,0,0.4)
               
 
 #############################################################################################################################################
@@ -2960,6 +3141,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
+        column_width: 250
         cards:
 #################################################################
 #                                                               #
@@ -3115,6 +3297,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
+        column_width: 250
         cards:
     #################################################################
     #                                                               #
@@ -3132,15 +3315,15 @@ views:
                     line_width: 2
                     font_size: 70
                     hours_to_show: 72 #3Days
-                  align_header: right                    
-                  hour24: true                    
+                  align_header: right
+                  hour24: true
                   color_thresholds:
+                    - value: 0
+                      color: "#3271db" #till 18 blue
                     - value: 18
-                      color: "#3271db" #blue
-                    - value: 26
-                      color: "#f7d606" #yellow
-                    - value: 30
-                      color: "#3498db" #red
+                      color: "#f7d606" #19-29 yellow
+                    - value: 29
+                      color: "#BF4040" #from 29 red
                 style:                 
                   background-image: url("/local/lovelace/background/cardbackk.png")
                   background-repeat: no-repeat
@@ -3162,10 +3345,12 @@ views:
                   align_header: right                    
                   hour24: true
                   color_thresholds:
-                    - value: 55
-                      color: "#f7d606" #yellow
-                    - value: 60
-                      color: "#3498db" #red
+                    - value: 0 #till 20 #yellow "gold"
+                      color: "#FFD700" 
+                    - value: 20 #from 20-59 #green
+                      color: "#F9C536" 
+                    - value: 60 #from 60 #red 
+                      color: "#BF4040" 
                 style:                 
                   background-image: url("/local/lovelace/background/cardbackk.png")
                   background-repeat: no-repeat
@@ -3223,50 +3408,50 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
+        column_width: 250
         cards:
           - type: custom:content-card-remote-control
-            broadlink_entity: broadlink_send_packet_192_168_1_85
+            broadlink_entity: send
             name: PartnerTV
             remote_template: partner
             buttons:
-              power: JgBQAAABJ5QWDxYPFTUVDxYPFRAVEBUPFjQVNBYPFjQVNBY0EzcVNBUQFRAVDxY0FRAVDxYPFg8VNRU0FTUVDxY0FTQWNBU1FQAFIgABJ0oWAA0FAAAAAAAAAAA=   #
-              volplus: JgBQAAABJ5QUERMSEzcTERQRExITEhMRFDYTNxMREzcTNhQ2EzcTNhMSEzYUERMSExITEhMRFBETNxMSEzYTNxM2EzcTNhM3EwAFJAABJ0sTAA0FAAAAAAAAAAA=   #
-              volmin: JgBQAAABJ5QUEBYPFTUVEBUPFg8VEBUQFDUVNRUQFTQVNRU0FTUVNBU1FTQWDxURFBAVDxYPFRAVEBUPFjQVNRU0FTUVNBY0FQAFIgABJ0oWAA0FAAAAAAAAAAA=   # 
-              partner: ZZZ=
-              mute: JgBQAAABJ5QTEhQSEjYUERUQFBEUERQRFDUUNRUQFDYUNRU1FDUTNxU1FBAWDxU1FQ8WDxYPFRAVEBU0FTUVEBU0FTUVNBY0FQAFIgABJ0oWAA0FAAAAAAAAAAA=
-              record: ZZZ=
-              source: JgBYAAABJ5QTEhMSEzYVEBQRFBEUEBUQFDYUNRQRFDYUNRQ2FTQVNRU0FjQVEBQzFxAVEBUQFQ8WDxUQFDUWEBI3FTQWNBU0FQAFIwABJ0sUAAxSAAEnSxMADQU=   #
-              one: ZZZ=
-              two: ZZZ=
-              three: ZZZ=
-              four: ZZZ=
-              five: ZZZ=
-              six: ZZZ=
-              seven: ZZZ=
-              eight: ZZZ=
-              nine: ZZZ=
-              zero: ZZZ=
-              section12: ZZZ=
-              lastch: ZZZ=
-              fastforward: ZZZ=
-              rewind: ZZZ=
-              play: ZZZ=
-              stop: ZZZ=
-              vod: ZZZ=
-              myrec: ZZZ=
-              netflix: ZZZ=
-              youtube: ZZZ=
-              channelup: ZZZ=
-              channeldown: ZZZ=
-              home: ZZZ=
-              menu: ZZZ=
-              back: ZZZ=
-              circle: ZZZ=
-              left: ZZZ=
-              right: ZZZ=
-              top: ZZZ=
-              bottom: ZZZ=
-              ok: ZZZ=
+              power: JgBQAAABJ5QWDxYPFTUVDxYPFRAVEBUPFjQVNBYPFjQVNBY0EzcVNBUQFRAVDxY0FRAVDxYPFg8VNRU0FTUVDxY0FTQWNBU1FQAFIgABJ0oWAA0FAAAAAAAAAAA=   #myLGTV
+              volplus: JgBQAAABJ5QUERMSEzcTERQRExITEhMRFDYTNxMREzcTNhQ2EzcTNhMSEzYUERMSExITEhMRFBETNxMSEzYTNxM2EzcTNhM3EwAFJAABJ0sTAA0FAAAAAAAAAAA= #myLGTV
+              volmin: JgBQAAABJ5QUEBYPFTUVEBUPFg8VEBUQFDUVNRUQFTQVNRU0FTUVNBU1FTQWDxURFBAVDxYPFRAVEBUPFjQVNRU0FTUVNBY0FQAFIgABJ0oWAA0FAAAAAAAAAAA=  #myLGTV
+              partner: JgBQAAABKZMSExM3FBISOBM3ExITNxQ2FBITEhMTExITExMSEzcUNhM3FBITEhM3EzcTExMSEzcUEhM3EzcTEhMTEzcTNxMSFAAFNQABKUgUAA0FAAAAAAAAAAA=
+              mute: JgBQAAABJ5QTEhQSEjYUERUQFBEUERQRFDUUNRUQFDYUNRU1FDUTNxU1FBAWDxU1FQ8WDxYPFRAVEBU0FTUVEBU0FTUVNBY0FQAFIgABJ0oWAA0FAAAAAAAAAAA=    #myLGtv
+              record: JgBQAAABKJQTEhM3ExMTNxM3ExITOBM3ExITEhMTExITExMSEzcTNxM3EzgSOBMSExMSExMSExMUERQSExITNxM3EzcTOBM3EgAFNwABKEgTAA0FAAAAAAAAAAA=
+              source: JgBYAAABJ5QTEhMSEzYVEBQRFBEUEBUQFDYUNRQRFDYUNRQ2FTQVNRU0FjQVEBQzFxAVEBUQFQ8WDxUQFDUWEBI3FTQWNBU0FQAFIwABJ0sUAAxSAAEnSxMADQU=  #myLGTV
+              one: JgBQAAABKJMUEhM3ExITNxM3FBITNxM3ExITExMSFBITEhQSEzcTNxQ2ExITExQRFDYTExMSExMTEhQ2EzcTNxMTEzcUNhQ2FAAFNQABKEgTAA0FAAAAAAAAAAA=
+              two: JgBQAAABKJMUEhM3FBETOBI4ExIUNhQ2FBITEhQSEhMTExMSEzcTNxQSEjgTEhMTEjgSExQSEhMTNxMTEjcUNxITEzcTNxM3EwAFNgABKEkTAA0FAAAAAAAAAAA=
+              three: JgBQAAABKJMUEhM3ExITOBI4ExITNxM3FBITEhMTEhMTEhMTEzcTNxM3FDYUEhITEzcTExITExMTEhMSEzcTOBITEzcTNxM3EwAFNgABKEkTAA0FAAAAAAAAAAA=
+              four: JgBQAAABKZIUEhM3ExIUNhQ2FBIUNhQ2ExIUEhQRFBITEhMTEzcTNxQRExMTNxQRFDYUEhQRFBITNxQ2ExIUNhQSEzcUNhQ2EwAFNgABKkcUAA0FAAAAAAAAAAA=
+              five: JgBQAAABKJMTExM3ExITNxM3ExMTNxM3ExIUEhMSFBITEhQSEzcTNxQ2ExITNxMTFDYUERQSExITExM3ExIUNhQSEzcTNxQ2FAAFNQABKEkSAA0FAAAAAAAAAAA=
+              six: JgBIAAABKZMUERM3FBITNxM3FBETNxQ2ExMTEhMTExITExQREzcUNhQSEzcTNxQRFDYTExMSExMTNxQRExMTNxQREzcUNhM4EwANBQ==
+              seven: JgBIAAABKJMUEhM3ExITNxM3ExMTNxQ2ExITExMSExMTEhMTEzcTNxM3EzcUNhQRFDYUEhQRFBITEhQSExITNxMTEzcTNxM3EwANBQ==
+              eight: JgBIAAABKJQTEhQ2FBITNxM3ExITNxQ2ExMTEhMTExIUEhMSEzcTNxMTExITExI4EzcUERMTExITNxQ2FDYUEhMSEzcTNxM3EwANBQ==
+              nine: JgBQAAABKJMTExM3FBISOBM3ExITNxQ2FBITEhQSEhMTExITEzcTNxM3FBITEhQ2EzcTExMSExMSExM3EzcTExITEzcUNhM3EwAFNgABKEkTAA0FAAAAAAAAAAA=
+              zero: JgBIAAABKJQUERM3FBITNxQ2ExMSOBM3EhMTExITExMSExMSEzcUNxITExITExMSFDYTExQRFBITNxQ2EzcTNxMTEjgTNxM3EwANBQ==
+              section12: ZZZ= #DUMMY In Bluetooth romote changed to "myvoice" (Not using IR) 
+              lastch: JgBQAAABKZIUEhM3ExITOBI4EhMUNhM3FBITEhMTExITExITFDYTNxMSEzgTNxMSExMSExMTEhMTNxMSExMTNxM3EzcTNxM3EwAFNQABKUkTAA0FAAAAAAAAAAA=
+              fastforward: JgBQAAABKpIUERU1FREUNhU1FRAVNRU1FREVEBURFRAVERQRFTUVNRU1FTUVERUQFREVNRUQFREUERQSFDYTNxM3ExIVNRM3FAAFNQABKEkUAA0FAAAAAAAAAAA=
+              rewind: JgBQAAABKJMTExI4ExIVNRM3FRETNxM3ExIVERMSExMTEhMTFDYTNxMSFTUTExMSExMSOBMSExMSOBMSEzcTNxU1ExMUNhQ2EwAFNgABKEgTAA0FAAAAAAAAAAA=
+              play: JgBQAAABKJMTExM3ExMSNxM4EhMTNxM3ExMTEhMTEhMTEhMTEzcTNxMTEhMTEhMTExITNxMTExITNxM3EzcTOBI4EhMTNxM3EwAFNgABKEkTAA0FAAAAAAAAAAA=
+              stop: JgBQAAABKZIVERQ2FBEVNRU1FREVNRU1FRAVERUQFREVEBURFDYUNhQ2FRAVERUQFREVNRQRExMUERU1FTUVNRQ2FREVNRM3FAAFNQABKEgUAA0FAAAAAAAAAAA=
+              vod: JgBQAAABKJMTExQ2FRAVNRM3ExMTNxM3ExITExMSExMTEhMTEzcVNRM3ExITExQREzcVERQ2ExITExM3EzcTNxMSEzcTExM3EwAFNgABKEkSAA0FAAAAAAAAAAA=
+              myrec: JgBQAAABKJMVERM3ExIUNhM3ExMTNxM3ExITExMSExMTEhMTEjgUNhM3EzcTEhMTEzcTEhM3FBITEhMTEzcTNxUQFTUTExM3EwAFNgABKEgTAA0FAAAAAAAAAAA=
+              netflix: JgBQAAABKJMTExM3ExITNxQ3EhMTNxM3ExMSExMTEhMTEhMTEzcTNxQRExMTEhMTFDYTEhM3ExMTNxM3EzcTNxMTEjgTEhM3EwAFNgABKEkTAA0FAAAAAAAAAAA=
+              youtube: JgBQAAABKJMTExM3ExIUNhM3ExMTNxQ2ExITExMSExMTEhMTEzcTNxMSEzcTExMSEzcTExM3ExIUNhQSEzcUNhQREzcUEhQ2EwAFNgABKEgTAA0FAAAAAAAAAAA=
+              channelup: JgBIAAABKZEVEhM3FBITNxM3ExIUNhQ2FBITEhQSExIUEhMSFDYUNhQ2FBITEhQSExIUERQSFBEUEhQ2FDYUNhQ2FDYUNhQ2FAANBQ==
+              channeldown: JgBQAAABKJQUERU1FREVNRQ2FRAVNRU1FREVEBURExIVERQRFTUVNRURFDYUERURExIVERQRFRAVNhQRFTUVNRU1EzcVNRU1FQAFNAABKkcVAA0FAAAAAAAAAAA=
+              home: JgBQAAABKJMTExI4ExITNxM3ExMTNxM3ExITExMSExMSExMTEjgTNxMSFRESExMTEjgSOBI4ExITNxQ2FTUTNxMTExITExM3EwAFNgABKEgTAA0FAAAAAAAAAAA=
+              back: JgBQAAABKZIUEhM3FBETNxM3ExMTNxM3ExITExMSFBITEhMTEzcTNxM3ExIUNhMTExITExM3ExITExM3ExITNxQ2FDcTEhM3EwAFNgABKUgSAA0FAAAAAAAAAAA=
+              circle: JgBQAAABKJMTExM3ExITNxM3FBITNxM3ExITExMSExMTEhMTEzcUNhM3FBETExQRFDYTNxQ3EhMTEhQ3EjgSOBMSExMTEhM3EwAFNgABKUgTAA0FAAAAAAAAAAA=
+              left: JgBYAAABKZMVEBQ2FBIVNRQ2FREUNhQ2ExITExQRFBEVERUQFTUVNhQRFTUVERQRFRAVERU1FBEVNRURFTUVNRU1FTUVERU1FQAFNAABKUcVAAxSAAEpSBUADQU=
+              right: JgBQAAABKZMTEhM3ExMSOBM3ExITNxM3FBITEhMTExIUEhITEzcUNhM3FDYUEhQRFBITEhM3ExMTEhMTEzcTNxM3EzcUERM3EwAFNgABKEkUAA0FAAAAAAAAAAA= 
+              top: JgBQAAABKJQTEhM3ExMTNxM3ExITNxM3FBITEhMTExITExMSFDYUNhQSExITExMSExMSExM3ExMSOBI4EzcTNxM3EzcTEhM3EwAFNgABKUgTAA0FAAAAAAAAAAA=
+              bottom: JgBQAAABKJQUERM3FBITNxM3ExITOBI4EhMTExMSExIUEhMSEzcTNxM4ExITEhMTExIUEhM3ExITExQ2EzcUNhQ2EzcUEhI4EwAFNgABKEgTAA0FAAAAAAAAAAA=
+              ok: JgBQAAABKJQSExM3ExMSOBM3ExITNxM3ExMTEhMTEhMTExITEzcTNxMTEhMTNxMTEhMTEhM4EhMTNxM3ExMSOBI4EzcTEhM3EwAFNgABKEkTAA0FAAAAAAAAAAA=
 ###############################################################################
 #                         BREAK                                               #
 #     to break the column right there,and move on to the next one             #
@@ -3344,6 +3529,38 @@ views:
               border: solid 1px rgba(100,100,100,0.3)
               box-shadow: 3px 3px rgba(0,0,0,0.4)
               overflow: hidden               
+          - type: custom:card-modder
+            card:
+              type: custom:vertical-stack-in-card
+              cards:
+                - type: custom:card-modder
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                    entities:
+                      - switch.tv_lg
+                      - switch.tv_lg_vol
+                  style:
+                    background: rgba(50, 50, 50, 0.3)
+                    background-image: url("/local/lovelace/background/cardbackk.png")
+                    background-repeat: no-repeat
+                    background-size: 100% 68px
+                ######      
+                - type: custom:card-modder
+                  card:                
+                    type: glance
+                    columns: 4
+                    entities:
+                      - switch.tv_lg_hdmi1
+                      - switch.tv_lg_hdmi2
+                      - switch.tv_lg_hdmi3
+                      - switch.tv_lg_mute
+                  style:
+                    background: rgba(50, 50, 50, 0.3)
+              style:
+                overflow: hidden 
+                border-radius: 20px
+                box-shadow: 3px 3px rgba(0,0,0,0.4)
 
 ###############################################################################
 #                         BREAK                                               #
@@ -3404,46 +3621,6 @@ views:
               box-shadow: 3px 3px rgba(0,0,0,0.4)
               overflow: hidden
 
-          - type: custom:card-modder
-            card:
-              type: custom:vertical-stack-in-card
-              cards:
-                - type: custom:card-modder
-                  card:
-                    type: entities
-                    show_header_toggle: false
-                    entities:
-                      - switch.tv_lg
-                      - switch.tv_lg_vol
-                  style:
-                    background: rgba(50, 50, 50, 0.3)
-                    background-image: url("/local/lovelace/background/cardbackk.png")
-                    background-repeat: no-repeat
-                    background-size: 100% 68px
-                ######      
-                - type: custom:card-modder
-                  card:                
-                    type: glance
-                    columns: 4
-                    entities:
-                      - switch.tv_lg_hdmi1
-                      - switch.tv_lg_hdmi2
-                      - switch.tv_lg_hdmi3
-                      - switch.tv_lg_mute
-                  style:
-                    background: rgba(50, 50, 50, 0.3)
-              style:
-                # --paper-card-background-color: rgba(50, 50, 50, 0.3)
-                # background-image: url("/local/lovelace/background/cardbackk.png")
-                # background-repeat: no-repeat
-                # background-color: rgba(50,50,50,0.3) #transparence
-                # background-size: 100% 68px
-                # border-radius: 20px
-                # border: solid 1px rgba(100,100,100,0.3)
-                # box-shadow: 3px 3px rgba(0,0,0,0.4)
-                overflow: hidden 
-                border-radius: 20px
-                box-shadow: 3px 3px rgba(0,0,0,0.4)
 
 
 #############################################################################################################################################
@@ -3544,26 +3721,26 @@ views:
         entity_visibility: sensor.dark_sky_visibility
         entity_wind_bearing: sensor.dark_sky_wind_bearing
         entity_wind_speed: sensor.dark_sky_wind_speed
-        entity_forecast_high_temp_1: sensor.dark_sky_daytime_high_temperature_1
-        entity_forecast_high_temp_2: sensor.dark_sky_daytime_high_temperature_2
-        entity_forecast_high_temp_3: sensor.dark_sky_daytime_high_temperature_3
-        entity_forecast_high_temp_4: sensor.dark_sky_daytime_high_temperature_4
-        entity_forecast_high_temp_5: sensor.dark_sky_daytime_high_temperature_5
-        entity_forecast_low_temp_1: sensor.dark_sky_overnight_low_temperature_1
-        entity_forecast_low_temp_2: sensor.dark_sky_overnight_low_temperature_2
-        entity_forecast_low_temp_3: sensor.dark_sky_overnight_low_temperature_3
-        entity_forecast_low_temp_4: sensor.dark_sky_overnight_low_temperature_4
-        entity_forecast_low_temp_5: sensor.dark_sky_overnight_low_temperature_5
-        entity_forecast_icon_1: sensor.dark_sky_icon_1
-        entity_forecast_icon_2: sensor.dark_sky_icon_2
-        entity_forecast_icon_3: sensor.dark_sky_icon_3
-        entity_forecast_icon_4: sensor.dark_sky_icon_4
-        entity_forecast_icon_5: sensor.dark_sky_icon_5
-        entity_summary_1: sensor.dark_sky_summary_1
-        entity_summary_2: sensor.dark_sky_summary_2
-        entity_summary_3: sensor.dark_sky_summary_3
-        entity_summary_4: sensor.dark_sky_summary_4
-        entity_summary_5: sensor.dark_sky_summary_5
+        entity_forecast_high_temp_1: sensor.dark_sky_daytime_high_temperature_1d
+        entity_forecast_high_temp_2: sensor.dark_sky_daytime_high_temperature_2d
+        entity_forecast_high_temp_3: sensor.dark_sky_daytime_high_temperature_3d
+        entity_forecast_high_temp_4: sensor.dark_sky_daytime_high_temperature_4d
+        entity_forecast_high_temp_5: sensor.dark_sky_daytime_high_temperature_5d
+        entity_forecast_low_temp_1: sensor.dark_sky_overnight_low_temperature_1d
+        entity_forecast_low_temp_2: sensor.dark_sky_overnight_low_temperature_2d
+        entity_forecast_low_temp_3: sensor.dark_sky_overnight_low_temperature_3d
+        entity_forecast_low_temp_4: sensor.dark_sky_overnight_low_temperature_4d
+        entity_forecast_low_temp_5: sensor.dark_sky_overnight_low_temperature_5d
+        entity_forecast_icon_1: sensor.dark_sky_icon_1d
+        entity_forecast_icon_2: sensor.dark_sky_icon_2d
+        entity_forecast_icon_3: sensor.dark_sky_icon_3d
+        entity_forecast_icon_4: sensor.dark_sky_icon_4d
+        entity_forecast_icon_5: sensor.dark_sky_icon_5d
+        entity_summary_1: sensor.dark_sky_summary_1d
+        entity_summary_2: sensor.dark_sky_summary_2d
+        entity_summary_3: sensor.dark_sky_summary_3d
+        entity_summary_4: sensor.dark_sky_summary_4d
+        entity_summary_5: sensor.dark_sky_summary_5d
         locale: he
         static_icons: false
         sunset: true
@@ -3576,17 +3753,17 @@ views:
         tooltip_left_offset: -5
         tooltip_width: 100
         entity_apparent_temp: sensor.dark_sky_apparent_temperature #Feels Like #TODO
-        entity_current_text: sensor.dark_sky_summary_0 #sensor.imsweather
+        entity_current_text: sensor.dark_sky_summary_0d #sensor.imsweather
         current_text_font_size: 0.8 em
         current_text_top_margin: 65px
         current_text_left_pos: 4 em
-        entity_daytime_high: sensor.dark_sky_daytime_high_temperature_0
+        entity_daytime_high: sensor.dark_sky_daytime_high_temperature_0d
         entity_pop: sensor.dark_sky_precip_probability
         entity_pop_intensity: sensor.dark_sky_precip_intensity #משקעים
-        entity_pop_1: sensor.dark_sky_precip_probability_1
-        entity_pop_2: sensor.dark_sky_precip_probability_2
-        entity_pop_3: sensor.dark_sky_precip_probability_3
-        entity_pop_4: sensor.dark_sky_precip_probability_4
-        entity_pop_5: sensor.dark_sky_precip_probability_5
+        entity_pop_1: sensor.dark_sky_precip_probability_1d
+        entity_pop_2: sensor.dark_sky_precip_probability_2d
+        entity_pop_3: sensor.dark_sky_precip_probability_3d
+        entity_pop_4: sensor.dark_sky_precip_probability_4d
+        entity_pop_5: sensor.dark_sky_precip_probability_5d
         # slot_l2: remove
         # slot_r3: remove

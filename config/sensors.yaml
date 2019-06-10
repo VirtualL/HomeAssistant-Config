@@ -34,15 +34,15 @@
       
   #Time in Days for SSL to Expired
   # made the cert with http://certbot.eff.org/ (SSL with NGINX)
-  - platform: cert_expiry
+  - platform: cert_expiry  #For example google.com 
     name: SSL Router
     host: !secret routerSSL
   - platform: cert_expiry
     name: SSL HASS
-    host: !secret base_url #For example google.com 
+    host: !secret hassSSL
   - platform: cert_expiry
     name: SSL IDE
-    host: !secret c9IdeSSL #For example google.com 
+    host: !secret c9IdeSSL
   - platform: cert_expiry
     name: SSL Server
     host: !secret serverSSL
@@ -71,23 +71,7 @@
     origin: !secret HomeCoordinates
     destination: !secret Work2Coordinates
     region: 'IL'
-  #To track Time on entity in home (by logbook)
-  - platform: history_stats
-    name: Shiran at home yesterday
-    entity_id: device_tracker.shiraniphone
-    state: 'home'
-    type: time
-    end: '{{ now().replace(hour=2).replace(minute=0).replace(second=0) }}' #From 2 AM to 2AM
-    duration:
-      hours: 24
-  - platform: history_stats
-    name: Eliran at home yesterday
-    entity_id: device_tracker.eliraniphone
-    state: 'home'
-    type: time
-    end: '{{ now().replace(hour=2).replace(minute=0).replace(second=0) }}' #From 2 AM to 2AM
-    duration:
-      hours: 24
+
 #############
 ##
 ## Boiler pow1 sensors (an Sonoff POW device)
@@ -340,13 +324,13 @@
         value_template: >
           {% set current_hour = strptime(states('sensor.time'), "%H:%M").hour %}
           {% if current_hour < 12 %}
-            בוקר טוב, אלירן
+            בוקר טוב
           {% elif 12 <= current_hour < 18 %}
-            צהריים טובים, אלירן
-          {% elif 18 <= current_hour < 23 %}
-            ערב טוב, אלירן
+            צהריים טובים
+          {% elif 18 <= current_hour < 22 %}
+            ערב טוב
           {% else %}
-            לילה טוב, אלירן
+            לילה טוב
           {% endif %}
           
   - platform: template
@@ -354,13 +338,13 @@
       greeter_card_info:
         value_template: > 
           פרטי:
-          האירוע הבא {{ as_timestamp(states.calendar.icloudhome.attributes.start_time) | timestamp_custom('- %d/%m/%Y בשעה %H:%M') }}
+          האירוע הבא {{ as_timestamp(states.calendar.private.attributes.start_time) | timestamp_custom('- %d/%m בשעה %H:%M') }}
   - platform: template
     sensors:
       greeter_card_info_2:
         value_template: > 
           עבודה:
-          האירוע הבא {{ as_timestamp(states.calendar.work.attributes.start_time) | timestamp_custom('- %d/%m/%Y בשעה %H:%M') }}
+          האירוע הבא {{ as_timestamp(states.calendar.work.attributes.start_time) | timestamp_custom('- %d/%m בשעה %H:%M') }}
 ######################Outside Temperature with animated icons ################################
 #Not in use , Working good! 
   # - platform: template
@@ -538,9 +522,9 @@
     sensors:      
       unraid_uptime:
         friendly_name: Unraid Uptime
-        value_template: >
-          {% set up_time = as_timestamp(now()) - as_timestamp(states('sensor.last_boot')) %}
-          
+        entity_id: sensor.time #to make the template update (without this line , the sensor update once,since the "last_boot" update once per startup)
+        value_template: >-
+            {% set up_time = as_timestamp(now()) - as_timestamp(states('sensor.last_boot')) %}
             {% set minutes = (up_time // 60) | int %}
             {% set hours = (minutes // 60) %}
             {% set days = (hours // 24) %}
@@ -681,25 +665,3 @@
   #   unit_of_measurement: "°מעלות" #temperature in C
   #   scan_interval: 120 #2 min
   
-
-    
-    
- 
-
-
-  #   ###HLINE CUI
-  # - platform: template
-  #   sensors:
-  #     hline_1:
-  #       value_template: hline
-  #     hline_2:
-  #       value_template: hline
-  #     hline_3:
-  #       value_template: hline
-  #     hline_4:
-  #       value_template: hline
-  #     hline_5:
-  #       value_template: hline
-  #     hline_6:
-  #       value_template: hline
-              

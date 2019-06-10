@@ -1,0 +1,13 @@
+################################################################################
+#
+#YEELIGHT
+#
+################################################################################
+  devices:
+    XXX.XXX.XXX.XXX: #CHANGE IP
+      name: Living Room Color Bulb
+    XXX.XXX.XXX.XXX: #CHANGE IP
+      name: White Bulb
+    XXX.XXX.XXX.XXX: #CHANGE IP
+      name: Desk Lamp
+    #light.gateway_light- is Working by default via Discovery

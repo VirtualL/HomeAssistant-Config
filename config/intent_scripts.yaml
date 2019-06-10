@@ -1,7 +1,0 @@
-  # GetTemperature:  # Intent type
-  #   speech:
-  #     text: In Home there is {{ states.sensor.temperature_bedroom_0 }} degrees
-  #   action:
-  #     service: notify.notify
-  #     data_template:
-  #       message: Hello from an intent!

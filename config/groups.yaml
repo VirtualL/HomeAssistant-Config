@@ -230,8 +230,8 @@ People:
   name: People
   view: no
   entities:
-    - device_tracker.eliraniphone #byIP at DDWT 
-    - device_tracker.shiraniphone #shiran
+    - device_tracker.eliran_iphone_wifi #byIP at DDWT 
+    - device_tracker.shiran_iphone_wifi #shiran
     # - device_tracker.eliran_iphone #by APP (GPS)
     # #- sensor.hline_1 #-----------------#
     - device_tracker.android983a5bef7ebe50ce #svet Phone
@@ -321,7 +321,7 @@ IOT_Status:  #Online Devices -By TRACKER
     #- sensor.hline_1 #-----------------#
     - device_tracker.48022c80b661 #outdoor cctv
     - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
-    - device_tracker.homecctv #HomeCCTV VStarcam 360 
+    - device_tracker.homecctv_01 #HomeCCTV VStarcam 360 
     - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
     - device_tracker.54e4bdbe134c #hikvision CCTV
     # - device_tracker.286c07773d15 #Xiaomi cctv
@@ -573,7 +573,7 @@ Cameras_Tracker:
   icon: mdi:cctv
   view: no
   entities:
-    - device_tracker.homecctv #via ip
+    - device_tracker.homecctv_01 #via ip
     - device_tracker.54e4bdbe134c #hikvision CCTV
     - device_tracker.nbsp #Xiaomi cctv new ip
     - device_tracker.48022c80b661 #outdoor cctv
@@ -631,7 +631,7 @@ Security_tracker:
     - binary_sensor.xiaomi_motion_sensor_hallway
     #- sensor.hline_1 #-----------------#
     - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
-    - device_tracker.homecctv #via ip
+    - device_tracker.homecctv_01 #via ip
     #- sensor.hline_2 #-----------------#
     - device_tracker.5ccf7f729dd8 #sonoff5 hikvision CCTV switch
     - device_tracker.54e4bdbe134c #hikvision CCTV

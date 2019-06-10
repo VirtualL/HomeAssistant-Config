@@ -28,8 +28,6 @@ light.sonoff_hallway_light:
   friendly_name: מסדרון
   hidden: false
   icon: mdi:track-light
-  #CUI -this light is On or Off only
-  state_card_mode: no-slider 
 light.desk_lamp:
   friendly_name: מנורת שולחן
   icon: mdi:lamp
@@ -38,8 +36,6 @@ light.sonoff_light:
   hidden: false
   icon: mdi:ceiling-light
   friendly_name: מנורת מטבח
-  #CUI this light is On or Off only so slider is unnecessary
-  state_card_mode: no-slider
 binary_sensor.switch_158d0000d8c836:
   friendly_name: לחצן חדר שינה
   hidden: true
@@ -68,7 +64,7 @@ binary_sensor.wall_switch_right_158d0001712d0e:
   icon: mdi:arrow-right-bold-box
   hidden: true
 sensor.humidity_bedroom_0:
-  friendly_name: לחות בבית
+  friendly_name: לחות בחדר שינה
   icon: mdi:water-percent
   device_class: humidity
 sensor.temperature_bedroom_0:
@@ -88,9 +84,6 @@ sensor.xiaomi_gateway_illumination:
 switch.xiaomi_powerstrip:
   friendly_name: מפצל שקעים בסלון
   icon: mdi:power-plug
-  #CUI - add more info about the powerstrip on the entitiy
-  extra_data_template:
-  - ${attributes.load_power}W  ${attributes.temperature}C°  #W C
   homebridge_switch_type: outlet
   device_class: power
 group.xiaomi_powerstrip_info:
@@ -221,7 +214,7 @@ sensor.restart_homebridge:
   friendly_name: איתחול הום-ברידג
   icon: mdi:apple
    
-device_tracker.eliraniphone:
+device_tracker.eliran_iphone_wifi:
   friendly_name: אלירן
   hidden: false
    
@@ -236,7 +229,7 @@ device_tracker.redminote4israelkes:
 device_tracker.android983a5bef7ebe50ce:
   friendly_name: סבט
    
-device_tracker.shiraniphone:
+device_tracker.shiran_iphone_wifi:
   friendly_name: שירן
   device_class: presence
    
@@ -417,39 +410,6 @@ script.tv_vol_up:
 group.shiran_page:
   icon: mdi:human-female
    
-sensor.shiran_at_home_yesterday:
-  friendly_name: שירן - זמן בבית אתמול
-   
-  unit_of_measurement: "שעות"
-sensor.eliran_at_home_yesterday:
-  friendly_name: אלירן - זמן בבית אתמול
-   
-  unit_of_measurement: "שעות"
-sensor.living_room_color_on_today:
-  friendly_name: זמן כולל תאורה ימין דולקת היום
-   
-  unit_of_measurement: "שעות"
-sensor.living_room_white_on_today:
-  friendly_name: זמן כולל תאורה שמאל דולקת היום
-   
-  unit_of_measurement: "שעות"
-sensor.hallway_white_on_today:
-  friendly_name: זמן כולל תאורת מסדרון דולקת היום
-   
-  unit_of_measurement: "שעות"
-sensor.bedroom_desk_on_today:
-  friendly_name: זמן כולל תאורת שולחן דולקת היום
-   
-  unit_of_measurement: "שעות"
-sensor.home_door_time_since_open:
-  friendly_name: זמן מאז שדלת הבית נפתחה
-   
-  unit_of_measurement: "שעות"
-sensor.kitchen_light_on_today:
-  friendly_name: זמן כולל תאורת מטבח דולקת היום
-   
-  unit_of_measurement: "שעות"
-
 # script.test_actionable_notify:
 #   homebridge_hidden: ture
 
@@ -511,16 +471,7 @@ group.all_lights:
 switch.mqtt_pow1:
   friendly_name: מפסק לדוד
   icon: mdi:shower-head
-  #CUI
-  extra_badge:
-    - entity_id: sensor.pow1_current
-      attribute: pow1_current
-      blacklist_states: 0
-    - entity_id: sensor.pow1_watt
-      blacklist_states: 0
-    - entity_id: device_tracker.sonoffpow1 #sonoff pow1 boiler
-      blacklist_states: 'home' #dont show the badge if the device is connected
-   
+
 input_number.slider_boiler:
   friendly_name: זמן להדלקה
   icon: mdi:timer
@@ -534,17 +485,7 @@ script.timer_off_boiler:
 group.boiler_setup:
   friendly_name: דוד חכם
   icon: mdi:hot-tub
-  #CUI
-  extra_badge:
-    - entity_id: sensor.pow1_current
-      attribute: pow1_current
-      blacklist_states: 0
-    - entity_id: sensor.pow1_watt
-      blacklist_states: 0
-    - entity_id: device_tracker.sonoffpow1 #sonoff pow1 boiler
-      blacklist_states: 'home' #dont show the badge if the device is connected
-  device_class: power
-   
+
 group.boiler_page:
   icon: mdi:shower-head
 sensor.pow1_current:
@@ -570,30 +511,12 @@ sensor.pow1_total_cost:
 group.POW2_setup:
   friendly_name: מפסק מצלמת מטבח
   icon: mdi:webcam
-    #CUI
-  extra_badge:
-    - entity_id: sensor.pow2_current
-      blacklist_states: 0.01
-    - entity_id: sensor.pow2_watt
-      blacklist_states: 0 
-    - entity_id: device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
-      blacklist_states: 'home' #dont show the badge if the device is connected
-  device_class: power
-   
-  
+
 switch.mqtt_pow2:
   assumed_state: false
   icon: mdi:webcam
   friendly_name: מפסק מצלמת מטבח
-  #CUI
-  extra_badge:
-    - entity_id: sensor.pow2_current
-      blacklist_states: 0.01
-    - entity_id: sensor.pow2_watt
-      blacklist_states: 0 
-    - entity_id: device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
-      blacklist_states: 'home' #dont show the badge if the device is connected
-   
+
 sensor.pow2_current:
   friendly_name: צריכה נוכחית 
    
@@ -671,17 +594,10 @@ input_boolean.alarm_clock_status:
 sensor.home_to_adoraim:
   friendly_name: זמן הגעה מהבית לאדוריים
   unit_of_measurement: "דקות"
-  #CUI
-  extra_data_template:
-  - ${attributes.route}-דרך
-
 
 sensor.home_to_otniel:
   friendly_name: זמן הגעה מהבית לעתניאל
   unit_of_measurement: "דקות"
-  #CUI
-  extra_data_template:
-  - ${attributes.route}-דרך
 
 # Alarm clock inputs
 input_number.boiler_on_clock_hour:
@@ -722,10 +638,6 @@ input_boolean.weather:
 
 vacuum.xiaomi_vacuum:
   friendly_name: 'שואב אבק'
-  #CUI - add in the entity the corent fan speed
-  extra_data_template:
-  - אחוז סוללה ${attributes.battery_level} , ${attributes.fan_speed}-מצב 
-  # - %${attributes.battery_level}-סוללה ${attributes.fan_speed}-מצב  
 
 camera.cctv1_snapshot:
   friendly_name: התראת כניסה
@@ -755,15 +667,6 @@ sensor.pound_gbp:
 sensor.exchange_date:
   friendly_name:  תאריך עדכון #Exchange Datex
 
-sensor.sonoff_latest_release:
-  friendly_name: גירסא אחרונה
-  icon: mdi:new-box
-script.check_sonoffs_version:
-  friendly_name: דרוש מצב גירסאות
-  icon: mdi:history
-group.Sonoffs_Info:
-  friendly_name: מצב גירסאות סונוף
-  
 group.speedtestnet:
   friendly_name: מהירות גלישה 
 sensor.speedtest_download:

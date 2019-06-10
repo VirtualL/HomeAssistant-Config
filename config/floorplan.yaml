@@ -63,8 +63,8 @@
 #########################Device Tracker#########################
         - name: Device_Tracker
           entities:
-            - device_tracker.eliraniphone #byIP at DDWT 
-            - device_tracker.shiraniphone #shiran
+            - device_tracker.eliran_iphone_wifi #byIP at DDWT 
+            - device_tracker.shiran_iphone_wifi #shiran
           states:
             - state: 'home'
               class: 'tracker_home'

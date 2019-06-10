@@ -14,12 +14,24 @@
   test_push:
     alias: 'test_push'
     sequence:
-      - service: notify.ios_elirantur2
+      - service: notify.mobile_app_eliran_iphone
         data:
           message: 'This is a test!'
           data:
             attachment: 
               url: https://67.media.tumblr.com/ab04c028a5244377a0ab96e73915e584/tumblr_nfn3ztLjxk1tq4of6o1_400.gif
+      - service: notify.mobile_app_smarthome_ipad
+        data:
+          message: 'This is a test!'
+          data:
+            attachment: 
+              url: https://67.media.tumblr.com/ab04c028a5244377a0ab96e73915e584/tumblr_nfn3ztLjxk1tq4of6o1_400.gif        
+      - service: notify.mobile_app_shiran_iphone
+        data:
+          message: 'This is a test!'
+          data:
+            attachment: 
+              url: https://67.media.tumblr.com/ab04c028a5244377a0ab96e73915e584/tumblr_nfn3ztLjxk1tq4of6o1_400.gif                          
 
 ###########################################
   timer_off_boiler: #script to turn off the boiler after X mins that been choose before
