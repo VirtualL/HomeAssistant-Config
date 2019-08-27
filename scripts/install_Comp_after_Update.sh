@@ -1,19 +1,17 @@
 #!/bin/bash
 #this script will install all the regular staff are needed after Update of docker
 
-#manually add new disk to hddtemp DB
-#docker exec home-assistant echo '"Samsung SSD 850 EVO 120G B" 190 C "Samsung SSD 850 EVO 120G B"' >>/etc/hddtemp.db; 
-#docker exec home-assistant echo '"SAMSUNG SSD 830 Series" 190 C "SAMSUNG SSD 830 Series"' >>/etc/hddtemp.db;
+#echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>hddtemp -n /dev/sde <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ";
+#docker exec home-assistant hddtemp -n /dev/sde;
 
 
-
-sshpass -p UNRAIDPASSWORD ssh -o stricthostkeychecking=no UNRAIDUSER@192.168.1.201 '
+sshpass -p UNRAIDPASSWORD ssh -o stricthostkeychecking=no UNRAIDUSER@192.168.1.101 '
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Cloud9ide install sshpass <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> code-server install sshpass <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
-docker exec cloud9ide apt-get update;
-docker exec cloud9ide apt-get install -y sshpass;
+docker exec code-server apt-get update;
+docker exec code-server apt-get install -y sshpass;
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>|<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> home-assistant install hddtemp, sshpass, zip, netcat <<<<<<<<<<<<<<<<<<<<<<";

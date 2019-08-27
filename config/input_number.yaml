@@ -46,3 +46,11 @@
     min: 0
     max: 60
     step: 1
+
+  sensibo_living_room:
+    name: Target Temperature
+    min: 17
+    max: 30
+    step: 1
+    mode: slider
+    icon: mdi:thermometer    

@@ -135,6 +135,27 @@
       - service: script.turn_on
         data:
           entity_id: script.flash_gateway1       
+
+
+  sensibo_increase_target_temp:
+    alias: Increase
+    sequence:
+        - delay:
+            milliseconds: 100
+        - service: climate.set_temperature
+          data_template:
+            entity_id: climate.living_room
+            temperature: "{{ (state_attr('climate.living_room', 'temperature')|round(0)) + 1 }}"
+              
+  sensibo_decrease_target_temp:
+    alias: Decrease
+    sequence:
+        - delay:
+            milliseconds: 100    
+        - service: climate.set_temperature
+          data_template:
+            entity_id: climate.living_room
+            temperature: "{{ (state_attr('climate.living_room', 'temperature')|round(0)) - 1 }}"          
 ################################################################################
 ## NOT
 ## IN 

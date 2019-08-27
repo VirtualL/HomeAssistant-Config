@@ -12,12 +12,11 @@
     #nmap --privileged -p XX YY.YY.YY.YY | grep "open" | wc -l
   - platform: command_line
     name: windows rdp port
-    command: nmap --privileged -p 5050 mozesor.tk | grep "open" | wc -l
+    command: !secret windows_rdp_port
     device_class: opening
     payload_on: 1 #"open"
     payload_off: 0 #"closed"
     scan_interval: 300 #5min
-
 
 #Not in use for now. TODO
 # #BlueIris MQTT Camera motion alert

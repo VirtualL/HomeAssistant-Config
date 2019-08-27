@@ -31,8 +31,7 @@ light.sonoff_hallway_light:
 light.desk_lamp:
   friendly_name: מנורת שולחן
   icon: mdi:lamp
-light.sonoff_light:
-  assumed_state: false
+light.kitchen:
   hidden: false
   icon: mdi:ceiling-light
   friendly_name: מנורת מטבח
@@ -186,29 +185,11 @@ sensor.ssl_hass:
 sensor.ssl_router:
   friendly_name:  זמן לסיום SSL Router
   unit_of_measurement: 'ימים'
-sensor.ssl_ide:
-  friendly_name:  זמן לסיום SSL IDE
-  unit_of_measurement: 'ימים'
   
 sensor.ssl_server:
   friendly_name:  זמן לסיום SSL Server
   unit_of_measurement: 'ימים'
-  
-sensor.ssl_homepage:
-  friendly_name:  זמן לסיום SSL HomePage
-  unit_of_measurement: 'ימים'
 
-sensor.ssl_cctv:
-  friendly_name:  זמן לסיום SSL CCTV
-  unit_of_measurement: 'ימים'
-
-sensor.ssl_unifi:
-  friendly_name:  זמן לסיום SSL Unifi
-  unit_of_measurement: 'ימים'  
-
-sensor.ssl_unms:
-  friendly_name: זמן לסיום SSL UNMS
-  unit_of_measurement: 'ימים'
   
 sensor.restart_homebridge:
   friendly_name: איתחול הום-ברידג
@@ -217,11 +198,8 @@ sensor.restart_homebridge:
 device_tracker.eliran_iphone_wifi:
   friendly_name: אלירן
   hidden: false
-   
   device_class: presence
-device_tracker.eliran_iphone:
-  friendly_name: אלירן לפי מיקום
-  hidden: true
+
    
 device_tracker.redminote4israelkes:
   friendly_name: ישראל
@@ -456,7 +434,7 @@ group.AllMySwitchs:
   friendly_name: כל הלחצנים
   hidden: false
 
-light.bedroom_fan_light: #ifan
+light.bedroom:
   icon: mdi:wall-sconce-flat
   friendly_name: תאורה בחדר שינה
   device_class: light
@@ -739,3 +717,32 @@ script.close_rdp_port:
 sensor.last_dogwalk:
   # friendly_name: זמן פתיחת דלת אחרונה
   icon: mdi:timelapse
+  
+switch.ha_dockermon_code_server:
+    icon: mdi:visual-studio-code
+switch.ha_dockermon_organizr:
+    icon: mdi:home-variant-outline
+switch.ha_dockermon_letsencrypt:
+    icon: mdi:shield-lock-outline
+switch.ha_dockermon_unifi_controller:
+    icon: mdi:wifi-star
+switch.ha_dockermon_unms:
+    icon: mdi:switch
+switch.ha_dockermon_openvpn_as:
+    icon: mdi:arrow-decision-outline    
+
+
+device_tracker.shiran_iphone: #shiran Shani ios GPS #TODO zzz
+  hide_if_away: false
+  friendly_name: Shiran iPhone iOS
+  entity_picture: /local/shiran.jpg
+  
+device_tracker.eliran_iphone: #shiran Shani ios GPS #TODO zzz
+  hide_if_away: false
+  friendly_name: Eliran iPhone iOS
+  entity_picture: /local/eliran.jpg
+  
+
+switch.fan:
+    friendly_name:  מאוורר רצפה
+    icon: mdi:fan

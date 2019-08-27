@@ -56,21 +56,6 @@
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: false
-################################################################################
-##blitzwolf_switch = BlitzWolf SHP2 - with Tasmota firmware
-################################################################################ 
-  - platform: mqtt
-    name: "BlitzWolf Switch"
-    state_topic: "stat/blitzwolf_switch/POWER"
-    command_topic: "cmnd/blitzwolf_switch/POWER"
-    # value_template: '{{ value_json.POWER }}' #added new
-    availability_topic: "tele/blitzwolf_switch/LWT"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    retain: false    
 
 ################################################################################
 ##Broadlink RM Pro - to control TV on/off , Hdmi input , TV volume ,Mute and more
@@ -116,12 +101,27 @@
     port: 8126
     containers:
       - 'unifi-controller'
-      - 'unms'
       - 'ha-dockermon'
       - 'letsencrypt'
       - 'code-server' #vscode
-      - 'eclipse-mosquitto' #mqtt
-      - 'heimdall'    
+      - 'mosquitto' #mqtt
+      - 'organizr'
+      - 'openvpn-as' #VPN    
+  
+  - platform: template
+    switches:
+      sensibo_living_room:
+        friendly_name: "Living Room AC"
+        icon_template: mdi:air-conditioner
+        value_template: "{{ is_state('climate.living_room', 'cool') or is_state('climate.living_room', 'heat') or is_state('climate.living_room', 'dry') or is_state('climate.living_room', 'auto') or is_state('climate.living_room', 'fan_only')}}"
+        turn_on:
+            service: climate.turn_on
+            data:
+                entity_id: climate.living_room
+        turn_off:
+            service: climate.turn_off
+            data:
+                entity_id: climate.living_room
 ################################################################################
 ## NOT
 ## IN 
@@ -244,3 +244,4 @@
   #   payload_available: "Online"
   #   payload_not_available: "Offline"
   #   retain: false
+

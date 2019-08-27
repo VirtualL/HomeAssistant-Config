@@ -17,8 +17,6 @@
   name: Home CCTV1
   input: !secret HomeCCTV1URL
 
-  
-  
 #Vstarcam Home 02  
 # - platform: onvif
 #   name: Home CCTV2
@@ -58,6 +56,21 @@
 #   name: Outdoor CCTV
 #   input: !secret OutdoorCCTV_02_URL  
 
-
-# #Adds support for BlueIris Camera stream.
-# - platform: blueiris
+# - platform: mjpeg
+#   name: Home_01
+#   mjpeg_url: !secret blueiris_home01_URL 
+#   username: !secret blueiris_admin_username
+#   password: !secret blueiris_admin_password
+#   authentication: basic
+# - platform: mjpeg
+#   name: Home_02
+#   mjpeg_url: !secret blueiris_home02_URL 
+#   username: !secret blueiris_admin_username
+#   password: !secret blueiris_admin_password
+#   authentication: basic
+# - platform: mjpeg
+#   name: IPC10
+#   mjpeg_url: !secret blueiris_ipc10_URL 
+#   username: !secret blueiris_admin_username
+#   password: !secret blueiris_admin_password
+#   authentication: basic

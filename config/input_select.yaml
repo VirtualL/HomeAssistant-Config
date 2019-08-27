@@ -3,4 +3,20 @@
 #INPUT SELECT
 #
 ################################################################################
-#not in use currently #Disable on main Conf
+  sensibo_living_room_operation:
+    name: Operation
+    icon: mdi:air-filter
+    options:
+        - "dry"
+        - "auto"
+        - "heat"
+        - "fan_only"
+        - "cool"
+  sensibo_living_room_fan:
+    name: Fan
+    icon: mdi:fan
+    options:
+        - "low"
+        - "medium"
+        - "high"
+        - "auto"

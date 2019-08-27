@@ -48,13 +48,13 @@ AllMylights:
     - light.white_bulb
     - light.living_room_color_bulb
     #- sensor.hline_1 #-----------------#
-    - light.sonoff_light
+    - light.kitchen
     - light.philips_bulb
     ##- sensor.hline_2 #-----------------#
     - light.sonoff_hallway_light
     - light.gateway_light
     #- sensor.hline_3 #-----------------#
-    - light.bedroom_fan_light
+    - light.bedroom
     - light.desk_lamp
 AllMySwitchs:
   name: All Switchs
@@ -249,7 +249,7 @@ Living_Room_lights:
     - light.white_bulb
     - light.living_room_color_bulb
     #- sensor.hline_1 #-----------------#
-    - light.sonoff_light #kithen
+    - light.kitchen #kitchen
     - light.philips_bulb
     #- sensor.hline_2 #-----------------#
     - light.sonoff_hallway_light
@@ -287,7 +287,7 @@ BedRoom_lights:
   name: Bed Room Lights
   view: no
   entities:
-    - light.bedroom_fan_light
+    - light.bedroom
     - light.desk_lamp
 
 kitchen_Sensors:
@@ -303,7 +303,7 @@ kitchen_Light:
   name: תאורה
   view: no
   entities:
-    - light.sonoff_light
+    - light.kitchen
     - light.philips_bulb
     - light.gateway_light
 
@@ -316,7 +316,8 @@ IOT_Status:  #Online Devices -By TRACKER
     - device_tracker.yeelightcolorbulb
     - device_tracker.yeelightwhitebulb
     - device_tracker.philipsbulb
-    - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
+    - device_tracker.sonoff_kitchen #Kitchen sonoff TX
+    - device_tracker.sonoff_bedroom #sonoff tuoch 
     - device_tracker.esp_717fd4 #sonoff4 
     #- sensor.hline_1 #-----------------#
     - device_tracker.48022c80b661 #outdoor cctv
@@ -394,7 +395,7 @@ controllable_devices:
   entities:
     - light.white_bulb
     - light.living_room_color_bulb
-    - light.sonoff_light
+    - light.kitchen
     - light.philips_bulb
     - light.sonoff_hallway_light
     - light.gateway_light
@@ -443,14 +444,6 @@ Server_info:
     # - script.backup_all_os
     - script.backup_ha_and_movebackup_ubuntuvm
     
-SSL:
-  name: מצב הצפנה
-  view: no
-  entities:
-    - sensor.ssl_server #to know how much time for SSL CA
-    - sensor.ssl_hass #to know how much time for SSL CA
-    - sensor.ssl_router #to know how much time for SSL CA
-    - sensor.ssl_ide #to know how much time for SSL CA
   ###PAGES###
 # Alert_Page:
 #   name: Alert Page
@@ -557,6 +550,7 @@ Sonoffs_Info:
     - script.check_sonoffs_version
     # - script.update_sonoffs
     - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
+    - device_tracker.sonoff_bedroom #sonoff tuoch 
     - sensor.sonoff_touch_kitchen_version
     - device_tracker.esp_717fd4 #sonoff4 
     - sensor.sonoff_hallway_light_version

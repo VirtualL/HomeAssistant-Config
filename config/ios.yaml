@@ -136,3 +136,13 @@
             authenticationRequired: no
             destructive: yes #yes for red color
             behavior: 'default'
+
+      - name: vpn
+        identifier: 'close_vpn_docker' #(MUST BE LOWER CASE)
+        actions:
+          - identifier: 'CLOSE_VPN_DOCKER' #(MUST BE UPPER CASE)
+            title: 'סגור את הקונטיינר'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'

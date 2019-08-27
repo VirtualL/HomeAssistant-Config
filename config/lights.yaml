@@ -9,22 +9,15 @@
     host: XXX.XXX.XXX.XXX #CHANGE_IP
     token: !secret PhilipsBulbToken
     model: philips.light.bulb
-    #Xiaomi YeeLight Blubs and Desk lamp
-  - platform: yeelight  #CHANGE_IP
-    devices:
-      XXX.XXX.XXX.XXX: #At home
-        name: Living Room Color Bulb
-      XXX.XXX.XXX.XXX:
-        name: White Bulb
-      XXX.XXX.XXX.XXX:
-        name: Desk Lamp
-      #light.gateway_light- is Working by default via Discovery 
 
+#Xiaomi YeeLight Blubs and Desk lamp
+####yeelight are in another config file
+####
 ################################################################################
-## sonoff3 = sonoff touch - Kitchen Light ( light.sonoff_light )
+## sonoff3 = sonoff touch - Bedroom Light ( light.bedroom )
 ################################################################################
   - platform: mqtt
-    name: "Sonoff Light"
+    name: "Bedroom"
     state_topic: "stat/sonoff3/POWER"
     command_topic: "cmnd/sonoff3/POWER"
     availability_topic: "tele/sonoff3/LWT"
@@ -34,6 +27,34 @@
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: false
+
+################################################################################
+## sonoff6 = sonoff TX 2CH - Kitchen and Philips Light
+################################################################################
+  - platform: mqtt 
+    name: "Kitchen"
+    state_topic: "stat/sonoff6/POWER1"
+    command_topic: "cmnd/sonoff6/POWER1"
+    availability_topic: "tele/sonoff6/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: false 
+
+  - platform: mqtt
+    name: "Special Sonoff Kitchen"
+    state_topic: "stat/sonoff6/POWER2"
+    command_topic: "cmnd/sonoff6/POWER2"
+    availability_topic: "tele/sonoff6/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: false 
+
 ################################################################################
 ## sonoff4 = sonoff basic - Hallway Light (light.sonoff_hallway_light )
 ################################################################################
@@ -47,22 +68,23 @@
     payload_off: "OFF"
     payload_available: "Online"
     payload_not_available: "Offline"
-    retain: false
+    retain: false    
 ################################################################################
-## sonoff_ifan = sonoff ifan02 -in the bedroom
+## sonoff_ifan = sonoff ifan02 -in the bedroom #WORKIN NOT IN USE
 ################################################################################    
-  - platform: mqtt
-    name: "Bedroom fan light"
-    command_topic: "cmnd/sonoff_ifan/power"
-    state_topic: "stat/sonoff_ifan/POWER1"
-    availability_topic: "tele/sonoff_ifan/LWT"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: false
-    payload_available: "Online"
-    payload_not_available: "Offline"
+  # - platform: mqtt
+  #   name: "Bedroom fan light"
+  #   command_topic: "cmnd/sonoff_ifan/power"
+  #   state_topic: "stat/sonoff_ifan/POWER1"
+  #   availability_topic: "tele/sonoff_ifan/LWT"
+  #   qos: 1
+  #   payload_on: "ON"
+  #   payload_off: "OFF"
+  #   retain: false
+  #   payload_available: "Online"
+  #   payload_not_available: "Offline"
     
+
 ################################################################################
 ## hyperion APA102 LED STRIP
 ################################################################################    

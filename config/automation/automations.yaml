@@ -933,7 +933,7 @@
       click_type: both
   action:
     service: light.toggle
-    entity_id: light.sonoff_light #kitchen light
+    entity_id: light.kitchen #kitchen light
 ##############################################################################  
 #
 # Clicks type setup - Wall switch 2 (MAIN enternce)
@@ -964,9 +964,9 @@
       click_type: single
   action:
     service: light.toggle
-    entity_id: light.sonoff_light
+    entity_id: light.kitchen
 #Toggle livingRoom enternce BOTH  on single press
-- alias: 'Toggle livingRoom enternce BOTH  on single press'
+- alias: 'Toggle livingRoom enternce BOTH  on single press after 6AM'
   initial_state: 'on'
   trigger:
     platform: event
@@ -975,13 +975,48 @@
       entity_id: binary_sensor.wall_switch_both_158d0001e119a7
       click_type: both
   condition:
-    condition: time # (needed?)
+    condition: time # TODO Needed?
     after: '06:00:01'
   action:
     service: homeassistant.turn_off
     entity_id: group.allmylights
     
-    
+#Toggle livingRoom enternce BOTH  on single press
+- alias: 'Toggle livingRoom enternce BOTH  on single press after 6AM and turn off living room AC'
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: binary_sensor.wall_switch_both_158d0001e119a7
+      click_type: both
+  condition:
+    condition: and
+    conditions:
+      - condition: time 
+        after: '06:00:01'
+      - condition: or
+        conditions: #"operation_list": ["dry","auto","heat","fan_only","cool"]
+          - condition: state 
+            entity_id: climate.living_room
+            state: 'dry' 
+          - condition: state 
+            entity_id: climate.living_room
+            state: 'auto' 
+          - condition: state 
+            entity_id: climate.living_room
+            state: 'heat' 
+          - condition: state 
+            entity_id: climate.living_room
+            state: 'fan_only'  
+          - condition: state 
+            entity_id: climate.living_room
+            state: 'cool'
+  action:
+    - service: climate.turn_off
+      entity_id: climate.living_room
+    - service: homeassistant.turn_off
+      entity_id: group.allmylights    
 ##############################################################################
 ### Active only in the early morning
 ############################################################################## 
@@ -1011,6 +1046,28 @@
           push:
             badge: 0
             category: 'modifymylights' #the indentefier
+
+
+- alias: 'Turn On living room AC on livingRoom enternce BOTH click '
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: binary_sensor.wall_switch_both_158d0001e119a7
+      click_type: both
+  condition:
+    condition: and
+    conditions:
+      - condition: state 
+        entity_id: group.allmylights
+        state: 'off'     
+      - condition: state 
+        entity_id: climate.living_room
+        state: 'off'        
+  action:
+    - service: climate.turn_on
+      entity_id: climate.living_room 
 ##############################################################################  
 #
 # Clicks setup - Bed roomSwitch
@@ -1020,7 +1077,7 @@
 #  duoble click are set in mi-home app (toggel brighness level on desk lamp)
 #####################
 #Toggle Desk Lamp light on single press
-- alias: 'Toggle Bedroom Fan light on single press'
+- alias: 'Toggle Bedroom light on single press'
   initial_state: 'on'
   trigger:
     platform: event
@@ -1030,7 +1087,7 @@
       click_type: single
   action:
     service: light.toggle
-    entity_id: light.bedroom_fan_light
+    entity_id: light.bedroom
 #turn off group.allmylights on long press roomSwitch
 - alias: 'turn off group.allmylights on long press roomSwitch'
   initial_state: 'on'
@@ -1050,7 +1107,7 @@
 #
 ##############################################################################  
 #Toggle living room lights on single press (ROUND) LivingRoomSwitch
-- alias: 'Toggle living room lights on single press LivingRoomSwitch'
+- alias: 'Turn ON living room AC on single press LivingRoomSwitch'
   initial_state: 'on'
   trigger:
     platform: event
@@ -1059,12 +1116,12 @@
       entity_id: binary_sensor.switch_158d000149b9ab
       click_type: single
   action:
-  - service: light.toggle
-    entity_id: light.white_bulb
-  - service: light.toggle
-    entity_id: light.living_room_color_bulb
-#Toggle Hallway light on double click LivingRoomSwitch
-- alias: 'Toggle Hallway light on double click LivingRoomSwitch'
+  - service: climate.turn_on
+    entity_id: climate.living_room
+
+
+#Turn OFF living room AC on double click LivingRoomSwitch
+- alias: 'Turn OFF living room AC on double click LivingRoomSwitch'
   initial_state: 'on'
   trigger:
     platform: event
@@ -1073,11 +1130,11 @@
       entity_id: binary_sensor.switch_158d000149b9ab
       click_type: double
   action:
-  - service: light.toggle
-    entity_id:  light.sonoff_hallway_light
+  - service: climate.turn_off
+    entity_id: climate.living_room
     
-#turn off group.allmylights on long press LivingRoomSwitch  
-- alias: 'turn off group.allmylights on long press LivingroomSwitch'
+#Set Max Volume S70PCI on long press LivingroomSwitch
+- alias: 'Set Max Volume S70PCI on long press LivingroomSwitch'
   initial_state: 'on'
   trigger:
     platform: event
@@ -1086,9 +1143,38 @@
       entity_id: binary_sensor.switch_158d000149b9ab
       click_type: long_click_press
   action:
-    service: light.turn_off
-    entity_id: group.allmylights
+    - service: media_player.volume_set
+      entity_id: media_player.s70pci
+      data_template:
+        volume_level: '1.0' #0.0-1.0 min-max
+  # action:
+  #   service: media_player.volume_set
+  #   entity_id: media_player.s70pci
+  #   data_template: 
+  #     volume_level: 1.0
+  # action:
+  #   - service: media_player.volume_set
+  #     entity_id: media_player.s70pci
+  #     volume_level: 1.0 
 
+
+####################################################      
+#                                                  #
+# מפסקים מחליפים - הגדרה של טוגגל MAKLIF
+#                                                  #
+####################################################
+#######
+####### sonoff6
+#######
+- alias: 'Toggle Philips light on single press from sonoff6 2CH'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: light.special_sonoff_kitchen
+    # to: ANYSTATE WAS CHANGE (ON/OFF)
+  action:
+    service: light.toggle
+    entity_id: light.philips_bulb
 ##############################################################################  
 #
 #  'Notify when front door is open on TV' (on androidTV )
@@ -1464,7 +1550,7 @@
   initial_state: 'on'
   trigger:
     platform: state #OR State (if one of this switch will turn off , the alert will made)
-    entity_id: switch.ha_dockermon_eclipse_mosquitto,switch.ha_dockermon_letsencrypt,switch.ha_dockermon_unifi, switch.ha_dockermon_unms
+    entity_id: switch.ha_dockermon_mosquitto,switch.ha_dockermon_letsencrypt,switch.ha_dockermon_unifi
     #switch.ha_dockermon_unms, switch.ha_dockermon_cloud9ide 
     to: 'off'  
     for:
@@ -1550,6 +1636,33 @@
           category: 'close_rdp_port' #the indentefier      
         attachment: 
           url: https://i.imgur.com/REHcU44.png
+
+
+##############################################################################   
+#
+# RDP port is Open alert
+#
+##############################################################################   
+- alias: 'VPN Docker is Open alert'  # TODO make it repeate , to be not ignored
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: switch.ha_dockermon_openvpn_as
+    to: 'on'
+    for:
+      minutes: 45
+  action:
+    service: notify.eliran_ios_and_ipad_and_telegram
+    data:
+      title: 'אבטחה'
+      message: 'VPN  פתוח , סגור אותו אם אין צורך '
+      data:
+        push:
+          sound: "US-EN-Morgan-Freeman-Setting-The-Mood.wav"
+          badge: 0
+          category: 'close_vpn_docker' #the indentefier      
+        attachment: 
+          url: https://i.imgur.com/REHcU44.png 
 
 ##############################################################################   
 #
@@ -1844,7 +1957,7 @@
     - service: homeassistant.turn_off
       entity_id: group.AllMylights
     - service: homeassistant.turn_on
-      entity_id: light.sonoff_light
+      entity_id: light.kitchen
 
 - alias: 'iOS notification action ONLY_GATEWAY_LIGHT_ON'
   initial_state: 'on' 
@@ -2037,7 +2150,18 @@
   action:
     - service: script.turn_on
       entity_id: script.close_rdp_port
-
+####################################################
+- alias: 'iOS notification action CLOSE_VPN_DOCKER'
+  initial_state: 'on'
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: CLOSE_VPN_DOCKER #the action that was tap
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.ha_dockermon_openvpn_as
 # # # When timer is stopped, the time run out, another message is sent
 # # - action:
 # #  - service: notify.eliran_ios_and_ipad_and_telegram
@@ -2059,4 +2183,95 @@
     #     payload: ""
     
 
-                      
+#####
+#### Living room AC
+####
+###AC MODE update
+# - alias: 'Living room AC Mode was changed update sensibo_living_room_operation'
+#   initial_state: 'on'
+#   trigger:
+#     platform: state
+#     entity_id: climate.living_room
+#     #to: Any Change ["dry","auto","heat","fan_only","cool"]
+#   action:   
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.sensibo_living_room_operation
+#         option: >
+#           {% if is_state('climate.living_room', 'dry') %}
+#             dry
+#           {% elif is_state('iclimate.living_room', 'auto') %}            
+#             auto
+#           {% elif is_state('climate.living_room', 'heat') %}            
+#             heat   
+#           {% elif is_state('climate.living_room', 'fan_only') %}            
+#             fan_only                      
+#           {% else %}
+#             cool
+#           {% endif %}        
+###AC MODE input_select CHANGED
+- alias: 'input_select Living sensibo_living_room_operation changed'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: input_select.sensibo_living_room_operation 
+    #to Anyone   
+  action:
+    - service: climate.set_operation_mode
+      data_template:
+        entity_id: climate.living_room
+        operation_mode: >
+          {% if is_state('input_select.sensibo_living_room_operation', 'dry') %}
+            dry
+          {% elif is_state('input_select.sensibo_living_room_operation', 'auto') %}            
+            auto
+          {% elif is_state('input_select.sensibo_living_room_operation', 'heat') %}            
+            heat   
+          {% elif is_state('input_select.sensibo_living_room_operation', 'fan_only') %}            
+            fan_only                      
+          {% else %}
+            cool
+          {% endif %}
+### AC FAN UPDATE
+# - alias: 'Living room AC FAN was changed update select_option'
+#   initial_state: 'on'
+#   trigger:
+#     platform: state
+#     entity_id: climate.living_room
+#   action:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.sensibo_living_room_fan
+#         option: >
+#           {% if is_state_attr('climate.living_room', 'fan_mode', 'low') %}
+#             low
+#           {% elif is_state_attr('climate.living_room', 'fan_mode', 'medium') %}
+#             medium
+#           {% elif is_state_attr('climate.living_room', 'fan_mode', 'high') %}
+#             high                               
+#           {% else %}
+#             auto
+#           {% endif %}        
+
+###AC FAN input_select CHANGED
+- alias: 'input_select Living sensibo_living_room_fan changed'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: input_select.sensibo_living_room_fan 
+    #to Anyone   
+  action:
+    - service: climate.set_fan_mode
+      data_template:
+        entity_id: climate.living_room
+        fan_mode: >
+          {% if is_state('input_select.sensibo_living_room_fan', 'low') %}
+            low
+          {% elif is_state('input_select.sensibo_living_room_fan', 'medium') %}            
+            medium
+          {% elif is_state('input_select.sensibo_living_room_fan', 'high') %}            
+            high                   
+          {% else %}
+            auto
+          {% endif %}
+

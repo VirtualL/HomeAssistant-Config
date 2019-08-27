@@ -11,11 +11,18 @@
     - light
     - switch
     - vacuum
-    - script
+    # - script
     # - media_player
     #- climate #using Sensibo Skill
     
   entity_config:
+    sensor.sensibo1_temp:
+      name: Salon Temperature
+      room: Salon
+      aliases:
+        - Home Temperature
+        - Salon Temperature
+        - Home Temp
 ########################################
 ###LIGHTS
 ########################################
@@ -30,7 +37,7 @@
       name: Right Bulb
       room: Salon
 
-    light.sonoff_light:
+    light.kitchen:
       name: Kitchen
       room: Kitchen
       aliases:
@@ -62,17 +69,14 @@
         - Desk Lamp
         - Desktop Lamp
         
-    light.bedroom_fan_light:
+    light.bedroom:
       name: Bedroom light
       room: Bedroom
       aliases:
         - Bedroom light
-        - Fan Light
 ###############expose: FALSE##################
-    light.yeelight_rgb_286c07106e1b:
+    light.special_sonoff_kitchen:
       expose: false
-    light.yeelight_white_f0b4290e4e68:
-      expose: false    
 ########################################
 ###SWITCHS
 ########################################
@@ -108,6 +112,13 @@
     switch.xiaomi_powerstrip:
       name: Power strip
       room: Salon
+
+    switch.fan:
+      name: Fan
+      room: Salon
+      aliases:
+        - Red Fan
+        - Floor Fan
 ###############expose: FALSE##################
     switch.tv_lg_hdmi1:
       expose: false
@@ -115,18 +126,22 @@
       expose: false
     switch.tv_lg_hdmi3:
       expose: false
-    binary_sensor.ha_dockermon_cloud9ide:
+    switch.ha_dockermon_code_server:
       expose: false
-    binary_sensor.ha_dockermon_ha_dockermon:
+    switch.ha_dockermon_ha_dockermon:
       expose: false
-    binary_sensor.ha_dockermon_heimdall:
+    switch.ha_dockermon_letsencrypt:
       expose: false
-    binary_sensor.ha_dockermon_letsencrypt:
+    switch.ha_dockermon_mosquitto:
       expose: false
-    binary_sensor.ha_dockermon_unifi:
+    switch.ha_dockermon_openvpn_as:
       expose: false
-    binary_sensor.ha_dockermon_unms:      
+    switch.ha_dockermon_organizr:
       expose: false
+    switch.ha_dockermon_unifi_controller:
+      expose: false
+    switch.sensibo_living_room:
+      expose: false    
             
 ########################################
 ###INPUT BOOLEAN
@@ -189,6 +204,8 @@
       expose: false
     script.update_speedtestnet:
       expose: false 
+    script.close_rdp_port:      
+      expose: false     
 ########################################
 ###GROUP
 ########################################  

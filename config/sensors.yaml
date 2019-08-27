@@ -38,26 +38,26 @@
     name: SSL Router
     host: !secret routerSSL
   - platform: cert_expiry
-    name: SSL HASS
-    host: !secret hassSSL
-  - platform: cert_expiry
-    name: SSL IDE
-    host: !secret c9IdeSSL
-  - platform: cert_expiry
     name: SSL Server
     host: !secret serverSSL
   - platform: cert_expiry
-    name: SSL HomePage
-    host: !secret HomePageSSL
-  - platform: cert_expiry
-    name: SSL CCTV
-    host: !secret CCTVSSL   
-  - platform: cert_expiry
-    name: SSL Unifi
-    host: !secret UnifiSSL
-  - platform: cert_expiry
-    name: SSL UNMS
-    host: !secret UNMS_SSL
+    name: SSL HASS
+    host: !secret hassSSL
+  # - platform: cert_expiry
+  #   name: SSL IDE
+  #   host: !secret c9IdeSSL
+  # - platform: cert_expiry
+  #   name: SSL HomePage
+  #   host: !secret HomePageSSL
+  # - platform: cert_expiry
+  #   name: SSL CCTV
+  #   host: !secret CCTVSSL   
+  # - platform: cert_expiry
+  #   name: SSL Unifi
+  #   host: !secret UnifiSSL
+  # - platform: cert_expiry
+  #   name: SSL UNMS
+  #   host: !secret UNMS_SSL
 
   #Travel time From Home to Work
   - platform: waze_travel_time
@@ -275,20 +275,19 @@
     scan_interval: 43200 #12 Hours
     
 
+
 ####################################### Temp and Hum From sensibo #######################################
   - platform: template
     sensors:
       sensibo1_temp:
-        friendly_name: 'טמפרטורת סלון' #power Strip Temperature
+        friendly_name: 'טמפרטורת סלון' 
         value_template: '{{ states.climate.living_room.attributes.current_temperature }}'
         unit_of_measurement: "°C" #"°מעלות" #temperature in C
-        entity_id: climate.living_room
+
       sensibo1_humidity:
-        friendly_name: 'לחות סלון' #power Strip Temperature
+        friendly_name: 'לחות סלון' 
         value_template: '{{ states.climate.living_room.attributes.current_humidity }}'
         unit_of_measurement: "%"
-        entity_id: climate.living_room
-        
         
 ####################################### https://sharethelove.io/xiaomi-vacuum-card #######################################        
   - platform: template
@@ -649,6 +648,27 @@
               {%- endif -%}
             {%- endif -%}
 
+  - platform: template
+    sensors:
+      sensibo_target_temp:
+        friendly_name: "Target Temperature"
+        unit_of_measurement: "°C"
+        icon_template: mdi:thermometer
+        value_template: >-
+          {{ states.climate.living_room.attributes.temperature }}
+
+          
+      sensibo_living_room_operation:
+        friendly_name: "Operation Mode"
+        icon_template: mdi:air-filter
+        value_template: >-
+          {{ states.climate.living_room.attributes.operation_mode }}  
+          
+      sensibo_living_room_fan:
+        friendly_name: "Fan Mode"
+        icon_template: mdi:fan
+        value_template: >-
+          {{ states.climate.living_room.attributes.fan_mode }} 
 
 ####################################### NOT IN USE ####################################### 
   # - platform: zoneminder

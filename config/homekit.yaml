@@ -16,7 +16,8 @@
       - device_tracker.eliran_iphone_wifi #byIP at DDWT 
       - device_tracker.shiran_iphone_wifi #shiran
       - device_tracker.xiaomigateway
-      - device_tracker.sonoff_kitchen #Kitchen lamp sonoff touch
+      - device_tracker.sonoff_kitchen #Kitchen lamp sonoff TX
+      - device_tracker.sonoff_bedroom #sonoff touch 
       - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
       - device_tracker.homecctv_01 #HomeCCTV VStarcam 360 
       - device_tracker.rockrobo #Xiaomi Vaccum Cleaner Gen1
@@ -43,7 +44,6 @@
     exclude_entities:
       - light.yeelight_white_f0b4290e4e68 #Duplicate
       - light.yeelight_rgb_286c07106e1b #Duplicate
-      - switch.bedroom_fan_light #RF light
       - switch.tv_lg_hdmi1
       - switch.tv_lg_hdmi2
       - switch.tv_lg_hdmi3
@@ -68,7 +68,7 @@
 ###LIGHT
 ########################################  
     #all light. get "display_categories: LIGHT"  by default
-    light.sonoff_light:
+    light.kitchen:
       name: מטבח
     light.desk_lamp:
       name: מנורת שולחן
@@ -82,7 +82,7 @@
       name: חדר שירות
     light.sonoff_hallway_light:
       name: מסדרון
-    light.bedroom_fan_light:
+    light.bedroom:
       name: חדר שינה
 ########################################
 ###SWITCH
@@ -123,6 +123,8 @@
       name: רכזת
     device_tracker.sonoff_kitchen:
       name: מנורת מטבח
+    device_tracker.sonoff_bedroom:
+      name: תאורת חדר שינה  
     device_tracker.sonoffpow2:
       name: מפסק מצלמת מטבח
     device_tracker.homecctv_01:

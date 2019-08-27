@@ -19,7 +19,7 @@
         - name: Lights     
           entities:
             - light.sonoff_hallway_light
-            - light.sonoff_light
+            - light.kitchen
             - light.philips_bulb
             - group.salon_light
             - light.desk_lamp

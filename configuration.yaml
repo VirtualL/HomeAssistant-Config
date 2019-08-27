@@ -73,9 +73,11 @@ device_tracker: !include config/device_trackers.yaml
 
 #Xiaomi Gateway (Aqara)
 xiaomi_aqara:
-  discovery_retry: 10
+  discovery_retry: 6
   gateways:
-    - key: !secret XiaomiGatewayKey
+    - host: 192.168.XXX.XXX #CHANGE_IP
+      mac: !secret XiaomiGatewayMAC
+      key: !secret XiaomiGatewayKey
  
 vacuum:
   - platform: xiaomi_miio
@@ -95,7 +97,11 @@ vacuum:
 #     name: Apple TV
 #     login_id: !secret AppleTVLogin_id
 #     # credentials: !secret AppleTVcredentials
-
+# media_player: #TODO
+#   # Use the Python ADB implementation without authentication
+#   - platform: androidtv
+#     name: Android TV 1
+#     host: 192.168.0.104
 timer:
   #a Timer that Start Every time that the Home Door Open 
   dogwalk:
@@ -105,7 +111,7 @@ timer:
 mqtt:
   password: !secret mqtt_password
   #To use the Embedded MQTT Broker - Remove the 3 line below
-  # I am using Eclipse Mosquitto broker for my CCTV setup.
+  # I am using Eclipse Mosquitto broker for my setup.
   broker: !secret MainHostIP
   client_id: HOME_ASSISTANT
   username: homeassistant
@@ -166,6 +172,7 @@ hacs:
   
 # custom_updater:
 # deprecation - move to HACS https://github.com/custom-components/custom_updater/issues/117  
+
 climate:      
 - platform: sensibo
   api_key: !secret SensiboApiKey
@@ -184,6 +191,11 @@ calendar:
   - platform: todoist
     token: !secret todoist_token
     
+tuya:
+  username: !secret tuya_username
+  password: !secret tuya_password
+  country_code: 972
+
 ####################################### Speedtest.Net #######################################     
 speedtestdotnet:
   server_id: 9034 #018 Server  
@@ -197,7 +209,7 @@ sensor: !include config/sensors.yaml
 group: !include config/groups.yaml 
 automation: !include_dir_merge_list config/automation/
 script: !include config/scripts.yaml
-#input_select: !include config/input_select.yaml
+input_select: !include config/input_select.yaml
 input_boolean: !include config/input_boolean.yaml
 input_number: !include config/input_number.yaml
 binary_sensor: !include config/binary_sensors.yaml  
@@ -208,26 +220,25 @@ fan: !include config/fans.yaml
 remote: !include config/remotes.yaml  
 light: !include config/lights.yaml  
 yeelight: !include config/yeelight.yaml 
-
-ios: !include config/ios.yaml
 mobile_app:
-
+ios: !include config/ios.yaml
 notify: !include config/notify.yaml
 panel_iframe: !include config/panel_iframe.yaml
 zone: !include config/zones.yaml
 shell_command: !include config/shell_commands.yaml
 homekit: !include config/homekit.yaml # For apple HomeKit support
 #alexa support Via Haaska (v3) #to avoid from monthly payments (in Home Assitant Cloud) #and to give more options for customization
-alexa: !include config/alexa.yaml
+# alexa: !include config/alexa.yaml #NOT IN USE
 google_assistant: !include config/google_assistant.yaml 
 rest_command: !include config/rest_commands.yaml 
 ############################################################################
 ##
 ## sonoff1 = sonoff pow1 boiler ( switch.mqtt_pow1 )
 ## sonoff2 = sonoff pow 2 general - now for homeCCTV Kitchen( switch.mqtt_pow2 )
-## sonoff3 = sonoff touch - now for Kitchen Light ( light.sonoff_light )
+## sonoff3 = sonoff touch - BedRoom Light ( light.bedroom )
 ## sonoff4 = sonoff basic -now for Hallway Light (light.sonoff_hallway_light )
 ## sonoff5 = sonoff basic - now for Xiaomi CCTV ( switch.sonoff_xiaomicctv_switch )
+## sonoff6 = sonoff TX 2CH - 1 Kitchen 2 special (now philips light)
 ## sonoff_ifan = sonoff ifan02 with light and fan speed contoll at bedroom
 ##
 ############################################################################
@@ -240,4 +251,5 @@ rest_command: !include config/rest_commands.yaml
 ## sensor.humidity_158d0001150e4e = sensor.humidity_bedroom_0
 ## sensor.temperature_158d0001150e4e = sensor.temperature_bedroom_0
 ## light.gateway_light_34ce0088d2f7 = light.gateway_light
+## switch.10515080cc50e337683d = switch.fan
 ################################################################################
