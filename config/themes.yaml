@@ -198,7 +198,7 @@ dark-mode:
   primary-text-color: '#EEEEEE' # Primary text colour
   secondary-text-color: '#474E5D' # Secondary text colour
   disabled-text-color: 'rgba(255, 255, 255, 0.5)' # Disabled text colour
-  divider-color: 'rgba(255, 255, 255, 0.12)'' # Divider colour
+  divider-color: 'rgba(255, 255, 255, 0.12)'  #Divider colour
   paper-card-header-color: '#FFFFFF' # Card header text colour
   paper-listbox-background-color: '#21252B' # Listbox background colour
   paper-listbox-color: '#FFFFFF' # Listbox text colour
@@ -216,7 +216,7 @@ dark-mode:
   table-row-background-color: 'transparant'
   table-row-alternative-background-color: 'transparant'
   sidebar-icon-color: '#EEEEEE'
-  sidebar-selected-icon-color: '#1172e2" #"#7d34d6"
+  sidebar-selected-icon-color: '#1172e2'  ##7d34d6
   # label-badge-red: '#C6C6C6'                                          # References the brand colour label badge border
   label-badge-green: '#469D44'
   label-badge-yellow: '#EBB63E'

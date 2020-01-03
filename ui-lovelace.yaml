@@ -13,9 +13,9 @@ resources:
 ## https://github.com/thomasloven/lovelace-card-modder 
   - url: /community_plugin/lovelace-card-modder/card-modder.js
     type: js
-## https://github.com/custom-cards/monster-card
-  - url: /community_plugin/monster-card/monster-card.js
-    type: js
+## https://github.com/thomasloven/lovelace-auto-entities #replace ## https://github.com/custom-cards/monster-card
+  - url: /community_plugin/lovelace-auto-entities/auto-entities.js
+    type: module
 ## https://github.com/custom-cards/vertical-stack-in-card  
   - url: /community_plugin/vertical-stack-in-card/vertical-stack-in-card.js
     type: js
@@ -37,12 +37,12 @@ resources:
 ## https://github.com/custom-cards/username-element
   - url: /community_plugin/username-element/username-element.js
     type: js
-##  https://github.com/Letherwin/Todoist-List
-  - url: /community_plugin/todoist-list/todoist-list.js
-    type: js
 ## https://github.com/custom-cards/bignumber-card    
   - url: /community_plugin/bignumber-card/bignumber-card.js 
     type: js     
+##  https://github.com/Letherwin/Todoist-List #*************** NOT IN HACS #***************
+  - url: /todoist-list/todoist-list.js
+    type: js
 #################################################################
 #                          Module                               #
 #################################################################
@@ -120,7 +120,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
-        column_width: 250
+        # ##column_width: 250
         cards:
     ####################################################################
     #                                                                  #
@@ -183,7 +183,7 @@ views:
     #####################################################################
           - type: custom:card-modder
             card:
-              type: custom:monster-card
+              type: custom:auto-entities #monster-card
               show_empty: false
               card:
                 type: glance
@@ -278,11 +278,11 @@ views:
                   entities:
                     - entity: device_tracker.eliran_iphone #or_iphone
                       name: מיקום                   
-                    - entity: sensor.connection_type_1 #WIFI/4G
+                    - entity: sensor.connection_type #WIFI/4G
                       name: חיבור    
-                    - entity: sensor.geocoded_location_1
-                      name: ios                      
-                    - entity: sensor.activity_1 #CAR/Run/walk etc... #TODO FIX
+                    - entity: sensor.geocoded_location
+                      name: ios
+                    - entity: sensor.activity #CAR/Run/walk etc... #TODO FIX
                       name: פעילות    
 
                 style:
@@ -300,7 +300,7 @@ views:
                   title: שירן
                   columns: 2
                   entities:
-                    - entity: device_tracker.shiran_iphone #shani_iphone #TODO
+                    - entity: device_tracker.shiran_iphone #shiran_turgemans_iphone 
                       name: מיקום                   
                     - entity: sensor.connection_type_2 #WIFI/4G
                       name: חיבור    
@@ -343,7 +343,7 @@ views:
                         # background-color: black
                         # opacity: 0.7
                     # - type: state-icon
-                    #   entity: sensor.activity_1 #CAR/Run/walk etc...
+                    #   entity: sensor.activity #CAR/Run/walk etc...
                     #   tap_action: more_info
                     #   style: {color: white, left: 50%, top: 20%}   
                       
@@ -353,12 +353,12 @@ views:
                     #   style: {color: white, left: 27%, top: 75%}   
                       
                     - type: state-icon
-                      entity: sensor.battery_level_1
+                      entity: sensor.battery_level
                       tap_action: more_info
                       style: {color: white, left: 27%, top: 90%}
                          
                     - type: state-label
-                      entity: sensor.battery_level_1 
+                      entity: sensor.battery_level 
                       style: 
                         color: white 
                         left: 13% 
@@ -384,7 +384,7 @@ views:
                       prefix: 'שירן - '
                       style: {color: white, left: 75%, top: 90%}
                     - type: state-label
-                      entity:  device_tracker.shiran_iphone #shani_iphone #TODO
+                      entity:  device_tracker.shiran_iphone #shiran_turgemans_iphone
                       prefix: 'לפי מיקום - '
                       style:
                         direction: rtl
@@ -444,7 +444,10 @@ views:
                     action: toggle
                 - entity: light.philips_bulb
                   tap_action:
-                    action: toggle
+                    action: toggle    
+                - entity: light.bathroom
+                  tap_action:
+                      action: toggle         
                 - entity: light.sonoff_hallway_light
                   tap_action:
                       action: toggle
@@ -543,7 +546,23 @@ views:
                   border: solid 1px rgba(100,100,100,0.3)
                   box-shadow: 3px 3px rgba(0,0,0,0.4)
                   overflow: hidden  
-                      
+         
+              - type: custom:card-modder
+                card:
+                  type: entity-button
+                  entity: light.bathroom
+                  name: מקלחת
+                  tap_action:
+                    action: toggle
+                style:
+                  background: url("/local/lovelace/home/hallway.jpg") #TODO ZZZ
+                  background-color: rgba(50,50,50,0.3)
+                  background-size: 100% 100% 
+                  border-radius: 20px
+                  border: solid 1px rgba(100,100,100,0.3)
+                  box-shadow: 3px 3px rgba(0,0,0,0.4)
+                  overflow: hidden
+
               - type: custom:card-modder
                 card:
                   type: entity-button
@@ -723,7 +742,7 @@ views:
                     
 
                 - type: custom:state-attribute-element
-                  entity: calendar.work
+                  entity: calendar.icloud_work
                   attribute: message
                   style:
                     top: 57%
@@ -740,7 +759,7 @@ views:
                     
 
                 - type: custom:state-attribute-element
-                  entity: calendar.private #icloudhome
+                  entity: calendar.icloud_private #icloudhome
                   attribute: message
                   style:
                     top: 83.5%
@@ -842,19 +861,19 @@ views:
               columns: 3
               entities:
                 - device_tracker.eliran_iphone
-                - sensor.activity_1
-                - sensor.battery_level_1
-                - sensor.battery_state_1
-                - sensor.average_active_pace_1
-                - sensor.distance_1
-                - sensor.floors_ascended_1
-                - sensor.floors_descended_1
-                - sensor.steps_1
-                - sensor.bssid_1
+                - sensor.activity
+                - sensor.battery_level
+                - sensor.battery_state
+                - sensor.average_active_pace
+                - sensor.distance
+                - sensor.floors_ascended
+                - sensor.floors_descended
+                - sensor.steps
+                - sensor.bssid
                 - sensor.sim_1
-                - sensor.ssid_1
-                - sensor.last_update_trigger_1
-                - sensor.geocoded_location_1
+                - sensor.ssid
+                - sensor.last_update_trigger
+                - sensor.geocoded_location
                 
             style:
               background-image: url("/local/lovelace/background/cardbackk.png")
@@ -872,7 +891,7 @@ views:
               title: iOS Shiran          
               columns: 3
               entities:
-                - device_tracker.shiran_iphone
+                - device_tracker.shiran_iphone #shiran_turgemans_iphone 
                 - sensor.activity_2
                 - sensor.battery_level_2
                 - sensor.battery_state_2
@@ -884,7 +903,7 @@ views:
                 - sensor.bssid_2
                 - sensor.connection_type_2
                 - sensor.ssid_2
-                - sensor.cellular_provider_2 #sim_2
+                - sensor.sim_1_2 #sim_2
                 - sensor.last_update_trigger_2
                 - sensor.geocoded_location_2
                 
@@ -1234,8 +1253,8 @@ views:
               title: " " #"לוח שנה" ""
               progressBar: true
               entities:
-                - calendar.work
-                - calendar.private #icloudhome
+                - calendar.icloud_work
+                - calendar.icloud_private #icloudhome
             style:
               --paper-card-background-color: rgba(50, 50, 50, 0.3)
               border-radius: 5px
@@ -1254,7 +1273,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
-        column_width: 250
+        ##column_width: 250
         cards:
 #################################################################
 #                                                               #
@@ -1277,6 +1296,7 @@ views:
                 - light.kitchen
                 - light.philips_bulb
                 - light.sonoff_hallway_light
+                - light.bathroom
                 - light.gateway_light
                 - light.bedroom
                 - light.desk_lamp               
@@ -1362,6 +1382,21 @@ views:
               - type: custom:card-modder
                 card:
                   type: entity-button
+                  entity: light.bathroom
+                  name: מקלחת
+                  tap_action:
+                    action: toggle
+                style:
+                  background: url("/local/lovelace/home/hallway.jpg") #TOZO ZZZ
+                  background-color: rgba(50,50,50,0.3)
+                  background-size: 100% 100% 
+                  border-radius: 20px
+                  border: solid 1px rgba(100,100,100,0.3)
+                  box-shadow: 3px 3px rgba(0,0,0,0.4)
+                  overflow: hidden                        
+              - type: custom:card-modder
+                card:
+                  type: entity-button
                   entity: light.sonoff_hallway_light
                   name: מסדרון
                   tap_action:
@@ -1444,6 +1479,8 @@ views:
                   tap_action: 
                     action: call-service
                     service: vacuum.locate
+                    service_data:
+                      entity_id: vacuum.xiaomi_vacuum           
                   style:
                    top: 93%
                    left: 80%
@@ -1454,6 +1491,8 @@ views:
                   tap_action: 
                     action: call-service
                     service: vacuum.clean_spot
+                    service_data:
+                      entity_id: vacuum.xiaomi_vacuum
                   style:
                    top: 93%
                    left: 65%
@@ -1464,6 +1503,8 @@ views:
                   tap_action: 
                     action: call-service
                     service: vacuum.return_to_base
+                    service_data:
+                      entity_id: vacuum.xiaomi_vacuum                    
                   style:
                    top: 93%
                    left: 50%
@@ -1474,6 +1515,8 @@ views:
                   tap_action: 
                     action: call-service
                     service: vacuum.stop            
+                    service_data:
+                      entity_id: vacuum.xiaomi_vacuum                    
                   style:
                    top: 93%
                    left: 35%
@@ -1484,6 +1527,8 @@ views:
                   tap_action: 
                     action: call-service
                     service: vacuum.start
+                    service_data:
+                      entity_id: vacuum.xiaomi_vacuum                    
                   style:
                    top: 93%
                    left: 20%
@@ -1626,8 +1671,7 @@ views:
               border-radius: 20px
               border: solid 1px rgba(100,100,100,0.3)
               box-shadow: 3px 3px rgba(0,0,0,0.4)
-              overflow: hidden                   
-              
+              overflow: hidden
 ###############################################################################
 #                         BREAK                                               #
 #     to break the column right there,and move on to the next one             #
@@ -1753,6 +1797,24 @@ views:
               border-radius: 20px
               border: solid 1px rgba(100,100,100,0.3)
               box-shadow: 3px 3px rgba(0,0,0,0.4) 
+#################################################################
+#                   Living Room - google hub Card                   #
+#################################################################              
+          - type: custom:card-modder
+            card:           
+              type: custom:mini-media-player
+              entity: media_player.salon_display
+              name: Google Hub
+              background: /local/lovelace/media/googlehub.jpg
+              artwork: cover
+              artwork_border: true
+              power_color: true
+              show_source: full
+              show_progress: ture
+            style:                 
+              border-radius: 20px
+              border: solid 1px rgba(100,100,100,0.3)
+              box-shadow: 3px 3px rgba(0,0,0,0.4)               
 
 #################################################################
 #                                                               #
@@ -1940,33 +2002,33 @@ views:
           #     border: solid 1px rgba(100,100,100,0.3)
           #     box-shadow: 3px 3px rgba(0,0,0,0.4)          
               
-          - type: custom:card-modder
-            card:            
-              type: custom:todoist-list
-              entity: calendar.shopping_list
-              title: רשימת קניות
-            style:
-              background-image: url("/local/lovelace/background/cardbackk.png")
-              background-repeat: no-repeat
-              background-color: rgba(50,50,50,0.3)
-              background-size: 100% 68px
-              border-radius: 20px
-              border: solid 1px rgba(100,100,100,0.3)
-              box-shadow: 3px 3px rgba(0,0,0,0.4)        
+          # - type: custom:card-modder
+          #   card:            
+          #     type: custom:todoist-list
+          #     entity: calendar.shopping_list
+          #     title: רשימת קניות
+          #   style:
+          #     background-image: url("/local/lovelace/background/cardbackk.png")
+          #     background-repeat: no-repeat
+          #     background-color: rgba(50,50,50,0.3)
+          #     background-size: 100% 68px
+          #     border-radius: 20px
+          #     border: solid 1px rgba(100,100,100,0.3)
+          #     box-shadow: 3px 3px rgba(0,0,0,0.4)        
               
-          - type: custom:card-modder
-            card:            
-              type: custom:todoist-list
-              entity: calendar.inbox
-              title: inbox
-            style:
-              background-image: url("/local/lovelace/background/cardbackk.png")
-              background-repeat: no-repeat
-              background-color: rgba(50,50,50,0.3)
-              background-size: 100% 68px
-              border-radius: 20px
-              border: solid 1px rgba(100,100,100,0.3)
-              box-shadow: 3px 3px rgba(0,0,0,0.4)                        
+          # - type: custom:card-modder
+          #   card:            
+          #     type: custom:todoist-list
+          #     entity: calendar.inbox
+          #     title: inbox
+          #   style:
+          #     background-image: url("/local/lovelace/background/cardbackk.png")
+          #     background-repeat: no-repeat
+          #     background-color: rgba(50,50,50,0.3)
+          #     background-size: 100% 68px
+          #     border-radius: 20px
+          #     border: solid 1px rgba(100,100,100,0.3)
+          #     box-shadow: 3px 3px rgba(0,0,0,0.4)                        
 #############################################################################################################################################
 #                                                                                                                                           # 
 #                                                             VIEW 3 - Camera                                                               #
@@ -1980,7 +2042,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
-        column_width: 250
+        ##column_width: 250
         cards:
     #################################################################
     #                                                               #
@@ -2008,7 +2070,7 @@ views:
               show_header_toggle: true
               entities:
                 - device_tracker.homecctv_01
-                - device_tracker.54e4bdbe134c
+                - device_tracker.hikvision_home_cctv
                 - device_tracker.ipc_10 #hikvision_outdoor_cctv_01
                 - entity: device_tracker.windows_vm
                   name: וינדוס וירטואלי
@@ -2044,7 +2106,7 @@ views:
                 - switch.sonoff_xiaomicctv_switch
                 - device_tracker.windows_vm
                 - device_tracker.homecctv_01
-                - device_tracker.54e4bdbe134c
+                - device_tracker.hikvision_home_cctv
                 - device_tracker.ipc_10 #hikvision_outdoor_cctv_01 
                 - binary_sensor.windows_rdp_port
             style:
@@ -2178,7 +2240,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
-        column_width: 250
+        ##column_width: 250
         cards:    
 #################################################################
 #                                                               #
@@ -2266,7 +2328,7 @@ views:
               show_header_toggle: true
               entities:
                 - device_tracker.homecctv_01
-                - device_tracker.54e4bdbe134c
+                - device_tracker.hikvision_home_cctv
                 - device_tracker.ipc_10 #hikvision_outdoor_cctv_01
                 - entity: device_tracker.windows_vm
                   name: וינדוס וירטואלי
@@ -2312,7 +2374,7 @@ views:
                 # - entity: sensor.ssl_ide
                 #   name: SSL IDE  
             style:
-              background-image: url("/local/lovelace/security/SSL.png")
+              background-image: url("/local/lovelace/security/SSL.jpg")
               background-repeat: no-repeat
               background-color: rgba(50,50,50,0.3)
               background-size: 100% 100%
@@ -2346,10 +2408,10 @@ views:
                 - type: state-label
                   entity: binary_sensor.xiaomi_motion_sensor_hallway
                   prefix: 'תנועה במסדרון: '
-                  style: {top: 92%, left: 50%}     
+                  style: {top: 92%, left: 53%}     
                 - type: state-icon
                   entity: binary_sensor.xiaomi_motion_sensor_hallway
-                  style: {top: 82%, left: 50%}
+                  style: {top: 82%, left: 53%}
                 - type: state-label
                   entity: binary_sensor.door_sensor_bedroom
                   prefix: 'דלת חדר שינה: '
@@ -2380,11 +2442,11 @@ views:
                   # type: "custom:secondaryinfo-entity-row"
                   # secondary_info: "מצב סוללה:[[ binary_sensor.xiaomi_motion_sensor_hallway.attributes.battery_level ]]%"
                 - type: divider
-                - device_tracker.sonoffpow2
+                - device_tracker.sonoff_kitchen_cctv_switch
                 - device_tracker.homecctv_01
                 - type: divider
-                - device_tracker.5ccf7f729dd8
-                - device_tracker.54e4bdbe134c
+                - device_tracker.salon_cctv_switch
+                - device_tracker.hikvision_home_cctv
                 - type: divider
                 - device_tracker.ipc_10 #hikvision_outdoor_cctv_01
                 - device_tracker.xiaomigateway
@@ -2541,7 +2603,7 @@ views:
                 - device_tracker.eliran_iphone_wifi
                 - device_tracker.eliran_iphone # TODO GPS elirantur2
                 - device_tracker.shiran_iphone_wifi
-                - device_tracker.shiran_iphone # TODO GPS shiran_iphone
+                - device_tracker.shiran_iphone #shiran_turgemans_iphone 
                 - switch.sonoff_xiaomicctv_switch
                 - switch.mqtt_pow2
             style:
@@ -2599,7 +2661,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
-        column_width: 250
+        ##column_width: 250
         cards:
  
 #################################################################
@@ -2670,77 +2732,64 @@ views:
               border: solid 1px rgba(100,100,100,0.3)
               box-shadow: 3px 3px rgba(0,0,0,0.4)
               overflow: hidden
-              
+
 #################################################################
 #                                                               #
-#               System  - Sonoff Versions                       #
+#              System Status -Home Assistant Card               #
 #                                                               #
 #################################################################
           - type: custom:card-modder
             card:
               type: picture-elements
-              image: /local/lovelace/unraid/sonoff_latest_version.jpg
+              image: /local/lovelace/unraid/home_assistant.png
               elements:
-                - type: state-label
-                  entity: script.check_sonoffs_version
-                  prefix: 'בצע בדיקת סונוף '
-                  style: {color: white, left: 24%, top: 8%, font-size: 115%, font-weight: bold}
-
                 - type: state-icon
-                  entity: sensor.sonoff_latest_release
-                  style: {color: white, left: 92%, top: 8%}
-
+                  entity: sensor.hass_uptime
+                  style: {left: 15%, top: 10%, --iron-icon-height: 200%, --iron-icon-width: 200% }
                 - type: state-label
-                  entity: sensor.sonoff_latest_release
-                  prefix: 'גרסה אחרונה: '
-                  style: {color: white, left: 70%, top: 8%, font-size: 115%, font-weight: bold}
-
+                  entity: sensor.hass_uptime
+                  prefix: 'זמן ריצת הום-אסיסטנט: '
+                  style:
+                    direction: rtl
+                    top: 55%
+                    left: 50%
+                    color: black
+                    font-size: 115%
+                    font-weight: bold
                 - type: state-icon
-                  entity: light.kitchen
-                  style: {color: white, left: 57%, top: 85%}
+                  entity: sensor.latest_ha_backup
+                  style: {top: 67%, left: 90%}
                 - type: state-label
-                  entity: sensor.sonoff_touch_kitchen_version
-                  style: {color: white, left: 57%, top: 95%, font-size: 115%, font-weight: bold}
-
+                  entity: sensor.latest_ha_backup
+                  prefix: 'גיבוי אחרון: '
+                  style: {top: 67%, left: 50%, color: black, font-weight: bold }
+                - type: state-label
+                  entity: sensor.home_assistant_v2_db
+                  prefix: 'גודל DB: '                
+                  style: {top: 95%, left: 80%, color: black}     
                 - type: state-icon
-                  entity: switch.mqtt_pow1 
-                  style: {color: white, left: 73%, top: 85%}
+                  entity: sensor.home_assistant_v2_db 
+                  style: {top: 85%, left: 80%}
                 - type: state-label
-                  entity: sensor.sonoff_pow_boiler_version 
-                  style: {color: white, left: 73%, top: 95%, font-size: 115%, font-weight: bold}
-
+                  entity: sensor.current_version
+                  prefix: 'נוכחית: '
+                  style: {top: 95%, left: 50%, color: black}
                 - type: state-icon
-                  entity: switch.mqtt_pow2
-                  style: {color: white, left: 90%, top: 85%}
+                  entity: sensor.current_version
+                  style: {top: 85%, left: 50%}
                 - type: state-label
-                  entity: sensor.sonoff_pow_homecctv_version
-                  style: {color: white, left: 90%, top: 95%, font-size: 115%, font-weight: bold}
-                  
+                  entity: sensor.home_assistant_released_version 
+                  prefix: 'אחרונה: '
+                  style: {top: 95%, left: 20%, color: black}
                 - type: state-icon
-                  entity: switch.sonoff_xiaomicctv_switch
-                  style: {color: white, left: 44%, top: 85%}
-                - type: state-label
-                  entity: sensor.sonoff_xiaomicctv_version
-                  style: {color: white, left: 44%, top: 95%, font-size: 115%, font-weight: bold}   
-                  
-                - type: state-icon
-                  entity: light.bedroom
-                  style: {color: white, left: 31%, top: 85%}
-                - type: state-label
-                  entity: sensor.sonoff_ifan_bedroom_version
-                  style: {color: white, left: 31%, top: 95%, font-size: 115%, font-weight: bold}  
-                  
-                - type: state-icon
-                  entity: light.sonoff_hallway_light 
-                  style: {color: white, left: 12%, top: 85%}
-                - type: state-label
-                  entity: sensor.sonoff_hallway_light_version 
-                  style: {color: white, left: 12%, top: 95%, font-size: 115%, font-weight: bold}                  
+                  entity: sensor.home_assistant_released_version
+                  style: {top: 85%, left: 20%}
             style:                 
               border-radius: 20px
               border: solid 1px rgba(100,100,100,0.3)
               box-shadow: 3px 3px rgba(0,0,0,0.4)
-              overflow: hidden               
+              overflow: hidden 
+       
 ###############################################################################
 #                         BREAK                                               #
 #     to break the column right there,and move on to the next one             #
@@ -2824,11 +2873,11 @@ views:
                   entity: binary_sensor.windows_rdp_port
                   style: {top: 82%, left: 38%}
                 - type: state-label
-                  entity: device_tracker.homeipad
-                  prefix: 'אייפד: '
+                  entity: device_tracker.xiaomigateway
+                  prefix: 'Hub: '
                   style: {top: 92%, left: 13%}
                 - type: state-icon
-                  entity: device_tracker.homeipad
+                  entity: device_tracker.xiaomigateway
                   style: {top: 82%, left: 13%} 
             style:
               background-size: 100% 68px
@@ -2915,7 +2964,7 @@ views:
           - type: custom:card-modder
             card:
               type: custom:mini-graph-card
-              name: טמפרטורת דיסקים
+              name: טמפרטורת דיסקים TODO
               icon: mdi:server
               points_per_hour: 1
               animate: true
@@ -2927,8 +2976,8 @@ views:
               entities:
                 - entity: sensor.hdd_sdb_temp 
                   name: SSD
-                - entity: sensor.hdd_sdd_temp 
-                  name: 4TB
+                # - entity: sensor.hdd_sdd_temp 
+                #   name: 4TB
                 - entity: sensor.hdd_sdc_temp 
                   name: Parity
               color_thresholds:
@@ -2947,64 +2996,6 @@ views:
               border: solid 1px rgba(100,100,100,0.3)
               box-shadow: 3px 3px rgba(0,0,0,0.4)
    
-
-#################################################################
-#                                                               #
-#              System Status -Home Assistant Card               #
-#                                                               #
-#################################################################
-          - type: custom:card-modder
-            card:
-              type: picture-elements
-              image: /local/lovelace/unraid/home_assistant.png
-              elements:
-                - type: state-icon
-                  entity: sensor.hass_uptime
-                  style: {left: 15%, top: 10%, --iron-icon-height: 200%, --iron-icon-width: 200% }
-                - type: state-label
-                  entity: sensor.hass_uptime
-                  prefix: 'זמן ריצת הום-אסיסטנט: '
-                  style:
-                    direction: rtl
-                    top: 55%
-                    left: 50%
-                    color: black
-                    font-size: 115%
-                    font-weight: bold
-                - type: state-icon
-                  entity: sensor.latest_ha_backup
-                  style: {top: 67%, left: 73%}
-                - type: state-label
-                  entity: sensor.latest_ha_backup
-                  prefix: 'גיבוי אחרון: '
-                  style: {top: 67%, left: 50%, color: black, font-weight: bold }
-                - type: state-label
-                  entity: sensor.home_assistant_v2_db
-                  prefix: 'גודל DB: '                
-                  style: {top: 95%, left: 80%, color: black}     
-                - type: state-icon
-                  entity: sensor.home_assistant_v2_db 
-                  style: {top: 85%, left: 80%}
-                - type: state-label
-                  entity: sensor.current_version
-                  prefix: 'נוכחית: '
-                  style: {top: 95%, left: 50%, color: black}
-                - type: state-icon
-                  entity: sensor.current_version
-                  style: {top: 85%, left: 50%}
-                - type: state-label
-                  entity: sensor.home_assistant_released_version 
-                  prefix: 'אחרונה: '
-                  style: {top: 95%, left: 20%, color: black}
-                - type: state-icon
-                  entity: sensor.home_assistant_released_version
-                  style: {top: 85%, left: 20%}
-            style:                 
-              border-radius: 20px
-              border: solid 1px rgba(100,100,100,0.3)
-              box-shadow: 3px 3px rgba(0,0,0,0.4)
-              overflow: hidden 
-       
 #################################################################
 #             Security - Docker Apps  Card                     #
 ################################################################# 
@@ -3095,7 +3086,7 @@ views:
           - type: custom:card-modder
             card:
               type: picture-glance
-              title: מצב חיבור 
+              title: חיבור
               entities:
                 - device_tracker.xiaomigateway
                 - device_tracker.yeelightdesklamp
@@ -3104,7 +3095,8 @@ views:
                 - device_tracker.philipsbulb
                 - device_tracker.sonoff_kitchen #sonoff TX
                 - device_tracker.sonoff_bedroom #sonoff touch 
-                - device_tracker.esp_717fd4 #sonoff hallway light
+                - device_tracker.sonoff_hallway #sonoff hallway light
+                - device_tracker.sonoff7_bathroom_light
                 - device_tracker.sonoff_ifan
               image:  /local/lovelace/home/bright_bulbs.jpg
             style:                 
@@ -3126,26 +3118,30 @@ views:
               show_header_toggle: false
               entities:
                 - type: section
-                  label: IOT              
+                  label: IOT    
+                - device_tracker.xiaomigateway                            
                 - device_tracker.google_home_01
-                - device_tracker.amazon04d23d06d
+                - device_tracker.google_home_02
+                - device_tracker.google_hub
                 - device_tracker.sonoffpow1 #sonoff pow1 boiler
-                - device_tracker.xiaomipowerstrip
                 - device_tracker.rmproplus
                 - device_tracker.rockrobo #Xiaomi Vaccum Cleaner Gen1
                 - type: section
                   label: מצלמות
                 - device_tracker.ipc_10 #hikvision_outdoor_cctv_01  
-                - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
+                - device_tracker.sonoff_kitchen_cctv_switch #sonoff pow2 kitchen cctv switch
                 - device_tracker.homecctv_01 #HomeCCTV VStarcam 360 
+                - device_tracker.salon_cctv_switch
+                - device_tracker.hikvision_home_cctv                
                 - type: section
                   label: כללי
-                - device_tracker.appletv
+                # - device_tracker.appletv
                 - device_tracker.partner_tv #partnertv WRT
+                - device_tracker.blitzwolf_switch
                 - device_tracker.eliranmacbookpro
                 - device_tracker.eliransplewatch
+                - device_tracker.apple_watch_shiran
                 - device_tracker.desktop9cb3035
-                - device_tracker.eliransimac
               card:
                 type: picture-glance
                 title: Core Devices
@@ -3172,7 +3168,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
-        column_width: 250
+        ##column_width: 250
         cards:
 #################################################################
 #                                                               #
@@ -3187,13 +3183,13 @@ views:
                 - type: section
                   label: הדלקה
                 - input_boolean.boiler_on_clock_status
-                - sensor.boiler_on_clock_time
+                - sensor.boiler_on_clock_time_long
                 - input_number.boiler_on_clock_hour
                 - input_number.boiler_on_clock_minute
                 - type: section
                   label: כיבוי
                 - input_boolean.boiler_off_clock_status
-                - sensor.boiler_off_clock_time
+                - sensor.boiler_off_clock_time_long
                 - input_number.boiler_off_clock_hour
                 - input_number.boiler_off_clock_minute
             style:                 
@@ -3328,7 +3324,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
-        column_width: 250
+        ##column_width: 250
         cards:
     #################################################################
     #                                                               #
@@ -3389,7 +3385,7 @@ views:
                   background-size: 100% 180px
                   border-radius: 20px
                   border: solid 1px rgba(100,100,100,0.3)
-                  box-shadow: 3px 3px rgba(0,0,0,0.4)
+                  box-shadow: 0px 3px rgba(0,0,0,0.4)
 #############################################################################################################################################
 #############################################################################################################################################
 #############################################################################################################################################
@@ -3398,245 +3394,6 @@ views:
 #                   Air-conditioned Card                        #
 #                                                               #
 #################################################################   
-          # - type: entities
-          #   show_header_toggle: off
-          #   entities:
-          #     - type: 'custom:card-modder'            
-          #       card:
-          #           type: picture-elements
-          #           image: /local/lovelace/living_room/ac_buttons_on.png
-          #           elements:
-          #             - type: image
-          #               entity: switch.sensibo_living_room
-          #               image: /local/lovelace/living_room/ac_buttons_on.png
-          #               state_image:
-          #                 "off": /local/lovelace/living_room/ac_buttons_off.png
-          #               style:
-          #                 top: 50%
-          #                 left: 50%
-          #                 width: 100%
-          #             - type: custom:state-attribute-element
-          #               entity: climate.living_room
-          #               attribute: current_temperature      
-          #               suffix: °   
-          #               style:
-          #                 top: 85%
-          #                 left: 85%
-          #                 font-size: 24px
-          #                 color: "#FFFFFF"                                         
-          #             - type: custom:state-attribute-element
-          #               entity: climate.living_room
-          #               attribute: current_humidity   
-          #               suffix: "%"      
-          #               style:
-          #                 top: 85%
-          #                 left: 67%
-          #                 font-size: 24px
-          #                 color: "#FFFFFF"    
-
-# #################################################################
-# #                    Air-conditioned  Cool Mode                 #
-# #################################################################
-
-#                       - type: conditional
-#                         conditions:
-#                           - entity: input_select.sensibo_living_room_operation
-#                             state: 'cool'
-#                           - entity: switch.sensibo_living_room
-#                             state: 'on'
-#                         elements:
-#                           - type: icon
-#                             icon: mdi:snowflake
-#                             tap_action:
-#                               action: none
-#                             style:
-#                               top: 85%
-#                               left: 10%
-#                               color: "#FFFFFF"
-
-# #################################################################
-# #                    Air-conditioned  Heat Mode                 #
-# #################################################################
-
-#                       - type: conditional
-#                         conditions:
-#                           - entity: input_select.sensibo_living_room_operation
-#                             state: 'heat'
-#                           - entity: switch.sensibo_living_room
-#                             state: 'on'
-#                         elements:
-#                           - type: icon
-#                             icon: mdi:fire
-#                             tap_action:
-#                               action: none
-#                             style:
-#                               top: 85%
-#                               left: 10%
-#                               color: "#FFFFFF"
-
-# #################################################################
-# #                    Air-conditioned  Fan Mode                 #
-# #################################################################
-
-#                       - type: conditional
-#                         conditions:
-#                           - entity: input_select.sensibo_living_room_operation
-#                             state: 'fan_only'
-#                           - entity: switch.sensibo_living_room
-#                             state: 'on'
-#                         elements:
-#                           - type: icon
-#                             icon: mdi:fan
-#                             tap_action:
-#                               action: none
-#                             style:
-#                               top: 85%
-#                               left: 10%
-#                               color: "#FFFFFF"
-
-
-# #################################################################
-# #                    Air-conditioned  auto Mode                 #
-# #################################################################
-
-#                       - type: conditional
-#                         conditions:
-#                           - entity: input_select.sensibo_living_room_operation
-#                             state: 'auto'
-#                           - entity: switch.sensibo_living_room
-#                             state: 'on'
-#                         elements:
-#                           - type: icon
-#                             icon: mdi:brightness-auto
-#                             tap_action:
-#                               action: none
-#                             style:
-#                               top: 85%
-#                               left: 10%
-#                               color: "#FFFFFF"
-
-# #################################################################
-# #                    Air-conditioned  Low Fan                   #
-# #################################################################
-
-#                       - type: conditional
-#                         conditions:
-#                           - entity: input_select.sensibo_living_room_fan
-#                             state: 'low'
-#                           - entity: switch.sensibo_living_room
-#                             state: 'on'
-#                         elements:
-#                           - type: icon
-#                             icon: mdi:signal-cellular-1
-#                             tap_action:
-#                               action: none
-#                             style:
-#                               top: 85%
-#                               left: 19%
-#                               color: "#FFFFFF"
-
-# #################################################################
-# #                    Air-conditioned  Medium Fan                #
-# #################################################################
-
-#                       - type: conditional
-#                         conditions:
-#                           - entity: input_select.sensibo_living_room_fan
-#                             state: 'medium'
-#                           - entity: switch.sensibo_living_room
-#                             state: 'on'
-#                         elements:
-#                           - type: icon
-#                             icon: mdi:signal-cellular-2
-#                             tap_action:
-#                               action: none
-#                             style:
-#                               top: 85%
-#                               left: 19%
-#                               color: "#FFFFFF"
-
-# #################################################################
-# #                    Air-conditioned  High Fan                  #
-# ################################################################# 
-
-#                       - type: conditional
-#                         conditions:
-#                           - entity: input_select.sensibo_living_room_fan
-#                             state: 'high'
-#                           - entity: switch.sensibo_living_room
-#                             state: 'on'
-#                         elements:
-#                           - type: icon
-#                             icon: mdi:signal-cellular-3
-#                             tap_action:
-#                               action: none
-#                             style:
-#                               top: 85%
-#                               left: 19%
-#                               color: "#FFFFFF"
-
-
-# #################################################################
-# #                    Air-conditioned  Auto Fan                  #
-# ################################################################# 
-
-#                       - type: conditional
-#                         conditions:
-#                           - entity: input_select.sensibo_living_room_fan
-#                             state: 'auto'
-#                           - entity: switch.sensibo_living_room
-#                             state: 'on'
-#                         elements:
-#                           - type: icon
-#                             icon: mdi:signal-cellular-3
-#                             tap_action:
-#                               action: none
-#                             style:
-#                               top: 85%
-#                               left: 19%
-#                               color: "#FFFFFF"
-
-# #################################################################
-# #                    Air-conditioned  ON                        #
-# ################################################################# 
-
-#                       - type: conditional
-#                         conditions:
-#                           - entity: switch.sensibo_living_room
-#                             state: 'on'
-#                         elements:
-#                           - type: custom:state-attribute-element
-#                             entity: climate.living_room
-#                             attribute: temperature      
-#                             suffix: °                           
-#                             style:
-#                               top: 85%
-#                               left: 33%
-#                               font-size: 24px
-#                               color: "#FFFFFF"
-
-#################################################################
-#                  Air-conditioned  Monitor Temp                #
-#################################################################
-           ##### Displays the temperature in graph format #####
-              # - type: custom:bar-card
-              #   columns: 
-              #   max: 30
-              #   show_icon: true
-              #   card_style: 
-              #     border-radius: 5px
-              #   entities:
-              #     - entity: sensor.sensibo_temp
-              #       title: Temp in the home
-              #       severity:
-              #       - value: 22
-              #         color: '#1db954'
-              #       - value: 25
-              #         color: '#bf9540'
-              #       - value: 30
-              #         color: '#bf4040'
-              #       unit_of_measurement: '°C'
-
 #################################################################
 #                  Air-conditioned  Control buttons             #
 ################################################################# 
@@ -3646,19 +3403,17 @@ views:
                 cards:                          
                   - type: 'custom:card-modder'
                     style:
-                      border-radius: 5px   
                       box-shadow: 2px 2px rgba(0,0,0,0.3)    
-                      height: 50px 
                       padding: 1%
                       font-size: 13px             
                     card:
-                      # name: 'Minus'
                       type: entity-button
+                      name: " "
                       icon: 'mdi:minus'
+                      entity: script.sensibo_decrease_target_temp
+                      show_name: false
                       tap_action:
                         action: toggle
-                      entity: script.sensibo_decrease_target_temp
-
 #################################################################
 #                  Air-conditioned  Target                      #
 #################################################################
@@ -3682,20 +3437,18 @@ views:
 
                   - type: 'custom:card-modder'
                     style:
-                      border-radius: 5px   
                       box-shadow: 2px 2px rgba(0,0,0,0.3)    
-                      height: 50px 
                       padding: 1%
                       font-size: 13px             
                     card:
-                      # name: 'Plus'
                       type: entity-button
+                      name: " "
                       icon: 'mdi:plus'
+                      entity: script.sensibo_increase_target_temp
+                      show_name: false
                       tap_action:
                         action: toggle
-                      entity: script.sensibo_increase_target_temp
-
-
+                      
 
 #################################################################
 #                  Air-conditioned  ON/OFF                      #
@@ -3708,22 +3461,23 @@ views:
                     name: Power
                     icon: mdi:power-standby
                     color_type: card
-                    show_state: false
+                    show_state: ture
                     show_label: false
                     show_icon: true
-                    show_name: true
+                    show_name: false
                     size: 18px
                     border-radius: 5px   
                     box-shadow: 2px 2px rgba(0,0,0,0.3)    
                     height: 50px 
                     padding: 1%
                     font-size: 13px                          
-                    layout: vertical
                     styles:
                       card:
-                        - border-radius: 5px
-                        - box-shadow: 1px 1px rgba(0,0,0,0.4)
-                        - background-color: var(--paper-card-background-color)
+                        - border-radius: 5px   
+                        - box-shadow: 2px 2px rgba(0,0,0,0.3)    
+                        - height: 50px 
+                        - padding: 1%
+                        - font-size: 13px                       
                       name:
                         - color: var(--primary-text-color)
                       img_cell:
@@ -3752,7 +3506,7 @@ views:
                       - value: "off"
                         styles:
                           card:
-                            #- background-color: var(--button-color-green)                                    
+                            - background-color: var(--google-red-500)                                    
                     tap_action:
                       action: toggle
                     hold_action:
@@ -3766,7 +3520,7 @@ views:
                 cards:
                   - type: custom:button-card
                     entity: input_select.sensibo_living_room_operation
-                    name: Cool
+                    name: קירור
                     icon: mdi:snowflake
                     size: 30px
                     border-radius: 5px   
@@ -3809,7 +3563,7 @@ views:
 
                   - type: custom:button-card
                     entity: input_select.sensibo_living_room_operation
-                    name: Heat
+                    name: חימום
                     icon: mdi:fire
                     size: 30px
                     border-radius: 5px   
@@ -3852,7 +3606,7 @@ views:
 
                   - type: custom:button-card
                     entity: input_select.sensibo_living_room_operation
-                    name: Fan
+                    name: איורור
                     icon: mdi:fan
                     size: 30px 
                     border-radius: 5px   
@@ -3895,7 +3649,7 @@ views:
 
                   - type: custom:button-card
                     entity: input_select.sensibo_living_room_operation
-                    name: Auto
+                    name: אוטומטי
                     icon: mdi:brightness-auto
                     size: 30px  
                     border-radius: 5px   
@@ -3935,7 +3689,7 @@ views:
                 cards:
                   - type: custom:button-card
                     entity: input_select.sensibo_living_room_fan
-                    name: Low
+                    name: נמוך
                     size: 30px  
                     border-radius: 5px   
                     box-shadow: 2px 2px rgba(0,0,0,0.3)    
@@ -3979,7 +3733,7 @@ views:
 
                   - type: custom:button-card
                     entity: input_select.sensibo_living_room_fan
-                    name: Medium
+                    name: בינוני
                     size: 30px  
                     border-radius: 5px   
                     box-shadow: 2px 2px rgba(0,0,0,0.3)    
@@ -4023,7 +3777,7 @@ views:
 
                   - type: custom:button-card
                     entity: input_select.sensibo_living_room_fan
-                    name: High
+                    name: גבוהה
                     size: 30px  
                     border-radius: 5px   
                     box-shadow: 2px 2px rgba(0,0,0,0.3)    
@@ -4068,7 +3822,7 @@ views:
 
                   - type: custom:button-card
                     entity: input_select.sensibo_living_room_fan
-                    name: Auto
+                    name: אוטומטי
                     size: 30px  
                     border-radius: 5px   
                     box-shadow: 2px 2px rgba(0,0,0,0.3)    
@@ -4163,7 +3917,7 @@ views:
     cards:
       - type: custom:layout-card
         layout: vertical
-        column_width: 250
+        ##column_width: 250
         cards:
           - type: custom:content-card-remote-control
             broadlink_host: '192.168.1.85'
@@ -4231,6 +3985,24 @@ views:
               border: solid 1px rgba(100,100,100,0.3)
               box-shadow: 3px 3px rgba(0,0,0,0.4) 
 
+#################################################################
+#                   Living Room - google hub Card                   #
+#################################################################              
+          - type: custom:card-modder
+            card:           
+              type: custom:mini-media-player
+              entity: media_player.salon_display
+              name: Google Hub
+              background: /local/lovelace/media/googlehub.jpg
+              artwork: cover
+              artwork_border: true
+              power_color: true
+              show_source: full
+              show_progress: ture
+            style:                 
+              border-radius: 20px
+              border: solid 1px rgba(100,100,100,0.3)
+              box-shadow: 3px 3px rgba(0,0,0,0.4)               
 #################################################################
 #                                                               #
 #           Google Home Mini Room - Media Player Card           #
@@ -4348,7 +4120,7 @@ views:
 
           - type: custom:card-modder
             card:
-              type: custom:monster-card
+              type: custom:auto-entities #monster-card
               show_empty: false
               card:
                 type: entities
@@ -4424,6 +4196,7 @@ views:
                 show_header_toggle: false
                 title: חדר שינה ומסדרון
                 entities:
+                  - light.bathroom
                   - light.sonoff_hallway_light
                   - light.desk_lamp
                   - entity: light.bedroom
@@ -4459,8 +4232,8 @@ views:
       #     numberOfDays: 14
       #     progressBar: true
       #     entities:
-      #       - calendar.work
-      #       - calendar.icloudhome
+      #       - calendar.icloud_work
+      #       - calendar.icloud_private
       #   style:
       #     --paper-card-background-color: rgba(50, 50, 50, 0.3)
       #     border-radius: 20px

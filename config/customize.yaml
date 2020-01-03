@@ -563,11 +563,6 @@ input_boolean.alarm_clock_status:
   friendly_name: 'הפעל שעון מעורר'
   icon: mdi:alarm-check
    
-# input_number.alarm_clock_hour:
-#   homebridge_hidden: true
-# input_number.alarm_clock_minute:
-#   homebridge_hidden: true
-
 
 sensor.home_to_adoraim:
   friendly_name: זמן הגעה מהבית לאדוריים
@@ -588,7 +583,7 @@ input_boolean.boiler_on_clock_status:
   friendly_name: 'הפעל זמן הדלקה'
   icon: mdi:alarm-check
    
-sensor.boiler_on_clock_time:
+sensor.boiler_on_clock_time_long:
   friendly_name: 'זמן הדלקה'
   icon: mdi:clock-start
    
@@ -603,7 +598,7 @@ input_boolean.boiler_off_clock_status:
   friendly_name: 'הפעל זמן כיבוי'
   icon: mdi:alarm-off
    
-sensor.boiler_off_clock_time:
+sensor.boiler_off_clock_time_long:
   friendly_name: 'זמן כיבוי'
   icon: mdi:clock-end
    
@@ -732,7 +727,7 @@ switch.ha_dockermon_openvpn_as:
     icon: mdi:arrow-decision-outline    
 
 
-device_tracker.shiran_iphone: #shiran Shani ios GPS #TODO zzz
+device_tracker.shiran_iphone:
   hide_if_away: false
   friendly_name: Shiran iPhone iOS
   entity_picture: /local/shiran.jpg

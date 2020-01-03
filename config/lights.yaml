@@ -69,6 +69,21 @@
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: false    
+
+################################################################################
+## sonoff7 = sonoff touch NO LIVE WIRE - BathRoom Light 
+################################################################################
+  - platform: mqtt
+    name: "bathroom"
+    state_topic: "stat/sonoff7/POWER"
+    command_topic: "cmnd/sonoff7/POWER"
+    availability_topic: "tele/sonoff7/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: false    
 ################################################################################
 ## sonoff_ifan = sonoff ifan02 -in the bedroom #WORKIN NOT IN USE
 ################################################################################    

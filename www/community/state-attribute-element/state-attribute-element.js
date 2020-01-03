@@ -11,8 +11,13 @@ class StateAttributeElement extends HTMLElement {
       this.state = hass.states[entityId].attributes[attr][sub_attribute]
     }
     const card = document.createElement('state-attribute-element');
-    if (this.state.length != 0 || show_empty === true) {
-      this.innerHTML = `${prefix_string}${this.state}${suffix_string}`
+    if (this.state) {
+      if (this.state.length != 0 || show_empty === true) {
+        this.innerHTML = `${prefix_string}${this.state}${suffix_string}`
+      }
+    }
+    else {
+      this.innerHTML = 'Attribute: ' + attr + ' does not exist in entity: ' + entityId + '.'
     }
   }
   setConfig(config) {

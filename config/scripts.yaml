@@ -19,13 +19,7 @@
           message: 'This is a test!'
           data:
             attachment: 
-              url: https://67.media.tumblr.com/ab04c028a5244377a0ab96e73915e584/tumblr_nfn3ztLjxk1tq4of6o1_400.gif
-      - service: notify.mobile_app_smarthome_ipad
-        data:
-          message: 'This is a test!'
-          data:
-            attachment: 
-              url: https://67.media.tumblr.com/ab04c028a5244377a0ab96e73915e584/tumblr_nfn3ztLjxk1tq4of6o1_400.gif        
+              url: https://67.media.tumblr.com/ab04c028a5244377a0ab96e73915e584/tumblr_nfn3ztLjxk1tq4of6o1_400.gif      
       - service: notify.mobile_app_shiran_iphone
         data:
           message: 'This is a test!'
@@ -41,6 +35,7 @@
       - service: switch.turn_off
         data:
           entity_id: switch.mqtt_pow1
+          
           
 ############################################### 
   #a button to use speed test manualy 

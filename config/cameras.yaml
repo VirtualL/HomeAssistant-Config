@@ -30,13 +30,17 @@
   name: Home CCTV2
   input: !secret HomeCCTV2URL
   
-- platform: onvif
+- platform: ffmpeg 
   name: Outdoor CCTV
-  host: !secret IPC10_IP
-  profile: 1 # 0 for SuperHD
-  port: 80
-  username: !secret IPC10username
-  password: !secret IPC10password
+  input: !secret IPC10URL
+# - platform: onvif
+#   name: Outdoor CCTV
+#   host: !secret IPC10_IP
+#   profile: 1 # 0 for SuperHD
+#   port: 80
+#   username: !secret IPC10username
+#   password: !secret IPC10password
+  
     
 
 - platform: local_file #for security warnings 

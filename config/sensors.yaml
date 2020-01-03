@@ -113,51 +113,29 @@
 ####################################### boiler(POW1) on CLOCK #######################################
   - platform: template
     sensors:
-      boiler_on_clock_hour:
-        value_template: '{{ states.input_number.boiler_on_clock_hour.state | int }}'
-      boiler_on_clock_minute:
-        value_template: '{{ states.input_number.boiler_on_clock_minute.state | int }}'
-      boiler_on_clock_time:
-        value_template: >-
-          {{ states.sensor.boiler_on_clock_hour.state }}:
-          {%- if states.sensor.boiler_on_clock_minute.state|length == 1 -%}
-            0
-          {%- endif -%}
-            {{ states.sensor.boiler_on_clock_minute.state }}
       boiler_on_clock_time_long:
         value_template: >-
-          {% if states.sensor.boiler_on_clock_hour.state|length == 1 -%}
+          {%- if states.input_number.boiler_on_clock_hour.state|int  < 10 -%}
             0
           {%- endif -%}
-            {{ states.sensor.boiler_on_clock_hour.state }}:
-          {%- if states.sensor.boiler_on_clock_minute.state|length == 1 -%}
+            {{ states.input_number.boiler_on_clock_hour.state | int }}:
+          {%- if states.input_number.boiler_on_clock_minute.state|int  < 10 -%}
             0
           {%- endif -%}
-            {{ states.sensor.boiler_on_clock_minute.state }}
+            {{states.input_number.boiler_on_clock_minute.state|int}}
 ####################################### boiler (POW1) OFF CLOCK #######################################
   - platform: template
     sensors:
-      boiler_off_clock_hour:
-        value_template: '{{ states.input_number.boiler_off_clock_hour.state | int }}'
-      boiler_off_clock_minute:
-        value_template: '{{ states.input_number.boiler_off_clock_minute.state | int }}'
-      boiler_off_clock_time:
-        value_template: >-
-          {{ states.sensor.boiler_off_clock_hour.state }}:
-          {%- if states.sensor.boiler_off_clock_minute.state|length == 1 -%}
-            0
-          {%- endif -%}
-            {{ states.sensor.boiler_off_clock_minute.state }}
       boiler_off_clock_time_long:
         value_template: >-
-          {% if states.sensor.boiler_off_clock_hour.state|length == 1 -%}
+          {%- if states.input_number.boiler_off_clock_hour.state|int  < 10 -%}
             0
           {%- endif -%}
-            {{ states.sensor.boiler_off_clock_hour.state }}:
-          {%- if states.sensor.boiler_off_clock_minute.state|length == 1 -%}
+            {{ states.input_number.boiler_off_clock_hour.state | int }}:
+          {%- if states.input_number.boiler_off_clock_minute.state|int  < 10 -%}
             0
           {%- endif -%}
-            {{ states.sensor.boiler_off_clock_minute.state }}
+            {{states.input_number.boiler_off_clock_minute.state|int}}
 ###############END#########################
 
 #############
@@ -220,32 +198,6 @@
   #         #ILS OR USD (Depends on local currency) Just change the value of "0.5404" to your local elctricity price
   #         unit_of_measurement: "₪" # USD / Other local currency
 
-    ####################################### ALARM CLOCK #######################################
-    #alarm clock that send a notifaction to phone (via iOS app-see Automations)
-  - platform: template
-    sensors:
-      alarm_clock_hour:
-        value_template: '{{ states.input_number.alarm_clock_hour.state | int }}'
-      alarm_clock_minute:
-        value_template: '{{ states.input_number.alarm_clock_minute.state | int }}'
-      alarm_clock_time:
-        value_template: >-
-          {{ states.sensor.alarm_clock_hour.state }}:
-          {%- if states.sensor.alarm_clock_minute.state|length == 1 -%}
-            0
-          {%- endif -%}
-            {{ states.sensor.alarm_clock_minute.state }}
-      alarm_clock_time_long:
-        value_template: >-
-          {% if states.sensor.alarm_clock_hour.state|length == 1 -%}
-            0
-          {%- endif -%}
-            {{ states.sensor.alarm_clock_hour.state }}:
-          {%- if states.sensor.alarm_clock_minute.state|length == 1 -%}
-            0
-          {%- endif -%}
-            {{ states.sensor.alarm_clock_minute.state }}
-####################################### End of ALARM CLOCK#######################################
 #######################################CURRENCIES Rates Via XML rate in Offical BANK OF ISRAEL#######################################
   - platform: command_line
     name: Exchange Date
@@ -270,7 +222,7 @@
     
 ###### Latest config backup time
   - platform: command_line
-    command: "bash /config/scripts/latest_Hass_backup.py"
+    command: "bash /config/scripts/latest_Hass_backup.sh"
     name: 'Latest HA Backup'
     scan_interval: 43200 #12 Hours
     
@@ -281,31 +233,41 @@
     sensors:
       sensibo1_temp:
         friendly_name: 'טמפרטורת סלון' 
-        value_template: '{{ states.climate.living_room.attributes.current_temperature }}'
+        value_template: "{{ state_attr('climate.living_room', 'current_temperature') }}"
         unit_of_measurement: "°C" #"°מעלות" #temperature in C
 
       sensibo1_humidity:
         friendly_name: 'לחות סלון' 
-        value_template: '{{ states.climate.living_room.attributes.current_humidity }}'
+        value_template: "{{ state_attr('climate.living_room', 'current_humidity') }}"
         unit_of_measurement: "%"
         
+                
 ####################################### https://sharethelove.io/xiaomi-vacuum-card #######################################        
   - platform: template
     sensors:
       vacuum_status:
         friendly_name: "Vacuum - Status"
-        # value_template: "{{ states.vacuum.xiaomi_vacuum.attributes.status }}:מצב"
         value_template: >-
-          {%if states.vacuum.xiaomi_vacuum.attributes.status == 'Charging' %}מצב:בטעינה
-          {% elif states.vacuum.xiaomi_vacuum.attributes.status == 'Cleaning' %}מצב:מנקה
-          {% elif states.vacuum.xiaomi_vacuum.attributes.status == 'Spot cleaning' %}מצב:מנקה נקודתי
-          {% elif states.vacuum.xiaomi_vacuum.attributes.status == 'Returning home' %}מצב:בחזרה לבסיס
-          {% elif states.vacuum.xiaomi_vacuum.attributes.status == 'Paused' %}מצב:בהשהייה
-          {% elif states.vacuum.xiaomi_vacuum.attributes.status == 'Idle' %}מצב:לא פעיל
-          {% elif states.vacuum.xiaomi_vacuum.attributes.status == 'Error' %}מצב:שגיאה,בדוק מה הסיבה באפליקציה          
-          {% elif states.vacuum.xiaomi_vacuum.attributes.status == 'Charger disconnected' %}מצב:מטען מנותק          
-          {%- else -%}
-            {{states.vacuum.xiaomi_vacuum.attributes.status}}:מצב
+          {%if is_state('vacuum.xiaomi_vacuum', 'Charging') %}
+            מצב:בטעינה
+          {% elif is_state('vacuum.xiaomi_vacuum', 'Cleaning') %}
+            מצב:מנקה
+          {% elif is_state('vacuum.xiaomi_vacuum', 'docked') %}
+            מצב:בעגינה            
+          {% elif is_state('vacuum.xiaomi_vacuum', 'Spot cleaning') %}
+            מצב:מנקה נקודתי
+          {% elif is_state('vacuum.xiaomi_vacuum', 'Returning home') %}
+            מצב:בחזרה לבסיס
+          {% elif is_state('vacuum.xiaomi_vacuum', 'Paused') %}
+            מצב:בהשהייה
+          {% elif is_state('vacuum.xiaomi_vacuum', 'Idle') %}
+            מצב:לא פעיל
+          {% elif is_state('vacuum.xiaomi_vacuum', 'Error') %}
+            מצב:שגיאה,בדוק מה הסיבה באפליקציה
+          {% elif is_state('vacuum.xiaomi_vacuum', 'Charger disconnected') %}
+            מצב:מטען מנותק
+          {% else %}
+           {{ states.vacuum.xiaomi_vacuum.state }}:מצב 
           {% endif %}
 
 ################# A platform which allows you to get information sucessfull logins to Home Assistant ################# 
@@ -337,13 +299,13 @@
       greeter_card_info:
         value_template: > 
           פרטי:
-          האירוע הבא {{ as_timestamp(states.calendar.private.attributes.start_time) | timestamp_custom('- %d/%m בשעה %H:%M') }}
+          האירוע הבא {{ as_timestamp(state_attr('calendar.icloud_private', 'start_time')) | timestamp_custom('- %d/%m בשעה %H:%M') }}
   - platform: template
     sensors:
       greeter_card_info_2:
         value_template: > 
           עבודה:
-          האירוע הבא {{ as_timestamp(states.calendar.work.attributes.start_time) | timestamp_custom('- %d/%m בשעה %H:%M') }}
+          האירוע הבא {{ as_timestamp(state_attr('calendar.icloud_work', 'start_time')) | timestamp_custom('- %d/%m בשעה %H:%M') }}
 ######################Outside Temperature with animated icons ################################
 #Not in use , Working good! 
   # - platform: template
@@ -457,19 +419,22 @@
     name: 'HDD_sdb_temp'
     unit_of_measurement: "°מעלות" #temperature in C "°C"
     scan_interval: 120 #2 min
-    command: "hddtemp -n /dev/sdb"
+    command: "smartctl -A /dev/sdb | grep Airflow_Temperature_Cel  | awk '{print $10}'"
+    #"hddtemp -n /dev/sdb"
     
   - platform: command_line #OR Parity 4TB #WD1TB
     name: 'HDD_sdc_temp'
     unit_of_measurement: "°מעלות" #temperature in C "°C"
     scan_interval: 120 #2 min
-    command: "hddtemp -n /dev/sdc"
+    command: "smartctl -A /dev/sdc | grep Temperature_Celsius  | awk '{print $10}'"  
+    #"hddtemp -n /dev/sdc"
 
-  - platform: command_line #OR Seagate 4TB #WD 4TB
-    name: 'HDD_sdd_temp'
-    unit_of_measurement: "°מעלות" #temperature in C "°C"
-    scan_interval: 120 #2 min
-    command: "hddtemp -n /dev/sdd"
+  # - platform: command_line #OR Seagate 4TB #WD 4TB
+  #   name: 'HDD_sdd_temp'
+  #   unit_of_measurement: "°מעלות" #temperature in C "°C"
+  #   scan_interval: 120 #2 min
+  #   command: ???????????????
+  #   #"hddtemp -n /dev/sdd"
 ####################################### Disks Usage #######################################   
   - platform: command_line 
     command: "bash /config/scripts/main_disk_usage.sh"
@@ -655,20 +620,19 @@
         unit_of_measurement: "°C"
         icon_template: mdi:thermometer
         value_template: >-
-          {{ states.climate.living_room.attributes.temperature }}
+          {{ state_attr('climate.living_room', 'temperature') }}
 
-          
       sensibo_living_room_operation:
         friendly_name: "Operation Mode"
         icon_template: mdi:air-filter
         value_template: >-
-          {{ states.climate.living_room.attributes.operation_mode }}  
+          {{ state_attr('climate.living_room', 'operation_mode') }}  
           
       sensibo_living_room_fan:
         friendly_name: "Fan Mode"
         icon_template: mdi:fan
         value_template: >-
-          {{ states.climate.living_room.attributes.fan_mode }} 
+          {{ state_attr('climate.living_room', 'fan_mode') }} 
 
 ####################################### NOT IN USE ####################################### 
   # - platform: zoneminder

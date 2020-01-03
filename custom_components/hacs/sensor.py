@@ -3,7 +3,6 @@
 from integrationhelper import Logger
 from homeassistant.helpers.entity import Entity
 from .hacsbase import Hacs as hacs
-from .const import DOMAIN, VERSION, NAME_LONG, PROJECT_URL
 
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
@@ -23,7 +22,6 @@ class HACSSensor(Entity):
         """Initialize."""
         self._state = None
         self.logger = Logger("hacs.sensor")
-        self.has_update = []
         self.repositories = []
 
     async def async_update(self):
@@ -34,7 +32,10 @@ class HACSSensor(Entity):
         self.repositories = []
 
         for repository in hacs.repositories:
-            if repository.pending_upgrade:
+            if (
+                repository.pending_upgrade
+                and repository.category in hacs.common.categories
+            ):
                 self.repositories.append(repository)
         self._state = len(self.repositories)
 
@@ -73,17 +74,9 @@ class HACSSensor(Entity):
             data.append(
                 {
                     "name": repository.information.full_name,
+                    "display_name": repository.display_name,
                     "installed version": repository.display_installed_version,
                     "available version": repository.display_available_version,
                 }
             )
         return {"repositories": data}
-
-    @property
-    def device_info(self):
-        return {
-            "identifiers": {(DOMAIN, self.unique_id)},
-            "name": NAME_LONG,
-            "sw_version": VERSION,
-            "manufacturer": PROJECT_URL,
-        }

@@ -17,7 +17,7 @@
     platform: group
     services:
       - service: mobile_app_eliran_iphone
-    #   - service: ios_shiran_iphone
+    #   - service: mobile_app_shiran_iphone
       
   - name: eliran_ios_and_ipad_and_telegram #to send the same notify together 
     platform: group

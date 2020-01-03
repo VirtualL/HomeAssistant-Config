@@ -11,21 +11,19 @@
       - sensor.humidity_bedroom_0
       - sensor.xiaomi_gateway_illumination
       - sensor.temperature_bedroom_0
-        
-      - device_tracker.homeipad
+      # - device_tracker.homeipad
       - device_tracker.eliran_iphone_wifi #byIP at DDWT 
       - device_tracker.shiran_iphone_wifi #shiran
       - device_tracker.xiaomigateway
       - device_tracker.sonoff_kitchen #Kitchen lamp sonoff TX
       - device_tracker.sonoff_bedroom #sonoff touch 
-      - device_tracker.sonoffpow2 #sonoff pow2 kitchen cctv switch
+      - device_tracker.sonoff_kitchen_cctv_switch #sonoff pow2 kitchen cctv switch
       - device_tracker.homecctv_01 #HomeCCTV VStarcam 360 
+      - device_tracker.hikvision_home_cctv
       - device_tracker.rockrobo #Xiaomi Vaccum Cleaner Gen1
-      #
       - device_tracker.main_server #main server 
       - device_tracker.windows_vm #Windows VM
       - device_tracker.ipc_10
-      
       - sensor.sensibo1_temp
       - sensor.sensibo1_humidity
       # not in use - using sensibo
@@ -82,6 +80,8 @@
       name: חדר שירות
     light.sonoff_hallway_light:
       name: מסדרון
+    light.bathroom:
+      name: מקלחת
     light.bedroom:
       name: חדר שינה
 ########################################
@@ -113,8 +113,8 @@
 ########################################
 ###DEVICE TRACKER 
 ########################################
-    device_tracker.homeipad:
-      name: אייפד
+    # device_tracker.homeipad:
+    #   name: אייפד
     device_tracker.eliran_iphone_wifi:
       name: אלירן
     device_tracker.shiran_iphone_wifi:
@@ -125,13 +125,13 @@
       name: מנורת מטבח
     device_tracker.sonoff_bedroom:
       name: תאורת חדר שינה  
-    device_tracker.sonoffpow2:
+    device_tracker.sonoff_kitchen_cctv_switch:
       name: מפסק מצלמת מטבח
     device_tracker.homecctv_01:
       name: מצלמת מטבח
-    device_tracker.5ccf7f729dd8:
+    device_tracker.salon_cctv_switch:
       name: מפסק מצלמת סלון
-    device_tracker.54e4bdbe134c:
+    device_tracker.hikvision_home_cctv:
       name: מצלמת סלון
     device_tracker.sonoffpow1:
       name: מצב דוד
@@ -159,12 +159,16 @@
 ########################################
 ###SENSOR
 ########################################         
-    sensor.humidity_bedroom_0:
-      name: לחות בחדר הורים
     sensor.xiaomi_gateway_illumination:
       name: עוצמת אור ברכזת
     sensor.temperature_bedroom_0:
       name: טמפרטורה בחדר הורים
+    sensor.humidity_bedroom_0:
+      name: לחות בחדר הורים
+    sensor.sensibo1_temp:
+      name: טמפרטורה בסלון     
+    sensor.sensibo1_humidity:
+      name: לחות בסלון
 ########################################
 ###GENERAL
 ########################################  
@@ -172,4 +176,6 @@
       name: רוביק
     group.allmylights:
       name: כל התאורה
+    climate.living_room:      
+      name: מזגן בסלון
  

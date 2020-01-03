@@ -3,12 +3,6 @@
 #SWITCH
 #
 ################################################################################
-  # - platform: xiaomi_miio  #???
-  #   name:  Xiaomi PowerStrip
-  #   host: 192.168.1.132
-  #   token: !secret XiaomiPowerStripToken
-  #   model: qmi.powerstrip.v1
-
 ################################################################################
 ##sonoff pow1 BOILER (an Sonoff POW Device with MQTT via Tasmota)
 ################################################################################

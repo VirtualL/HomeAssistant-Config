@@ -105,7 +105,7 @@
             url: https://i.imgur.com/ZWIytcC.png 
             #https://community-home-assistant-assets.s3-us-west-2.amazonaws.com/original/2X/6/6a99ebb8d0b585a00b407123ff76964cb3e18780.png
             
-    - service: camera.local_file_update_file_path
+    - service: local_file.update_file_path #camera.local_file_update_file_path
       data:
         entity_id: camera.cctv1_snapshot #use the latest snapshot 
         file_path: '/config/tmp/clean.png'
@@ -204,7 +204,7 @@
     - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'מצלמת הסלון'   #Living room CCTV
-        message: 'במצב דלוק,בדוק את סיבת ההדלקה'# Turn Off
+        message: 'במצב דלוק,בדוק את סיבת ההדלקה' #Turn Off
         data:
           push:
               badge: 0
@@ -262,7 +262,7 @@
     - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'מצלמת המטבח' #Living room CCTV
-        message: 'במצב דלוק,בדוק את סיבת ההדלקה'# Turn Off
+        message: 'במצב דלוק,בדוק את סיבת ההדלקה' #Turn Off
         data:
           push:
               badge: 0
@@ -399,7 +399,7 @@
     - service: homeassistant.turn_off
       entity_id: switch.sonoff_xiaomicctv_switch
 
-    - service: notify.ios_shiran_iphone
+    - service: notify.mobile_app_shiran_iphone
       data:
         title: 'אבטחה'   #securty
         message: 'ברוך הבא שירן :) מצלמות הבית כבויות'   #Welcome Home Shiran , CCTV off
@@ -621,7 +621,7 @@
     - service: notify.eliran_ios_and_ipad_and_telegram
       data_template:
         title: 'בוצע נסיון כניסה שנכשל!'   #Failed login attempt!
-        message: "{{ states.persistent_notification.http_login.attributes.message}}"
+        message: "{{ state_attr('persistent_notification.http_login', 'message') }}"
         #iOS only
         data:
           url: http://extreme-ip-lookup.com/{{ states.persistent_notification.http_login.attributes.message.split("from ") [1]}}
@@ -642,7 +642,7 @@
     - service: notify.eliran_ios_and_ipad_and_telegram
       data_template:
         title: 'אייפיי נחסם!'   #Failed login attempt!
-        message: "{{ states.persistent_notification.ip_ban.attributes.message}}"
+        message: "{{ state_attr('persistent_notification.ip_ban', 'message') }}"      
         #iOS only
         data:
           url: http://extreme-ip-lookup.com/{{ states.persistent_notification.ip_ban.attributes.message.split("from ") [1]}}
@@ -725,7 +725,7 @@
     - service: notify.eliran_ios_and_ipad_and_telegram #mobile_app_eliran_iphone
       data:
         title: 'דוד' #boiler
-        message: 'הדוד דלוק יותר מ10 דקות!' #the boiler is ON more then 10 min
+        message: 'הדוד דלוק יותר מ5 דקות!' #the boiler is ON more then 10 min
         data:
           push:
             badge: 0
@@ -786,16 +786,16 @@
   action:
     - service: homeassistant.turn_on
       entity_id: switch.mqtt_pow1
-    - service: notify.shiran_and_eliran_ios
+    - service: notify.mobile_app_shiran_iphone
       data:
-        title: 'דוד'  #boiler
-        message: 'הדוד מכובה!' #the boiler is off
+        title: 'דוד' #boiler
+        message: 'הדוד נדלק לפי השעון שהוגדר'  #the boiler is on 
         data:
           push:
             badge: 0
-            category: 'modifymyboilerswitch' #the indentefier
+            category: 'modifymyboilerswitch' #the indentefier        
           attachment: 
-            url: https://i.imgur.com/igtwFWz.gif      
+            url: https://i.imgur.com/igtwFWz.gif
     - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'דוד' #boiler
@@ -1341,29 +1341,6 @@
     - delay: 0:00:35
     - service: light.turn_off
       entity_id: light.gateway_light
-##############################################################################  
-#
-# alarm clock       
-#
-##############################################################################  
-- alias: 'notify when the alarm is finish'
-  initial_state: 'on'
-  trigger:
-    platform: template
-    value_template: '{{ states.sensor.time.state == states.sensor.alarm_clock_time_long.state }}'
-  condition:
-    condition: state
-    entity_id: input_boolean.alarm_clock_status
-    state: 'on'
-  action:
-    service: notify.eliran_ios_and_ipad_and_telegram
-    data:
-      title: 'שעון מעורר' #alarm clock
-      message: 'שעון מעורר נגמר!'   #Alarm Clock is Finsh
-      data:
-        attachment: 
-          url: https://i.imgur.com/lso7Poa.gif
-          #https://cdn.dribbble.com/users/225481/screenshots/1114887/wekker-2.gif
 
 ####################################################
 #                                                  #
@@ -1446,7 +1423,7 @@
     - service: shell_command.backup_ha_and_move_backup_to_unraid
     - service: notify.eliran_ios_and_ipad_and_telegram
       data:
-        title: 'גיבוי'#backup
+        title: 'גיבוי'  #backup
         message: 'הגיבוי היומי להום-אסיסטנט בביצוע בדוק סיום תקין בבוקר '    #daily backup of hass configis runing
         data:
           attachment: 
@@ -1669,23 +1646,24 @@
 # iPad is offline alert
 #
 ##############################################################################   
-- alias: 'iPad is offline alert'
-  initial_state: 'on'
-  trigger:
-    platform: state
-    entity_id: device_tracker.homeipad 
-    to: 'not_home'
-    for:
-      minutes: 5
-  action:
-    service: notify.eliran_ios_and_ipad_and_telegram
-    data:
-      title: 'HomeKit'
-      message: 'האייפד לא מחובר לרשת! לכן אין גישה להוםקיט מחוץ לבית'
-      data:
-        attachment: 
-          url: https://i.imgur.com/u0lVY15.png
-          #https://cdn.vox-cdn.com/uploads/chorus_image/image/56018769/homekit_large.0.png
+# - alias: 'iPad is offline alert'
+#   initial_state: 'on'
+#   trigger:
+#     platform: state
+#     entity_id: device_tracker.homepod 
+#     to: 'not_home'
+#     for:
+#       minutes: 5
+#   action:
+#     service: notify.eliran_ios_and_ipad_and_telegram
+#     data:
+#       title: 'HomeKit'
+#       message: 'הוםפוד לא מחובר לרשת! לכן אין גישה להוםקיט מחוץ לבית'
+#       data:
+#         attachment: 
+#           url: https://support.apple.com/library/content/dam/edam/applecare/images/en_US/homepod/ios12-iphone-x-homepod-setup-hero-animation.gif
+#           #https://i.imgur.com/u0lVY15.png
+#           #https://cdn.vox-cdn.com/uploads/chorus_image/image/56018769/homekit_large.0.png
 
           
 #############################################################################   
@@ -1725,7 +1703,30 @@
   - service: light.turn_on
     data_template:
       entity_id: light.white_bulb
-      
+
+#############################################################################   
+#
+# Turn-OFF all lights except desklamp
+#
+#############################################################################   
+#TurnOFF all lights except desklamp on hold sonoff bedroom
+- alias: 'turn off all lights except desklamp on hold sonoff bedroom'
+  initial_state: 'on'
+  trigger:
+    platform: mqtt
+    topic: cmnd/sonoff3/POWER
+    # Optional
+    payload: "HOLD"
+    encoding: "utf-8"
+  action:
+    - service: light.turn_off
+      entity_id: group.allmylights   
+    - service: light.turn_on
+      data:
+        entity_id: light.desk_lamp
+        brightness: 3
+        color_temp: 370
+    
       
 #############################################################################   
 #

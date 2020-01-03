@@ -56,6 +56,12 @@
         - Hallway
         - MISSDARON
         - MISSDARON light
+    light.bathroom:
+      name: bathroom
+      room: bathroom
+      aliases:
+        - bathroom
+        - bathroom light        
     light.gateway_light:
       name: Gateway
       room: Hallway
@@ -185,8 +191,6 @@
     script.update_hass:
       expose: false
     script.timer_off_boiler:
-      expose: false
-    script.check_sonoffs_version:
       expose: false
     script.backup_all_os:
       expose: false
