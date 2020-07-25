@@ -10,8 +10,8 @@
 #         - vacuum.xiaomi_vacuum
 #         - script.restart_home_assistant
 #         - binary_sensor.xiaomi_motion_sensor_hallway
-#         - sensor.humidity_bedroom_0
-#         - sensor.temperature_bedroom_0
+#         - sensor.humidity_bathroom
+#         - sensor.temperature_bathroom
 #         - sensor.xiaomi_gateway_illumination
 #         - binary_sensor.door_sensor_bedroom
 #         - binary_sensor.door_sensor_main_entrance
@@ -36,9 +36,8 @@
 #         - binary_sensor.ha_dockermon_cloud9ide
 #         - binary_sensor.ha_dockermon_ha_dockermon
 #         - binary_sensor.ha_dockermon_heimdall
-#         - binary_sensor.ha_dockermon_letsencrypt
-#         - binary_sensor.ha_dockermon_unifi
-#         - binary_sensor.ha_dockermon_unms
+#         - binary_sensor.docker_letsencrypt
+#         - binary_sensor.docker_unifi_controller
         
 #     entity_config:
 # ########################################
@@ -67,7 +66,7 @@
 #       light.white_bulb:
 #         name: Left Bulb
 #         description: The Left light in the Living room
-#       light.philips_bulb:
+#       light.service_room:
 #         name: Service #Philips Bulb
 #         description: The light in the Service Corner
 #       light.sonoff_hallway_light:
@@ -82,7 +81,7 @@
 #       #all switch. get "display_categories: SWITCH"  by default
 #       switch.mqtt_pow2:
 #         name: Kitchen Camera
-#       switch.sonoff_xiaomicctv_switch:
+#       switch.sonoff_salon:
 #         name: Salon Camera
 #       switch.xiaomi_powerstrip:
 #         name: Power Strip
@@ -103,10 +102,10 @@
 # ########################################          
 #       binary_sensor.xiaomi_motion_sensor_hallway:
 #         name: Hallway motion
-#       sensor.humidity_bedroom_0:
-#         name: Bedroom Humidity
-#       sensor.temperature_bedroom_0:
-#         name: Bedroom Temperature
+#       sensor.humidity_bathroom:
+#         name: bathroom Humidity
+#       sensor.temperature_bathroom:
+#         name: bathroom Temperature
 #       sensor.xiaomi_gateway_illumination:
 #         name: Gateway illumination
 #       binary_sensor.door_sensor_bedroom:
@@ -120,12 +119,12 @@
 #         name: Living room Humidity
 #       sensor.sensibo1_temp:
 #         name: Living room Temperature
-#       # sensor.temperature_bedroom_0:
+#       # sensor.temperature_bathroom:
 #       #     name: Temperature 
-#       #   description: The Temperature in the living room
+#       #   description: The Temperature in the bathroom
 #       #   display_categories: TEMPERATURE_SENSOR
         
-#       # sensor.humidity_bedroom_0:
+#       # sensor.humidity_bathroom:
 #       #     name: Humidity 
-#       #   description: The Humidity in the living room
+#       #   description: The Humidity in the bathroom
 #       #   display_categories: OTHER

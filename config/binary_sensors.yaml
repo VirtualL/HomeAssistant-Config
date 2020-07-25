@@ -3,11 +3,6 @@
 #BINARY SENSOR
 #
 ################################################################################
-
-  - platform: mqtt #floorPlan dummy sensor
-    state_topic: dummy/floorplan/sensor
-    name: Floorplan  
-
     #Check if specific port is open in ip  XX=port YY.YY.YY.YY=IP
     #nmap --privileged -p XX YY.YY.YY.YY | grep "open" | wc -l
   - platform: command_line

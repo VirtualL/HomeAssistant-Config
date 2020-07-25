@@ -7,7 +7,6 @@
 purge_keep_days: 7
 exclude:
   domains:
-    - weblink
     - updater
     - group
     - input_number
@@ -33,9 +32,6 @@ exclude:
     - binary_sensor.switch_v1_battery_low
     - binary_sensor.switch_v2_battery_low
     - binary_sensor.wall_switch_battery_low
-    - group.alarm_clock
-    - group.alerts
-    - input_number.slider_boiler
     - script.test_push
     - automation.ac_off_for_alexa
     - automation.ac_on_for_alexa
@@ -52,7 +48,7 @@ exclude:
     - automation.enable_automation_630_am
     - automation.feed_the_dog_evening
     - automation.feed_the_dog_morning
-    - automation.hikvision_cctv_is_on_alert
+    - automation.salon_cctv_is_on_alert
     - automation.home_cctv_is_on_alert
     - automation.hot_temperature_alert
     - sensor.custom_card_tracker
@@ -73,7 +69,6 @@ exclude:
     - input_number.boiler_on_clock_hour
     - input_number.boiler_on_clock_minute
     - input_number.slider_boiler
-    - group.docker_container
     - sensor.home_assistant_docker_latest_image_build
     - sensor.dark_sky_humidity_1
     - sensor.dark_sky_humidity_2
@@ -135,7 +130,6 @@ exclude:
     - sensor.dark_sky_wind_speed_3
     - sensor.dark_sky_wind_speed_4
     - sensor.dark_sky_wind_speed_5
-    - binary_sensor.floorplan
     - sensor.time_of_day
     - sensor.time_online_ha
     - sensor.hass_uptime

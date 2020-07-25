@@ -21,7 +21,7 @@ class israeliBroadcastScheduleCard extends HTMLElement {
         const content = document.createElement('div');
         const title = document.createElement("div");
         title.className = "header";
-        title.style = "font-family: var(--paper-font-headline_-_font-family); -webkit-font-smoothing: var(--paper-font-headline_-_-webkit-font-smoothing); font-size: var(--paper-font-headline_-_font-size); font-weight: var(--paper-font-headline_-_font-weight); letter-spacing: var(--paper-font-headline_-_letter-spacing); line-height: var(--paper-font-headline_-_line-height); line-height: 40px; color: #FFFF; padding: 4px 0 12px; display: flex; justify-content: space-between;";
+        title.style = "font-family: var(--paper-font-headline_-_font-family); -webkit-font-smoothing: var(--paper-font-headline_-_-webkit-font-smoothing); font-size: var(--paper-font-headline_-_font-size); font-weight: var(--paper-font-headline_-_font-weight); letter-spacing: var(--paper-font-headline_-_letter-spacing); line-height: var(--paper-font-headline_-_line-height); line-height: 40px; color: var(--primary-text-color); padding: 4px 0 12px; display: flex; justify-content: space-between;";
         title.innerHTML = '<div class="name">' + config.title + '</div>';
         style.textContent = `
           ha-card {
@@ -37,7 +37,7 @@ class israeliBroadcastScheduleCard extends HTMLElement {
            }        
            li a {
             display: block;
-            color: #FFFF;
+            color: #000;
             text-align: right;
             padding: 2px 0;
             text-decoration: none;
@@ -55,7 +55,7 @@ class israeliBroadcastScheduleCard extends HTMLElement {
         card.appendChild(content);
         root.appendChild(card);
 
-        this._httpGet("https://ashery.me/lovelace-cards/index.php?url=" + encodeURIComponent(this._URL(config.channel)),
+        this._httpGet("https://cors-anywhere.herokuapp.com/" + this._URL(config.channel),
             function () {
                 if (this.readyState === 4 && this.status === 200) {
                     let result = document.createElement('div');

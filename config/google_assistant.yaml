@@ -5,8 +5,14 @@
 #
 ##################################################
   
-  project_id: !secret Google_Home_project_id_or
-  api_key: !secret Google_Home_API_KEY_or
+  project_id: !secret Google_Home_project_id
+  # secure_devices_pin: !secret Google_Home_secure_devices_pin
+  service_account: 
+    private_key: !secret private_key_GoogleAssistantAPI
+    client_email: !secret client_email_GoogleAssistantAPI
+  report_state: true  
+  # api_key: !secret Google_Home_API_KEY_or
+  
   exposed_domains:
     - light
     - switch
@@ -26,9 +32,6 @@
 ########################################
 ###LIGHTS
 ########################################
-    group.salon_light:
-      name: Salon light
-      room: Salon
     light.white_bulb:
       name: Left Bulb
       room: Salon
@@ -43,7 +46,7 @@
       aliases:
         - Kitchen light
 
-    light.philips_bulb:
+    light.service_room:
       name: Service
       room: Service
       aliases:
@@ -64,13 +67,13 @@
         - bathroom light        
     light.gateway_light:
       name: Gateway
-      room: Hallway
+      room: Kitchen
       aliases:
         - GateWay light
         
     light.desk_lamp:
       name: Desk Lamp
-      room: Bedroom
+      room: Hallway
       aliases:
         - Desk Lamp
         - Desktop Lamp
@@ -86,13 +89,21 @@
 ########################################
 ###SWITCHS
 ########################################
-    switch.mqtt_pow2:
-      name: Kitchen Camera
+    switch.sonoff_kitchen:
+      name: Kitchen Camera switch
       room: Kitchen
+      aliases:
+        - Kitchen Camera 
       
-    switch.sonoff_xiaomicctv_switch:
-      name: Salon Camera
-      room: Salon
+    switch.mqtt_pow2:
+      name: Radiator
+      room: Bedroom
+            
+    # switch.sonoff_salon:
+    #   name: Salon Camera switch
+    #   room: Salon
+    #   aliases:
+    #     - Salon Camera 
       
     switch.tv_lg:
       name: TV
@@ -132,23 +143,35 @@
       expose: false
     switch.tv_lg_hdmi3:
       expose: false
-    switch.ha_dockermon_code_server:
+    switch.docker_code_server:
       expose: false
-    switch.ha_dockermon_ha_dockermon:
+    switch.docker_letsencrypt:
       expose: false
-    switch.ha_dockermon_letsencrypt:
+    switch.docker_mosquitto:
       expose: false
-    switch.ha_dockermon_mosquitto:
+    switch.docker_openvpn_as:
       expose: false
-    switch.ha_dockermon_openvpn_as:
-      expose: false
-    switch.ha_dockermon_organizr:
-      expose: false
-    switch.ha_dockermon_unifi_controller:
+    switch.docker_unifi_controller:
       expose: false
     switch.sensibo_living_room:
       expose: false    
-            
+    # switch.ha_dockermon_organizr:
+    #   expose: false
+
+########################################
+###CAMERAS
+########################################
+    camera.ipc01_kitchen:
+      name: Kitchen Camera
+      room: Kitchen
+    # camera.ipc02_salon:
+    #   name: Salon Camera
+    #   room: Salon
+    camera.outdoor_cctv:
+      name: Outdoor Camera
+      room: Garage
+      aliases:
+        - Outside camera
 ########################################
 ###INPUT BOOLEAN
 ########################################      
@@ -213,118 +236,22 @@
 ########################################
 ###GROUP
 ########################################  
-    group.all_automations:
+    group.all_my_climate:
       expose: false
-    group.all_devices:
+    group.all_my_lights:
       expose: false
-    group.all_lights:
+    group.all_my_switchs:
       expose: false
-    group.all_remotes:
-      expose: false
-    group.all_scripts:
-      expose: false
-    group.all_switches:
-      expose: false
-    group.all_vacuum_cleaners:
-      expose: false
-    group.allmycontrollers:
-      expose: false
-    group.allmylights:
-      expose: false
-    group.allmyswitchs:
-      expose: false
-    group.app_info:
+    group.bathroom_lights:
       expose: false
     group.bedroom_lights:
       expose: false
-    group.bedroom_page:
+    group.kitchen_lights:
       expose: false
-    group.bedroom_sensors:
+    group.office_lights:
       expose: false
-    group.boiler_info:
+    group.salon_lights:
       expose: false
-    group.boiler_page:
-      expose: false
-    group.boiler_setup:
-      expose: false
-    group.boiler_setup_timer:
-      expose: false
-    group.calendar:
-      expose: false
-    group.cameras:
-      expose: false
-    group.cameras_tracker:
-      expose: false
-    group.controllable_devices:
-      expose: false
-    group.default_view:
-      expose: false
-    group.devices_online:
-      expose: false
-    group.docker_container:
-      expose: false
-    group.floorplan:
-      expose: false
-    group.historystat:
-      expose: false
-    group.iot_status:
-      expose: false
-    group.israeliradio:
-      expose: false
-    group.kitchen_light:
-      expose: false
-    group.kitchen_page:
-      expose: false
-    group.kitchen_sensors:
-      expose: false
-    group.lights_page:
-      expose: false
-    group.linivgroom_page:
-      expose: false
-    group.living_room_info:
-      expose: false
-    group.living_room_lights:
-      expose: false
-    group.people:
-      expose: false
-    group.people_page:
-      expose: false
-    group.pow2_setup:
-      expose: false
-    group.rates:
-      expose: false
-    group.security_info:
-      expose: false
-    group.security_tracker:
-      expose: false
-    group.sensor_page:
-      expose: false
-    group.sensors:
-      expose: false
-    group.server_info:
-      expose: false
-    group.server_info_page:
-      expose: false
-    group.server_status:
-      expose: false
-    group.shiran_page:
-      expose: false
-    group.sonoffs_info:
-      expose: false
-    group.speedtestnet:
-      expose: false
-    group.ssl:
-      expose: false
-    group.summary:
-      expose: false
-    group.weather_page:
-      expose: false
-    group.weatherui:
-      expose: false
-    group.zones:
-      expose: false
-    group.alarm_clock:
-      expose: false      
 ########################################
 ###GENERAL
 ########################################      
@@ -332,7 +259,7 @@
       name: Hallway motion
       expose: true
 ########################################
-###CLIMATE- not in use - Sensibo Skill better
+###CLIMATE- not in use - Sensibo Skill better!
 ########################################      
 #     climate.living_room:
 #       name: AC

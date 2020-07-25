@@ -1,80 +1,37 @@
 ##############################################################################   
 #
-# Set Day Mode Theme on Start
+# Set Day or Night theme at startup or sun status
 #
-##############################################################################   
-# - alias: 'Set Day theme at startup'
-#   initial_state: 'on'
-#   hide_entity: true
-#   trigger:
-#   - platform: homeassistant
-#     event: start
-#   condition:
-#     condition: sun
-#     after: sunrise
-#     after_offset: '+00:30:00'
-#   action:
-#   - service: frontend.set_theme
-#     data:
-#       name: badge #same like the defualt But with Badge color gray
-##############################################################################   
-#
-# Set Night Mode Theme on Start
-#
-##############################################################################   
-# - alias: 'Set Night theme at startup'
-#   initial_state: 'on'
-#   hide_entity: true
-#   trigger:
-#   - platform: homeassistant
-#     event: start
-#   condition:
-#     condition: sun
-#     after: sunset
-#     after_offset: '+00:30:00'
-#   action:
-#   - service: frontend.set_theme
-#     data:
-#       name: dark-mode
-##############################################################################   
-#
-# Set Day Mode Theme
-#
-##############################################################################   
-# - alias: 'Set Day Mode Theme after Sunrise'
-#   initial_state: 'on'
-#   hide_entity: true
-#   trigger:
-#   - platform: sun
-#     event: sunrise
-#     offset: '+00:30:00'
-#   action:
-#   - service: frontend.set_theme
-#     data:
-#       name: badge #same like the defualt But with Badge color gray
-##############################################################################   
-#
-# Set Night Mode Theme
-#
-##############################################################################   
-# - alias: 'Set Night Mode Theme after Sunset'
-#   initial_state: 'on'
-#   hide_entity: true
-#   trigger:
-#   - platform: sun
-#     event: sunset
-#     offset: '+00:45:00'
-#   action:
-#   - service: frontend.set_theme
-#     data:
-#       name: dark-mode
+############################################################################## 
+- alias: 'Set Day or Night theme at startup or sun status' #TODO FIXME
+  initial_state:  'on'
+  trigger:
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: sun.sun
+      to: 'above_horizon'
+    - platform: state
+      entity_id: sun.sun
+      to: 'below_horizon'
+  action:
+    - service: frontend.set_theme
+      data_template:
+        name: >
+          {% if (is_state('sun.sun', 'above_horizon')) %}
+            midnight
+          {% elif (is_state('sun.sun', 'below_horizon')) %}
+            amoled
+            {% endif %}
+
+
 ##############################################################################   
 #
 # Update Available Notifications
 #
 ##############################################################################   
 - alias: 'Update Available Notifications'
-  hide_entity: true
+  initial_state: 'on'
   trigger:
     platform: state
     entity_id: updater.updater
@@ -90,7 +47,6 @@
 ##############################################################################   
 - alias: 'Startup Notification'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: homeassistant
     event: start
@@ -107,7 +63,7 @@
             
     - service: local_file.update_file_path #camera.local_file_update_file_path
       data:
-        entity_id: camera.cctv1_snapshot #use the latest snapshot 
+        entity_id: camera.ipc01_snapshot #use the latest snapshot 
         file_path: '/config/tmp/clean.png'
     - delay: 0:02:00 # to wait all componets will work good
     # - service: shell_command.start_homebridge #not in use - using buidin homekit
@@ -123,7 +79,23 @@
         topic: cmnd/sonoffs/POWER2
     - service: mqtt.publish
       data:
-        topic: cmnd/sonoffs/POWER3                  
+        topic: cmnd/sonoffs/POWER3 
+    - service: mqtt.publish 
+      data:
+        topic: "cmnd/tasmotas/state" #Update the power state of all the sonoffs
+        payload: ""
+    - service: mqtt.publish
+      data:
+        topic: cmnd/tasmotas/POWER
+    - service: mqtt.publish
+      data:
+        topic: cmnd/tasmotas/POWER2
+    - service: mqtt.publish
+      data:
+        topic: cmnd/tasmotas/POWER3         
+    #Update Google Assistant New Devices        
+    # - service: google_assistant.request_sync
+    #   data: { "agent_user_id": "<from your user the long string in the ID field>" }          
     # - service: mqtt.publish
     #   data:
     #     topic: 'cmnd/sonoff_ifan/FanSpeed'
@@ -163,7 +135,7 @@
 #   initial_state: 'off' #Working good! but not in use
 #   trigger:
 #     platform: state
-#     entity_id: switch.sonoff_xiaomicctv_switch
+#     entity_id: switch.sonoff_salon
 #     to: 'off'
 #     for:
 #       minutes: 1
@@ -180,38 +152,38 @@
 #          #   url: https://i2.wp.com/etnasasta.com/wp-content/uploads/2018/02/ce677824-4a52-4eeb-b334-ab4801d606ef.gif
 ##############################################################################   
 #
-# Hkvision CCTV online and someone at home
+# Salon CCTV online and someone at home
 #
 ##############################################################################   
-- alias: 'Hikvision CCTV is on alert'
-  initial_state: 'on'
-  trigger:
-    platform: state
-    entity_id: switch.sonoff_xiaomicctv_switch
-    to: 'on'
-    for:
-      minutes: 1
-  condition:
-    condition: or
-    conditions:
-      - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
-        state: 'home'
-      - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
-        state: 'home'
-  action:
-    - service: notify.eliran_ios_and_ipad_and_telegram
-      data:
-        title: 'מצלמת הסלון'   #Living room CCTV
-        message: 'במצב דלוק,בדוק את סיבת ההדלקה' #Turn Off
-        data:
-          push:
-              badge: 0
-              category: 'modifymycctvswitch' #the indentefier
-          attachment: 
-            url: https://i.imgur.com/NfTLZfH.gif
-            #https://mykharkov.info/wp-content/uploads/2015/03/camera_spying_big_brother_500_clr_4265.gif
+# - alias: 'Salon CCTV is on alert'
+#   initial_state: 'on'
+#   trigger:
+#     platform: state
+#     entity_id: switch.sonoff_salon
+#     to: 'on'
+#     for:
+#       minutes: 1
+#   condition:
+#     condition: or
+#     conditions:
+#       - condition: state
+#         entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
+#         state: 'home'
+#       - condition: state
+#         entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
+#         state: 'home'
+#   action:
+#     - service: notify.eliran_ios_and_ipad_and_telegram
+#       data:
+#         title: 'מצלמת הסלון'   #Living room CCTV
+#         message: 'במצב דלוק,בדוק את סיבת ההדלקה' #Turn Off
+#         data:
+#           push:
+#               badge: 0
+#               category: 'modifymycctvswitch' #the indentefier
+#           attachment: 
+#             url: https://i.imgur.com/NfTLZfH.gif
+#             #https://mykharkov.info/wp-content/uploads/2015/03/camera_spying_big_brother_500_clr_4265.gif
 ##############################################################################   
 #
 # home CCTV Offline
@@ -221,7 +193,7 @@
 #   initial_state: 'off' # Working good but not in use
 #   trigger:
 #     platform: state
-#     entity_id: switch.mqtt_pow2
+#     entity_id: switch.sonoff_kitchen
 #     to: 'off'
 #     for:
 #       minutes: 1
@@ -245,7 +217,7 @@
   initial_state: 'on'
   trigger:
     platform: state
-    entity_id: switch.mqtt_pow2
+    entity_id: switch.sonoff_kitchen
     to: 'on'
     for:
       minutes: 1
@@ -253,10 +225,10 @@
     condition: or
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi 
         state: 'home'
   action:
     - service: notify.eliran_ios_and_ipad_and_telegram
@@ -269,6 +241,28 @@
               category: 'modifymycctvswitch' #the indentefier
           attachment: 
             url: https://i.imgur.com/NfTLZfH.gif
+
+##############################################################################   
+#
+# Service light is on at the day
+#
+##############################################################################   
+- alias: 'Service light is on at the day'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: light.service_room
+    to: 'on'
+    for:
+      minutes: 5
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'תאורת חדר שירות'
+        message: 'במצב דלוק,בדוק את סיבת ההדלקה' #Turn Off
+  # condition:
+  #   condition: time
+  #   before: '17:00:00'
 ##############################################################################   
 #
 # Xiaomi GateWayOffline
@@ -278,7 +272,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: device_tracker.xiaomigateway
+    entity_id: device_tracker.xiaomi_gateway #unifi #device_tracker.xiaomigateway 
     to: 'not_home'
     for:
       minutes: 2
@@ -304,11 +298,11 @@
     # When 'at' is used, you cannot also match on hour, minute, seconds.
     # Military time format.
   action:
+    # - service: homeassistant.turn_on
+    #   entity_id: switch.sonoff_salon
     - service: homeassistant.turn_on
-      entity_id: switch.mqtt_pow2 #homeCCTV
-    - service: homeassistant.turn_on
-      entity_id: switch.sonoff_xiaomicctv_switch
-      
+      entity_id: switch.sonoff_kitchen
+
     - service: automation.turn_off #disable autiomation
       data:
         entity_id: automation.turn_off_cctv_cameras_if_eliran_at_home
@@ -339,17 +333,17 @@
     condition: or
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi 
         state: 'home'
 
   action:
+    # - service: homeassistant.turn_off
+    #   entity_id: switch.sonoff_salon
     - service: homeassistant.turn_off
-      entity_id: switch.mqtt_pow2 #homeCCTV
-    - service: homeassistant.turn_off
-      entity_id: switch.sonoff_xiaomicctv_switch
+      entity_id: switch.sonoff_kitchen
     - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'אבטחה'  #security
@@ -387,17 +381,17 @@
   initial_state: 'on'
   trigger:
     platform: state
-    entity_id: device_tracker.shiran_iphone_wifi
+    entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi 
     to: 'home'
     # If given, will trigger when state has been the to state for X time.
     for:
       minutes: 1
       seconds: 30
   action:
+    # - service: homeassistant.turn_off
+    #   entity_id: switch.sonoff_salon
     - service: homeassistant.turn_off
-      entity_id: switch.mqtt_pow2 #homeCCTV
-    - service: homeassistant.turn_off
-      entity_id: switch.sonoff_xiaomicctv_switch
+      entity_id: switch.sonoff_kitchen
 
     - service: notify.mobile_app_shiran_iphone
       data:
@@ -420,17 +414,17 @@
   initial_state: 'on'
   trigger:
     platform: state
-    entity_id: device_tracker.eliran_iphone_wifi
+    entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
     to: 'home'
     # If given, will trigger when state has been the to state for X time.
     for:
       minutes: 1
       seconds: 30
   action:
+    # - service: homeassistant.turn_off
+    #   entity_id: switch.sonoff_salon
     - service: homeassistant.turn_off
-      entity_id: switch.mqtt_pow2 #homeCCTV
-    - service: homeassistant.turn_off
-      entity_id: switch.sonoff_xiaomicctv_switch
+      entity_id: switch.sonoff_kitchen
 
     - service: notify.eliran_ios_and_ipad_and_telegram #mobile_app_eliran_iphone
       data:
@@ -453,7 +447,7 @@
   initial_state: 'on'
   trigger:
     - platform: state
-      entity_id: device_tracker.eliran_iphone_wifi,device_tracker.shiran_iphone_wifi
+      entity_id: device_tracker.eliran_iphone_2, device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi #device_tracker.eliran_iphone_wifi #unifi 
       to: 'not_home'
       # If given, will trigger when state has been the to state for X time.
       for:
@@ -462,16 +456,16 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'not_home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi 
         state: 'not_home'
   action:
+    # - service: homeassistant.turn_on
+    #   entity_id: switch.sonoff_salon
     - service: homeassistant.turn_on
-      entity_id: switch.mqtt_pow2 #homeCCTV
-    - service: homeassistant.turn_on
-      entity_id: switch.sonoff_xiaomicctv_switch
+      entity_id: switch.sonoff_kitchen
 ##############################################################################   
 #
 # cameras and gateway are online 
@@ -490,26 +484,32 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'not_home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
         state: 'not_home'
       - condition: state
-        entity_id: switch.mqtt_pow2 #home CCTV
+        entity_id: switch.sonoff_kitchen
         state: 'on'
       - condition: state
-        entity_id: switch.sonoff_xiaomicctv_switch
-        state: 'on'
-      - condition: state
-        entity_id: device_tracker.ipc_10 #by Ping     #hikvision_outdoor_cctv_01 #By WRT
+        entity_id: device_tracker.ipc01_kitchen_2 #unifi #device_tracker.ipc01_kitchen 
         state: 'home'
       - condition: state
-        entity_id: device_tracker.xiaomigateway
+        entity_id: device_tracker.xiaomi_gateway #unifi #device_tracker.xiaomigateway 
         state: 'home'
       - condition: state
         entity_id: device_tracker.windows_vm #serverpc Eliran
-        state: 'home'        
+        state: 'home'
+      # - condition: state #FIXME
+      #   entity_id: device_tracker.ipc_03_outdoor #by Ping     #hikvision_outdoor_cctv_01 #By WRT
+      #   state: 'home'
+      # - condition: state
+      #   entity_id: switch.sonoff_salon
+      #   state: 'on'
+      # - condition: state
+      #   entity_id: device_tracker.ipc02_salon #by Ping     #hikvision_outdoor_cctv_01 #By WRT
+      #   state: 'home'
   action:
     service: notify.eliran_ios_and_ipad_and_telegram
     data:
@@ -541,26 +541,26 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'not_home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
         state: 'not_home'
   action:
   # - service: rest_command.set_preset_1_homecctv01 #move the camera to the main door.
   # - delay: 0:00:03 #give time to the camera to move to the preset
   - service: camera.snapshot
     data:
-      entity_id: camera.home_cctv1 #take snapshot with Exact time and save it 
+      entity_id: camera.ipc01_kitchen #take snapshot with Exact time and save it 
       filename: '/config/tmp/home_cctv1_{{ now().strftime("%d%m%Y-%H%M%S") }}.png' 
   - service: camera.snapshot
     data:
-      entity_id: camera.home_cctv1 #take snapshot to update the last snapshot to show in HA
+      entity_id: camera.ipc01_kitchen #take snapshot to update the last snapshot to show in HA
       filename: '/config/tmp/home_cctv1.png'
       
-  - service: camera.local_file_update_file_path
+  - service: local_file.update_file_path #camera.local_file_update_file_path
     data:
-      entity_id: camera.cctv1_snapshot #use the latest snapshot 
+      entity_id: camera.ipc01_snapshot #use the latest snapshot 
       file_path: '/config/tmp/home_cctv1.png'
   - service: rest_command.update_homecctv01_state #update the status of the camera to recording.
   - service: notify.eliran_ios_and_ipad_and_telegram #mobile_app_eliran_iphone
@@ -574,20 +574,20 @@
         push:
           sound: "US-EN-Morgan-Freeman-Front-Door-Opened.wav"
           category: camera #PUSH THE CAMERA LIVE STREAM! :) 
-        entity_id: camera.home_cctv1 
-  - service: notify.mobile_app_smarthome_ipad
-    data:
-      title: 'אבטחה' #securty
-      message: 'דלת הבית נפתחה לפני 15 שניות, אנא וודא שהכניסה מאושרת!!!'  #Front Door was open 15 sec ago , Check if Unauthorised
-      data:
-        #iOS Only
-        attachment:
-          content-type: jpeg
-        push:
-          sound: "US-EN-Morgan-Freeman-Front-Door-Opened.wav"
-          category: camera #PUSH THE CAMERA LIVE STREAM! :) 
-        entity_id: camera.home_cctv1         
-        #iOS only End  
+        entity_id: camera.ipc01_kitchen 
+  # - service: notify.mobile_app_smarthome_ipad
+  #   data:
+  #     title: 'אבטחה' #securty
+  #     message: 'דלת הבית נפתחה לפני 15 שניות, אנא וודא שהכניסה מאושרת!!!'  #Front Door was open 15 sec ago , Check if Unauthorised
+  #     data:
+  #       #iOS Only
+  #       attachment:
+  #         content-type: jpeg
+  #       push:
+  #         sound: "US-EN-Morgan-Freeman-Front-Door-Opened.wav"
+  #         category: camera #PUSH THE CAMERA LIVE STREAM! :) 
+  #       entity_id: camera.ipc01_kitchen         
+  #       #iOS only End  
 
   - service: notify.eliran_telegram
     data:
@@ -824,7 +824,6 @@
 ##############################################################################  
 - alias: 'notify when the boiler clock off ended'
   initial_state: 'on'
-  hide_entity: False
   trigger:
     platform: template
     value_template: '{{ states.sensor.time.state == states.sensor.boiler_off_clock_time_long.state }}'
@@ -850,6 +849,70 @@
             category: 'modifymyboilerswitch' #the indentefier             
           attachment: 
             url: https://i.imgur.com/igtwFWz.gif
+
+#####################################################
+##                                                  #
+## The Boiler is ON and nobody at home -alert to turn it off
+##                                                  #
+#####################################################
+- alias: 'The Boiler is ON and nobody at home'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: switch.mqtt_pow1
+    to: 'on'
+    for:
+      minutes: 10
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
+        state: 'not_home'
+      - condition: numeric_state
+        entity_id: 'sensor.pow1_current' 
+        above: 5 #amper        
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'התראה' #alert
+        message: 'שכחת את הדוד דלוק! האם לכבות?'
+        data:
+          push:
+            badge: 0
+            category: 'modifymyboilerswitch' #the indentefier 
+          attachment: 
+            url: https://i.imgur.com/igtwFWz.gif
+
+#####################################################
+##                                                  #
+## The Boiler is ON and physically "off" by the switch
+##                                                  #
+#####################################################
+- alias: 'The Boiler is ON and physically off alert'
+  initial_state: 'on'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.pow1_current
+    below: 5 #amper
+  condition:
+    - condition: state
+      entity_id: 'switch.mqtt_pow1'
+      state: 'on'
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'התראה' #alert
+        message: 'הדוד דלוק, אך מנותק מהזרם,האם לכבות?'
+        data:
+          push:
+            badge: 0
+            category: 'modifymyboilerswitch' #the indentefier
+          attachment: 
+            url: https://i.imgur.com/igtwFWz.gif
 ##############################################################################  
 #
 # New Device online -new Device found via asus WRT device_tracker
@@ -869,6 +932,264 @@
           attachment: 
             url: https://i.imgur.com/FwVl0vM.png
             #https://servoy.com/wp-content/uploads/mutlidevices_small_forweb.png
+
+##############################################################################  
+#
+# notify if the heater turn ON
+#
+##############################################################################  
+- alias:  'notify if the heater turn ON'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: switch.mqtt_pow2
+    to: 'on'
+  action:
+    - delay: 0:00:05 #to make sure the pow1_current get update
+    - condition: numeric_state
+      entity_id: 'sensor.pow2_current' #amper
+      above: 5 #amper  
+    - service: notify.shiran_and_eliran_ios
+      data:
+        title: 'חימום'
+        message: 'הרדיאטור דלוק!'
+        data:
+          push:
+            badge: 0
+            category: 'modifymyheaterswitch' #the indentefier      
+          attachment: 
+            url: https://www.orientelectric.com/images/gallery/003.png
+    - service: notify.eliran_telegram
+      data:
+        title: 'חימום'
+        message: 'הרדיאטור דלוק!'
+##############################################################################  
+#
+# notify if the heater turn ON improperly
+#
+##############################################################################  
+- alias:  'notify if the heater turn ON improperly'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: switch.mqtt_pow2
+    to: 'on'
+  action:
+    - delay: 0:00:05 #to make sure the pow1_current get update
+    - condition: numeric_state
+      entity_id: 'sensor.pow2_current' 
+      below: 5 #amper
+    - service: notify.shiran_and_eliran_ios
+      data:
+        title: 'חימום'
+        message:  'הרדיאטור מכובה מהשקע הפיזי,נא חבר לפני שימוש!'
+        data:
+          push:
+            badge: 0
+            category: 'modifymyheaterswitch' #the indentefier      
+          attachment: 
+            url: https://www.orientelectric.com/images/gallery/003.png
+    - service: notify.eliran_telegram
+      data:
+        title: 'דוד'
+        message:  'הרדיאטור מכובה מהשקע הפיזי,נא חבר לפני שימוש!'
+##############################################################################  
+#
+# notify if the heater was on for more then 10 min
+#
+##############################################################################  
+- alias:  'notify if the heater was on for more then 10 min'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: switch.mqtt_pow2
+    to: 'on'
+    for:
+      minutes: 20
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram #mobile_app_eliran_iphone
+      data:
+        title: 'חימום' #heater
+        message: 'הרדיאטור דלוק יותר מ5 דקות!' #the heater is ON more then 20 min
+        data:
+          push:
+            badge: 0
+            category: 'modifymyheaterswitch' #the indentefier       #for custom action from the notification
+          attachment: 
+            url: https://www.orientelectric.com/images/gallery/003.png
+    - service: notify.eliran_telegram
+      data:
+        title: 'חימום' #heater
+        message: 'הרדיאטור דלוק יותר מ20 דקות!' #the heater is ON more then 20 min        
+##############################################################################  
+#
+# notify if the heater turn OFF
+#
+##############################################################################  
+- alias:  'notify if the heater turn OFF'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: switch.mqtt_pow2
+    from: 'on'
+    to: 'off'
+  action:
+    - delay: 0:00:05 #to make sure the pow1_current get update
+    - condition: numeric_state
+      entity_id: 'sensor.pow2_current' 
+      below: 5 #amper  
+    - service: notify.shiran_and_eliran_ios
+      data:
+        title: 'חימום'  #heater
+        message: 'הרדיאטור מכובה!' #the heater is off
+        data:
+          push:
+            badge: 0
+            category: 'modifymyheaterswitch' #the indentefier
+          attachment: 
+            url: https://i.imgur.com/igtwFWz.gif
+    - service: notify.eliran_telegram
+      data:
+        title: 'דוד'
+        message: 'הדוד מכובה!'          
+
+##############################################################################  
+#                                                  
+# heater on  clock       
+#                                                  
+##############################################################################  
+- alias: 'notify when the heater clock on start'
+  initial_state: 'on'
+  trigger:
+    platform: template
+    value_template: '{{ states.sensor.time.state == states.sensor.heater_on_clock_time_long.state }}'
+  condition:
+    condition: state
+    entity_id: input_boolean.heater_on_clock_status
+    state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.mqtt_pow2
+    - service: notify.mobile_app_shiran_iphone
+      data:
+        title: 'חימום' #heater
+        message: 'הרדיאטור נדלק לפי השעון שהוגדר'  #the heater is on 
+        data:
+          push:
+            badge: 0
+            category: 'modifymyheaterswitch' #the indentefier        
+          attachment: 
+            url: https://www.orientelectric.com/images/gallery/003.png
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'חימום' #heater
+        message: 'הרדיאטור נדלק לפי השעון שהוגדר'  #the heater is on 
+        data:
+          push:
+            badge: 0
+            category: 'modifymyheaterswitch' #the indentefier        
+          attachment: 
+            url: https://www.orientelectric.com/images/gallery/003.png
+    - service: notify.eliran_telegram
+      data:
+        title: 'דוד'
+        message: 'הרדיאטור נדלק לפי השעון שהוגדר'  #the heater is on 
+##############################################################################  
+#
+# heater off  clock
+#
+##############################################################################  
+- alias: 'notify when the heater clock off ended'
+  initial_state: 'on'
+  trigger:
+    platform: template
+    value_template: '{{ states.sensor.time.state == states.sensor.heater_off_clock_time_long.state }}'
+  condition:
+    condition: state
+    entity_id: input_boolean.heater_off_clock_status
+    state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.mqtt_pow2
+    - delay: 0:00:03
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.heater_off_clock_status 
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.heater_on_clock_status
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'חימום' #heater
+        message: 'הרדיאטור נכבה לפי השעון שהוגדר'  #the heater is off
+        data:
+          push:
+            badge: 0
+            category: 'modifymyheaterswitch' #the indentefier             
+          attachment: 
+            url: https://www.orientelectric.com/images/gallery/003.png
+
+#####################################################
+##                                                  #
+## The heater is ON and nobody at home -alert to turn it off
+##                                                  #
+#####################################################
+- alias: 'The heater is ON and nobody at home'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: switch.mqtt_pow2
+    to: 'on'
+    for:
+      minutes: 10
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
+        state: 'not_home'
+      - condition: numeric_state
+        entity_id: 'sensor.pow2_current' 
+        above: 5 #amper        
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'התראה' #alert
+        message: 'שכחת את הרדיאטור דלוק! האם לכבות?'
+        data:
+          push:
+            badge: 0
+            category: 'modifymyheaterswitch' #the indentefier 
+          attachment: 
+            url: https://www.orientelectric.com/images/gallery/003.png
+
+#####################################################
+##                                                  #
+## The heater is ON and physically "off" by the switch
+##                                                  #
+#####################################################
+- alias: 'The heater is ON and physically off alert'
+  initial_state: 'on'
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.pow2_current
+    below: 5 #amper
+  condition:
+    - condition: state
+      entity_id: switch.mqtt_pow2
+      state: 'on'
+  action:
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'התראה' #alert
+        message: 'הרדיאטור דלוק, אך מנותק מהזרם,האם לכבות?'
+        data:
+          push:
+            badge: 0
+            category: 'modifymyheaterswitch' #the indentefier
+          attachment: 
+            url: https://www.orientelectric.com/images/gallery/003.png
 ##############################################################################  
 #
 # notify if the home door was open for more then 1 min
@@ -950,9 +1271,8 @@
       click_type: single
   action:
   - service: light.toggle
-    entity_id: light.white_bulb
-  - service: light.toggle
-    entity_id: light.living_room_color_bulb
+    entity_id: light.all_salon_lights
+
 #Toggle livingRoom enternce right light on single press
 - alias: 'Toggle livingRoom enternce right light on single press'
   initial_state: 'on'
@@ -978,11 +1298,13 @@
     condition: time # TODO Needed?
     after: '06:00:01'
   action:
-    service: homeassistant.turn_off
-    entity_id: group.allmylights
+    - service: homeassistant.turn_off
+      entity_id: group.all_my_lights
+    - service: switch.turn_off
+      entity_id: switch.fan    
     
 #Toggle livingRoom enternce BOTH  on single press
-- alias: 'Toggle livingRoom enternce BOTH  on single press after 6AM and turn off living room AC'
+- alias: 'Toggle livingRoom enternce BOTH on single press after 6AM and turn off living room AC'
   initial_state: 'on'
   trigger:
     platform: event
@@ -996,13 +1318,13 @@
       - condition: time 
         after: '06:00:01'
       - condition: or
-        conditions: #"operation_list": ["dry","auto","heat","fan_only","cool"]
+        conditions: #hvac_modes: (LIVING ROOM ) dry,heat_cool,heat,fan_only,cool,----off (bedroom) heat,cool,----off
           - condition: state 
             entity_id: climate.living_room
             state: 'dry' 
           - condition: state 
             entity_id: climate.living_room
-            state: 'auto' 
+            state: 'heat_cool' 
           - condition: state 
             entity_id: climate.living_room
             state: 'heat' 
@@ -1012,11 +1334,23 @@
           - condition: state 
             entity_id: climate.living_room
             state: 'cool'
+
+          - condition: state 
+            entity_id: climate.bedroom
+            state: 'heat' 
+          - condition: state 
+            entity_id: climate.bedroom
+            state: 'cool'
   action:
     - service: climate.turn_off
       entity_id: climate.living_room
+    - service: climate.turn_off
+      entity_id: climate.bedroom
     - service: homeassistant.turn_off
-      entity_id: group.allmylights    
+      entity_id: group.all_my_lights
+    - service: switch.turn_off
+      entity_id: switch.fan
+      
 ##############################################################################
 ### Active only in the early morning
 ############################################################################## 
@@ -1033,9 +1367,9 @@
     after: '05:00:00'
     before: '06:00:00'
   action:
-    - delay: 0:00:15  
+    - delay: 0:00:20
     - service: homeassistant.turn_off
-      entity_id: group.allmylights
+      entity_id: group.all_my_lights
     - service: notify.eliran_ios_and_ipad_and_telegram
       data:
         title: 'בוקר טוב אלירן'
@@ -1060,11 +1394,11 @@
     condition: and
     conditions:
       - condition: state 
-        entity_id: group.allmylights
-        state: 'off'     
-      - condition: state 
+        entity_id: group.all_my_lights
+        state: 'off'
+      - condition: state
         entity_id: climate.living_room
-        state: 'off'        
+        state: 'off'
   action:
     - service: climate.turn_on
       entity_id: climate.living_room 
@@ -1088,8 +1422,8 @@
   action:
     service: light.toggle
     entity_id: light.bedroom
-#turn off group.allmylights on long press roomSwitch
-- alias: 'turn off group.allmylights on long press roomSwitch'
+#turn off group.all_my_lights on long press roomSwitch
+- alias: 'turn off group.all_my_lights on long press roomSwitch'
   initial_state: 'on'
   trigger:
     platform: event
@@ -1099,7 +1433,7 @@
       click_type: long_click_press
   action:
     service: light.turn_off
-    entity_id: group.allmylights
+    entity_id: group.all_my_lights
 
 ##############################################################################  
 #
@@ -1157,6 +1491,28 @@
   #     entity_id: media_player.s70pci
   #     volume_level: 1.0 
 
+ #######
+#Made this change because the light goes on if the state if unavilble 
+#So now it will go on only if the state changed from on -> off OR from off -> on  
+#######
+####################################################      
+#                                                  #
+# מפסקים מחליפים - הגדרה של טוגגל MAKLIF
+#                                                  #
+####################################################
+#######
+####### sonoff6
+#######
+- alias: 'Toggle Philips light single press from sonoff6 2CH -OFF to ON'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: light.special_sonoff_kitchen
+    from: 'off'
+    to: 'on'
+  action:
+    service: light.toggle
+    entity_id: light.service_room
 
 ####################################################      
 #                                                  #
@@ -1166,15 +1522,16 @@
 #######
 ####### sonoff6
 #######
-- alias: 'Toggle Philips light on single press from sonoff6 2CH'
+- alias: 'Toggle Philips light single press from sonoff6 2CH -ON to OFF'
   initial_state: 'on'
   trigger:
     platform: state
     entity_id: light.special_sonoff_kitchen
-    # to: ANYSTATE WAS CHANGE (ON/OFF)
+    from: 'on'
+    to: 'off'    
   action:
     service: light.toggle
-    entity_id: light.philips_bulb
+    entity_id: light.service_room    
 ##############################################################################  
 #
 #  'Notify when front door is open on TV' (on androidTV )
@@ -1201,7 +1558,7 @@
   initial_state: 'on'
   trigger:
     platform: numeric_state
-    entity_id: sensor.temperature_bedroom_0 #TEMP SENSOR
+    entity_id: sensor.temperature_bathroom #TEMP SENSOR
     # At least one of the following required
     above: 30
     # below: 25
@@ -1228,20 +1585,20 @@
 #
 ##############################################################################  
 - alias: 'cold temperature alert bedroom' #only if Eliran/Shiran at home
-  initial_state: 'on'
+  initial_state: 'off' #TODO
   trigger:
     platform: numeric_state
-    entity_id: sensor.temperature_bedroom_0 #tempsensor
+    entity_id: sensor.temperature_bathroom #tempsensor
     # At least one of the following required
     below: 16
   condition:
     condition: or
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
         state: 'home'    
   action:
   - service: notify.eliran_ios_and_ipad_and_telegram
@@ -1280,7 +1637,7 @@
 #
 ##############################################################################  
 - alias: 'cold temperature alert LivingRoom'
-  initial_state: 'on'
+  initial_state: 'off' #TODO
   trigger:
     platform: numeric_state
     entity_id: sensor.sensibo1_temp #tempsensor
@@ -1290,11 +1647,11 @@
     condition: or
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
-        state: 'home'       
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
+        state: 'home'
   action:
   - service: notify.eliran_ios_and_ipad_and_telegram
     data:
@@ -1304,50 +1661,179 @@
         attachment: 
           url: https://i.imgur.com/8i3pK9L.png
           #https://cdn4.iconfinder.com/data/icons/weather-conditions/512/low_temperature-512.png
-##############################################################################  
+# ##############################################################################  
+# ############################################################################## 
+# #
+# #  If there is motion and its dark turn on the gateway light -need some testing! FIXME
+# #
+# ##############################################################################  
+# - alias: 'If there is motion and its dark turn on the gateway light'
+#   initial_state: 'on'
+#   trigger:
+#     platform: state
+#     entity_id: binary_sensor.xiaomi_motion_sensor_hallway
+#     from: 'off'
+#     to: 'on'
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: numeric_state
+#         entity_id: sensor.xiaomi_gateway_illumination
+#         below: 300
+#       - condition: time
+#         after: '20:00:00'
+#       - condition: or
+#         conditions:
+#           - condition: state
+#             entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
+#             state: 'home'
+#           - condition: state
+#             entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
+#             state: 'home'
+#   action:
+#     - service: light.turn_on
+#       entity_id: light.gateway_light
+#       data:
+#         brightness: 10
+#     - delay: 0:00:35
+#     - service: light.turn_off
+#       entity_id: light.gateway_light
+
+
 ############################################################################## 
 #
-#  If there is motion and its dark turn on the gateway light -need some testing!
+#  If there is motion and its dark turn on the bathroom light -need some testing! FIXME
 #
 ##############################################################################  
-- alias: 'If there is motion and its dark turn on the gateway light'
-  initial_state: 'on'
-  trigger:
-    platform: state
-    entity_id: binary_sensor.xiaomi_motion_sensor_hallway
-    from: 'off'
-    to: 'on'
-  condition:
-    condition: and
-    conditions:
-      - condition: numeric_state
-        entity_id: sensor.xiaomi_gateway_illumination
-        below: 300
-      - condition: time
-        after: '20:00:00'
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: device_tracker.eliran_iphone_wifi
-            state: 'home'
-          - condition: state
-            entity_id: device_tracker.shiran_iphone_wifi #shiran
-            state: 'home'
-  action:
-    - service: light.turn_on
-      entity_id: light.gateway_light
-      data:
-        brightness: 10
-    - delay: 0:00:35
-    - service: light.turn_off
-      entity_id: light.gateway_light
+# - alias: 'If there is motion and its dark turn on the bathroom light'
+#   initial_state: 'on'
+#   trigger:
+#     platform: state
+#     entity_id: binary_sensor.motion_sensor_bathroom
+#     from: 'off'
+#     to: 'on'
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: state
+#         entity_id: light.bathroom
+#         state: 'off'
+#       - condition: sun
+#         after: sunset
+#         after_offset: "+00:30:00"
+#       - condition: or
+#         conditions:
+#           - condition: state
+#             entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
+#             state: 'home'
+#           - condition: state
+#             entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
+#             state: 'home'
+#   action:
+#     - service: light.turn_on
+#       entity_id: light.bathroom
+#     - delay: 0:02:00
+#     - service: light.turn_off
+#       entity_id: light.bathroom
 
+#       # - condition: time
+#       #   after: '20:00:00'
+
+# - alias: "If there is motion and its dark turn on the bathroom light"
+#   trigger:
+#     entity_id: binary_sensor.motion_sensor_bathroom
+#     platform: state
+#     to: 'on'
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: state
+#         entity_id: light.bathroom
+#         state: 'off'
+#       # - condition: sun
+#       #   after: sunset
+#       #   after_offset: "+00:30:00"
+#       - condition: or
+#         conditions:
+#           - condition: state
+#             entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
+#             state: 'home'
+#           - condition: state
+#             entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
+#             state: 'home'
+#   action:
+#     - service: light.turn_on
+#       data:
+#         entity_id: light.bathroom
+
+
+# - alias: "If there no motion turn off the bathroom light"
+#   initial_state: 'on'
+#   trigger:
+#     platform: state
+#     entity_id: binary_sensor.motion_sensor_bathroom
+#     to: 'off'
+#     for:
+#       seconds: 5
+#   condition:
+#     - condition: state
+#       entity_id: light.bathroom
+#       state: 'on'
+#   action:
+#   - service: light.turn_off
+#     entity_id: light.bathroom
+
+
+
+# - alias: "If there is motion2 and its dark turn on the bathroom light "
+#   trigger:
+#     entity_id: binary_sensor.xiaomi_motion_sensor_hallway
+#     platform: state
+#     to: 'on'
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: state
+#         entity_id: light.bathroom
+#         state: 'off'
+#       # - condition: sun
+#       #   after: sunset
+#       #   after_offset: "+00:30:00"
+#       - condition: or
+#         conditions:
+#           - condition: state
+#             entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
+#             state: 'home'
+#           - condition: state
+#             entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
+#             state: 'home'
+#   action:
+#     - service: light.turn_on
+#       data:
+#         entity_id: light.bathroom
+  
+  
+# - alias: "If there no motion2 turn off the bathroom light"
+#   initial_state: 'on'
+#   trigger:
+#     platform: state
+#     entity_id: binary_sensor.xiaomi_motion_sensor_hallway
+#     to: 'off'
+#     for:
+#       seconds: 5
+#   condition:
+#     - condition: state
+#       entity_id: light.bathroom
+#       state: 'on'
+#   action:
+#   - service: light.turn_off
+#     entity_id: light.bathroom
 ####################################################
 #                                                  #
-# some of group.AllMylights still ON AT BEDTIME -Need testing      
+# some of group.all_my_lights still ON AT BEDTIME -Need testing      
 #                                                  #
 ####################################################
-- alias: 'some of "AllMylights" still ON AT BEDTIME '
+- alias: 'some of "all_my_lights" still ON AT BEDTIME '
   initial_state: 'on'
   trigger:
     platform: state
@@ -1357,7 +1843,7 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: group.AllMylights
+        entity_id: group.all_my_lights
         state: 'on'
       - condition: time
         after: '23:00:00'
@@ -1376,14 +1862,14 @@
             category: 'modifymylights' #the indentefier
 #####################################################
 ##                                                  #
-## some of group.AllMylights is ON nobody at home -alert to turn it off
+## some of group.all_my_lights is ON nobody at home -alert to turn it off
 ##                                                  #
 #####################################################
-- alias: 'some of group.AllMylights is ON and its Before Sunset'
+- alias: 'some of group.all_my_lights is ON and its Before Sunset'
   initial_state: 'on'
   trigger:
     - platform: state
-      entity_id: group.AllMylights #one of the light is on on more
+      entity_id: group.all_my_lights #one of the light is on on more
       to: 'on'
       for:
         minutes: 40
@@ -1391,10 +1877,10 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'not_home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
         state: 'not_home'
   action:
     service: notify.eliran_ios_and_ipad_and_telegram
@@ -1462,7 +1948,6 @@
 ####################################################  
 #when my public ip been changed , update the ip in cloudflare and send me Notification
 # - alias: IP Address Update
-#   hide_entity: true
 #   initial_state: true
 #   trigger: #if the ip changed - trigger
 #     - platform: state
@@ -1480,35 +1965,55 @@
 #     - service: persistent_notification.create
 #       data_template:
 #         title: '{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S", true) }}:עדכון'
-#         message: '{{ states.sensor.myipopendnscom.state }} האייפי החיצוני השתנה, כרגע הוא'  #"Your public IP has changed, and is currently {{ states.sensor.myipopendnscom.state }}"
+#         message: '{{ states.sensor.myipopendnscom.state }} האייפי החיצוני השתנה, כ��גע הוא'  #"Your public IP has changed, and is currently {{ states.sensor.myipopendnscom.state }}"
 #         notification_id: IP Address Update
 #####################################################
 ##                                                  #
 ## The air conditioner is ON and nobody at home -alert to turn it off
 ##                                                  #
 #####################################################
-- alias: 'The air conditioner is ON and nobody at home'  # ? check if is working without states 100% #winter???
+- alias: 'The living room AC is ON and nobody at home'  # ? check if is working without states 100% #winter???
   initial_state: 'on'
   trigger:
     - platform: state
       entity_id: climate.living_room 
-      to: 'cool'
+      to: 'dry'
+      for:
+        minutes: 20
+    - platform: state
+      entity_id: climate.living_room 
+      to: 'heat_cool' 
+      for:
+        minutes: 20
+    - platform: state
+      entity_id: climate.living_room 
+      to: 'heat' 
+      for:
+        minutes: 20
+    - platform: state
+      entity_id: climate.living_room 
+      to: 'fan_only' 
+      for:
+        minutes: 20
+    - platform: state
+      entity_id: climate.bedrliving_roomoom 
+      to: 'cool' 
       for:
         minutes: 20
   condition:
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'not_home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
         state: 'not_home'
   action:
     service: notify.eliran_ios_and_ipad_and_telegram
     data:
-      title: 'התראה'
-      message: 'שכחת את המזגן דלוק! האם לכבות?'
+      title: 'התראת מזגן סלון'
+      message: 'שכחת את המזגן בסלון דלוק! האם לכבות?'
       data:
         push:
           sound: "US-EN-Morgan-Freeman-Turning-Off-The-Air-Conditioner.wav"
@@ -1516,7 +2021,133 @@
           category: 'modifyaircon' #the ID
         attachment: 
           url: https://i.imgur.com/BGL6Udp.png
-          #http://www.giersnet.pl/wp-content/uploads/2018/01/klima.png        
+
+
+#####################################################
+##                                                  #
+##.       The air conditioner at bedroom is ON      #
+##     and nobody at home -alert to turn it off     #
+#####################################################
+- alias: 'The air conditioner at bedroom is ON and nobody at home'  # ? check if is working without states 100% #winter???
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: climate.bedroom 
+      to: 'cool' 
+      for:
+        minutes: 20
+    - platform: state
+      entity_id: climate.bedroom 
+      to: 'heat' 
+      for:
+        minutes: 15
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi 
+        state: 'not_home'
+  action:
+    service: notify.eliran_ios_and_ipad_and_telegram
+    data:
+      title: 'התראת מזגן בחדר שינה'
+      message: 'שכחת את המזגן בחדר שינה דלוק! האם לכבות?'
+      data:
+        push:
+          sound: "US-EN-Morgan-Freeman-Turning-Off-The-Air-Conditioner.wav"
+          badge: 0
+          category: 'modifyaircon' #the ID
+        attachment: 
+          url: https://i.imgur.com/BGL6Udp.png  
+
+##############################################################################
+### 'The air conditioner at bedroom is ON late night
+############################################################################## 
+- alias: 'The air conditioner at bedroom is ON late night'
+  initial_state: 'on'
+  trigger: #ANY (OR)
+    - platform: state
+      entity_id: climate.bedroom 
+      to: 'cool' 
+      for:
+        minutes: 30
+    - platform: state
+      entity_id: climate.bedroom 
+      to: 'heat' 
+      for:
+        minutes: 30
+  condition:
+    condition: time #between 00AM-6AM
+    after: '23:00:00'
+    before: '06:00:00'
+  action:
+    - service: climate.turn_off
+      entity_id: climate.bedroom
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'מזגן חדר שינה'
+        message: "המזגן בחדר השינה,נכבה לאחר 30 דקות"
+        data:
+          push:
+            sound: "US-EN-Morgan-Freeman-Turning-Off-The-Air-Conditioner.wav"
+            badge: 0
+            category: 'modifyaircon' #the ID
+          attachment: 
+            url: https://i.imgur.com/BGL6Udp.png
+##############################################################################
+### 'The air conditioner at living room is ON late night
+############################################################################## 
+
+- alias: 'The air conditioner at living room is ON late night'
+  initial_state: 'on'
+  trigger: #ANY (OR)
+    - platform: state
+      entity_id: climate.living_room 
+      to: 'dry' 
+      for:
+        minutes: 30
+    - platform: state
+      entity_id: climate.living_room 
+      to: 'heat_cool' 
+      for:
+        minutes: 30
+    - platform: state
+      entity_id: climate.living_room 
+      to: 'heat' 
+      for:
+        minutes: 30
+    - platform: state
+      entity_id: climate.living_room 
+      to: 'fan_only' 
+      for:
+        minutes: 30
+    - platform: state
+      entity_id: climate.living_room 
+      to: 'cool' 
+      for:
+        minutes: 30
+  condition:
+    condition: time #between 00AM-6AM
+    after: '00:00:00'
+    before: '06:30:00'
+  action:
+    - service: climate.turn_off
+      entity_id: climate.living_room
+    - service: notify.eliran_ios_and_ipad_and_telegram
+      data:
+        title: 'מזגן בסלון'
+        message: "המזגן בסלון,נכבה לאחר 30 דקות"
+        data:
+          push:
+            sound: "US-EN-Morgan-Freeman-Turning-Off-The-Air-Conditioner.wav"
+            badge: 0
+            category: 'modifyaircon' #the ID
+          attachment: 
+            url: https://i.imgur.com/BGL6Udp.png
+
 
 #####################################################
 ##                                                  #
@@ -1527,8 +2158,8 @@
   initial_state: 'on'
   trigger:
     platform: state #OR State (if one of this switch will turn off , the alert will made)
-    entity_id: switch.ha_dockermon_mosquitto,switch.ha_dockermon_letsencrypt,switch.ha_dockermon_unifi
-    #switch.ha_dockermon_unms, switch.ha_dockermon_cloud9ide 
+    entity_id: switch.docker_mosquitto,switch.docker_letsencrypt,switch.docker_unifi_controller, switch.docker_openvpn_as
+    # switch.ha_dockermon_cloud9ide 
     to: 'off'  
     for:
       minutes: 5
@@ -1565,6 +2196,7 @@
           #http://blueirissoftware.com/media/Download_03.png
           
           
+          
 ##############################################################################   
 #
 # Virtual Machine is Back Online alert
@@ -1587,6 +2219,52 @@
       data:
         attachment: 
           url: https://i.imgur.com/rflw5ZU.png
+##############################################################################   
+#
+# Google Mini at bedroom offline alert
+#
+##############################################################################   
+- alias: 'Google Mini at bedroom offline alert'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: device_tracker.google_mini_bedroom #unifi #device_tracker.google_home_02 #Bedroom
+    to: 'not_home'
+    for:
+      minutes: 5
+  action:
+    service: notify.eliran_ios_and_ipad_and_telegram
+    data:
+      title: 'מידע'
+      message: 'גוגל מיני בחדר שינה מנותק, אנה חבר לחשמל'
+      data:
+        attachment: 
+          url: https://d3m9l0v76dty0.cloudfront.net/system/photos/3027895/large/dd56a101a2b72aa9d272d3d9849160b7.jpg
+          
+          
+      
+##############################################################################   
+#
+# Google Mini at bedroom back online alert
+#
+##############################################################################   
+- alias: 'Google Mini at bedroom back online alert'
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: device_tracker.google_mini_bedroom #unifi #device_tracker.google_home_02 #serverpc Eliran
+    from: 'not_home'
+    to: 'home'
+    for:
+      minutes: 3
+  action:
+    service: notify.eliran_ios_and_ipad_and_telegram
+    data:
+      title: 'מידע'
+      message: 'גוגל מיני בחדר שינה התחבר חזרה!'
+      data:
+        attachment: 
+          url: https://d3m9l0v76dty0.cloudfront.net/system/photos/3027895/large/dd56a101a2b72aa9d272d3d9849160b7.jpg
 
 ##############################################################################   
 #
@@ -1624,7 +2302,7 @@
   initial_state: 'on'
   trigger:
     platform: state
-    entity_id: switch.ha_dockermon_openvpn_as
+    entity_id: switch.docker_openvpn_as
     to: 'on'
     for:
       minutes: 45
@@ -1668,10 +2346,10 @@
           
 #############################################################################   
 #
-# Turn-ON Salon light 
+# Dog at Home Alone Without Lights
 #
-#############################################################################   
-- alias: "Dog at Home Lights"
+#############################################################################   ZZZ
+- alias: "Dog at Home Alone Without Lights"
   initial_state: 'on'
   trigger:
   - platform: sun
@@ -1681,12 +2359,20 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'not_home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
         state: 'not_home'
+      - condition: state
+        entity_id: group.all_my_lights
+        state: 'off'
   action:
+  - service: homeassistant.turn_off
+    entity_id: group.all_my_lights
+  - service: light.turn_on
+    data_template:
+      entity_id: light.white_bulb
   - service: notify.eliran_ios_and_ipad_and_telegram
     data:
       title: 'תאורה'  #Security
@@ -1698,11 +2384,44 @@
           category: 'modifymylights' #the indentefier
         attachment: 
           url: https://i.imgur.com/SohwJ6w.gif
+
+#############################################################################   
+#
+# Dog at Home Alone With Previous Turn-On Lights
+#
+#############################################################################   ZZZ
+- alias: "Dog at Home Alone With Previous Turn-On Lights"
+  initial_state: 'on'
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: '+00:30:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
+        state: 'not_home'
+      - condition: state
+        entity_id: group.all_my_lights
+        state: 'on'
+  action:
+  - service: notify.eliran_ios_and_ipad_and_telegram
+    data:
+      title: 'תאורה'  #Security
+      message: 'זורו לבד בבית ,תאורה קודמת נשארה דלוקה'
+      data:
+        push:
+          sound: "US-EN-Morgan-Freeman-Turning-On-The-Mood-Lights.wav"
+          badge: 0
+          category: 'modifymylights' #the indentefier
+        attachment: 
+          url: https://i.imgur.com/SohwJ6w.gif
           #https://media.tenor.com/images/dde7e721dd7129d019a72ba9a98e6cc6/tenor.gif
           #http://homeli.co.uk/wp-content/uploads/2015/05/Dog-Interacting-with-the-Flyte-Levitating-Light.gif
-  - service: light.turn_on
-    data_template:
-      entity_id: light.white_bulb
 
 #############################################################################   
 #
@@ -1719,8 +2438,8 @@
     payload: "HOLD"
     encoding: "utf-8"
   action:
-    - service: light.turn_off
-      entity_id: group.allmylights   
+    - service: homeassistant.turn_off
+      entity_id: group.all_my_lights
     - service: light.turn_on
       data:
         entity_id: light.desk_lamp
@@ -1744,10 +2463,10 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
+        entity_id: device_tracker.eliran_iphone_2 #device_tracker.eliran_iphone_wifi #unifi 
         state: 'not_home'
       - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
+        entity_id: device_tracker.shiran_iphone_2 #unifi #device_tracker.shiran_iphone_wifi  #shiran
         state: 'not_home'
   action:
   - service: notify.eliran_ios_and_ipad_and_telegram
@@ -1762,69 +2481,7 @@
         attachment: 
           url: https://i.imgur.com/p2DJQkT.gif
 
-#####################################################
-##                                                  #
-## The Boiler is ON and nobody at home -alert to turn it off
-##                                                  #
-#####################################################
-- alias: 'The Boiler is ON and nobody at home'
-  initial_state: 'on'
-  trigger:
-    platform: state
-    entity_id: switch.mqtt_pow1
-    to: 'on'
-    for:
-      minutes: 10
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: device_tracker.eliran_iphone_wifi
-        state: 'not_home'
-      - condition: state
-        entity_id: device_tracker.shiran_iphone_wifi #shiran
-        state: 'not_home'
-      - condition: numeric_state
-        entity_id: 'sensor.pow1_current' 
-        above: 5 #amper        
-  action:
-    - service: notify.eliran_ios_and_ipad_and_telegram
-      data:
-        title: 'התראה' #alert
-        message: 'שכחת את הדוד דלוק! האם לכבות?'
-        data:
-          push:
-            badge: 0
-            category: 'modifymyboilerswitch' #the indentefier 
-          attachment: 
-            url: https://i.imgur.com/igtwFWz.gif
 
-#####################################################
-##                                                  #
-## The Boiler is ON and physically "off" by the switch
-##                                                  #
-#####################################################
-- alias: 'The Boiler is ON and physically off alert'
-  initial_state: 'on'
-  trigger:
-    platform: numeric_state
-    entity_id: sensor.pow1_current
-    below: 5 #amper
-  condition:
-    - condition: state
-      entity_id: 'switch.mqtt_pow1'
-      state: 'on'
-  action:
-    - service: notify.eliran_ios_and_ipad_and_telegram
-      data:
-        title: 'התראה' #alert
-        message: 'הדוד דלוק, אך מנותק מהזרם,האם לכבות?'
-        data:
-          push:
-            badge: 0
-            category: 'modifymyboilerswitch' #the indentefier
-          attachment: 
-            url: https://i.imgur.com/igtwFWz.gif
 #####################################################
 ##                                                  #
 ## Notify if the database is High                   #
@@ -1936,7 +2593,6 @@
 ####################################################
 - alias: 'iOS notification action ALLMYLIGHTS_OFF'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -1944,11 +2600,10 @@
       actionName: ALLMYLIGHTS_OFF #the action that was tap
   action:
     - service: homeassistant.turn_off
-      entity_id: group.AllMylights
+      entity_id: group.all_my_lights
 
 - alias: 'iOS notification action ONLY_KITCHEN_LIGHT_ON '
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -1956,13 +2611,12 @@
       actionName: ONLY_KITCHEN_LIGHT_ON #the action that was tap
   action:
     - service: homeassistant.turn_off
-      entity_id: group.AllMylights
+      entity_id: group.all_my_lights
     - service: homeassistant.turn_on
       entity_id: light.kitchen
 
 - alias: 'iOS notification action ONLY_GATEWAY_LIGHT_ON'
   initial_state: 'on' 
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -1970,12 +2624,11 @@
       actionName: ONLY_GATEWAY_LIGHT_ON #the action that was tap
   action:
     - service: homeassistant.turn_off
-      entity_id: group.AllMylights
+      entity_id: group.all_my_lights
     - service: homeassistant.turn_on
       entity_id: light.gateway_light
 - alias: 'iOS notification action ONLY_SALON_R_LIGHT_ON ' #Right Bulb only
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -1983,7 +2636,7 @@
       actionName: ONLY_SALON_R_LIGHT_ON #the action that was tap
   action:
     - service: homeassistant.turn_off
-      entity_id: group.AllMylights
+      entity_id: group.all_my_lights
     - service: homeassistant.turn_on
       entity_id: light.living_room_color_bulb
       
@@ -1995,33 +2648,32 @@
 ####################################################
 - alias: 'iOS notification action ALLMYCCTV_INHOME_OFF'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
     event_data:
       actionName: ALLMYCCTV_INHOME_OFF #the action that was tap
   action:
+    # - service: homeassistant.turn_off
+    #   entity_id: switch.sonoff_salon
     - service: homeassistant.turn_off
-      entity_id: switch.mqtt_pow2
-    - service: homeassistant.turn_off
-      entity_id: switch.sonoff_xiaomicctv_switch
+      entity_id: switch.sonoff_kitchen
 
 - alias: 'iOS notification action CCTV_KITCHEN_ON'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
     event_data:
       actionName: CCTV_KITCHEN_ON #the action that was tap
   action:
+    # - service: homeassistant.turn_off
+    #   entity_id: switch.sonoff_salon  
     - service: homeassistant.turn_on
-      entity_id: switch.mqtt_pow2
+      entity_id: switch.sonoff_kitchen
 
 - alias: 'iOS notification action CCTV_XIAOMI_ON'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -2029,21 +2681,20 @@
       actionName: CCTV_XIAOMI_ON #the action that was tap
   action:
     - service: homeassistant.turn_on
-      entity_id: switch.sonoff_xiaomicctv_switch
+      entity_id: switch.sonoff_salon
 
 - alias: 'iOS notification action ALLMYCCTV_INHOME_ON'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
     event_data:
       actionName: ALLMYCCTV_INHOME_ON #the action that was tap
   action:
+    # - service: homeassistant.turn_on
+    #   entity_id: switch.sonoff_salon
     - service: homeassistant.turn_on
-      entity_id: switch.sonoff_xiaomicctv_switch
-    - service: homeassistant.turn_on
-      entity_id: switch.mqtt_pow2
+      entity_id: switch.sonoff_kitchen
 ####################################################
 #                                                  #
 # iOS notification action FOR BOILER
@@ -2051,7 +2702,6 @@
 ####################################################
 - alias: 'iOS notification action BOILER_OFF'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -2059,12 +2709,11 @@
       actionName: BOILER_OFF #the action that was tap
   action:
     - service: homeassistant.turn_off
-      entity_id: group.boiler_setup
+      entity_id: switch.mqtt_pow1      
 
 
 - alias: 'iOS notification action BOILER_ON'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -2076,7 +2725,6 @@
 
 - alias: 'iOS notification action BOILER_ON_BY_TIMER'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -2084,13 +2732,50 @@
       actionName: BOILER_ON_BY_TIMER #the action that was tap
   action:
     - service: homeassistant.turn_on
-      entity_id: group.boiler_setup
+      entity_id: script.timer_off_boiler
 
+####################################################
+#                                                  #
+# iOS notification action FOR HEATER
+#                                                  #
+####################################################
+- alias: 'iOS notification action HEATER_OFF'
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: HEATER_OFF #the action that was tap
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.mqtt_pow1      
+
+
+- alias: 'iOS notification action HEATER_ON'
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: HEATER_ON #the action that was tap
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.mqtt_pow1
+
+- alias: 'iOS notification action HEATER_ON_BY_TIMER'
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: HEATER_ON_BY_TIMER #the action that was tap
+  action:
+    - service: homeassistant.turn_on
+      entity_id: script.timer_off_heater
 
 ######################################################
 - alias: 'iOS notification action RESETHA'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -2106,7 +2791,6 @@
 ####################################################
 - alias: 'iOS notification action START_VACCUM_CLEANER'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -2118,7 +2802,6 @@
 ####################################################
 - alias: 'iOS notification action STOP_VACCUM_CLEANER'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -2130,7 +2813,6 @@
 ####################################################
 - alias: 'iOS notification action RETURN_TO_BASE_VACCUM_CLEANER'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -2142,7 +2824,6 @@
 ####################################################
 - alias: 'iOS notification action CLOSE_RDP'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -2154,7 +2835,6 @@
 ####################################################
 - alias: 'iOS notification action CLOSE_VPN_DOCKER'
   initial_state: 'on'
-  hide_entity: true
   trigger:
     platform: event
     event_type: ios.notification_action_fired
@@ -2162,7 +2842,31 @@
       actionName: CLOSE_VPN_DOCKER #the action that was tap
   action:
     - service: homeassistant.turn_off
-      entity_id: switch.ha_dockermon_openvpn_as
+      entity_id: switch.docker_openvpn_as
+
+####################################################
+- alias: 'iOS notification action LIVINGROOM_AIRCON_OFF'
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: LIVINGROOM_AIRCON_OFF #the action that was tap
+  action:
+    - service: climate.turn_off
+      entity_id: climate.living_room
+
+####################################################
+- alias: 'iOS notification action BEDROOM_AIRCON_OFF'
+  initial_state: 'on'
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: BEDROOM_AIRCON_OFF #the action that was tap
+  action:
+    - service: climate.turn_off
+      entity_id: climate.bedroom
 # # # When timer is stopped, the time run out, another message is sent
 # # - action:
 # #  - service: notify.eliran_ios_and_ipad_and_telegram

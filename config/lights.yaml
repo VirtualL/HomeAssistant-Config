@@ -3,18 +3,37 @@
 #LIGHT
 #
 ################################################################################
+  - platform: group #make one light for all the entities
+    name: All Salon Lights
+    entities:
+      - light.white_bulb
+      - light.living_room_color_bulb
+
+  - platform: group #make one light for all the entities
+    name: All Kitchen Lights
+    entities:
+      - light.kitchen
+      - light.gateway_light
+      - light.service_room
+
+  - platform: group #make one light for all the entities
+    name: All Hallway Lights
+    entities:
+      - light.sonoff_hallway_light
+      - light.desk_lamp
+
     #Xiaomi Philips LED Blub
-  - platform: xiaomi_miio
-    name: Philips Bulb 
-    host: XXX.XXX.XXX.XXX #CHANGE_IP
-    token: !secret PhilipsBulbToken
-    model: philips.light.bulb
+  # - platform: xiaomi_miio
+  #   name: Philips Bulb 
+  #   host: XXX.XXX.XXX.XXX #CHANGE_IP
+  #   token: !secret PhilipsBulbToken
+  #   model: philips.light.bulb
 
 #Xiaomi YeeLight Blubs and Desk lamp
 ####yeelight are in another config file
 ####
 ################################################################################
-## sonoff3 = sonoff touch - Bedroom Light ( light.bedroom )
+## sonoff3 = sonoff TX T2EU1C - Bedroom Light ( light.bedroom )
 ################################################################################
   - platform: mqtt
     name: "Bedroom"
@@ -84,6 +103,21 @@
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: false    
+
+################################################################################
+## sonoff8 = sonoff touch NO LIVE WIRE - Service Light 
+################################################################################
+  - platform: mqtt
+    name: "Service_Room" 
+    state_topic: "stat/sonoff8/POWER"
+    command_topic: "cmnd/sonoff8/POWER"
+    availability_topic: "tele/sonoff8/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: false        
 ################################################################################
 ## sonoff_ifan = sonoff ifan02 -in the bedroom #WORKIN NOT IN USE
 ################################################################################    

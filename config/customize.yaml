@@ -2,10 +2,7 @@
 ## In customize I made most of the GUI changes, Localization To Hebrew 
 ## (ifcan't made them in the translations through Lokalis )
 ## https://developers.home-assistant.io/docs/en/internationalization_translation.html
-## in the past i was using homebridge to connect Homekit and Siri,
-## Every Place you see "CUI" the meaning is that i am using home-assistant-custom-ui
-## to improve visual info (Currently NOT Working on Lovelace UI)
-## https://github.com/andrey-git/home-assistant-custom-ui
+## in the past i was using homebridge to connect Homekit and Siri
 ##############ה#################################################################
 light.white_bulb:
   friendly_name: סלון שמאלית
@@ -20,27 +17,35 @@ light.yeelight_rgb_286c07106e1b:
 light.living_room_color_bulb:
   icon: mdi:page-layout-sidebar-right
   friendly_name: סלון ימנית
-light.philips_bulb:
+light.service_room:
   friendly_name: חדר שירות
-  hidden: false
   icon: mdi:lightbulb-on-outline
 light.sonoff_hallway_light:
   friendly_name: מסדרון
-  hidden: false
-  icon: mdi:track-light
+  icon: mdi:vanity-light
 light.desk_lamp:
   friendly_name: מנורת שולחן
-  icon: mdi:lamp
+  icon: mdi:desk-lamp  #TODO #:flip-h
 light.kitchen:
-  hidden: false
-  icon: mdi:ceiling-light
   friendly_name: מנורת מטבח
+  icon: mdi:ceiling-light
+light.bedroom:
+  friendly_name: תאורה בחדר שינה
+  icon: mdi:bed-king-outline
+light.bathroom:
+  friendly_name: תאורה במקלחת
+  icon: mdi:wall-sconce-flat 
+    
 binary_sensor.switch_158d0000d8c836:
   friendly_name: לחצן חדר שינה
   hidden: true
 binary_sensor.xiaomi_motion_sensor_hallway:
   friendly_name: חיישן תנועה
   device_class: motion
+binary_sensor.motion_sensor_bathroom:
+  friendly_name: חיישן תנועה במקלחת
+  device_class: motion
+
 binary_sensor.door_sensor_bedroom:
   friendly_name: דלת חדר שינה
   device_class: door
@@ -62,12 +67,12 @@ binary_sensor.wall_switch_right_158d0001712d0e:
   friendly_name: לחצן קיר - ימני
   icon: mdi:arrow-right-bold-box
   hidden: true
-sensor.humidity_bedroom_0:
-  friendly_name: לחות בחדר שינה
+sensor.humidity_bathroom:
+  friendly_name: לחות במקלחת
   icon: mdi:water-percent
   device_class: humidity
-sensor.temperature_bedroom_0:
-  friendly_name: טמפרטורה בחדר שינה
+sensor.temperature_bathroom:
+  friendly_name: טמפרטורה במקלחת
   unit_of_measurement: "°C"
   device_class: temperature
   # unit_of_measurement: "°מעלות"
@@ -85,10 +90,7 @@ switch.xiaomi_powerstrip:
   icon: mdi:power-plug
   homebridge_switch_type: outlet
   device_class: power
-group.xiaomi_powerstrip_info:
-    friendly_name: מפצל שקעים בסלון
-    icon: mdi:power-socket-us
-    device_class: power
+
      
 sensor.power_strip_temp:
   friendly_name: טמפרטורת מפצל
@@ -111,15 +113,14 @@ media_player.apple_tv:
   friendly_name: אפל טיוי
 
 media_player.salon_speaker:
-  frindly_name: גוגל מיני
+  frindly_name: גוגל מיני סלון
   icon: mdi:google-home 
-group.alerts:
-  friendly_name: התראות
-  hidden: true
-   
-group.historyStat:
-  friendly_name: סטטיסטיקה
-   
+
+media_player.kitchen_speaker:
+  friendly_name: גוגל מיני מטבח
+  icon: mdi:goole-home
+  
+
   hidden: false
 
 sensor.date_time:
@@ -128,22 +129,22 @@ sensor.date_time:
 sensor.time:
   friendly_name: שעה
   hidden: true
-  
+
 sun.sun:
   friendly_name: שמש
-   
+
 sensor.eliran_iphone_battery_level:
   friendly_name: מצב סוללה -אלירן
    
 sensor.eliran_iphone_battery_state:
   friendly_name: סטטוס סוללה -אלירן
    
-sensor.shiran_iphone_battery_level:
+sensor.battery_level_2:
   friendly_name: מצב סוללה -שירן
    
-sensor.shiran_iphone_battery_state:
+sensor.battery_state_2:
   friendly_name: סטטוס סוללה -שירן
-   
+  
 sensor.processor_use:
   friendly_name: ניצול מעבד
   icon: mdi:memory
@@ -154,8 +155,24 @@ sensor.memory_use_percent:
    
 sensor.ssd_usage:
   friendly_name: ניצול אחסון ססדי
-  icon: mdi:nas
+  icon: mdi:chip
   
+sensor.HDD_sdb_temp:
+  friendly_name: SDB SSD טמפרטורה
+  icon: mdi:chip
+sensor.HDD_sdc_temp:
+  friendly_name: SDC PARITY טמפרטורה
+  icon: mdi:harddisk
+sensor.HDD_sdd_temp:
+  friendly_name: SDD WD10EZEX טמפרטורה
+  icon: mdi:harddisk
+sensor.HDD_sde_temp:
+  friendly_name: SDE WD10EARS טמפרטורה
+  icon: mdi:harddisk
+sensor.HDD_sdf_temp:
+  friendly_name: SDF ST1000VX005 טמפרטורה
+  icon: mdi:harddisk
+
 sensor.main_hdd_usage:
   friendly_name: ניצול אחסון דיסק ראשי
   icon: mdi:harddisk  
@@ -240,13 +257,10 @@ device_tracker.desktop9cb3035:
 device_tracker.chromecast:
   friendly_name: כרוםקאסט
    
-group.AllMylights:
+group.all_my_lights:
   friendly_name: כל התאורה בבית
   device_class: light
   icon: mdi:lighthouse-on
-group.Sensors:
-  friendly_name: כל החיישנים
-   
 
 remote.apple_tv:
   friendly_name: אפל טיוי
@@ -254,8 +268,11 @@ remote.apple_tv:
 # remote.ir_controller:
 #   friendly_name: שליטה אינפרא
    
-switch.sonoff_xiaomicctv_switch:
+switch.sonoff_salon:
   friendly_name: מפסק מצלמת סלון
+  icon: mdi:camera-gopro  
+switch.sonoff_kitchen:
+  friendly_name: מפסק מצלמת מטבח
   icon: mdi:camera-gopro  
 
 sensor.dark_sky_temperature:
@@ -385,8 +402,6 @@ script.tv_vol_down:
 script.tv_vol_up:
   friendly_name: הגבר ווליום טלויזיה
 
-group.shiran_page:
-  icon: mdi:human-female
    
 # script.test_actionable_notify:
 #   homebridge_hidden: ture
@@ -419,33 +434,12 @@ switch.tv_lg_hdmi3:
 switch.tv_lg_mute:
   assumed_state: true
   friendly_name: השתק טלויזיה
-  icon: mdi:volume-off
-group.allmycontrollers:
-  friendly_name: כל השלטים
-   
-gruop.AllmyControllers:
-  friendly_name: כל השלטים
-   
-group.all_switches:
-  friendly_name: קבוצה מובנת-כל הלחצנים
-  # hidden: ture
-   
-group.AllMySwitchs:
+  icon: mdi:volume-off   
+
+group.all_my_switchs:
   friendly_name: כל הלחצנים
   hidden: false
 
-light.bedroom:
-  icon: mdi:wall-sconce-flat
-  friendly_name: תאורה בחדר שינה
-  device_class: light
-  
-# fan.bedroom_fan:
-#   friendly_name: מאורר חדר שינה
-
-group.all_lights:
-   
-  device_class: light
-# icon: mdi:power-socket-eu
 switch.mqtt_pow1:
   friendly_name: מפסק לדוד
   icon: mdi:shower-head
@@ -454,18 +448,41 @@ input_number.slider_boiler:
   friendly_name: זמן להדלקה
   icon: mdi:timer
   unit_of_measurement: 'דקות'
-   
-  
 
 script.timer_off_boiler:
   icon: mdi:timer-sand
    
-group.boiler_setup:
-  friendly_name: דוד חכם
-  icon: mdi:hot-tub
 
-group.boiler_page:
-  icon: mdi:shower-head
+# Alarm clock inputs
+input_number.boiler_on_clock_hour:
+  icon: mdi:clock-in
+   
+input_number.boiler_on_clock_minute:
+  icon: mdi:timer
+   
+input_boolean.boiler_on_clock_status:
+  friendly_name: 'הפעל זמן הדלקה'
+  icon: mdi:alarm-check
+   
+sensor.boiler_on_clock_time_long:
+  friendly_name: 'זמן הדלקה'
+  icon: mdi:clock-start
+   
+
+input_number.boiler_off_clock_hour:
+  icon: mdi:clock-in
+   
+input_number.boiler_off_clock_minute:
+  icon: mdi:timer
+   
+input_boolean.boiler_off_clock_status:
+  friendly_name: 'הפעל זמן כיבוי'
+  icon: mdi:alarm-off
+   
+sensor.boiler_off_clock_time_long:
+  friendly_name: 'זמן כיבוי'
+  icon: mdi:clock-end
+
 sensor.pow1_current:
   friendly_name: צריכה נוכחית 
   icon: mdi:flash-circle
@@ -486,14 +503,11 @@ sensor.pow1_total_cost:
   friendly_name: סך הכל עלות כוללת
   icon: mdi:finance
 
-group.POW2_setup:
-  friendly_name: מפסק מצלמת מטבח
-  icon: mdi:webcam
 
 switch.mqtt_pow2:
   assumed_state: false
-  icon: mdi:webcam
-  friendly_name: מפסק מצלמת מטבח
+  icon: mdi:radiator
+  friendly_name: מפסק רדיאטור
 
 sensor.pow2_current:
   friendly_name: צריכה נוכחית 
@@ -521,8 +535,44 @@ sensor.pow2_watt:
   icon: mdi:flash-circle
 sensor.pow2_total_cost:
   friendly_name: סך הכל עלות כוללת
-   
   icon: mdi:finance
+
+input_number.slider_heater:
+  friendly_name: זמן להדלקה
+  icon: mdi:timer
+  unit_of_measurement: 'דקות'
+
+script.timer_off_heater:
+  icon: mdi:timer-sand
+
+# Alarm clock inputs
+input_number.heater_on_clock_hour:
+  icon: mdi:clock-in
+   
+input_number.heater_on_clock_minute:
+  icon: mdi:timer
+   
+input_boolean.heater_on_clock_status:
+  friendly_name: 'הפעל זמן הדלקה'
+  icon: mdi:alarm-check
+   
+sensor.heater_on_clock_time_long:
+  friendly_name: 'זמן הדלקה'
+  icon: mdi:clock-start
+   
+input_number.heater_off_clock_hour:
+  icon: mdi:clock-in
+   
+input_number.heater_off_clock_minute:
+  icon: mdi:timer
+   
+input_boolean.heater_off_clock_status:
+  friendly_name: 'הפעל זמן כיבוי'
+  icon: mdi:alarm-off
+   
+sensor.heater_off_clock_time_long:
+  friendly_name: 'זמן כיבוי'
+  icon: mdi:clock-end  
 
 sensor.home_assistant_released_version:
   hidden: false
@@ -572,59 +622,16 @@ sensor.home_to_otniel:
   friendly_name: זמן הגעה מהבית לעתניאל
   unit_of_measurement: "דקות"
 
-# Alarm clock inputs
-input_number.boiler_on_clock_hour:
-  icon: mdi:clock-in
-   
-input_number.boiler_on_clock_minute:
-  icon: mdi:timer
-   
-input_boolean.boiler_on_clock_status:
-  friendly_name: 'הפעל זמן הדלקה'
-  icon: mdi:alarm-check
-   
-sensor.boiler_on_clock_time_long:
-  friendly_name: 'זמן הדלקה'
-  icon: mdi:clock-start
-   
-
-input_number.boiler_off_clock_hour:
-  icon: mdi:clock-in
-   
-input_number.boiler_off_clock_minute:
-  icon: mdi:timer
-   
-input_boolean.boiler_off_clock_status:
-  friendly_name: 'הפעל זמן כיבוי'
-  icon: mdi:alarm-off
-   
-sensor.boiler_off_clock_time_long:
-  friendly_name: 'זמן כיבוי'
-  icon: mdi:clock-end
-   
-
-input_boolean.weather:
-  name: מזג האוויר
-  custom_ui_state_card: custom-weather-card
-  config:
-    weather: weather.yweather
-
 vacuum.xiaomi_vacuum:
   friendly_name: 'שואב אבק'
 
-camera.cctv1_snapshot:
+camera.ipc01_snapshot:
   friendly_name: התראת כניסה
-
-binary_sensor.floorplan:
-  custom_ui_state_card: state-card-floorplan
-  config: !include floorplan.yaml #at config/floorplan.yaml
 
 sensor.latest_ha_backup:
   friendly_name: זמן גיבוי הום-אסיסטנט 
   icon: mdi:timetable
   
-group.rates:
-  friendly_name: שערי המרה
 sensor.dollar_usd:
   friendly_name: דולר #Dollar
   icon: mdi:currency-usd
@@ -640,8 +647,7 @@ sensor.pound_gbp:
 sensor.exchange_date:
   friendly_name:  תאריך עדכון #Exchange Datex
 
-group.speedtestnet:
-  friendly_name: מהירות גלישה 
+
 sensor.speedtest_download:
   friendly_name: מהירות הורדה
   icon: mdi:download-network
@@ -668,11 +674,21 @@ sensor.gpu_temp:
   friendly_name: טמפרטורה כ.גרפי
   icon: mdi:gpu
 climate.living_room:
-  friendly_name: מזגן
+  friendly_name: מזגן בסלון
 sensor.sensibo1_temp:
   icon: mdi:oil-temperature
   device_class: temperature  
 sensor.sensibo1_humidity:
+  icon: mdi:water-percent
+  device_class: humidity  
+
+
+climate.bedroom:
+  friendly_name: מזגן בחדר השינה
+sensor.sensibo2_temp:
+  icon: mdi:oil-temperature
+  device_class: temperature  
+sensor.sensibo2_humidity:
   icon: mdi:water-percent
   device_class: humidity  
 
@@ -713,27 +729,23 @@ sensor.last_dogwalk:
   # friendly_name: זמן פתיחת דלת אחרונה
   icon: mdi:timelapse
   
-switch.ha_dockermon_code_server:
+switch.docker_code_server:
     icon: mdi:visual-studio-code
-switch.ha_dockermon_organizr:
-    icon: mdi:home-variant-outline
-switch.ha_dockermon_letsencrypt:
+switch.docker_letsencrypt:
     icon: mdi:shield-lock-outline
-switch.ha_dockermon_unifi_controller:
+switch.docker_unifi_controller:
     icon: mdi:wifi-star
-switch.ha_dockermon_unms:
-    icon: mdi:switch
-switch.ha_dockermon_openvpn_as:
-    icon: mdi:arrow-decision-outline    
+switch.docker_openvpn_as:
+    icon: mdi:arrow-decision-outline
+# switch.ha_dockermon_organizr:
+    # icon: mdi:home-variant-outline
 
 
 device_tracker.shiran_iphone:
-  hide_if_away: false
   friendly_name: Shiran iPhone iOS
   entity_picture: /local/shiran.jpg
   
 device_tracker.eliran_iphone: #shiran Shani ios GPS #TODO zzz
-  hide_if_away: false
   friendly_name: Eliran iPhone iOS
   entity_picture: /local/eliran.jpg
   

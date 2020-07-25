@@ -10,3 +10,10 @@
     initial: off
   boiler_off_clock_status:
     initial: off
+
+
+  heater_on_clock_status:
+    initial: off
+  heater_off_clock_status:
+    initial: off
+

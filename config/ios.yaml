@@ -85,6 +85,28 @@
             destructive: no
             behavior: 'default'
 
+      - name: modifyheater
+        identifier: 'modifymyheaterswitch' #(MUST BE LOWER CASE)
+        actions:
+          - identifier: 'HEATER_OFF' #(MUST BE UPPER CASE)
+            title: 'כבה את הדוד'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'
+          - identifier: 'HEATER_ON' #(MUST BE UPPER CASE)
+            title: ' הדלק את הדוד'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+          - identifier: 'HEATER_ON_BY_TIMER' #(MUST BE UPPER CASE)
+            title: 'הדלק לזמן שנקבע באפליקציה'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+
       - name: feeddogopt
         identifier: 'feedthedog' #(MUST BE LOWER CASE)
         actions:
@@ -98,12 +120,19 @@
       - name: aircon
         identifier: 'modifyaircon' #(MUST BE LOWER CASE)
         actions:
-          - identifier: 'AIRCON_OFF' #(MUST BE UPPER CASE)
+          - identifier: 'LIVINGROOM_AIRCON_OFF' #(MUST BE UPPER CASE)
             title: 'כבה את המזגן בסלון'
             activationMode: 'background'
             authenticationRequired: no
             destructive: yes #yes for red color
             behavior: 'default'
+          - identifier: 'BEDROOM_AIRCON_OFF' #(MUST BE UPPER CASE)
+            title: 'כבה את המזגן בחדר השינה'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes #yes for red color
+            behavior: 'default'
+
             
       - name: vaccum
         identifier: 'vaccum_cleaner' #(MUST BE LOWER CASE)

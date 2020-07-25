@@ -6,11 +6,12 @@
   filter:
     include_entities:
       - climate.living_room
+      - climate.bedroom
       - vacuum.xiaomi_vacuum
       - binary_sensor.xiaomi_motion_sensor_hallway
-      - sensor.humidity_bedroom_0
+      - sensor.humidity_bathroom
       - sensor.xiaomi_gateway_illumination
-      - sensor.temperature_bedroom_0
+      - sensor.temperature_bathroom
       # - device_tracker.homeipad
       - device_tracker.eliran_iphone_wifi #byIP at DDWT 
       - device_tracker.shiran_iphone_wifi #shiran
@@ -18,14 +19,16 @@
       - device_tracker.sonoff_kitchen #Kitchen lamp sonoff TX
       - device_tracker.sonoff_bedroom #sonoff touch 
       - device_tracker.sonoff_kitchen_cctv_switch #sonoff pow2 kitchen cctv switch
-      - device_tracker.homecctv_01 #HomeCCTV VStarcam 360 
-      - device_tracker.hikvision_home_cctv
+      - device_tracker.ipc01_kitchen #IPC01 IMOU CUE KITCHEN
+      # - device_tracker.ipc02_salon
       - device_tracker.rockrobo #Xiaomi Vaccum Cleaner Gen1
       - device_tracker.main_server #main server 
       - device_tracker.windows_vm #Windows VM
-      - device_tracker.ipc_10
+      - device_tracker.ipc_03_outdoor
       - sensor.sensibo1_temp
       - sensor.sensibo1_humidity
+      - sensor.sensibo2_temp
+      - sensor.sensibo2_humidity
       # not in use - using sensibo
       # - script.ac_turn_off
       # - script.ac_turn_on
@@ -46,7 +49,6 @@
       - switch.tv_lg_hdmi2
       - switch.tv_lg_hdmi3
       - switch.tv_lg_vol
-      - binary_sensor.floorplan
       - binary_sensor.switch_158d0000d8c836
       - binary_sensor.switch_158d000149b9ab
       - binary_sensor.wall_switch_both_158d0001712d0e
@@ -55,12 +57,7 @@
       - binary_sensor.wall_switch_both_158d0001e119a7
       - binary_sensor.wall_switch_left_158d0001e119a7
       - binary_sensor.wall_switch_right_158d0001e119a7
-      - binary_sensor.ha_dockermon_cloud9ide
-      - binary_sensor.ha_dockermon_ha_dockermon
-      - binary_sensor.ha_dockermon_heimdall
-      - binary_sensor.ha_dockermon_letsencrypt
-      - binary_sensor.ha_dockermon_unifi
-      - binary_sensor.ha_dockermon_unms
+
   entity_config:
 ########################################
 ###LIGHT
@@ -76,7 +73,7 @@
       name: סלון ימנית
     light.white_bulb:
       name: סלון שמאלית
-    light.philips_bulb:
+    light.service_room:
       name: חדר שירות
     light.sonoff_hallway_light:
       name: מסדרון
@@ -88,10 +85,12 @@
 ###SWITCH
 ########################################  
     #all switch. get "display_categories: SWITCH"  by default
-    switch.mqtt_pow2:
+    switch.sonoff_kitchen:
       name: מצלמת מטבח
-    switch.sonoff_xiaomicctv_switch:
-      name: מצלמת סלון
+    switch.mqtt_pow2:
+      name: רדיטור
+    # switch.sonoff_salon:
+    #   name: מצלמת סלון
     switch.mqtt_pow1:
       name: דוד
       type: shower
@@ -127,11 +126,11 @@
       name: תאורת חדר שינה  
     device_tracker.sonoff_kitchen_cctv_switch:
       name: מפסק מצלמת מטבח
-    device_tracker.homecctv_01:
+    device_tracker.ipc01_kitchen:
       name: מצלמת מטבח
-    device_tracker.salon_cctv_switch:
-      name: מפסק מצלמת סלון
-    device_tracker.hikvision_home_cctv:
+    # device_tracker.salon_cctv_switch:
+    #   name: מפסק מצלמת סלון
+    device_tracker.ipc02_salon:
       name: מצלמת סלון
     device_tracker.sonoffpow1:
       name: מצב דוד
@@ -139,8 +138,8 @@
       name: שרת ראשי
     device_tracker.windows_vm:
       name: וינדוס וירטואל
-    device_tracker.ipc_10:
-      name: 10 מצלמת חוץ
+    device_tracker.ipc_03_outdoor:
+      name: מצלמת חוץ
 ########################################
 ###BINARY SENSOR
 ########################################
@@ -161,10 +160,10 @@
 ########################################         
     sensor.xiaomi_gateway_illumination:
       name: עוצמת אור ברכזת
-    sensor.temperature_bedroom_0:
+    sensor.temperature_bathroom:
       name: טמפרטורה בחדר הורים
-    sensor.humidity_bedroom_0:
-      name: לחות בחדר הורים
+    sensor.humidity_bathroom:
+      name: לחות במקלחת
     sensor.sensibo1_temp:
       name: טמפרטורה בסלון     
     sensor.sensibo1_humidity:
@@ -174,8 +173,8 @@
 ########################################  
     vacuum.xiaomi_vacuum:
       name: רוביק
-    group.allmylights:
+    group.all_my_lights:
       name: כל התאורה
-    climate.living_room:      
+    climate.living_room:
       name: מזגן בסלון
  

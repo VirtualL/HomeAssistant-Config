@@ -11,7 +11,7 @@ If you like anything here, Be sure to star my repo! Or consider making a donatio
 ## Information
 |  [![Paypal](https://img.shields.io/badge/Donate-Paypal-3b7bbf.svg?logo=paypal&longCache=true&style=for-the-badge)](https://www.paypal.me/VirtualL123) [![buymeacoffee](https://img.shields.io/badge/Donate-Buy--Me--a--Coffee-F7D606.svg?logo=coffeescript&longCache=true&style=for-the-badge)](https://www.buymeacoffee.com/VirtualL) | [![LastCommit](https://img.shields.io/github/last-commit/VirtualL/HomeAssistant-Config.svg?style=for-the-badge)](https://github.com/VirtualL/HomeAssistant-Config/commits/master)|
 |:---:|:---:|
-| Running Perfectly at [Home Assistant](.HA_VERSION) 0.103.5, iOS 13.3, MacOS Catalina 10.15.2 with Browsers: Chrome and Safari Latest (And probably in later versions)| This shows how up to date this repo is |
+| Running Perfectly at [Home Assistant](.HA_VERSION) 0.113.0, iOS 13.6, MacOS Catalina 10.15.6 with Browsers: Chrome and Safari Latest| This shows how up to date this repo is |
 | [![GitHub stars](https://img.shields.io/github/stars/VirtualL/HomeAssistant-Config.svg?style=for-the-badge)](https://github.com/VirtualL/HomeAssistant-Config/stargazers) | [![GitHub issues](https://img.shields.io/github/issues/VirtualL/HomeAssistant-Config.svg?style=for-the-badge)](https://github.com/VirtualL/HomeAssistant-Config/issues) |
 | Please :star: this repo if you find it useful as these people have. | This is like my TODO list, feel free to open issues if you see something unclear or you have bugs |
 |[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg?style=for-the-badge)](http://unlicense.org/)| [![contributions welcome](https://img.shields.io/badge/contributions-welcome-blue.svg?style=for-the-badge)](https://github.com/VirtualL/HomeAssistant-Config/pulls) |
@@ -36,7 +36,7 @@ So I made an [Alexa Skill](https://developer.amazon.com/alexa-skills-kit) using 
 All this devices are working perfectly at my Home-Automation System.
 before you start, make sure the device you want to buy have a [Component](https://www.home-assistant.io/components/) OR buit-in API support to integrate into Home-Assistant with [RESTful](https://www.home-assistant.io/components/#search/restful)/[Command line](https://www.home-assistant.io/components/#search/command%20line)/[IFTTT](https://www.home-assistant.io/components/ifttt)/[MQTT](https://www.home-assistant.io/components/#search/MQTT)
 
-[Ubiquiti Access Point AP-AC-LR](https://www.ui.com/unifi/unifi-ap-ac-lr/)
+[Ubiquiti Access Point AP-AC-PRO](https://www.ui.com/unifi/unifi-ap-ac-pro/)
 
 With [Unifi Controller Container](https://hub.docker.com/r/linuxserver/unifi/) for better Wi-Fi Connectivity,reliability,security and [presence-detection](https://www.home-assistant.io/components/device_tracker.unifi_direct/)
 
@@ -57,13 +57,13 @@ Products connected to Gateway:
 
 [Xiaomi Smart IR Human Body Sensor](https://www.gearbest.com/smart-light-bulb/pp_257678.html?wid=1433363)
 
-2X[Aqara Smart Light Switch Wireless](https://www.gearbest.com/alarm-systems/pp_610095.html?wid=1433363) 
+4X[Aqara Smart Light Switch Wireless](https://www.gearbest.com/alarm-systems/pp_610095.html?wid=1433363) 
 
 <img src=extras/pictures/XiaomiAqaraWallSwitchZigbee.jpg width="150">
 
 ### Other products:
 #### Climate:
-[Sensibo Sky](https://sensibo.com/products/sensibo-sky) - Highly recommended!
+2X[Sensibo Sky](https://sensibo.com/products/sensibo-sky) - Highly recommended!
 
 <img src=extras/pictures/SensiboSky.png width=“150” height="150">
 

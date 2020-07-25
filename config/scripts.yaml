@@ -36,7 +36,14 @@
         data:
           entity_id: switch.mqtt_pow1
           
-          
+###########################################
+  timer_off_heater: #script to turn off the heater after X mins that been choose before
+    alias: הדלק טיימר רדיאטור
+    sequence:
+      - delay: '00:{{ states.input_number.slider_heater.state | int }}:00'
+      - service: switch.turn_off
+        data:
+          entity_id: switch.mqtt_pow1          
 ############################################### 
   #a button to use speed test manualy 
   update_speedtestnet:

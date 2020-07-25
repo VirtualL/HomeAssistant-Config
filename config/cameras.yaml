@@ -13,9 +13,13 @@
   # extra_arguments: 'extra_arguments: -rtsp_transport udp
   
 #Vstarcam Home 01
+# - platform: ffmpeg
+#   name: Home CCTV1
+#   input: !secret HomeCCTV1URL
+
 - platform: ffmpeg
-  name: Home CCTV1
-  input: !secret HomeCCTV1URL
+  name:  IPC01 Kitchen
+  input: !secret kitchen_ipc01_URL
 
 #Vstarcam Home 02  
 # - platform: onvif
@@ -24,28 +28,30 @@
 #   port: 10080
 #   username: !secret HomeCCTV2username
 #   password: !secret HomeCCTV2password 
-#hikvision Home CCTV2
 
-- platform: ffmpeg 
-  name: Home CCTV2
-  input: !secret HomeCCTV2URL
+
+#hikvision Home CCTV2
+# #IMOU ranger 
+# - platform: ffmpeg 
+#   name: ipc02_salon
+#   input: !secret IPC02_Salon_URL
   
 - platform: ffmpeg 
   name: Outdoor CCTV
-  input: !secret IPC10URL
+  input: !secret IPC03_OUTDOORURL
 # - platform: onvif
 #   name: Outdoor CCTV
-#   host: !secret IPC10_IP
+#   host: !secret IPC03_OUTDOOR_IP
 #   profile: 1 # 0 for SuperHD
 #   port: 80
-#   username: !secret IPC10username
-#   password: !secret IPC10password
+#   username: !secret IPC03_OUTDOOR_username
+#   password: !secret IPC03_OUTDOOR_password 
   
     
 
 - platform: local_file #for security warnings 
   file_path: '/config/tmp/home_cctv1.png'
-  name: "CCTV1_Snapshot"
+  name: "ipc01_snapshot"
   
 #Vstarcarm Outdoor Eliran 
 # - platform: onvif

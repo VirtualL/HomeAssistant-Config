@@ -1,5 +1,4 @@
 homeassistant:
-  customize_glob: !include config/customize_glob.yaml
   # Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
@@ -18,24 +17,16 @@ homeassistant:
     - /config # - /home/homeassistant/.homeassistant/
     - /config/tmp # - /home/homeassistant/.homeassistant/tmp
     - /config/backup/hass #- /home/homeassistant/backup/hass
+
 system_health:
 
-#custom_ui
-customizer:
-  custom_ui: hosted
 
 # Enables the frontend
 
 frontend:
   javascript_version: latest #auto
-  themes: !include config/themes.yaml
+  themes: !include_dir_merge_named themes
   # extra_html_url:
-  #   - /local/custom_ui/state-card-custom-ui.html
-  #   - /local/custom_ui/state-card-floorplan.html
-  # extra_html_url_es5:
-  #   - /local/custom_ui/state-card-custom-ui-es5.html
-  # extra_html_url: #???
-  # - /local/custom_ui/custom-weather-card.html
 lovelace:
   mode: yaml
 
@@ -57,7 +48,6 @@ http:
   #api_password: !secret api_password
   # ssl_certificate: !secret ssl_certificatePATH
   # ssl_key: !secret ssl_keyPATH 
-  base_url: !secret base_url
   ip_ban_enabled: True
   login_attempts_threshold: 5
   use_x_forwarded_for: True
@@ -67,17 +57,29 @@ http:
   #So make sure to add the NGINX server ip in trusted_proxies
   trusted_proxies:
     - XXX.XXX.XXX.XXX #CHANGE TO IP - localhost
-    - XXX.XXX.XXX.XXX #CHANGE TO IP - nginx    
+    - XXX.XXX.XXX.XXX #CHANGE TO IP - nginx
+    ### add the api ngix reslover??
+  cors_allowed_origins:
+    - https://cast.home-assistant.io    
+
+# #ASUSWRT ORIGNAL (merlin)
+asuswrt:
+  host: 192.168.1.1
+  username: !secret AsusWrtUsername
+  password: !secret AsusWrtPassword
+  protocol: telnet
+  port: 23  
+
 
 device_tracker: !include config/device_trackers.yaml
 
-#Xiaomi Gateway (Aqara)
-xiaomi_aqara:
-  discovery_retry: 6
-  gateways:
-    - host: 192.168.XXX.XXX #CHANGE_IP
-      mac: !secret XiaomiGatewayMAC
-      key: !secret XiaomiGatewayKey
+#Xiaomi Gateway (Aqara) #YAML configuration of the Xiaomi Aqara integration has been deprecated since 0.112
+# xiaomi_aqara:
+#   discovery_retry: 6
+#   gateways:
+#     - host: 192.168.XXX.XXX #CHANGE_IP
+#       mac: !secret XiaomiGatewayMAC
+#       key: !secret XiaomiGatewayKey
  
 vacuum:
   - platform: xiaomi_miio
@@ -90,18 +92,14 @@ vacuum:
 #https://www.home-assistant.io/components/cast/    
 # cast:
 #   media_player:
-#   - host: 192.168.XXX.XXX #CHANGE_IP #partnerTV
+#   - host: 192.168.1.104 #partnerTV
   
 # apple_tv:
-#   - host: 192.168.XXX.XXX #CHANGE_IP 
+#   - host: 192.168.1.121
 #     name: Apple TV
 #     login_id: !secret AppleTVLogin_id
 #     # credentials: !secret AppleTVcredentials
-# media_player: #TODO
-#   # Use the Python ADB implementation without authentication
-#   - platform: androidtv
-#     name: Android TV 1
-#     host: 192.168.0.104
+
 timer:
   #a Timer that Start Every time that the Home Door Open 
   dogwalk:
@@ -123,6 +121,8 @@ config:
 updater:
 
 discovery:
+  # ignore:
+  #   - igd
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 # conversation:
@@ -137,28 +137,22 @@ weather:
   - platform: darksky
     api_key: !secret DarkSky_API_KEY
     mode: daily
+
 # Text to speech
 tts:
   - platform: google_translate #english 
 
 #update every 1 hour. -using dns-o-matic for better updates via Router UI
-# cloudflare:
-#   email: !secret MyEmail 
-#   api_key: !secret CloudflareAPIKey
-#   zone: !secret CloudflareZone
-#   records:
-#     - !secret CloudflareSubDomain1
+cloudflare:
+  email: !secret MyEmail 
+  api_key: !secret CloudflareAPIKey
+  zone: !secret CloudflareZone
+  records:
+    - !secret CloudflareSubDomain1
 
 # https://www.home-assistant.io/components/cloud/ - 
 # not in use-made alexa and google_assistant integration manualy. 
 # cloud:
-
-panel_custom:
-  - name: floorplan
-    sidebar_title: Floorplan
-    sidebar_icon: mdi:home
-    url_path: floorplan
-    config: !include config/floorplan.yaml
     
 # https://www.home-assistant.io/components/notify.telegram/
 telegram_bot:
@@ -170,31 +164,65 @@ telegram_bot:
 hacs:
   token: !secret github_access_token
   
-# custom_updater:
-# deprecation - move to HACS https://github.com/custom-components/custom_updater/issues/117  
-
-climate:      
-- platform: sensibo
-  api_key: !secret SensiboApiKey
+# https://github.com/ualex73/monitor_docker
+monitor_docker:
+  - name: Docker
+    containers:
+      - unifi-controller
+      - letsencrypt
+      - code-server #vscode
+      - mosquitto #mqtt
+      - openvpn-as #VPN
+    scan_interval: 20
+    rename:
+      unifi-controller: UniFi
+      letsencrypt: Let's Encrypt
+      code-server: VS-Code
+      mosquitto: MQTT Mosquitto
+      openvpn-as: Open VPN
+    monitored_conditions:
+      - state #for each docker container
+      - status #for each docker container
+      - uptime #for each docker container
+      - image #for each docker container
+      - cpu_percentage #for each docker container
+      - memory_percentage #for each docker container
+      - allinone #make one sensor for each docker container insted of 1 for state,status,version etc...
+      - containers_running
+      - containers_memory_percentage
+      - containers_cpu_percentage
+      # - containers_total
+climate:
+  - platform: sensibo
+    api_key: !secret SensiboApiKey
 #https://www.home-assistant.io/components/logger/
 logger:
   default: warning # Possible log severity levels, listed in order from most severe to least severe, are: 
                                               #critical #fatal #error #warning #warn #info #debug #notset
   logs:
     homeassistant.components.http.ban: warning
+    # custom_components.monitor_docker: debug
+
+jewish_calendar:
 
 google:
   client_id: !secret Google_CLIENT_ID
   client_secret: !secret Google_CLIENT_SECRET
-  
-calendar:
-  - platform: todoist
-    token: !secret todoist_token
-    
-tuya:
-  username: !secret tuya_username
-  password: !secret tuya_password
-  country_code: 972
+# calendar:
+#   - platform: todoist
+#     token: !secret todoist_token
+
+#YAML configuration of the TUYA integration has been deprecated since 0.112
+# tuya:
+#   username: !secret tuya_username
+#   password: !secret tuya_password
+#   country_code: 972
+
+airvisual:
+    api_key: airvisual_api_key
+    geographies:
+        latitude: !secret HomeLatitude
+        longitude: !secret HomeLongitude
 
 ####################################### Speedtest.Net #######################################     
 speedtestdotnet:
@@ -233,13 +261,17 @@ google_assistant: !include config/google_assistant.yaml
 rest_command: !include config/rest_commands.yaml 
 ############################################################################
 ##
-## sonoff1 = sonoff pow1 boiler ( switch.mqtt_pow1 )
-## sonoff2 = sonoff pow 2 general - now for homeCCTV Kitchen( switch.mqtt_pow2 )
-## sonoff3 = sonoff touch - BedRoom Light ( light.bedroom )
+## sonoff1 = sonoff POW R2 boiler ( switch.mqtt_pow1 )
+## ####### sonoff2 = sonoff POW R2 2 -Now For HEATER (switch.mqtt_pow2) - NOT IN USE
+## sonoff3 = sonoff TX T2EU1C - BedRoom Light ( light.bedroom )
 ## sonoff4 = sonoff basic -now for Hallway Light (light.sonoff_hallway_light )
-## sonoff5 = sonoff basic - now for Xiaomi CCTV ( switch.sonoff_xiaomicctv_switch )
-## sonoff6 = sonoff TX 2CH - 1 Kitchen 2 special (now philips light)
+## ####### sonoff5 = sonoff basic - now for salon CCTV ( switch.sonoff_salon ) - NOT IN USE
+## sonoff6 = sonoff TX 2CH - 1 Kitchen 2 special (now sonoff8)
+## sonoff7 = sonoff touch NO LIVE WIRE (T4EU1C) - bathroom light light.bathroom
 ## sonoff_ifan = sonoff ifan02 with light and fan speed contoll at bedroom
+## sonoff8 = sonoff touch NO LIVE WIRE (T4EU1C) - service light
+## sonoff9 = sonoff basic - now for Kitchen CCTV ( switch.sonoff_kitchen )
+## ####### sonoff99 = sonoff touch - SPARE 1CH
 ##
 ############################################################################
 
@@ -248,8 +280,9 @@ rest_command: !include config/rest_commands.yaml
 ## sensor.illumination_34ce0088d2f7 = sensor.xiaomi_gateway_illumination
 ## binary_sensor.door_window_sensor_158d0000d834ac = binary_sensor.door_sensor_bedroom
 ## binary_sensor.door_window_sensor_158d0001b714e9 = binary_sensor.door_sensor_main_entrance
-## sensor.humidity_158d0001150e4e = sensor.humidity_bedroom_0
-## sensor.temperature_158d0001150e4e = sensor.temperature_bedroom_0
+## sensor.humidity_158d0001150e4e = sensor.humidity_bedroom_0 --> sensor.humidity_bathroom
+## sensor.temperature_158d0001150e4e = sensor.temperature_bedroom_0 --> sensor.temperature_bathroom
 ## light.gateway_light_34ce0088d2f7 = light.gateway_light
 ## switch.10515080cc50e337683d = switch.fan
+## binary_sensor.motion_sensor_158d0004455e9f = binary_sensor.motion_sensor_bathroom
 ################################################################################

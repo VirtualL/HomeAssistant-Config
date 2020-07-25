@@ -1,50 +1,73 @@
 """Setup functions for HACS."""
 # pylint: disable=bad-continuation
-from aiogithubapi import AIOGitHubAuthentication, AIOGitHubException, AIOGitHubRatelimit
-
-from homeassistant.helpers import discovery
+import os
 from hacs_frontend.version import VERSION as FE_VERSION
+from homeassistant.helpers import discovery
 
-from .const import VERSION, DOMAIN
-from .http import HacsPluginView, HacsFrontend
-from .ws_api_handlers import setup_ws_api
+from custom_components.hacs.hacsbase.exceptions import HacsException
+from custom_components.hacs.const import VERSION, DOMAIN
+from custom_components.hacs.globals import get_hacs
+from custom_components.hacs.helpers.information import (
+    get_repository,
+    get_frontend_version,
+)
+from custom_components.hacs.helpers.register_repository import register_repository
 
 
-async def load_hacs_repository(hacs):
+def clear_storage():
+    """Clear old files from storage."""
+    hacs = get_hacs()
+    storagefiles = ["hacs"]
+    for s_f in storagefiles:
+        path = f"{hacs.system.config_path}/.storage/{s_f}"
+        if os.path.isfile(path):
+            hacs.logger.info(f"Cleaning up old storage file {path}")
+            os.remove(path)
+
+
+async def load_hacs_repository():
     """Load HACS repositroy."""
+    hacs = get_hacs()
+
     try:
-        repository = hacs().get_by_name("hacs/integration")
+        repository = hacs.get_by_name("hacs/integration")
         if repository is None:
-            await hacs().register_repository("hacs/integration", "integration")
-            repository = hacs().get_by_name("hacs/integration")
+            await register_repository("hacs/integration", "integration")
+            repository = hacs.get_by_name("hacs/integration")
         if repository is None:
-            raise AIOGitHubException("Unknown error")
-        repository.status.installed = True
-        repository.versions.installed = VERSION
-        repository.status.new = False
+            raise HacsException("Unknown error")
+        repository.data.installed = True
+        repository.data.installed_version = VERSION
+        repository.data.new = False
         hacs.repo = repository.repository_object
-        hacs.data_repo = await hacs().github.get_repo("hacs/default")
-    except (
-        AIOGitHubException,
-        AIOGitHubRatelimit,
-        AIOGitHubAuthentication,
-    ) as exception:
-        hacs.logger.critical(f"[{exception}] - Could not load HACS!")
+        hacs.data_repo = await get_repository(
+            hacs.session, hacs.configuration.token, "hacs/default"
+        )
+    except HacsException as exception:
+        if "403" in f"{exception}":
+            hacs.logger.critical("GitHub API is ratelimited, or the token is wrong.")
+        else:
+            hacs.logger.critical(f"[{exception}] - Could not load HACS!")
         return False
     return True
 
 
-def setup_extra_stores(hacs):
+def setup_extra_stores():
     """Set up extra stores in HACS if enabled in Home Assistant."""
+    hacs = get_hacs()
     if "python_script" in hacs.hass.config.components:
-        hacs.common.categories.append("python_script")
+        if "python_script" not in hacs.common.categories:
+            hacs.common.categories.append("python_script")
 
     if hacs.hass.services.services.get("frontend", {}).get("reload_themes") is not None:
-        hacs.common.categories.append("theme")
+        if "theme" not in hacs.common.categories:
+            hacs.common.categories.append("theme")
 
 
-def add_sensor(hacs):
+def add_sensor():
     """Add sensor."""
+    hacs = get_hacs()
+
     try:
         if hacs.configuration.config_type == "yaml":
             hacs.hass.async_create_task(
@@ -62,18 +85,25 @@ def add_sensor(hacs):
         pass
 
 
-async def setup_frontend(hacs):
+async def setup_frontend():
     """Configure the HACS frontend elements."""
-    hacs.hass.http.register_view(HacsPluginView())
+    from .http import HacsFrontend
+    from .ws_api_handlers import setup_ws_api
+
+    hacs = get_hacs()
+
+    hacs.hass.http.register_view(HacsFrontend())
     hacs.frontend.version_running = FE_VERSION
+    hacs.frontend.version_expected = await hacs.hass.async_add_executor_job(
+        get_frontend_version
+    )
 
     # Add to sidepanel
-    hacs.hass.http.register_view(HacsFrontend())
     custom_panel_config = {
         "name": "hacs-frontend",
         "embed_iframe": False,
         "trust_external": False,
-        "js_url": f"/hacs_frontend/{hacs.frontend.version_running}.js",
+        "js_url": f"/hacsfiles/frontend-{hacs.frontend.version_running}.js",
     }
 
     config = {}
@@ -87,4 +117,9 @@ async def setup_frontend(hacs):
         config=config,
         require_admin=True,
     )
+
+    if "frontend_extra_module_url" not in hacs.hass.data:
+        hacs.hass.data["frontend_extra_module_url"] = set()
+    hacs.hass.data["frontend_extra_module_url"].add("/hacsfiles/iconset.js")
+
     await setup_ws_api(hacs.hass)

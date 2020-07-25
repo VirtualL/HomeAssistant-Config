@@ -1,25 +1,29 @@
 """Class for plugins in HACS."""
 import json
-from aiogithubapi import AIOGitHubException
-from .repository import HacsRepository, register_repository_class
+from integrationhelper import Logger
+
+from custom_components.hacs.hacsbase.exceptions import HacsException
+from custom_components.hacs.helpers.information import find_file_name
+from custom_components.hacs.repositories.repository import HacsRepository
 
 
-@register_repository_class
 class HacsPlugin(HacsRepository):
     """Plugins in HACS."""
-
-    category = "plugin"
 
     def __init__(self, full_name):
         """Initialize."""
         super().__init__()
-        self.information.full_name = full_name
-        self.information.category = self.category
-        self.information.file_name = None
+        self.data.full_name = full_name
+        self.data.file_name = None
+        self.data.category = "plugin"
         self.information.javascript_type = None
-        self.content.path.local = (
-            f"{self.system.config_path}/www/community/{full_name.split('/')[-1]}"
-        )
+        self.content.path.local = self.localpath
+        self.logger = Logger(f"hacs.repository.{self.data.category}.{full_name}")
+
+    @property
+    def localpath(self):
+        """Return localpath."""
+        return f"{self.hacs.system.config_path}/www/community/{self.data.full_name.split('/')[-1]}"
 
     async def validate_repository(self):
         """Validate."""
@@ -27,113 +31,37 @@ class HacsPlugin(HacsRepository):
         await self.common_validate()
 
         # Custom step 1: Validate content.
-        await self.get_plugin_location()
+        find_file_name(self)
 
         if self.content.path.remote is None:
-            self.validate.errors.append("Repostitory structure not compliant")
+            raise HacsException(
+                f"Repostitory structure for {self.ref.replace('tags/','')} is not compliant"
+            )
 
         if self.content.path.remote == "release":
             self.content.single = True
-
-        self.content.files = []
-        for filename in self.content.objects:
-            self.content.files.append(filename.name)
 
         # Handle potential errors
         if self.validate.errors:
             for error in self.validate.errors:
-                if not self.system.status.startup:
+                if not self.hacs.system.status.startup:
                     self.logger.error(error)
         return self.validate.success
 
-    async def registration(self):
-        """Registration."""
-        if not await self.validate_repository():
-            return False
-
-        # Run common registration steps.
-        await self.common_registration()
-
-    async def update_repository(self):
+    async def update_repository(self, ignore_issues=False):
         """Update."""
-        if self.github.ratelimits.remaining == 0:
-            return
-        # Run common update steps.
-        await self.common_update()
+        await self.common_update(ignore_issues)
 
         # Get plugin objects.
-        await self.get_plugin_location()
-
-        # Get JS type
-        await self.parse_readme_for_jstype()
+        find_file_name(self)
 
         if self.content.path.remote is None:
-            self.validate.errors.append("Repostitory structure not compliant")
+            self.validate.errors.append(
+                f"Repostitory structure for {self.ref.replace('tags/','')} is not compliant"
+            )
 
         if self.content.path.remote == "release":
             self.content.single = True
-
-        self.content.files = []
-        for filename in self.content.objects:
-            self.content.files.append(filename.name)
-
-    async def get_plugin_location(self):
-        """Get plugin location."""
-        if self.content.path.remote is not None:
-            return
-
-        possible_locations = ["dist", "release", ""]
-
-        if self.repository_manifest:
-            if self.repository_manifest.content_in_root:
-                possible_locations = [""]
-
-        for location in possible_locations:
-            if self.content.path.remote is not None:
-                continue
-            try:
-                objects = []
-                files = []
-                if location != "release":
-                    try:
-                        objects = await self.repository_object.get_contents(
-                            location, self.ref
-                        )
-                    except AIOGitHubException:
-                        continue
-                else:
-                    await self.get_releases()
-                    if self.releases.releases:
-                        if self.releases.last_release_object.assets is not None:
-                            objects = self.releases.last_release_object.assets
-
-                for item in objects:
-                    if item.name.endswith(".js"):
-                        files.append(item.name)
-
-                # Handler for plug requirement 3
-                valid_filenames = [
-                    f"{self.information.name.replace('lovelace-', '')}.js",
-                    f"{self.information.name}.js",
-                    f"{self.information.name}.umd.js",
-                    f"{self.information.name}-bundle.js",
-                ]
-
-                if self.repository_manifest:
-                    if self.repository_manifest.filename:
-                        valid_filenames.append(self.repository_manifest.filename)
-
-                for name in valid_filenames:
-                    if name in files:
-                        # YES! We got it!
-                        self.information.file_name = name
-                        self.content.path.remote = location
-                        self.content.objects = objects
-                        self.content.files = files
-                        break
-
-            except SystemError:
-                pass
 
     async def get_package_content(self):
         """Get package content."""
@@ -142,28 +70,6 @@ class HacsPlugin(HacsRepository):
             package = json.loads(package.content)
 
             if package:
-                self.information.authors = package["author"]
+                self.data.authors = package["author"]
         except Exception:  # pylint: disable=broad-except
             pass
-
-    async def parse_readme_for_jstype(self):
-        """Parse the readme looking for js type."""
-        readme = None
-        readme_files = ["readme", "readme.md"]
-        root = await self.repository_object.get_contents("")
-        for file in root:
-            if file.name.lower() in readme_files:
-                readme = await self.repository_object.get_contents(file.name)
-                break
-
-        if readme is None:
-            return
-
-        readme = readme.content
-        for line in readme.splitlines():
-            if "type: module" in line:
-                self.information.javascript_type = "module"
-                break
-            elif "type: js" in line:
-                self.information.javascript_type = "js"
-                break

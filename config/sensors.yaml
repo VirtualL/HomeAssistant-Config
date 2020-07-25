@@ -32,45 +32,18 @@
       - 'date_time'
       - 'time'
       
-  #Time in Days for SSL to Expired
-  # made the cert with http://certbot.eff.org/ (SSL with NGINX)
-  - platform: cert_expiry  #For example google.com 
-    name: SSL Router
-    host: !secret routerSSL
-  - platform: cert_expiry
-    name: SSL Server
-    host: !secret serverSSL
-  - platform: cert_expiry
-    name: SSL HASS
-    host: !secret hassSSL
-  # - platform: cert_expiry
-  #   name: SSL IDE
-  #   host: !secret c9IdeSSL
-  # - platform: cert_expiry
-  #   name: SSL HomePage
-  #   host: !secret HomePageSSL
-  # - platform: cert_expiry
-  #   name: SSL CCTV
-  #   host: !secret CCTVSSL   
-  # - platform: cert_expiry
-  #   name: SSL Unifi
-  #   host: !secret UnifiSSL
-  # - platform: cert_expiry
-  #   name: SSL UNMS
-  #   host: !secret UNMS_SSL
-
-  #Travel time From Home to Work
-  - platform: waze_travel_time
-    name: home to adoraim
-    origin: !secret HomeCoordinates
-    destination: !secret Work1Coordinates
-    region: 'IL'
-  #Travel time From Home to Work2
-  - platform: waze_travel_time
-    name: home to otniel
-    origin: !secret HomeCoordinates
-    destination: !secret Work2Coordinates
-    region: 'IL'
+  # #Travel time From Home to Work
+  # - platform: waze_travel_time
+  #   name: home to adoraim
+  #   origin: !secret HomeCoordinates
+  #   destination: !secret Work1Coordinates
+  #   region: 'IL'
+  # #Travel time From Home to Work2
+  # - platform: waze_travel_time
+  #   name: home to otniel
+  #   origin: !secret HomeCoordinates
+  #   destination: !secret Work2Coordinates
+  #   region: 'IL'
 
 #############
 ##
@@ -149,11 +122,6 @@
     value_template: '{{ value_json["ENERGY"]["Today"] }}'
     unit_of_measurement: "kWh"
   - platform: mqtt
-    name: "POW2 energy yesterday"
-    state_topic: "tele/sonoff2/SENSOR"
-    value_template: '{{ value_json["ENERGY"]["Yesterday"] }}'
-    unit_of_measurement: "kWh"
-  - platform: mqtt
     name: "POW2 energy total"
     state_topic: "tele/sonoff2/SENSOR"
     value_template: '{{ value_json["ENERGY"]["Total"] }}'
@@ -176,9 +144,39 @@
   - platform: mqtt
     name: "POW2 total cost"
     state_topic: "tele/sonoff2/SENSOR"
-    value_template: '{{ ( value_json["ENERGY"]["Total"] * 0.5404) | round(3) }}'
+    value_template: '{{ (value_json["ENERGY"]["Total"] * 0.5404) | round(3) }}'
     #ILS OR USD (Depends on local currency) Just change the value of "0.5404" to your local elctricity price
     unit_of_measurement: "₪" # USD / Other local currency
+    ####Part of automation -heater on/ off with input numbers#####   
+####################################### heater(POW2) on CLOCK #######################################
+  - platform: template
+    sensors:
+      heater_on_clock_time_long:
+        value_template: >-
+          {%- if states.input_number.heater_on_clock_hour.state|int  < 10 -%}
+            0
+          {%- endif -%}
+            {{ states.input_number.heater_on_clock_hour.state | int }}:
+          {%- if states.input_number.heater_on_clock_minute.state|int  < 10 -%}
+            0
+          {%- endif -%}
+            {{states.input_number.heater_on_clock_minute.state|int}}
+####################################### heater (POW2) OFF CLOCK #######################################
+  - platform: template
+    sensors:
+      heater_off_clock_time_long:
+        value_template: >-
+          {%- if states.input_number.heater_off_clock_hour.state|int  < 10 -%}
+            0
+          {%- endif -%}
+            {{ states.input_number.heater_off_clock_hour.state | int }}:
+          {%- if states.input_number.heater_off_clock_minute.state|int  < 10 -%}
+            0
+          {%- endif -%}
+            {{states.input_number.heater_off_clock_minute.state|int}}
+###############END#########################
+
+    
     ########################################
 
   #   #Add More info for device xiaomi PowerStrip
@@ -199,25 +197,25 @@
   #         unit_of_measurement: "₪" # USD / Other local currency
 
 #######################################CURRENCIES Rates Via XML rate in Offical BANK OF ISRAEL#######################################
-  - platform: command_line
-    name: Exchange Date
-    command: "curl get https://www.boi.org.il/currency.xml?curr=27 2>&1 | grep LAST_UPDATE | grep -o '[0-9]*-[0-9]*-[0-9]*' "
-    scan_interval: 43200 #12 Hours
+  # - platform: command_line
+  #   name: Exchange Date
+  #   command: "curl get https://www.boi.org.il/currency.xml?curr=27 2>&1 | grep LAST_UPDATE | grep -o '[0-9]*-[0-9]*-[0-9]*' "
+  #   scan_interval: 43200 #12 Hours
 
-  - platform: command_line
-    name: Dollar(USD)
-    command: "curl get https://www.boi.org.il/currency.xml?curr=01 2>&1 | grep RATE | grep -o '[0-9].*[0-9]' "
-    scan_interval: 43200 #12 Hours
+  # - platform: command_line
+  #   name: Dollar(USD)
+  #   command: "curl get https://www.boi.org.il/currency.xml?curr=01 2>&1 | grep RATE | grep -o '[0-9].*[0-9]' "
+  #   scan_interval: 43200 #12 Hours
 
-  - platform: command_line
-    name: Euro(EUR)
-    command: "curl get https://www.boi.org.il/currency.xml?curr=27 2>&1 | grep RATE | grep -o '[0-9].*[0-9]' "
-    scan_interval: 43200 #12 Hours
+  # - platform: command_line
+  #   name: Euro(EUR)
+  #   command: "curl get https://www.boi.org.il/currency.xml?curr=27 2>&1 | grep RATE | grep -o '[0-9].*[0-9]' "
+  #   scan_interval: 43200 #12 Hours
 
-  - platform: command_line
-    name: Pound(GBP)
-    command: "curl get https://www.boi.org.il/currency.xml?curr=02 2>&1 | grep RATE | grep -o '[0-9].*[0-9]' "
-    scan_interval: 43200 #12 Hours
+  # - platform: command_line
+  #   name: Pound(GBP)
+  #   command: "curl get https://www.boi.org.il/currency.xml?curr=02 2>&1 | grep RATE | grep -o '[0-9].*[0-9]' "
+  #   scan_interval: 43200 #12 Hours
 ###########################################################################
     
 ###### Latest config backup time
@@ -239,6 +237,16 @@
       sensibo1_humidity:
         friendly_name: 'לחות סלון' 
         value_template: "{{ state_attr('climate.living_room', 'current_humidity') }}"
+        unit_of_measurement: "%"
+
+      sensibo2_temp:
+        friendly_name: 'טמפרטורה חדר שינה'
+        value_template: "{{ state_attr('climate.bedroom', 'current_temperature') }}"
+        unit_of_measurement: "°C" #"°מעלות" #temperature in C
+
+      sensibo2_humidity:
+        friendly_name: 'לחות חדר שינה'
+        value_template: "{{ state_attr('climate.bedroom', 'current_humidity') }}"
         unit_of_measurement: "%"
         
                 
@@ -299,7 +307,7 @@
       greeter_card_info:
         value_template: > 
           פרטי:
-          האירוע הבא {{ as_timestamp(state_attr('calendar.icloud_private', 'start_time')) | timestamp_custom('- %d/%m בשעה %H:%M') }}
+          האירוע הבא {{ as_timestamp(state_attr('calendar.personal_eliran_tur2', 'start_time')) | timestamp_custom('- %d/%m בשעה %H:%M') }}
   - platform: template
     sensors:
       greeter_card_info_2:
@@ -427,8 +435,27 @@
     unit_of_measurement: "°מעלות" #temperature in C "°C"
     scan_interval: 120 #2 min
     command: "smartctl -A /dev/sdc | grep Temperature_Celsius  | awk '{print $10}'"  
-    #"hddtemp -n /dev/sdc"
 
+    #"hddtemp -n /dev/sdc"
+  - platform: command_line #SAMSUNG EVO 860
+    name: 'HDD_sdd_temp'
+    unit_of_measurement: "°מעלות" #temperature in C "°C"
+    scan_interval: 120 #2 min
+    command: "smartctl -A /dev/sdd | grep Temperature_Celsius  | awk '{print $10}'"
+    #"hddtemp -n /dev/sdb"
+    
+  - platform: command_line #OR Parity 4TB #WD1TB
+    name: 'HDD_sde_temp'
+    unit_of_measurement: "°מעלות" #temperature in C "°C"
+    scan_interval: 120 #2 min
+    command: "smartctl -A /dev/sde | grep Temperature_Celsius  | awk '{print $10}'"  
+
+  - platform: command_line #OR Parity 4TB #WD1TB
+    name: 'HDD_sdf_temp'
+    unit_of_measurement: "°מעלות" #temperature in C "°C"
+    scan_interval: 120 #2 min
+    command: "smartctl -A /dev/sdf | grep Temperature_Celsius  | awk '{print $10}'"      
+    #"hddtemp -n /dev/sdc"
   # - platform: command_line #OR Seagate 4TB #WD 4TB
   #   name: 'HDD_sdd_temp'
   #   unit_of_measurement: "°מעלות" #temperature in C "°C"
@@ -634,6 +661,15 @@
         value_template: >-
           {{ state_attr('climate.living_room', 'fan_mode') }} 
 
+
+  # - platform: airvisual
+  #   api_key: !secret airvisual_api_key
+  #   monitored_conditions:
+  #     - us
+  #   show_on_map: false
+  #   scan_interval: 300
+  #   latitude: !secret HomeLatitude
+  #   longitude: !secret HomeLongitude
 ####################################### NOT IN USE ####################################### 
   # - platform: zoneminder
   #   include_archived: false

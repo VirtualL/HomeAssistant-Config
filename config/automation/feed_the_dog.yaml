@@ -167,7 +167,6 @@
 ####################################################
   - alias: 'iOS notification action DOG_FEEDED morning'
     initial_state: 'on'
-    hide_entity: true
     trigger:
       platform: event
       event_type: ios.notification_action_fired
@@ -182,7 +181,6 @@
 
   - alias: 'iOS notification action DOG_FEEDED evening'
     initial_state: 'on'
-    hide_entity: true
     trigger:
       platform: event
       event_type: ios.notification_action_fired
